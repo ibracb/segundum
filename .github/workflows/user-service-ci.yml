@@ -1,0 +1,50 @@
+name: User Service CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/user-service/**'
+      - '.github/workflows/user-service-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/user-service/**'
+      - '.github/workflows/user-service-ci.yml'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: temurin
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build and test with Maven
+        run: mvn -B clean package
+        working-directory: apps/user-service
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: apps/user-service/target/site/jacoco/
+
+      - name: Verify WAR
+        run: ls -la target/*.war
+        working-directory: apps/user-service
