@@ -9,6 +9,9 @@ import segundum.domain.models.user.UserId;
 import segundum.domain.repositories.UserRepository;
 import segundum.utils.factories.RepositoryFactory;
 
+/**
+ * Represents the interactor for retrieving a user's profile from the system.
+ */
 public class GetUserProfileInteractor implements GetUserProfileUseCase {
 
 	/**

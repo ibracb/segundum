@@ -7,7 +7,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
+/**
+ * A utility class that provides methods to manage the EntityManager instances for JPA.
+ * It uses a ThreadLocal variable to ensure that each thread has its own EntityManager instance.
+ * The EntityManagerFactory is initialized with persistence properties that can be overridden by environment variables.
+ */
 public class EntityManagerHelper {
 	
 	/**

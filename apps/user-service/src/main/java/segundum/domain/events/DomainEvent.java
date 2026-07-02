@@ -16,7 +16,7 @@ public abstract class DomainEvent {
 	/**
 	 * The type of the event.
 	 */
-	private final Class<?> type;
+	private final String type;
 	
 	/**
 	 * The timestamp of the event.
@@ -28,7 +28,7 @@ public abstract class DomainEvent {
 	 */
 	DomainEvent() {
 		this.eventId = UUID.randomUUID();
-		this.type = getClass();
+		this.type = getClass().getSimpleName();
 		this.timestamp = Instant.now();
 	}
 	
@@ -46,7 +46,7 @@ public abstract class DomainEvent {
 	 * 
 	 * @return the type of the event
 	 */
-	public Class<?> getType() {
+	public String getType() {
 		return type;
 	}
 	

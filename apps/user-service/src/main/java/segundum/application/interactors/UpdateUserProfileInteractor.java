@@ -2,6 +2,8 @@ package segundum.application.interactors;
 
 import java.util.Optional;
 
+import segundum.domain.events.DomainEventPublisher;
+import segundum.domain.events.UserUpdated;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.exceptions.phone.PhoneAlreadyExistsException;
 
@@ -10,6 +12,7 @@ import segundum.application.usecases.UpdateUserProfileUseCase;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.User;
 import segundum.domain.repositories.UserRepository;
+import segundum.utils.factories.EventPublisherFactory;
 import segundum.utils.factories.RepositoryFactory;
 
 /**
@@ -21,21 +24,26 @@ public class UpdateUserProfileInteractor implements UpdateUserProfileUseCase {
 	 * The repository for managing users.
 	 */
 	private final UserRepository userRepository;
+	
+	private final DomainEventPublisher domainEventPublisher;
 
 	/**
 	 * Constructs a new UpdateUserProfileInteractor, initializing the user repository using the RepositoryFactory.
 	 */
 	public UpdateUserProfileInteractor() {
 		this.userRepository = RepositoryFactory.getUserRepository(User.class);
+		this.domainEventPublisher = EventPublisherFactory.getPublisher(DomainEventPublisher.class);
 	}
 
 	/**
-	 * Constructs a new UpdateUserProfileInteractor with the given repository.
+	 * Constructs a new UpdateUserProfileInteractor with the given repository and publisher.
 	 *
-	 * @param userRepository The repository for managing users.
+	 * @param userRepository       The repository for managing users.
+	 * @param domainEventPublisher The domain event publisher.
 	 */
-	UpdateUserProfileInteractor(UserRepository userRepository) {
+	UpdateUserProfileInteractor(UserRepository userRepository, DomainEventPublisher domainEventPublisher) {
 		this.userRepository = userRepository;
+		this.domainEventPublisher = domainEventPublisher;
 	}
 
 	@Override
@@ -57,6 +65,8 @@ public class UpdateUserProfileInteractor implements UpdateUserProfileUseCase {
 			userToUpdate.changePhone(command.getPhone());
 		}
 		userRepository.update(userToUpdate);
+		domainEventPublisher.publish(new UserUpdated(command.getUserId(), command.getName(),
+				command.getSurname()));
 		return userToUpdate;
 	}
 

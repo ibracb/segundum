@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.RegisterUserCommand;
 import segundum.application.commands.UpdateUserCommand;
+import segundum.domain.events.UserUpdated;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.user.Birthdate;
 import segundum.domain.models.user.Email;
@@ -18,11 +19,13 @@ import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
+import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
 class UpdateUserProfileInteractorTest {
 
 	private FakeUserRepository repository;
+	private FakePublisher publisher;
 	private UpdateUserProfileInteractor interactor;
 	private User existingUser;
 
@@ -36,12 +39,14 @@ class UpdateUserProfileInteractorTest {
 	@BeforeEach
 	void setUp() {
 		repository = new FakeUserRepository();
-		interactor = new UpdateUserProfileInteractor(repository);
+		publisher = new FakePublisher();
+		interactor = new UpdateUserProfileInteractor(repository, publisher);
 
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				name, surname, email, password, birthdate, phone);
-		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository);
+		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository, publisher);
 		existingUser = registerInteractor.execute(registerCommand);
+		publisher.clear();
 	}
 
 	@Test
@@ -60,6 +65,23 @@ class UpdateUserProfileInteractorTest {
 		assertEquals("NewPass456", updatedUser.getPassword().getValue());
 		assertEquals("+34698765432", updatedUser.getPhone().getValue());
 		assertEquals("juan@email.com", updatedUser.getEmail().getValue());
+	}
+
+	@Test
+	void shouldPublishUserUpdatedEvent() {
+		Name newName = new Name("Carlos");
+		Surname newSurname = new Surname("García");
+
+		UpdateUserCommand command = new UpdateUserCommand(
+				existingUser.getUserId(), newName, newSurname, null, null);
+		interactor.execute(command);
+
+		assertEquals(1, publisher.getPublishedEvents().size());
+		assertTrue(publisher.getPublishedEvents().get(0) instanceof UserUpdated);
+		UserUpdated event = (UserUpdated) publisher.getPublishedEvents().get(0);
+		assertEquals(existingUser.getUserId(), event.getUserId());
+		assertEquals("Carlos", event.getName().getValue());
+		assertEquals("García", event.getSurname().getValue());
 	}
 
 	@Test

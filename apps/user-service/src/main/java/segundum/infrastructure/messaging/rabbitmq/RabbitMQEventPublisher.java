@@ -10,10 +10,23 @@ import segundum.domain.events.DomainEvent;
 import segundum.domain.events.DomainEventPublisher;
 import segundum.utils.readers.PropertiesReader;
 
+/**
+ * RabbitMQEventPublisher is an implementation of the DomainEventPublisher interface that publishes domain events to a RabbitMQ message broker.
+ * It reads configuration properties from a "config.properties" file using a PropertiesReader instance.
+ */
 public class RabbitMQEventPublisher implements DomainEventPublisher {
 	
+	/**
+	 * A static PropertiesReader instance to read configuration properties from the "config.properties" file.
+	 * This instance is initialized in a static block, and if any error occurs during initialization,
+	 * an ExceptionInInitializerError is thrown.
+	 */
 	private static final PropertiesReader reader; 
 
+	/**
+	 * Static block to initialize the PropertiesReader instance.
+	 * If the "config.properties" file cannot be loaded, an ExceptionInInitializerError is thrown.
+	 */
 	static { 
 		try { 
 			reader = new PropertiesReader("config.properties"); 
@@ -23,6 +36,10 @@ public class RabbitMQEventPublisher implements DomainEventPublisher {
 		} 
 	}
 	
+	/**
+	 * Initializes the RabbitMQEventPublisher by creating a connection to the RabbitMQ server and declaring the exchange.
+	 * If any error occurs during initialization, a RabbitMQException is thrown.
+	 */
 	public RabbitMQEventPublisher() {	
 		try {
 			String uri = reader.getProperty("rabbitmq.uri");
@@ -51,7 +68,7 @@ public class RabbitMQEventPublisher implements DomainEventPublisher {
 			Channel channel = connection.createChannel();
 			Gson gson = new Gson();
 			String message = gson.toJson(event);
-			channel.basicPublish("bus", "bus.users." + event.getType().getSimpleName(), new AMQP.BasicProperties.Builder()
+			channel.basicPublish("bus", "bus.users." + event.getType(), new AMQP.BasicProperties.Builder()
 					.contentType("application/json")
 					.deliveryMode(2)
 					.build(), message.getBytes());

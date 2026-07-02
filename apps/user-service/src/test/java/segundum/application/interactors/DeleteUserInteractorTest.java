@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.RegisterUserCommand;
+import segundum.domain.events.UserDeleted;
 import segundum.domain.models.user.Birthdate;
 import segundum.domain.models.user.Email;
 import segundum.domain.models.user.Name;
@@ -16,26 +17,30 @@ import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
+import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
 class DeleteUserInteractorTest {
 
 	private FakeUserRepository repository;
+	private FakePublisher publisher;
 	private DeleteUserInteractor interactor;
 	private User existingUser;
 
 	@BeforeEach
 	void setUp() {
 		repository = new FakeUserRepository();
-		interactor = new DeleteUserInteractor(repository);
+		publisher = new FakePublisher();
+		interactor = new DeleteUserInteractor(repository, publisher);
 
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				new Name("Juan"), new Surname("Pérez"),
 				new Email("juan@email.com"), new Password("Abcdef123"),
 				new Birthdate(LocalDate.of(1990, 5, 15)),
 				new Phone("+34612345678"));
-		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository);
+		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository, publisher);
 		existingUser = registerInteractor.execute(registerCommand);
+		publisher.clear();
 	}
 
 	@Test
@@ -43,6 +48,17 @@ class DeleteUserInteractorTest {
 		UserId userId = existingUser.getUserId();
 		interactor.execute(userId);
 		assertFalse(repository.findById(userId).isPresent());
+	}
+
+	@Test
+	void shouldPublishUserDeletedEvent() {
+		UserId userId = existingUser.getUserId();
+		interactor.execute(userId);
+
+		assertEquals(1, publisher.getPublishedEvents().size());
+		assertTrue(publisher.getPublishedEvents().get(0) instanceof UserDeleted);
+		UserDeleted event = (UserDeleted) publisher.getPublishedEvents().get(0);
+		assertEquals(userId, event.getUserId());
 	}
 
 	@Test

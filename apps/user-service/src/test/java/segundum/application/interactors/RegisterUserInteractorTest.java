@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.RegisterUserCommand;
+import segundum.domain.events.UserRegistered;
 import segundum.domain.exceptions.email.EmailAlreadyExistsException;
 import segundum.domain.exceptions.phone.PhoneAlreadyExistsException;
 import segundum.domain.models.user.Birthdate;
@@ -17,11 +18,13 @@ import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
+import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
 class RegisterUserInteractorTest {
 
 	private FakeUserRepository repository;
+	private FakePublisher publisher;
 	private RegisterUserInteractor interactor;
 
 	private final Name name = new Name("Juan");
@@ -34,7 +37,8 @@ class RegisterUserInteractorTest {
 	@BeforeEach
 	void setUp() {
 		repository = new FakeUserRepository();
-		interactor = new RegisterUserInteractor(repository);
+		publisher = new FakePublisher();
+		interactor = new RegisterUserInteractor(repository, publisher);
 	}
 
 	@Test
@@ -54,7 +58,21 @@ class RegisterUserInteractorTest {
 	}
 
 	@Test
-	void shouldThrowWhenEmailAlreadyExists() {
+	void shouldPublishUserRegisteredEvent() {
+		RegisterUserCommand command = new RegisterUserCommand(name, surname, email, password, birthdate, phone);
+		User user = interactor.execute(command);
+
+		assertEquals(1, publisher.getPublishedEvents().size());
+		assertTrue(publisher.getPublishedEvents().get(0) instanceof UserRegistered);
+		UserRegistered event = (UserRegistered) publisher.getPublishedEvents().get(0);
+		assertEquals(user.getUserId(), event.getUserId());
+		assertEquals("Juan", event.getName().getValue());
+		assertEquals("Pérez", event.getSurname().getValue());
+		assertEquals("juan@email.com", event.getEmail().getValue());
+	}
+
+	@Test
+	void shouldNotPublishEventWhenEmailAlreadyExists() {
 		RegisterUserCommand firstCommand = new RegisterUserCommand(name, surname, email, password, birthdate, phone);
 		interactor.execute(firstCommand);
 
@@ -63,10 +81,11 @@ class RegisterUserInteractorTest {
 				new Password("NewPass456"), birthdate, new Phone("+34698765432"));
 
 		assertThrows(EmailAlreadyExistsException.class, () -> interactor.execute(secondCommand));
+		assertEquals(1, publisher.getPublishedEvents().size());
 	}
 
 	@Test
-	void shouldThrowWhenPhoneAlreadyExists() {
+	void shouldNotPublishEventWhenPhoneAlreadyExists() {
 		RegisterUserCommand firstCommand = new RegisterUserCommand(name, surname, email, password, birthdate, phone);
 		interactor.execute(firstCommand);
 
@@ -75,6 +94,7 @@ class RegisterUserInteractorTest {
 				new Password("NewPass456"), birthdate, phone);
 
 		assertThrows(PhoneAlreadyExistsException.class, () -> interactor.execute(secondCommand));
+		assertEquals(1, publisher.getPublishedEvents().size());
 	}
 
 }

@@ -17,6 +17,7 @@ import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
+import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
 class GetUserProfileInteractorTest {
@@ -39,7 +40,7 @@ class GetUserProfileInteractorTest {
 
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				name, surname, email, password, birthdate, phone);
-		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository);
+		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository, new FakePublisher());
 		existingUser = registerInteractor.execute(registerCommand);
 	}
 
