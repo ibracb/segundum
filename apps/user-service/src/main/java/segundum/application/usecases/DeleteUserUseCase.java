@@ -1,6 +1,6 @@
 package segundum.application.usecases;
 
-import segundum.domain.models.user.UserId;
+import segundum.application.commands.DeleteUserCommand;
 
 /**
  * Represents the use case for deleting an existing user in the system.
@@ -10,8 +10,8 @@ public interface DeleteUserUseCase {
 	/**
 	 * Executes the use case to delete an existing user in the system.
 	 * 
-	 * @param userId the unique identifier of the user to be deleted
+	 * @param command the command containing the identifier of the user to be deleted
 	 */
-	void execute(UserId userId);
+	void execute(DeleteUserCommand command);
 
 }

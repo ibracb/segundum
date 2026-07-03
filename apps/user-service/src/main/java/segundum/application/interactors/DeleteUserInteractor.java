@@ -1,10 +1,10 @@
 package segundum.application.interactors;
 
+import segundum.application.commands.DeleteUserCommand;
 import segundum.application.usecases.DeleteUserUseCase;
 import segundum.domain.events.DomainEventPublisher;
 import segundum.domain.events.UserDeleted;
 import segundum.domain.models.user.User;
-import segundum.domain.models.user.UserId;
 import segundum.domain.repositories.UserRepository;
 import segundum.utils.factories.EventPublisherFactory;
 import segundum.utils.factories.RepositoryFactory;
@@ -44,9 +44,9 @@ public class DeleteUserInteractor implements DeleteUserUseCase {
 	}
 	
 	@Override
-	public void execute(UserId userId) {
-		userRepository.delete(userId);
-		domainEventPublisher.publish(new UserDeleted(userId));
+	public void execute(DeleteUserCommand command) {
+		userRepository.delete(command.getUserId());
+		domainEventPublisher.publish(new UserDeleted(command.getUserId()));
 	}
 
 }

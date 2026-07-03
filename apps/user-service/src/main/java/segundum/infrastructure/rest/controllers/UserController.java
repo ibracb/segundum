@@ -15,8 +15,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import segundum.application.commands.DeleteUserCommand;
 import segundum.application.commands.RegisterUserCommand;
 import segundum.application.commands.UpdateUserCommand;
+import segundum.application.queries.GetUserProfileQuery;
 import segundum.application.usecases.DeleteUserUseCase;
 import segundum.application.usecases.GetUserProfileUseCase;
 import segundum.application.usecases.RegisterUserUseCase;
@@ -140,7 +142,8 @@ public class UserController {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getById(@PathParam("id") String id) {
-		User user = getUserProfileUseCase.execute(UserId.fromString(id));
+		GetUserProfileQuery query = new GetUserProfileQuery(UserId.fromString(id));
+		User user = getUserProfileUseCase.execute(query);
 		return Response.ok(UserResponseMapper.fromDomain(user)).build();
 	}
 
@@ -153,7 +156,8 @@ public class UserController {
 	@DELETE
 	@Path("/{id}")
 	public Response delete(@PathParam("id") String id) {
-		deleteUserUseCase.execute(UserId.fromString(id));
+		DeleteUserCommand command = new DeleteUserCommand(UserId.fromString(id));
+		deleteUserUseCase.execute(command);
 		return Response.noContent().build();
 	}
 	

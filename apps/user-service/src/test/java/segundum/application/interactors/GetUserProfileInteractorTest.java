@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.RegisterUserCommand;
+import segundum.application.queries.GetUserProfileQuery;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.user.Birthdate;
 import segundum.domain.models.user.Email;
@@ -46,7 +47,7 @@ class GetUserProfileInteractorTest {
 
 	@Test
 	void shouldReturnUserProfileWhenUserExists() {
-		User user = interactor.execute(existingUser.getUserId());
+		User user = interactor.execute(new GetUserProfileQuery(existingUser.getUserId()));
 
 		assertEquals(existingUser.getUserId(), user.getUserId());
 		assertEquals("Juan", user.getName().getValue());
@@ -62,7 +63,7 @@ class GetUserProfileInteractorTest {
 	void shouldThrowWhenUserNotFound() {
 		UserId nonExistentId = UserId.generate();
 
-		assertThrows(EntityNotFoundException.class, () -> interactor.execute(nonExistentId));
+		assertThrows(EntityNotFoundException.class, () -> interactor.execute(new GetUserProfileQuery(nonExistentId)));
 	}
 
 }

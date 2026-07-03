@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import segundum.application.commands.DeleteUserCommand;
 import segundum.application.commands.RegisterUserCommand;
 import segundum.domain.events.UserDeleted;
 import segundum.domain.models.user.Birthdate;
@@ -46,14 +47,14 @@ class DeleteUserInteractorTest {
 	@Test
 	void shouldDeleteUser() {
 		UserId userId = existingUser.getUserId();
-		interactor.execute(userId);
+		interactor.execute(new DeleteUserCommand(userId));
 		assertFalse(repository.findById(userId).isPresent());
 	}
 
 	@Test
 	void shouldPublishUserDeletedEvent() {
 		UserId userId = existingUser.getUserId();
-		interactor.execute(userId);
+		interactor.execute(new DeleteUserCommand(userId));
 
 		assertEquals(1, publisher.getPublishedEvents().size());
 		assertTrue(publisher.getPublishedEvents().get(0) instanceof UserDeleted);
@@ -64,7 +65,7 @@ class DeleteUserInteractorTest {
 	@Test
 	void shouldNotThrowWhenUserNotFound() {
 		UserId nonExistentId = UserId.generate();
-		assertDoesNotThrow(() -> interactor.execute(nonExistentId));
+		assertDoesNotThrow(() -> interactor.execute(new DeleteUserCommand(nonExistentId)));
 	}
 
 }
