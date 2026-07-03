@@ -1,4 +1,4 @@
-package segundum.utils.readers;
+package segundum.infrastructure.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,9 +9,6 @@ import java.util.Properties;
  */
 public class PropertiesReader {
 
-	/**
-	 * The Properties object that holds the key-value pairs loaded from the properties file.
-	 */
 	private Properties properties;
 
 	/**
@@ -27,8 +24,6 @@ public class PropertiesReader {
 
 	/**
 	 * Retrieves the value of the specified property from the properties file or environment variables.
-	 * If the property is not found in the properties file, it checks for an environment variable with the same name.
-	 * If the property is not found in either, it returns null.
 	 * @param propertyName The name of the property to retrieve.
 	 * @return The value of the property, or null if not found.
 	 */
@@ -48,8 +43,6 @@ public class PropertiesReader {
 
 	/**
 	 * Resolves environment variable placeholders in the given value.
-	 * If the value is in the format "${ENV_VAR_NAME:defaultValue}", it attempts to retrieve the value of the environment variable.
-	 * If the environment variable is not set, it returns the default value specified after the colon.
 	 * @param value The value to resolve.
 	 * @return The resolved value, or null if the input value is null.
 	 */

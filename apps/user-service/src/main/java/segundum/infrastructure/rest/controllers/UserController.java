@@ -34,10 +34,14 @@ import segundum.domain.models.user.UserId;
 import segundum.infrastructure.rest.requests.RegisterUserRequest;
 import segundum.infrastructure.rest.requests.UpdateUserProfileRequest;
 import segundum.infrastructure.rest.responses.mappers.UserResponseMapper;
-import segundum.utils.factories.UseCaseFactory;
 
 /**
- * REST controller for managing users.
+ * REST controller for user operations.
+ * <p>
+ * Dependencies are injected via constructor parameter by the Composition Root
+ * ({@link segundum.infrastructure.rest.config.ApplicationConfig}),
+ * avoiding framework annotations in application layers.
+ * </p>
  */
 @Path("/users")
 public class UserController {
@@ -69,13 +73,21 @@ public class UserController {
 	private final GetUserProfileUseCase getUserProfileUseCase;
 	
 	/**
-	 * Constructs a new UserController.
+	 * Constructs a new UserController with the given use cases.
+	 *
+	 * @param registerUserUseCase   the use case for user registration
+	 * @param updateUserUseCase     the use case for updating user profiles
+	 * @param deleteUserUseCase     the use case for deleting users
+	 * @param getUserProfileUseCase the use case for retrieving user profiles
 	 */
-	public UserController() {
-		this.registerUserUseCase = UseCaseFactory.getUseCase(RegisterUserUseCase.class);
-		this.updateUserUseCase = UseCaseFactory.getUseCase(UpdateUserProfileUseCase.class);
-		this.deleteUserUseCase = UseCaseFactory.getUseCase(DeleteUserUseCase.class);
-		this.getUserProfileUseCase = UseCaseFactory.getUseCase(GetUserProfileUseCase.class);
+	public UserController(RegisterUserUseCase registerUserUseCase,
+			UpdateUserProfileUseCase updateUserUseCase,
+			DeleteUserUseCase deleteUserUseCase,
+			GetUserProfileUseCase getUserProfileUseCase) {
+		this.registerUserUseCase = registerUserUseCase;
+		this.updateUserUseCase = updateUserUseCase;
+		this.deleteUserUseCase = deleteUserUseCase;
+		this.getUserProfileUseCase = getUserProfileUseCase;
 	}
 	
 	/**
@@ -87,7 +99,7 @@ public class UserController {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response register(RegisterUserRequest request) {
+	public Response registerUser(RegisterUserRequest request) {
 		RegisterUserCommand command = new RegisterUserCommand(
 				new Name(request.getName()),
 				new Surname(request.getSurname()),
@@ -116,7 +128,7 @@ public class UserController {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response update(@PathParam("id") String id, UpdateUserProfileRequest request) {
+	public Response updateUserProfile(@PathParam("id") String id, UpdateUserProfileRequest request) {
 		Name name = request.getName() != null ? new Name(request.getName()) : null;
 		Surname surname = request.getSurname() != null ? new Surname(request.getSurname()) : null;
 		Password password = request.getPassword() != null ? new Password(request.getPassword()) : null;
@@ -141,7 +153,7 @@ public class UserController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getById(@PathParam("id") String id) {
+	public Response getUserProfile(@PathParam("id") String id) {
 		GetUserProfileQuery query = new GetUserProfileQuery(UserId.fromString(id));
 		User user = getUserProfileUseCase.execute(query);
 		return Response.ok(UserResponseMapper.fromDomain(user)).build();
@@ -155,7 +167,7 @@ public class UserController {
 	 */
 	@DELETE
 	@Path("/{id}")
-	public Response delete(@PathParam("id") String id) {
+	public Response deleteUser(@PathParam("id") String id) {
 		DeleteUserCommand command = new DeleteUserCommand(UserId.fromString(id));
 		deleteUserUseCase.execute(command);
 		return Response.noContent().build();

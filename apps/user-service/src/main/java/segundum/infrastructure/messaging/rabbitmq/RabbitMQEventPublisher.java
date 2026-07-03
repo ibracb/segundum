@@ -8,7 +8,7 @@ import com.rabbitmq.client.ConnectionFactory;
 
 import segundum.domain.events.DomainEvent;
 import segundum.domain.events.DomainEventPublisher;
-import segundum.utils.readers.PropertiesReader;
+import segundum.infrastructure.utils.PropertiesReader;
 
 /**
  * RabbitMQEventPublisher is an implementation of the DomainEventPublisher interface that publishes domain events to a RabbitMQ message broker.
