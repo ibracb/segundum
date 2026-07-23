@@ -1,8 +1,8 @@
 package segundum.domain.models.user;
 
-import segundum.domain.exceptions.surname.SurnameBlankException;
-import segundum.domain.exceptions.surname.SurnameInvalidFormatException;
-import segundum.domain.exceptions.surname.SurnameNullException;
+import segundum.domain.exceptions.user.surname.SurnameBlankException;
+import segundum.domain.exceptions.user.surname.SurnameInvalidFormatException;
+import segundum.domain.exceptions.user.surname.SurnameNullException;
 
 /**
  * Represents a user's surname.

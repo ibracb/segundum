@@ -22,7 +22,7 @@ public class UserFactory {
 	 * @param phone the phone number of the user
 	 * @return a new User object
 	 */
-	public static User createUser(Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone) {
+	public static User create(Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone) {
 		return new User(name, surname, email, password, birthdate, phone);
 	}
 	
@@ -38,10 +38,11 @@ public class UserFactory {
 	 * @param phone the phone number of the user
 	 * @param purchases the number of purchases
 	 * @param sales the number of sales
+	 * @param status the status of the user
 	 * @return the reconstituted User object
 	 */
-	public static User reconstitute(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone, long purchases, long sales) {
-		return new User(userId, name, surname, email, password, birthdate, phone, purchases, sales);
+	public static User reconstitute(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone, long purchases, long sales, UserStatus status) {
+		return new User(userId, name, surname, email, password, birthdate, phone, purchases, sales, status);
 	}
 
 }

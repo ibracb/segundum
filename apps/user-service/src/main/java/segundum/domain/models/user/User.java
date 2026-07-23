@@ -62,7 +62,12 @@ public class User {
 	 * The number of sales made by the user.
 	 */
 	private long sales;
-	
+
+	/**
+	 * The status of the user.
+	 */
+	private UserStatus status;
+
 	/**
 	 * Constructs a new User object with the given parameters.
 	 * 
@@ -83,6 +88,7 @@ public class User {
 		this.phone = phone;
 		this.purchases = NO_PURCHASES;
 		this.sales = NO_SALES;
+		this.status = UserStatus.ACTIVE;
 	}
 	
 	/**
@@ -97,8 +103,10 @@ public class User {
 	 * @param phone the phone number of the user
 	 * @param purchases the number of purchases made by the user
 	 * @param sales the number of sales made by the user
+	 * @param status the status of the user
 	 */
-	User(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone, long purchases, long sales) {
+	User(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate,
+			Phone phone, long purchases, long sales, UserStatus status) {
 		this.userId = userId;
 		this.name = name;
 		this.surname = surname;
@@ -108,6 +116,7 @@ public class User {
 		this.phone = phone;
 		this.purchases = purchases;
 		this.sales = sales;
+		this.status = status;
 	}
 	
 	/**
@@ -175,6 +184,23 @@ public class User {
 	public void incrementSales() {
 		sales++;
 	}
+	
+	/**
+	 * Deletes the user by setting status to DELETED.
+	 */
+	public void delete() {
+		this.status = UserStatus.DELETED;
+	}
+
+	/**
+	 * Checks if the user has been deleted.
+	 *
+	 * @return true if the user is deleted, false otherwise
+	 */
+	public boolean isDeleted() {
+		return this.status == UserStatus.DELETED;
+	}
+	
 	
 	/**
 	 * Returns the unique identifier of the user.
@@ -255,6 +281,15 @@ public class User {
 	 */
 	public long getSales() {
 		return sales;
+	}
+
+	/**
+	 * Returns the status of the user.
+	 *
+	 * @return the user status
+	 */
+	public UserStatus getStatus() {
+		return status;
 	}
 
 }

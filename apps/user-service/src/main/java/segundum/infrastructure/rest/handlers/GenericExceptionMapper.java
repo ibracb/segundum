@@ -5,8 +5,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import segundum.infrastructure.rest.responses.ErrorResponse;
-
 /**
  * Exception mapper that maps any unhandled exception to HTTP 500 Internal Server Error responses.
  */

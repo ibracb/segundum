@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="111" path="|111|">
+	<name>Economía e industria</name>
+	<category id="8025" path="|111|8025|">
+		<name>Accesorios para almacenaje industrial</name>
+	</category>
+	<category id="112" path="|111|112|">
+		<name>Agricultura</name>
+		<category id="6991" path="|111|112|6991|">
+			<name>Cría de animales</name>
+			<category id="505821" path="|111|112|6991|505821|">
+				<name>Alimentación de ganado</name>
+				<category id="543548" path="|111|112|6991|505821|543548|">
+					<name>Alimento para ganado mixto</name>
+				</category>
+				<category id="543547" path="|111|112|6991|505821|543547|">
+					<name>Pienso para cabras y ovejas</name>
+				</category>
+				<category id="543546" path="|111|112|6991|505821|543546|">
+					<name>Pienso para cerdos</name>
+				</category>
+				<category id="543545" path="|111|112|6991|505821|543545|">
+					<name>Pienso para ganado bovino</name>
+				</category>
+				<category id="543544" path="|111|112|6991|505821|543544|">
+					<name>Pienso para pollos</name>
+				</category>
+			</category>
+			<category id="499946" path="|111|112|6991|499946|">
+				<name>Cabestros para ganado</name>
+			</category>
+			<category id="6990" path="|111|112|6991|6990|">
+				<name>Comederos y bebederos de ganado</name>
+			</category>
+			<category id="499997" path="|111|112|6991|499997|">
+				<name>Incubadoras de huevos</name>
+			</category>
+		</category>
+	</category>
+	<category id="5830" path="|111|5830|">
+		<name>Almacenamiento industrial</name>
+		<category id="5832" path="|111|5830|5832|">
+			<name>Armarios industriales</name>
+		</category>
+		<category id="5831" path="|111|5830|5831|">
+			<name>Contenedores para transporte</name>
+		</category>
+		<category id="5833" path="|111|5830|5833|">
+			<name>Estanterías industriales</name>
+		</category>
+		<category id="8274" path="|111|5830|8274|">
+			<name>Particiones, cierres y puertas de tela metálica</name>
+		</category>
+	</category>
+	<category id="976" path="|111|976|">
+		<name>Avisos</name>
+		<category id="7323" path="|111|976|7323|">
+			<name>Carteles de abierto y cerrado</name>
+		</category>
+		<category id="7322" path="|111|976|7322|">
+			<name>Carteles de horarios laborales</name>
+		</category>
+		<category id="8155" path="|111|976|8155|">
+			<name>Rótulos digitales</name>
+		</category>
+		<category id="5892" path="|111|976|5892|">
+			<name>Señales de advertencia y protección</name>
+		</category>
+		<category id="5895" path="|111|976|5895|">
+			<name>Señales de carretera y tráfico</name>
+		</category>
+		<category id="5894" path="|111|976|5894|">
+			<name>Señales de emergencia y salida</name>
+		</category>
+		<category id="5896" path="|111|976|5896|">
+			<name>Señales de estacionamiento y vados</name>
+		</category>
+		<category id="5897" path="|111|976|5897|">
+			<name>Señales de identificación de instalaciones</name>
+		</category>
+		<category id="5900" path="|111|976|5900|">
+			<name>Señales de normas</name>
+		</category>
+		<category id="5893" path="|111|976|5893|">
+			<name>Señales de seguridad</name>
+		</category>
+		<category id="5898" path="|111|976|5898|">
+			<name>Señales de venta y rebajas</name>
+		</category>
+		<category id="4297" path="|111|976|4297|">
+			<name>Señales eléctricas</name>
+			<category id="4131" path="|111|976|4297|4131|">
+				<name>Señales LED</name>
+			</category>
+			<category id="4070" path="|111|976|4297|4070|">
+				<name>Señales de neón</name>
+			</category>
+		</category>
+		<category id="5899" path="|111|976|5899|">
+			<name>Señales para acera y patio</name>
+		</category>
+	</category>
+	<category id="500086" path="|111|500086|">
+		<name>Carretones y caddies de mantenimiento</name>
+	</category>
+	<category id="1624" path="|111|1624|">
+		<name>Ciencia y laboratorio</name>
+		<category id="4335" path="|111|1624|4335|">
+			<name>Equipo de laboratorio</name>
+			<category id="7468" path="|111|1624|4335|7468|">
+				<name>Accesorios para espectrómetros</name>
+			</category>
+			<category id="4555" path="|111|1624|4335|4555|">
+				<name>Accesorios para microscopios</name>
+				<category id="4556" path="|111|1624|4335|4555|4556|">
+					<name>Adaptadores y oculares para microscopios</name>
+				</category>
+				<category id="4664" path="|111|1624|4335|4555|4664|">
+					<name>Bombillas de repuesto para microscopios</name>
+				</category>
+				<category id="4557" path="|111|1624|4335|4555|4557|">
+					<name>Cámaras para microscopios</name>
+				</category>
+				<category id="4665" path="|111|1624|4335|4555|4665|">
+					<name>Objetivos para microscopios</name>
+				</category>
+				<category id="4558" path="|111|1624|4335|4555|4558|">
+					<name>Portaobjetos para microscopios</name>
+				</category>
+			</category>
+			<category id="4116" path="|111|1624|4335|4116|">
+				<name>Autoclaves</name>
+			</category>
+			<category id="4336" path="|111|1624|4335|4336|">
+				<name>Centrifugadoras</name>
+			</category>
+			<category id="500114" path="|111|1624|4335|500114|">
+				<name>Congeladores de laboratorio</name>
+			</category>
+			<category id="503722" path="|111|1624|4335|503722|">
+				<name>Embudos de laboratorio</name>
+			</category>
+			<category id="7393" path="|111|1624|4335|7393|">
+				<name>Espectrómetros</name>
+			</category>
+			<category id="4231" path="|111|1624|4335|4231|">
+				<name>Hornos de laboratorio</name>
+			</category>
+			<category id="4474" path="|111|1624|4335|4474|">
+				<name>Licuadoras para laboratorio</name>
+			</category>
+			<category id="158" path="|111|1624|4335|158|">
+				<name>Microscopios</name>
+			</category>
+			<category id="7437" path="|111|1624|4335|7437|">
+				<name>Microtomos</name>
+			</category>
+			<category id="7218" path="|111|1624|4335|7218|">
+				<name>Máquinas de hielo seco</name>
+			</category>
+			<category id="500057" path="|111|1624|4335|500057|">
+				<name>Máquinas de liofilización</name>
+			</category>
+			<category id="4133" path="|111|1624|4335|4133|">
+				<name>Placas para calentar de laboratorio</name>
+			</category>
+		</category>
+		<category id="7325" path="|111|1624|7325|">
+			<name>Kits de disección</name>
+		</category>
+		<category id="8119" path="|111|1624|8119|">
+			<name>Muestras de laboratorio</name>
+		</category>
+		<category id="6975" path="|111|1624|6975|">
+			<name>Productos bioquímicos</name>
+		</category>
+		<category id="4255" path="|111|1624|4255|">
+			<name>Productos de laboratorio</name>
+			<category id="4036" path="|111|1624|4255|4036|">
+				<name>Matraces de laboratorio</name>
+			</category>
+			<category id="4075" path="|111|1624|4255|4075|">
+				<name>Pipetas</name>
+			</category>
+			<category id="4140" path="|111|1624|4255|4140|">
+				<name>Pizetas</name>
+			</category>
+			<category id="4276" path="|111|1624|4255|4276|">
+				<name>Placas de Petri</name>
+			</category>
+			<category id="4061" path="|111|1624|4255|4061|">
+				<name>Probetas</name>
+			</category>
+			<category id="4155" path="|111|1624|4255|4155|">
+				<name>Soportes tubos de ensayo</name>
+			</category>
+			<category id="4306" path="|111|1624|4255|4306|">
+				<name>Tubos de ensayo</name>
+			</category>
+			<category id="4310" path="|111|1624|4255|4310|">
+				<name>Vasos de laboratorio</name>
+			</category>
+		</category>
+		<category id="3002" path="|111|1624|3002|">
+			<name>Productos químicos de laboratorio</name>
+		</category>
+	</category>
+	<category id="2155" path="|111|2155|">
+		<name>Cine y televisión</name>
+	</category>
+	<category id="7261" path="|111|7261|">
+		<name>Componentes de control de automatización</name>
+		<category id="7263" path="|111|7261|7263|">
+			<name>Controladores lógicos programables</name>
+		</category>
+		<category id="7262" path="|111|7261|7262|">
+			<name>Variadores de velocidad ajustable y de frecuencia variable
+			</name>
+		</category>
+	</category>
+	<category id="114" path="|111|114|">
+		<name>Construcción</name>
+		<category id="134" path="|111|114|134|">
+			<name>Agrimensura</name>
+		</category>
+		<category id="8278" path="|111|114|8278|">
+			<name>Conos y balizas de tráfico</name>
+		</category>
+	</category>
+	<category id="2047" path="|111|2047|">
+		<name>Equipo de protección para el trabajo</name>
+		<category id="8269" path="|111|2047|8269|">
+			<name>Accesorios para máscaras antigás y respiradores</name>
+		</category>
+		<category id="7085" path="|111|2047|7085|">
+			<name>Anclajes de seguridad laboral</name>
+		</category>
+		<category id="499708" path="|111|2047|499708|">
+			<name>Arneses de seguridad en el trabajo</name>
+		</category>
+		<category id="499927" path="|111|2047|499927|">
+			<name>Caretas de soldar</name>
+		</category>
+		<category id="2723" path="|111|2047|2723|">
+			<name>Cascos</name>
+		</category>
+		<category id="2389" path="|111|2047|2389|">
+			<name>Chalecos antibalas</name>
+		</category>
+		<category id="6764" path="|111|2047|6764|">
+			<name>Delantales de protección</name>
+		</category>
+		<category id="2227" path="|111|2047|2227|">
+			<name>Gafas de sol protectoras</name>
+		</category>
+		<category id="5591" path="|111|2047|5591|">
+			<name>Guantes de seguridad</name>
+		</category>
+		<category id="503724" path="|111|2047|503724|">
+			<name>Máscaras protectoras</name>
+			<category id="2349" path="|111|2047|503724|2349|">
+				<name>Mascarillas de bombero</name>
+			</category>
+			<category id="513" path="|111|2047|503724|513|">
+				<name>Mascarillas médicas</name>
+			</category>
+			<category id="7407" path="|111|2047|503724|7407|">
+				<name>Máscaras antipolvo</name>
+			</category>
+			<category id="2473" path="|111|2047|503724|2473|">
+				<name>Respiradores y mascarillas de gas</name>
+			</category>
+		</category>
+		<category id="499961" path="|111|2047|499961|">
+			<name>Rodilleras de seguridad</name>
+		</category>
+		<category id="2808" path="|111|2047|2808|">
+			<name>Trajes contra materiales peligrosos</name>
+		</category>
+	</category>
+	<category id="1470" path="|111|1470|">
+		<name>Fabricación</name>
+	</category>
+	<category id="1813" path="|111|1813|">
+		<name>Finanzas y seguros</name>
+		<category id="7565" path="|111|1813|7565|">
+			<name>Lingotes</name>
+		</category>
+	</category>
+	<category id="1475" path="|111|1475|">
+		<name>Hostelería y hospedaje</name>
+	</category>
+	<category id="1827" path="|111|1827|">
+		<name>Ingeniería forestal e industria maderera</name>
+	</category>
+	<category id="6987" path="|111|6987|">
+		<name>Manipulación de materiales</name>
+		<category id="6988" path="|111|6987|6988|">
+			<name>Cintas transportadoras</name>
+		</category>
+		<category id="131" path="|111|6987|131|">
+			<name>Izado y subida</name>
+			<category id="503772" path="|111|6987|131|503772|">
+				<name>Cabrestantes</name>
+			</category>
+			<category id="503771" path="|111|6987|131|503771|">
+				<name>Carretillas elevadoras</name>
+			</category>
+			<category id="503767" path="|111|6987|131|503767|">
+				<name>Elevadores personales</name>
+			</category>
+			<category id="503768" path="|111|6987|131|503768|">
+				<name>Montacargas, grúas y trolleys</name>
+			</category>
+			<category id="503769" path="|111|6987|131|503769|">
+				<name>Poleas</name>
+			</category>
+		</category>
+		<category id="503011" path="|111|6987|503011|">
+			<name>Plataformas de carga y palés</name>
+		</category>
+	</category>
+	<category id="1556" path="|111|1556|">
+		<name>Mantenimiento del orden público</name>
+		<category id="361" path="|111|1556|361|">
+			<name>Detectores de metal</name>
+		</category>
+		<category id="1906" path="|111|1556|1906|">
+			<name>Sujeciones mecánicas</name>
+		</category>
+	</category>
+	<category id="1795" path="|111|1795|">
+		<name>Maquinaria pesada</name>
+		<category id="2072" path="|111|1795|2072|">
+			<name>Astilladoras</name>
+		</category>
+	</category>
+	<category id="2187" path="|111|2187|">
+		<name>Minería y explotación de canteras</name>
+	</category>
+	<category id="7497" path="|111|7497|">
+		<name>Odontología</name>
+		<category id="7500" path="|111|7497|7500|">
+			<name>Cemento dental</name>
+		</category>
+		<category id="8130" path="|111|7497|8130|">
+			<name>Pasta de pulido</name>
+		</category>
+		<category id="7499" path="|111|7497|7499|">
+			<name>Utensilios dentales</name>
+			<category id="8120" path="|111|7497|7499|8120|">
+				<name>Cabezales de pulido</name>
+			</category>
+			<category id="8121" path="|111|7497|7499|8121|">
+				<name>Copas de pulido</name>
+			</category>
+			<category id="7498" path="|111|7497|7499|7498|">
+				<name>Espejos dentales</name>
+			</category>
+			<category id="7531" path="|111|7497|7499|7531|">
+				<name>Juegos de utensilios dentales</name>
+			</category>
+			<category id="8490" path="|111|7497|7499|8490|">
+				<name>Vasos dappen</name>
+			</category>
+		</category>
+	</category>
+	<category id="7240" path="|111|7240|">
+		<name>Peluquería y cosmética</name>
+		<category id="505670" path="|111|7240|505670|">
+			<name>Capas y fundas cubrecuello para peluquería</name>
+		</category>
+		<category id="7242" path="|111|7240|7242|">
+			<name>Sillas de pedicura</name>
+		</category>
+		<category id="7241" path="|111|7240|7241|">
+			<name>Sillas de peluquería</name>
+		</category>
+	</category>
+	<category id="4285" path="|111|4285|">
+		<name>Piercings y tatuajes</name>
+		<category id="4350" path="|111|4285|4350|">
+			<name>Instrumentos para piercings</name>
+			<category id="4122" path="|111|4285|4350|4122|">
+				<name>Agujas para piercings</name>
+			</category>
+		</category>
+		<category id="4326" path="|111|4285|4326|">
+			<name>Instrumentos para tatuajes</name>
+			<category id="4072" path="|111|4285|4326|4072|">
+				<name>Agujas para tatuajes</name>
+			</category>
+			<category id="5853" path="|111|4285|4326|5853|">
+				<name>Camuflajes de tatuajes</name>
+			</category>
+			<category id="4379" path="|111|4285|4326|4379|">
+				<name>Máquinas para tatuajes</name>
+			</category>
+			<category id="4215" path="|111|4285|4326|4215|">
+				<name>Tintas para tatuajes</name>
+			</category>
+		</category>
+	</category>
+	<category id="2496" path="|111|2496|">
+		<name>Productos médicos</name>
+		<category id="1898" path="|111|2496|1898|">
+			<name>Batas de hospital</name>
+		</category>
+		<category id="1645" path="|111|2496|1645|">
+			<name>Batas quirúrgicas</name>
+		</category>
+		<category id="6275" path="|111|2496|6275|">
+			<name>Cortinas de hospital</name>
+		</category>
+		<category id="3477" path="|111|2496|3477|">
+			<name>Equipo médico</name>
+			<category id="6714" path="|111|2496|3477|6714|">
+				<name>Accesorios para monitores de constantes vitales</name>
+			</category>
+			<category id="499858" path="|111|2496|3477|499858|">
+				<name>Camillas médicas con y sin ruedas</name>
+			</category>
+			<category id="503006" path="|111|2496|3477|503006|">
+				<name>Cinturones de traslado</name>
+			</category>
+			<category id="3230" path="|111|2496|3477|3230|">
+				<name>Desfibriladores externos automatizados</name>
+			</category>
+			<category id="4364" path="|111|2496|3477|4364|">
+				<name>Estetoscopios</name>
+			</category>
+			<category id="7522" path="|111|2496|3477|7522|">
+				<name>Grúas ortopédicas</name>
+			</category>
+			<category id="6972" path="|111|2496|3477|6972|">
+				<name>Martillo de reflejos y diapasones</name>
+			</category>
+			<category id="6280" path="|111|2496|3477|6280|">
+				<name>Monitores de constantes vitales</name>
+			</category>
+			<category id="4245" path="|111|2496|3477|4245|">
+				<name>Otoscopios y oftalmoscopios</name>
+			</category>
+		</category>
+		<category id="6490" path="|111|2496|6490|">
+			<name>Equipos para la docencia médica</name>
+			<category id="6491" path="|111|2496|6490|6491|">
+				<name>Maniquís para formación ante situaciones médicas y de
+					emergencia</name>
+			</category>
+		</category>
+		<category id="5602" path="|111|2496|5602|">
+			<name>Gorros quirúrgicos</name>
+		</category>
+		<category id="230913" path="|111|2496|230913|">
+			<name>Instrumentos médicos</name>
+			<category id="8026" path="|111|2496|230913|8026|">
+				<name>Bisturís</name>
+			</category>
+			<category id="232166" path="|111|2496|230913|232166|">
+				<name>Cuchillas de bisturí</name>
+			</category>
+			<category id="6281" path="|111|2496|230913|6281|">
+				<name>Fórceps médicos</name>
+			</category>
+			<category id="499935" path="|111|2496|230913|499935|">
+				<name>Suturas y agujas quirúrgicas</name>
+			</category>
+		</category>
+		<category id="2907" path="|111|2496|2907|">
+			<name>Material médico</name>
+			<category id="505828" path="|111|2496|2907|505828|">
+				<name>Accesorios para ostomía</name>
+			</category>
+			<category id="499696" path="|111|2496|2907|499696|">
+				<name>Agujas y jeringas médicas</name>
+				<category id="543670"
+					path="|111|2496|2907|499696|543670|">
+					<name>Agujas médicas</name>
+				</category>
+				<category id="543671"
+					path="|111|2496|2907|499696|543671|">
+					<name>Jeringas médicas</name>
+				</category>
+				<category id="543672"
+					path="|111|2496|2907|499696|543672|">
+					<name>Juegos de agujas y jeringas médicas</name>
+				</category>
+			</category>
+			<category id="7324" path="|111|2496|2907|7324|">
+				<name>Bajalenguas</name>
+			</category>
+			<category id="7063" path="|111|2496|2907|7063|">
+				<name>Dediles</name>
+			</category>
+			<category id="511" path="|111|2496|2907|511|">
+				<name>Guantes desechables</name>
+			</category>
+		</category>
+		<category id="5167" path="|111|2496|5167|">
+			<name>Mobiliario médico</name>
+			<category id="5170" path="|111|2496|5167|5170|">
+				<name>Armarios médicos</name>
+			</category>
+			<category id="4435" path="|111|2496|5167|4435|">
+				<name>Camas para hospitales y asistencia en el hogar</name>
+			</category>
+			<category id="5169" path="|111|2496|5167|5169|">
+				<name>Camillas y sillas para reconocimiento</name>
+			</category>
+			<category id="5171" path="|111|2496|5167|5171|">
+				<name>Carros médicos</name>
+				<category id="5173" path="|111|2496|5167|5171|5173|">
+					<name>Carros de emergencias</name>
+				</category>
+				<category id="5174" path="|111|2496|5167|5171|5174|">
+					<name>Carros y portasueros</name>
+				</category>
+			</category>
+			<category id="5168" path="|111|2496|5167|5168|">
+				<name>Mesas quiroprácticas</name>
+			</category>
+			<category id="5172" path="|111|2496|5167|5172|">
+				<name>Mesas quirúrgicas</name>
+			</category>
+		</category>
+		<category id="6303" path="|111|2496|6303|">
+			<name>Ropa de cama médica</name>
+		</category>
+		<category id="2928" path="|111|2496|2928|">
+			<name>Uniformes hospitalarios</name>
+		</category>
+	</category>
+	<category id="5863" path="|111|5863|">
+		<name>Publicidad y márketing</name>
+		<category id="5865" path="|111|5863|5865|">
+			<name>Expositores para ferias</name>
+		</category>
+		<category id="5884" path="|111|5863|5884|">
+			<name>Folletos</name>
+		</category>
+		<category id="5864" path="|111|5863|5864|">
+			<name>Mostradores para ferias</name>
+		</category>
+	</category>
+	<category id="135" path="|111|135|">
+		<name>Restauración</name>
+		<category id="4217" path="|111|135|4217|">
+			<name>Barreños</name>
+		</category>
+		<category id="7303" path="|111|135|7303|">
+			<name>Cajas para pasteles</name>
+		</category>
+		<category id="5104" path="|111|135|5104|">
+			<name>Calentadores de platos</name>
+		</category>
+		<category id="4742" path="|111|135|4742|">
+			<name>Carritos de comida</name>
+		</category>
+		<category id="4096" path="|111|135|4096|">
+			<name>Cestas para servir comida</name>
+		</category>
+		<category id="7353" path="|111|135|7353|">
+			<name>Depósitos de hielo</name>
+		</category>
+		<category id="6786" path="|111|135|6786|">
+			<name>Lavadoras y secadoras de alimentos</name>
+		</category>
+		<category id="7088" path="|111|135|7088|">
+			<name>Material de servir desechable</name>
+			<category id="7089" path="|111|135|7088|7089|">
+				<name>Bandejas de servir desechables</name>
+			</category>
+		</category>
+		<category id="6517" path="|111|135|6517|">
+			<name>Máquinas de perritos calientes</name>
+		</category>
+		<category id="137" path="|111|135|137|">
+			<name>Máquinas expendedoras</name>
+		</category>
+		<category id="8533" path="|111|135|8533|">
+			<name>Pantalla protectora para barra</name>
+		</category>
+		<category id="7553" path="|111|135|7553|">
+			<name>Planchas inclinables</name>
+		</category>
+		<category id="8532" path="|111|135|8532|">
+			<name>Portacuentas</name>
+		</category>
+		<category id="5097" path="|111|135|5097|">
+			<name>Recipientes de comida para llevar</name>
+		</category>
+		<category id="5102" path="|111|135|5102|">
+			<name>Recipientes para comida rápida</name>
+		</category>
+		<category id="8059" path="|111|135|8059|">
+			<name>Tapas desechables</name>
+		</category>
+		<category id="4632" path="|111|135|4632|">
+			<name>Vajilla desechable</name>
+			<category id="5100" path="|111|135|4632|5100|">
+				<name>Cubertería desechable</name>
+			</category>
+			<category id="5098" path="|111|135|4632|5098|">
+				<name>Cuencos desechables</name>
+			</category>
+			<category id="5101" path="|111|135|4632|5101|">
+				<name>Platos desechables</name>
+			</category>
+			<category id="5099" path="|111|135|4632|5099|">
+				<name>Vasos desechables</name>
+			</category>
+		</category>
+	</category>
+	<category id="138" path="|111|138|">
+		<name>Venta al por menor</name>
+		<category id="4181" path="|111|138|4181|">
+			<name>Administración de dinero</name>
+			<category id="505825" path="|111|138|4181|505825|">
+				<name>Accesorios para terminales de PdS y cajas registradoras
+				</name>
+				<category id="4283" path="|111|138|4181|505825|4283|">
+					<name>Cajas registradoras</name>
+				</category>
+				<category id="5310" path="|111|138|4181|505825|5310|">
+					<name>Capturadores de firma</name>
+				</category>
+				<category id="505808" path="|111|138|4181|505825|505808|">
+					<name>Terminales para tarjetas de crédito</name>
+				</category>
+			</category>
+			<category id="4329" path="|111|138|4181|4329|">
+				<name>Bolsas de dinero</name>
+			</category>
+			<category id="3273" path="|111|138|4181|3273|">
+				<name>Cambistas</name>
+			</category>
+			<category id="4151" path="|111|138|4181|4151|">
+				<name>Contadores de billetes y monedas</name>
+			</category>
+			<category id="4290" path="|111|138|4181|4290|">
+				<name>Detectores de billetes</name>
+			</category>
+			<category id="4055" path="|111|138|4181|4055|">
+				<name>Envoltorios de monedas de papel y fajas para billetes
+				</name>
+			</category>
+			<category id="505824" path="|111|138|4181|505824|">
+				<name>Terminales de PdS y cajas registradoras</name>
+				<category id="543647" path="|111|138|4181|505824|543647|">
+					<name>Caja registradora</name>
+				</category>
+				<category id="543648" path="|111|138|4181|505824|543648|">
+					<name>Terminales de punto de venta</name>
+				</category>
+			</category>
+		</category>
+		<category id="499897" path="|111|138|499897|">
+			<name>Atrezo y modelos para escaparates de tiendas</name>
+		</category>
+		<category id="1837" path="|111|138|1837|">
+			<name>Bolsas de plástico y papel</name>
+		</category>
+		<category id="4127" path="|111|138|4127|">
+			<name>Etiquetadoras de precios</name>
+		</category>
+		<category id="3803" path="|111|138|3803|">
+			<name>Maniquís</name>
+		</category>
+		<category id="4160" path="|111|138|4160|">
+			<name>Mostradores</name>
+		</category>
+		<category id="4244" path="|111|138|4244|">
+			<name>Percheros</name>
+		</category>
+		<category id="7128" path="|111|138|7128|">
+			<name>Piezas de maniquíes</name>
+		</category>
+	</category>
+</category>

@@ -1,102 +1,103 @@
 package segundum.domain.models.user;
 
-import segundum.domain.exceptions.password.PasswordBlankException;
-import segundum.domain.exceptions.password.PasswordNullException;
-import segundum.domain.exceptions.password.PasswordTooLongException;
-import segundum.domain.exceptions.password.PasswordTooShortException;
+import segundum.domain.exceptions.user.password.PasswordBlankException;
+import segundum.domain.exceptions.user.password.PasswordNullException;
+import segundum.domain.exceptions.user.password.PasswordTooLongException;
+import segundum.domain.exceptions.user.password.PasswordTooShortException;
 
 /**
  * Represents a user's password.
+ * <p>
+ * A password can be in one of two states:
+ * <ul>
+ *   <li>{@code plain} — freshly entered by the user, not yet hashed</li>
+ *   <li>{@code hashed} — already hashed, read from persistence</li>
+ * </ul>
+ * Use the static factory methods {@link #plain(String)} and {@link #hashed(String)}
+ * instead of the constructor.
+ * </p>
  */
 public class Password {
-	
-	/**
-	 * Minimum length for a valid password.
-	 */
+
 	private static final int MIN_LENGTH = 8;
-	
-	/**
-	 * Maximum length for a valid password.
-	 */
 	private static final int MAX_LENGTH = 64;
-	
-	/**
-	 * The value of the password.
-	 */
+
 	private final String value;
-	
+	private final boolean hashed;
+
 	/**
-	 * Constructs a new Password object with the given value.
-	 * 
-	 * @param value the password value
-	 * @throws PasswordNullException if the value is null
-	 * @throws PasswordBlankException if the value is blank
-	 * @throws PasswordTooShortException if the value is too short
-	 * @throws PasswordTooLongException if the value is too long
+	 * Creates a plain-text password from user input.
+	 * Validates length, null, and blank constraints.
+	 *
+	 * @param value the plain-text password
+	 * @return a Password in plain state
 	 */
-	public Password(String value) {
-		ensureIsNotNull(value);
-		ensureIsNotBlank(value);
-		ensureisNotTooShort(value);
-		ensureisNotTooLong(value);
-		this.value = value;
+	public static Password plain(String value) {
+		return new Password(value, false);
 	}
-	
+
 	/**
-	 * Ensures that the given value is not null.
-	 * 
-	 * @param value the value to ensure
-	 * @throws PasswordNullException if the value is null
+	 * Creates a password from an already-hashed value.
+	 * No validation is applied since the hash was previously validated.
+	 *
+	 * @param value the hashed password
+	 * @return a Password in hashed state
 	 */
+	public static Password hashed(String value) {
+		return new Password(value, true);
+	}
+
+	private Password(String value, boolean hashed) {
+		if (!hashed) {
+			ensureIsNotNull(value);
+			ensureIsNotBlank(value);
+			ensureisNotTooShort(value);
+			ensureisNotTooLong(value);
+		}
+		this.value = value;
+		this.hashed = hashed;
+	}
+
 	private static void ensureIsNotNull(String value) {
 		if (value == null) {
 			throw new PasswordNullException();
 		}
 	}
-	
-	/**
-	 * Ensures that the given value is not blank (i.e., not empty or only whitespace).
-	 * 
-	 * @param value the value to ensure
-	 * @throws PasswordBlankException if the value is blank
-	 */
+
 	private static void ensureIsNotBlank(String value) {
 		if (value.trim().isEmpty()) {
 			throw new PasswordBlankException();
 		}
 	}
-	
-	/**
-	 * Ensures that the given value is not too short.
-	 * 
-	 * @param value the value to ensure
-	 * @throws PasswordTooShortException if the value is too short
-	 */
+
 	private static void ensureisNotTooShort(String value) {
 		if (value.length() < MIN_LENGTH) {
 			throw new PasswordTooShortException();
 		}
 	}
-	
-	/**
-	 * Ensures that the given value is not too long.
-	 * 
-	 * @param value the value to ensure
-	 * @throws PasswordTooLongException if the value is too long
-	 */
+
 	private static void ensureisNotTooLong(String value) {
 		if (value.length() > MAX_LENGTH) {
 			throw new PasswordTooLongException();
 		}
 	}
-	
+
 	/**
-	 * Returns the value of the password.
-	 * 
+	 * Returns the password value (plain or hashed depending on state).
+	 *
 	 * @return the password value
 	 */
 	public String getValue() {
 		return value;
+	}
+
+	/**
+	 * Returns whether this password is already hashed.
+	 *
+	 * @return true if hashed, false if plain-text
+	 */
+	public boolean isHashed() {
+		return hashed;
 	}
 
 }

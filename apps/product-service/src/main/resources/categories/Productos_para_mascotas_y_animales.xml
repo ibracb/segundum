@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="1" path="|1|">
+	<name>Productos para mascotas y animales</name>
+	<category id="3237" path="|1|3237|">
+		<name>Animales vivos</name>
+	</category>
+	<category id="2" path="|1|2|">
+		<name>Productos para mascotas</name>
+		<category id="500084" path="|1|2|500084|">
+			<name>Accesorios de cama para mascotas</name>
+		</category>
+		<category id="505811" path="|1|2|505811|">
+			<name>Accesorios de exterior para mascotas</name>
+		</category>
+		<category id="500110" path="|1|2|500110|">
+			<name>Accesorios de mantas eléctricas para mascotas</name>
+		</category>
+		<category id="500026" path="|1|2|500026|">
+			<name>Accesorios para trasportines y jaulas</name>
+		</category>
+		<category id="7143" path="|1|2|7143|">
+			<name>Alfombrillas para comederos</name>
+		</category>
+		<category id="499743" path="|1|2|499743|">
+			<name>Almohadillas calefactoras para mascotas</name>
+		</category>
+		<category id="6250" path="|1|2|6250|">
+			<name>Arneses y collares para mascotas</name>
+		</category>
+		<category id="8474" path="|1|2|8474|">
+			<name>Barreras para mascotas para vehículos</name>
+		</category>
+		<category id="8070" path="|1|2|8070|">
+			<name>Bolsas de basura para mascotas</name>
+		</category>
+		<category id="5144" path="|1|2|5144|">
+			<name>Bozales para mascotas</name>
+		</category>
+		<category id="5092" path="|1|2|5092|">
+			<name>Cascabeles y colgantes para mascotas</name>
+		</category>
+		<category id="6861" path="|1|2|6861|">
+			<name>Cintas y vendajes para mascotas</name>
+		</category>
+		<category id="6276" path="|1|2|6276|">
+			<name>Cochecitos para mascotas</name>
+		</category>
+		<category id="5145" path="|1|2|5145|">
+			<name>Collares isabelinos para mascotas</name>
+		</category>
+		<category id="5162" path="|1|2|5162|">
+			<name>Contenedores de comida para mascotas</name>
+		</category>
+		<category id="502982" path="|1|2|502982|">
+			<name>Contenedores y dispensadores de bolsas de excrementos
+			</name>
+		</category>
+		<category id="6248" path="|1|2|6248|">
+			<name>Control de pulgas y garrapatas en mascotas</name>
+		</category>
+		<category id="6249" path="|1|2|6249|">
+			<name>Correas para mascotas</name>
+		</category>
+		<category id="6252" path="|1|2|6252|">
+			<name>Cuencos, comederos, y bebederos para mascotas</name>
+		</category>
+		<category id="7144" path="|1|2|7144|">
+			<name>Cuidado dental para mascotas</name>
+		</category>
+		<category id="6978" path="|1|2|6978|">
+			<name>Dispositivos biométricos para mascotas</name>
+			<category id="6980" path="|1|2|6978|6980|">
+				<name>Medidores de glucosa para mascotas</name>
+			</category>
+			<category id="6982" path="|1|2|6978|6982|">
+				<name>Podómetros para mascotas</name>
+			</category>
+			<category id="6981" path="|1|2|6978|6981|">
+				<name>Termómetros para mascotas</name>
+			</category>
+		</category>
+		<category id="6983" path="|1|2|6983|">
+			<name>Equipos para el ejercicio de mascotas</name>
+		</category>
+		<category id="6973" path="|1|2|6973|">
+			<name>Escalones y rampas para mascotas</name>
+		</category>
+		<category id="6253" path="|1|2|6253|">
+			<name>Extensiones para correas de mascotas</name>
+		</category>
+		<category id="505297" path="|1|2|505297|">
+			<name>Herramientas y sistemas de desecho de excrementos</name>
+		</category>
+		<category id="505314" path="|1|2|505314|">
+			<name>Kits de adiestramiento para mascotas</name>
+			<category id="505313" path="|1|2|505314|505313|">
+				<name>Dispensadores de premios y contadores para adiestrar
+					mascotas</name>
+			</category>
+			<category id="6846" path="|1|2|505314|6846|">
+				<name>Empapadores para mascotas</name>
+			</category>
+			<category id="505304" path="|1|2|505314|505304|">
+				<name>Protectores de empapadores para mascotas</name>
+			</category>
+			<category id="505311" path="|1|2|505314|505311|">
+				<name>Soluciones y espráis de adiestramiento para mascotas
+				</name>
+			</category>
+		</category>
+		<category id="8068" path="|1|2|8068|">
+			<name>Kits de primeros auxilios y emergencias para mascotas
+			</name>
+		</category>
+		<category id="8050" path="|1|2|8050|">
+			<name>Lubricantes y gotas oftálmicas para mascotas</name>
+		</category>
+		<category id="5086" path="|1|2|5086|">
+			<name>Medicamentos para mascotas</name>
+		</category>
+		<category id="5163" path="|1|2|5163|">
+			<name>Palas de comida para mascotas</name>
+		</category>
+		<category id="5087" path="|1|2|5087|">
+			<name>Parque de juegos para mascotas</name>
+		</category>
+		<category id="6811" path="|1|2|6811|">
+			<name>Perchas para ropa de mascotas</name>
+		</category>
+		<category id="5093" path="|1|2|5093|">
+			<name>Placas identificativas para mascotas</name>
+		</category>
+		<category id="6383" path="|1|2|6383|">
+			<name>Productos de higiene para mascotas</name>
+			<category id="6406" path="|1|2|6383|6406|">
+				<name>Champús y acondicionadores para mascotas</name>
+			</category>
+			<category id="6384" path="|1|2|6383|6384|">
+				<name>Cortapelos para mascotas</name>
+			</category>
+			<category id="7318" path="|1|2|6383|7318|">
+				<name>Esmalte de uñas para mascotas</name>
+			</category>
+			<category id="503733" path="|1|2|6383|503733|">
+				<name>Espráis desodorantes y colonias para mascotas</name>
+			</category>
+			<category id="7319" path="|1|2|6383|7319|">
+				<name>Herramientas de manicura para mascotas</name>
+			</category>
+			<category id="6385" path="|1|2|6383|6385|">
+				<name>Peines y cepillos para mascotas</name>
+			</category>
+			<category id="8167" path="|1|2|6383|8167|">
+				<name>Secadores de pelo para mascotas</name>
+			</category>
+			<category id="499917" path="|1|2|6383|499917|">
+				<name>Toallitas para mascotas</name>
+			</category>
+		</category>
+		<category id="5013" path="|1|2|5013|">
+			<name>Productos para animales pequeños</name>
+			<category id="5016" path="|1|2|5013|5016|">
+				<name>Accesorios para habitáculos para animales pequeños</name>
+			</category>
+			<category id="5015" path="|1|2|5013|5015|">
+				<name>Alimento para animales pequeños</name>
+			</category>
+			<category id="5014" path="|1|2|5013|5014|">
+				<name>Artículos para camas de animales pequeños</name>
+			</category>
+			<category id="7517" path="|1|2|5013|7517|">
+				<name>Golosinas para animales pequeños</name>
+			</category>
+			<category id="5017" path="|1|2|5013|5017|">
+				<name>Jaulas y habitáculos para animales pequeños</name>
+			</category>
+		</category>
+		<category id="4" path="|1|2|4|">
+			<name>Productos para gatos</name>
+			<category id="500059" path="|1|2|4|500059|">
+				<name>Accesorios de muebles para gatos</name>
+			</category>
+			<category id="7142" path="|1|2|4|7142|">
+				<name>Alfombrillas para cajones de gatos</name>
+			</category>
+			<category id="4999" path="|1|2|4|4999|">
+				<name>Arena higiénica para gatos</name>
+			</category>
+			<category id="5000" path="|1|2|4|5000|">
+				<name>Cajones de arena higiénica para gatos</name>
+			</category>
+			<category id="4433" path="|1|2|4|4433|">
+				<name>Camas para gatos</name>
+			</category>
+			<category id="3367" path="|1|2|4|3367|">
+				<name>Comida para gatos</name>
+				<category id="543683" path="|1|2|4|3367|543683|">
+					<name>Comida para gatos de prescripción veterinaria</name>
+				</category>
+				<category id="543684" path="|1|2|4|3367|543684|">
+					<name>Comida para gatos sin prescripción veterinaria</name>
+				</category>
+			</category>
+			<category id="8069" path="|1|2|4|8069|">
+				<name>Forros para cajones de gatos</name>
+			</category>
+			<category id="5001" path="|1|2|4|5001|">
+				<name>Juguetes para gatos</name>
+			</category>
+			<category id="4997" path="|1|2|4|4997|">
+				<name>Mobiliario para gatos</name>
+			</category>
+			<category id="5002" path="|1|2|4|5002|">
+				<name>Premios para gatos</name>
+			</category>
+			<category id="5082" path="|1|2|4|5082|">
+				<name>Ropa para gatos</name>
+			</category>
+		</category>
+		<category id="6" path="|1|2|6|">
+			<name>Productos para peces</name>
+			<category id="3238" path="|1|2|6|3238|">
+				<name>Acuarios</name>
+			</category>
+			<category id="5024" path="|1|2|6|5024|">
+				<name>Alimento para peces</name>
+			</category>
+			<category id="6403" path="|1|2|6|6403|">
+				<name>Comederos para peces</name>
+			</category>
+			<category id="500062" path="|1|2|6|500062|">
+				<name>Controladores de temperatura de acuarios</name>
+			</category>
+			<category id="5019" path="|1|2|6|5019|">
+				<name>Decoración de acuarios</name>
+			</category>
+			<category id="505307" path="|1|2|6|505307|">
+				<name>Difusores y bombas de aire para acuarios</name>
+			</category>
+			<category id="6085" path="|1|2|6|6085|">
+				<name>Fertilizantes para plantas acuáticas</name>
+			</category>
+			<category id="5020" path="|1|2|6|5020|">
+				<name>Filtros para acuarios</name>
+			</category>
+			<category id="5079" path="|1|2|6|5079|">
+				<name>Iluminación para acuarios</name>
+			</category>
+			<category id="500038" path="|1|2|6|500038|">
+				<name>Productos de limpieza de acuarios</name>
+			</category>
+			<category id="6951" path="|1|2|6|6951|">
+				<name>Rebosaderos para acuarios</name>
+			</category>
+			<category id="505306" path="|1|2|6|505306|">
+				<name>Redes para acuarios</name>
+			</category>
+			<category id="505303" path="|1|2|6|505303|">
+				<name>Sistemas de tuberías para lagos artificiales y acuarios
+				</name>
+			</category>
+			<category id="5023" path="|1|2|6|5023|">
+				<name>Soportes para acuarios</name>
+			</category>
+			<category id="5021" path="|1|2|6|5021|">
+				<name>Sustratos y arena para acuarios</name>
+			</category>
+			<category id="5161" path="|1|2|6|5161|">
+				<name>Tratamientos del agua de acuarios</name>
+			</category>
+		</category>
+		<category id="5" path="|1|2|5|">
+			<name>Productos para perros</name>
+			<category id="7428" path="|1|2|5|7428|">
+				<name>Accesorios para casetas y cercados para perros</name>
+			</category>
+			<category id="4434" path="|1|2|5|4434|">
+				<name>Camas para perros</name>
+			</category>
+			<category id="5094" path="|1|2|5|5094|">
+				<name>Casetas para perros</name>
+			</category>
+			<category id="7274" path="|1|2|5|7274|">
+				<name>Casetas y cercados para perros</name>
+			</category>
+			<category id="8123" path="|1|2|5|8123|">
+				<name>Cintas de caminar para perros</name>
+			</category>
+			<category id="3530" path="|1|2|5|3530|">
+				<name>Comida para perros</name>
+				<category id="543681" path="|1|2|5|3530|543681|">
+					<name>Comida para perros de prescripción veterinaria</name>
+				</category>
+				<category id="543682" path="|1|2|5|3530|543682|">
+					<name>Comida para perros sin prescripción veterinaria</name>
+				</category>
+			</category>
+			<category id="7372" path="|1|2|5|7372|">
+				<name>Fundas de pañal y cambiadores para perros</name>
+			</category>
+			<category id="5010" path="|1|2|5|5010|">
+				<name>Juguetes para perros</name>
+			</category>
+			<category id="499900" path="|1|2|5|499900|">
+				<name>Pañales para perros</name>
+			</category>
+			<category id="5011" path="|1|2|5|5011|">
+				<name>Premios para perros</name>
+			</category>
+			<category id="5004" path="|1|2|5|5004|">
+				<name>Ropa para perros</name>
+			</category>
+		</category>
+		<category id="3" path="|1|2|3|">
+			<name>Productos para pájaros</name>
+			<category id="7385" path="|1|2|3|7385|">
+				<name>Accesorios de jaulas para pájaros</name>
+				<category id="7386" path="|1|2|3|7385|7386|">
+					<name>Bebederos y comederos de jaulas para pájaros</name>
+				</category>
+				<category id="499954" path="|1|2|3|7385|499954|">
+					<name>Jaulas y baños para pájaros</name>
+				</category>
+			</category>
+			<category id="4990" path="|1|2|3|4990|">
+				<name>Comida para pájaros</name>
+			</category>
+			<category id="4991" path="|1|2|3|4991|">
+				<name>Escaleras y juguetes colgantes para pájaros</name>
+			</category>
+			<category id="4992" path="|1|2|3|4992|">
+				<name>Juguetes para pájaros</name>
+			</category>
+			<category id="4989" path="|1|2|3|4989|">
+				<name>Pies y jaulas para pájaros</name>
+			</category>
+			<category id="4993" path="|1|2|3|4993|">
+				<name>Premios para pájaros</name>
+			</category>
+			<category id="7398" path="|1|2|3|7398|">
+				<name>Zonas de juegos y gimnasios para pájaros</name>
+			</category>
+		</category>
+		<category id="7" path="|1|2|7|">
+			<name>Productos para reptiles y anfibios</name>
+			<category id="5027" path="|1|2|7|5027|">
+				<name>Accesorios para terrarios de reptiles y anfibios</name>
+			</category>
+			<category id="5026" path="|1|2|7|5026|">
+				<name>Alimento para reptiles y anfibios</name>
+			</category>
+			<category id="5028" path="|1|2|7|5028|">
+				<name>Iluminación y calefacción de terrarios para reptiles y
+					anfibios</name>
+			</category>
+			<category id="5030" path="|1|2|7|5030|">
+				<name>Sustratos para reptiles y anfibios</name>
+			</category>
+			<category id="5029" path="|1|2|7|5029|">
+				<name>Terrarios para reptiles y anfibios</name>
+			</category>
+		</category>
+		<category id="7396" path="|1|2|7396|">
+			<name>Protector solar para mascotas</name>
+		</category>
+		<category id="4497" path="|1|2|4497|">
+			<name>Puertas para animales domésticos</name>
+		</category>
+		<category id="6321" path="|1|2|6321|">
+			<name>Sistemas de contención para mascotas</name>
+		</category>
+		<category id="8513" path="|1|2|8513|">
+			<name>Soportes de platos para mascotas</name>
+		</category>
+		<category id="5081" path="|1|2|5081|">
+			<name>Suplementos y vitaminas para mascotas</name>
+		</category>
+		<category id="6251" path="|1|2|6251|">
+			<name>Transportines y cajas para mascotas</name>
+		</category>
+	</category>
+</category>

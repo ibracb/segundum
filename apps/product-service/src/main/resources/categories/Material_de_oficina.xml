@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="922" path="|922|">
+	<name>Material de oficina</name>
+	<category id="2636" path="|922|2636|">
+		<name>Accesorios para envíos</name>
+		<category id="973" path="|922|2636|973|">
+			<name>Cajas de mudanza y envío</name>
+		</category>
+		<category id="975" path="|922|2636|975|">
+			<name>Cinta de embalaje</name>
+		</category>
+		<category id="974" path="|922|2636|974|">
+			<name>Materiales de embalaje</name>
+		</category>
+	</category>
+	<category id="6174" path="|922|6174|">
+		<name>Accesorios para libros</name>
+		<category id="6176" path="|922|6174|6176|">
+			<name>Cubiertas para libros</name>
+		</category>
+		<category id="4941" path="|922|6174|4941|">
+			<name>Luces de lectura</name>
+		</category>
+		<category id="93" path="|922|6174|93|">
+			<name>Marcapáginas</name>
+		</category>
+		<category id="6175" path="|922|6174|6175|">
+			<name>Soportes y atriles para libros</name>
+		</category>
+	</category>
+	<category id="964" path="|922|964|">
+		<name>Accesorios para presentaciones</name>
+		<category id="970" path="|922|964|970|">
+			<name>Atriles</name>
+		</category>
+		<category id="968" path="|922|964|968|">
+			<name>Caballetes de oficina</name>
+		</category>
+		<category id="4492" path="|922|964|4492|">
+			<name>Cámara de documentos</name>
+		</category>
+		<category id="966" path="|922|964|966|">
+			<name>Paneles de exposición</name>
+			<category id="7525" path="|922|964|966|7525|">
+				<name>Accesorios para tablones de anuncios</name>
+				<category id="543688" path="|922|964|966|7525|543688|">
+					<name>Juegos de cenefas para tablones de anuncios</name>
+				</category>
+				<category id="7526" path="|922|964|966|7525|7526|">
+					<name>Ribetes para tablones de anuncios</name>
+				</category>
+			</category>
+			<category id="2263" path="|922|964|966|2263|">
+				<name>Planchas de espuma</name>
+			</category>
+			<category id="1627" path="|922|964|966|1627|">
+				<name>Tableros de montaje</name>
+			</category>
+			<category id="2674" path="|922|964|966|2674|">
+				<name>Tableros para pósteres</name>
+			</category>
+			<category id="2401" path="|922|964|966|2401|">
+				<name>Tablones de anuncios</name>
+			</category>
+		</category>
+		<category id="965" path="|922|964|965|">
+			<name>Pizarras</name>
+		</category>
+		<category id="971" path="|922|964|971|">
+			<name>Pizarras blancas</name>
+		</category>
+		<category id="4465" path="|922|964|4465|">
+			<name>Presentadores inalámbrico</name>
+		</category>
+		<category id="969" path="|922|964|969|">
+			<name>Punteros láser</name>
+		</category>
+		<category id="967" path="|922|964|967|">
+			<name>Rotafolios</name>
+		</category>
+		<category id="963" path="|922|964|963|">
+			<name>Transparencias</name>
+		</category>
+	</category>
+	<category id="6519" path="|922|6519|">
+		<name>Alfombrillas para sillas y oficinas</name>
+		<category id="6462" path="|922|6519|6462|">
+			<name>Alfombras antifatiga</name>
+		</category>
+		<category id="6520" path="|922|6519|6520|">
+			<name>Alfombrillas para oficinas</name>
+		</category>
+		<category id="6521" path="|922|6519|6521|">
+			<name>Alfombrillas para sillas</name>
+		</category>
+	</category>
+	<category id="2986" path="|922|2986|">
+		<name>Artículos de oficina</name>
+		<category id="505830" path="|922|2986|505830|">
+			<name>Abridores de cartas</name>
+		</category>
+		<category id="4470" path="|922|2986|4470|">
+			<name>Accesorios para escritura y dibujo</name>
+			<category id="4472" path="|922|2986|4470|4472|">
+				<name>Recambios para portaminas</name>
+			</category>
+			<category id="4471" path="|922|2986|4470|4471|">
+				<name>Recambios y tintas</name>
+			</category>
+			<category id="7117" path="|922|2986|4470|7117|">
+				<name>Recargas para rotuladores y marcadores</name>
+				<category id="543666" path="|922|2986|4470|7117|543666|">
+					<name>Recargas para rotuladores</name>
+				</category>
+				<category id="543667" path="|922|2986|4470|7117|543667|">
+					<name>Recargas para subrayadores</name>
+				</category>
+			</category>
+		</category>
+		<category id="977" path="|922|2986|977|">
+			<name>Artículos de escritura y dibujo</name>
+			<category id="6065" path="|922|2986|977|6065|">
+				<name>Bolígrafos y lápices</name>
+				<category id="982" path="|922|2986|977|6065|982|">
+					<name>Bolígrafos</name>
+				</category>
+				<category id="6066" path="|922|2986|977|6065|6066|">
+					<name>Juegos de bolígrafo y lápiz</name>
+				</category>
+				<category id="6068" path="|922|2986|977|6065|6068|">
+					<name>Lápices</name>
+					<category id="3026" path="|922|2986|977|6065|6068|3026|">
+						<name>Lápices artísticos</name>
+					</category>
+					<category id="981" path="|922|2986|977|6065|6068|981|">
+						<name>Lápices para escritura</name>
+						<category id="543661"
+							path="|922|2986|977|6065|6068|981|543661|">
+							<name>Lápices de madera</name>
+						</category>
+						<category id="543660"
+							path="|922|2986|977|6065|6068|981|543660|">
+							<name>Portaminas</name>
+						</category>
+					</category>
+				</category>
+			</category>
+			<category id="2623" path="|922|2986|977|2623|">
+				<name>Carboncillos</name>
+			</category>
+			<category id="979" path="|922|2986|977|979|">
+				<name>Ceras</name>
+			</category>
+			<category id="4752" path="|922|2986|977|4752|">
+				<name>Lápices pastel</name>
+			</category>
+			<category id="980" path="|922|2986|977|980|">
+				<name>Rotuladores y marcadores</name>
+				<category id="543608" path="|922|2986|977|980|543608|">
+					<name>Rotuladores</name>
+				</category>
+				<category id="543609" path="|922|2986|977|980|543609|">
+					<name>Subrayadores</name>
+				</category>
+			</category>
+			<category id="978" path="|922|2986|977|978|">
+				<name>Tiza</name>
+			</category>
+			<category id="6067" path="|922|2986|977|6067|">
+				<name>Útiles de escritura multifunción</name>
+			</category>
+		</category>
+		<category id="503746" path="|922|2986|503746|">
+			<name>Dispensadores de celofán</name>
+		</category>
+		<category id="947" path="|922|2986|947|">
+			<name>Grapadoras</name>
+		</category>
+		<category id="941" path="|922|2986|941|">
+			<name>Lupas</name>
+		</category>
+		<category id="935" path="|922|2986|935|">
+			<name>Portapapeles</name>
+		</category>
+		<category id="4499" path="|922|2986|4499|">
+			<name>Quitagrapas</name>
+		</category>
+		<category id="943" path="|922|2986|943|">
+			<name>Sacapuntas</name>
+		</category>
+		<category id="4341" path="|922|2986|4341|">
+			<name>Sellos de caucho para oficina</name>
+		</category>
+		<category id="2883" path="|922|2986|2883|">
+			<name>Timbres de recepción</name>
+		</category>
+	</category>
+	<category id="6373" path="|922|6373|">
+		<name>Carritos de oficina</name>
+		<category id="6180" path="|922|6373|6180|">
+			<name>Carritos archivadores</name>
+		</category>
+		<category id="6181" path="|922|6373|6181|">
+			<name>Carritos de correo</name>
+		</category>
+		<category id="6182" path="|922|6373|6182|">
+			<name>Carritos de libros</name>
+		</category>
+		<category id="6179" path="|922|6373|6179|">
+			<name>Carritos multiusos</name>
+		</category>
+		<category id="1996" path="|922|6373|1996|">
+			<name>Carritos para equipos audiovisuales</name>
+		</category>
+	</category>
+	<category id="923" path="|922|923|">
+		<name>Clasificación y organización</name>
+		<category id="6779" path="|922|923|6779|">
+			<name>Archivadores de recetas</name>
+		</category>
+		<category id="5531" path="|922|923|5531|">
+			<name>Archivadores para tarjetas</name>
+		</category>
+		<category id="925" path="|922|923|925|">
+			<name>Cajas de archivo</name>
+		</category>
+		<category id="928" path="|922|923|928|">
+			<name>Cajas de caudales</name>
+		</category>
+		<category id="927" path="|922|923|927|">
+			<name>Calendarios, organizadores y agendas</name>
+		</category>
+		<category id="930" path="|922|923|930|">
+			<name>Carpetas para archivos</name>
+		</category>
+		<category id="6962" path="|922|923|6962|">
+			<name>Clasificadoras de correo</name>
+		</category>
+		<category id="6884" path="|922|923|6884|">
+			<name>Cubiertas para informes y carpetas</name>
+			<category id="543663" path="|922|923|6884|543663|">
+				<name>Carpetas con bolsillos</name>
+			</category>
+			<category id="543662" path="|922|923|6884|543662|">
+				<name>Dossier</name>
+			</category>
+		</category>
+		<category id="3062" path="|922|923|3062|">
+			<name>Estuches</name>
+		</category>
+		<category id="6177" path="|922|923|6177|">
+			<name>Fundas para tarjetas</name>
+		</category>
+		<category id="5997" path="|922|923|5997|">
+			<name>Libretas de direcciones</name>
+		</category>
+		<category id="6190" path="|922|923|6190|">
+			<name>Libros para tarjetas de presentación</name>
+		</category>
+		<category id="4312" path="|922|923|4312|">
+			<name>Materiales de encuadernación</name>
+			<category id="4086" path="|922|923|4312|4086|">
+				<name>Accesorios de encuadernación</name>
+				<category id="4212" path="|922|923|4312|4086|4212|">
+					<name>Anillas de encuadernación</name>
+				</category>
+				<category id="2139" path="|922|923|4312|4086|2139|">
+					<name>Fundas protectoras</name>
+				</category>
+				<category id="4183" path="|922|923|4312|4086|4183|">
+					<name>Separadores</name>
+				</category>
+			</category>
+			<category id="4303" path="|922|923|4312|4303|">
+				<name>Archivadores</name>
+			</category>
+			<category id="7080" path="|922|923|4312|7080|">
+				<name>Encuadernadoras</name>
+			</category>
+			<category id="4182" path="|922|923|4312|4182|">
+				<name>Lomos y canutillos de encuadernación</name>
+			</category>
+		</category>
+		<category id="939" path="|922|923|939|">
+			<name>Organizadores de escritorio</name>
+		</category>
+		<category id="5070" path="|922|923|5070|">
+			<name>Organizadores de tarjetas de felicitación</name>
+		</category>
+		<category id="926" path="|922|923|926|">
+			<name>Organizadores y cajas de CD/DVD</name>
+		</category>
+		<category id="6885" path="|922|923|6885|">
+			<name>Portafolios</name>
+			<category id="543641" path="|922|923|6885|543641|">
+				<name>Carpetas portadocumentos</name>
+			</category>
+			<category id="543640" path="|922|923|6885|543640|">
+				<name>Carteras portadocumentos</name>
+			</category>
+		</category>
+		<category id="6171" path="|922|923|6171|">
+			<name>Soportes para tarjetas de visita</name>
+		</category>
+	</category>
+	<category id="950" path="|922|950|">
+		<name>Equipos para oficina</name>
+		<category id="499864" path="|922|950|499864|">
+			<name>Accesorios para calculadoras</name>
+		</category>
+		<category id="333" path="|922|950|333|">
+			<name>Calculadoras</name>
+			<category id="543518" path="|922|950|333|543518|">
+				<name>Calculadoras básicas</name>
+			</category>
+			<category id="543520" path="|922|950|333|543520|">
+				<name>Calculadoras científicas</name>
+			</category>
+			<category id="543521" path="|922|950|333|543521|">
+				<name>Calculadoras de construcción</name>
+			</category>
+			<category id="543519" path="|922|950|333|543519|">
+				<name>Calculadoras financieras</name>
+			</category>
+			<category id="543517" path="|922|950|333|543517|">
+				<name>Calculadoras gráficas</name>
+			</category>
+		</category>
+		<category id="952" path="|922|950|952|">
+			<name>Etiquetadoras</name>
+		</category>
+		<category id="955" path="|922|950|955|">
+			<name>Máquinas de escribir</name>
+		</category>
+		<category id="1708" path="|922|950|1708|">
+			<name>Máquinas franqueadoras</name>
+		</category>
+		<category id="1625" path="|922|950|1625|">
+			<name>Plastificadoras</name>
+		</category>
+		<category id="6404" path="|922|950|6404|">
+			<name>Relojes de fichar</name>
+		</category>
+		<category id="337" path="|922|950|337|">
+			<name>Traductores y diccionarios electrónicos</name>
+		</category>
+		<category id="954" path="|922|950|954|">
+			<name>Transcriptores y sistemas de dictados</name>
+		</category>
+		<category id="953" path="|922|950|953|">
+			<name>Trituradoras de papel</name>
+		</category>
+	</category>
+	<category id="8499" path="|922|8499|">
+		<name>Escritorios portátiles</name>
+	</category>
+	<category id="2014" path="|922|2014|">
+		<name>Manipulación del papel</name>
+		<category id="1836" path="|922|2014|1836|">
+			<name>Emparejadoras de papel</name>
+		</category>
+		<category id="6467" path="|922|2014|6467|">
+			<name>Perforadoras de papel</name>
+		</category>
+		<category id="1803" path="|922|2014|1803|">
+			<name>Pisapapeles</name>
+		</category>
+		<category id="2207" path="|922|2014|2207|">
+			<name>Plegadoras de papel</name>
+		</category>
+		<category id="6178" path="|922|2014|6178|">
+			<name>Protectores de escritorio</name>
+		</category>
+		<category id="6486" path="|922|2014|6486|">
+			<name>Protectores para dedos</name>
+		</category>
+	</category>
+	<category id="2435" path="|922|2435|">
+		<name>Placas de nombre</name>
+	</category>
+	<category id="932" path="|922|932|">
+		<name>Productos generales</name>
+		<category id="949" path="|922|932|949|">
+			<name>Chinchetas y tachuelas</name>
+		</category>
+		<category id="934" path="|922|932|934|">
+			<name>Cinta adhesiva de oficina</name>
+		</category>
+		<category id="936" path="|922|932|936|">
+			<name>Clips y clips cruzados</name>
+			<category id="543675" path="|922|932|936|543675|">
+				<name>Clips</name>
+			</category>
+			<category id="543676" path="|922|932|936|543676|">
+				<name>Pinzas para papel</name>
+			</category>
+		</category>
+		<category id="2591" path="|922|932|2591|">
+			<name>Corrector líquido, en lápiz y cinta</name>
+			<category id="543620" path="|922|932|2591|543620|">
+				<name>Bolígrafos correctores</name>
+			</category>
+			<category id="543619" path="|922|932|2591|543619|">
+				<name>Correctores en cinta</name>
+			</category>
+			<category id="543618" path="|922|932|2591|543618|">
+				<name>Correctores líquidos</name>
+			</category>
+		</category>
+		<category id="960" path="|922|932|960|">
+			<name>Etiquetas y etiquetas adhesivas</name>
+			<category id="4154" path="|922|932|960|4154|">
+				<name>Carpetas con pestañas</name>
+			</category>
+			<category id="5502" path="|922|932|960|5502|">
+				<name>Cinta para etiquetar</name>
+			</category>
+			<category id="4137" path="|922|932|960|4137|">
+				<name>Clips para etiquetas</name>
+			</category>
+			<category id="4200" path="|922|932|960|4200|">
+				<name>Etiquetas adhesivas de envío</name>
+			</category>
+			<category id="4377" path="|922|932|960|4377|">
+				<name>Etiquetas de dirección</name>
+			</category>
+			<category id="4117" path="|922|932|960|4117|">
+				<name>Etiquetas de envío</name>
+			</category>
+		</category>
+		<category id="8015" path="|922|932|8015|">
+			<name>Fundas, bolsas y películas para laminado</name>
+		</category>
+		<category id="938" path="|922|932|938|">
+			<name>Gomas de borrar</name>
+		</category>
+		<category id="944" path="|922|932|944|">
+			<name>Gomas elásticas</name>
+		</category>
+		<category id="948" path="|922|932|948|">
+			<name>Grapas</name>
+		</category>
+		<category id="505805" path="|922|932|505805|">
+			<name>Masilla adhesiva</name>
+		</category>
+		<category id="6319" path="|922|932|6319|">
+			<name>Pasadores de latón</name>
+		</category>
+		<category id="956" path="|922|932|956|">
+			<name>Productos de papel</name>
+			<category id="3457" path="|922|932|956|3457|">
+				<name>Artículos de escritorio</name>
+			</category>
+			<category id="6930" path="|922|932|956|6930|">
+				<name>Cheques</name>
+			</category>
+			<category id="5918" path="|922|932|956|5918|">
+				<name>Formularios comerciales y recibos</name>
+			</category>
+			<category id="961" path="|922|932|956|961|">
+				<name>Libretas y blocs de notas</name>
+			</category>
+			<category id="2689" path="|922|932|956|2689|">
+				<name>Notas adhesivas</name>
+			</category>
+			<category id="962" path="|922|932|956|962|">
+				<name>Papel para impresora y para copiadora</name>
+			</category>
+			<category id="1513" path="|922|932|956|1513|">
+				<name>Papel para portada</name>
+			</category>
+			<category id="2658" path="|922|932|956|2658|">
+				<name>Papel perforado</name>
+			</category>
+			<category id="3871" path="|922|932|956|3871|">
+				<name>Postales</name>
+			</category>
+			<category id="5919" path="|922|932|956|5919|">
+				<name>Rollos de papel de recibo</name>
+			</category>
+			<category id="958" path="|922|932|956|958|">
+				<name>Sobres</name>
+			</category>
+			<category id="5264" path="|922|932|956|5264|">
+				<name>Tarjetas de identificación en blanco</name>
+			</category>
+			<category id="957" path="|922|932|956|957|">
+				<name>Tarjetas de visita</name>
+			</category>
+			<category id="959" path="|922|932|956|959|">
+				<name>Tarjetas de índice</name>
+			</category>
+		</category>
+	</category>
+	<category id="8078" path="|922|8078|">
+		<name>Secafirmas y protectores de escritorio</name>
+	</category>
+	<category id="5829" path="|922|5829|">
+		<name>Selladoras de impulso</name>
+	</category>
+</category>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="5605" path="|5605|">
+	<name>Elementos religiosos y ceremoniales</name>
+	<category id="5606" path="|5605|5606|">
+		<name>Artículos para ceremonias conmemorativas</name>
+		<category id="5607" path="|5605|5606|5607|">
+			<name>Urnas funerarias</name>
+		</category>
+	</category>
+	<category id="5455" path="|5605|5455|">
+		<name>Artículos para ceremonias nupciales</name>
+		<category id="503723" path="|5605|5455|503723|">
+			<name>Alfombras nupciales</name>
+		</category>
+		<category id="5456" path="|5605|5455|5456|">
+			<name>Cestas para flores</name>
+		</category>
+		<category id="5457" path="|5605|5455|5457|">
+			<name>Cojines para anillos</name>
+		</category>
+	</category>
+	<category id="97" path="|5605|97|">
+		<name>Artículos religiosos</name>
+		<category id="7120" path="|5605|97|7120|">
+			<name>Altares religiosos</name>
+		</category>
+		<category id="499711" path="|5605|97|499711|">
+			<name>Cartas de tarot</name>
+		</category>
+		<category id="3923" path="|5605|97|3923|">
+			<name>Rosarios</name>
+		</category>
+		<category id="328060" path="|5605|97|328060|">
+			<name>Tarjetas de oración</name>
+		</category>
+		<category id="1949" path="|5605|97|1949|">
+			<name>Velos religiosos</name>
+		</category>
+	</category>
+</category>

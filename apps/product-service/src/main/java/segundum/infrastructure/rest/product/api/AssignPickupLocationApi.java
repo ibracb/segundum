@@ -1,0 +1,40 @@
+package segundum.infrastructure.rest.product.api;
+
+import javax.validation.Valid;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import segundum.infrastructure.rest.product.requests.AssignPickupLocationRequest;
+
+@Tag(name = "Products", description = "Product management endpoints")
+@RequestMapping("/products")
+public interface AssignPickupLocationApi {
+
+	@Operation(summary = "Assign a pickup location to a product")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "Pickup location assigned",
+					content = @Content),
+			@ApiResponse(responseCode = "400", description = "Invalid input",
+					content = @Content),
+			@ApiResponse(responseCode = "404", description = "Product not found",
+					content = @Content),
+			@ApiResponse(responseCode = "409", description = "Product is not in DRAFT state",
+					content = @Content)
+	})
+	@PatchMapping(value = "/{id}/pickup-location", consumes = MediaType.APPLICATION_JSON_VALUE)
+	ResponseEntity<Void> assignPickupLocation(
+			@Parameter(description = "Product identifier") @PathVariable("id") String id,
+			@Valid @RequestBody AssignPickupLocationRequest request);
+
+}

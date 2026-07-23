@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="436" path="|436|">
+	<name>Mobiliario</name>
+	<category id="6915" path="|436|6915|">
+		<name>Accesorios para divisores de ambientes</name>
+	</category>
+	<category id="8023" path="|436|8023|">
+		<name>Accesorios para estanterías</name>
+		<category id="8024" path="|436|8023|8024|">
+			<name>Estanterías de repuesto</name>
+		</category>
+	</category>
+	<category id="6913" path="|436|6913|">
+		<name>Accesorios para mesas</name>
+		<category id="6911" path="|436|6913|6911|">
+			<name>Patas para mesas</name>
+		</category>
+		<category id="6910" path="|436|6913|6910|">
+			<name>Tableros para mesas</name>
+		</category>
+	</category>
+	<category id="6963" path="|436|6963|">
+		<name>Accesorios para mobiliario de exterior</name>
+		<category id="6964" path="|436|6963|6964|">
+			<name>Fundas para mobiliario de exterior</name>
+		</category>
+	</category>
+	<category id="503765" path="|436|503765|">
+		<name>Accesorios para mobiliario de oficina</name>
+		<category id="6909" path="|436|503765|6909|">
+			<name>Accesorios para cubículos y mesas de trabajo</name>
+		</category>
+		<category id="7559" path="|436|503765|7559|">
+			<name>Accesorios para sillas de oficina</name>
+		</category>
+		<category id="503766" path="|436|503765|503766|">
+			<name>Accesorios y productos para escritorios</name>
+		</category>
+	</category>
+	<category id="7248" path="|436|7248|">
+		<name>Accesorios para sillas</name>
+		<category id="8206" path="|436|7248|8206|">
+			<name>Piezas de repuesto para sillas colgantes</name>
+		</category>
+	</category>
+	<category id="7212" path="|436|7212|">
+		<name>Accesorios para sofás</name>
+		<category id="7213" path="|436|7212|7213|">
+			<name>Soportes para sillas y sofás</name>
+		</category>
+		<category id="500064" path="|436|7212|500064|">
+			<name>Unidades para sofás seccionales</name>
+		</category>
+	</category>
+	<category id="6356" path="|436|6356|">
+		<name>Armarios y almacenamiento</name>
+		<category id="6358" path="|436|6356|6358|">
+			<name>Almacenamiento para CD y DVD</name>
+		</category>
+		<category id="447" path="|436|6356|447|">
+			<name>Aparadores del comedor</name>
+		</category>
+		<category id="4195" path="|436|6356|4195|">
+			<name>Aparadores del dormitorio</name>
+		</category>
+		<category id="463" path="|436|6356|463|">
+			<name>Armarios archivadores</name>
+		</category>
+		<category id="6934" path="|436|6356|6934|">
+			<name>Armarios de cocina</name>
+		</category>
+		<category id="6357" path="|436|6356|6357|">
+			<name>Armarios para vino y licores</name>
+		</category>
+		<category id="4063" path="|436|6356|4063|">
+			<name>Armarios roperos</name>
+		</category>
+		<category id="4205" path="|436|6356|4205|">
+			<name>Baúles de almacenamiento</name>
+			<category id="6947" path="|436|6356|4205|6947|">
+				<name>Baúles para el ajuar</name>
+			</category>
+			<category id="4268" path="|436|6356|4205|4268|">
+				<name>Baúles para juguetes</name>
+			</category>
+		</category>
+		<category id="5578" path="|436|6356|5578|">
+			<name>Botelleros</name>
+		</category>
+		<category id="465846" path="|436|6356|465846|">
+			<name>Centros de planchado</name>
+		</category>
+		<category id="6539" path="|436|6356|6539|">
+			<name>Revisteros</name>
+		</category>
+		<category id="5938" path="|436|6356|5938|">
+			<name>Taquillas y armarios de almacenamiento</name>
+		</category>
+		<category id="4148" path="|436|6356|4148|">
+			<name>Tocadores</name>
+			<category id="2081" path="|436|6356|4148|2081|">
+				<name>Tocadores de baño</name>
+			</category>
+			<category id="6360" path="|436|6356|4148|6360|">
+				<name>Tocadores para dormitorios</name>
+			</category>
+		</category>
+		<category id="448" path="|436|6356|448|">
+			<name>Vitrinas</name>
+		</category>
+	</category>
+	<category id="441" path="|436|441|">
+		<name>Bancos</name>
+		<category id="6850" path="|436|441|6850|">
+			<name>Bancos de comedor y cocina</name>
+		</category>
+		<category id="4241" path="|436|441|4241|">
+			<name>Bancos de tocador</name>
+		</category>
+		<category id="6851" path="|436|441|6851|">
+			<name>Bancos para recibidores y almacenamiento</name>
+		</category>
+	</category>
+	<category id="6433" path="|436|6433|">
+		<name>Camas y accesorios</name>
+		<category id="4437" path="|436|6433|4437|">
+			<name>Accesorios para camas y somieres</name>
+		</category>
+		<category id="451" path="|436|6433|451|">
+			<name>Cabeceros y pies de cama</name>
+		</category>
+		<category id="505764" path="|436|6433|505764|">
+			<name>Camas y somieres</name>
+		</category>
+		<category id="2696" path="|436|6433|2696|">
+			<name>Colchones</name>
+		</category>
+		<category id="2720" path="|436|6433|2720|">
+			<name>Somieres</name>
+		</category>
+	</category>
+	<category id="442" path="|436|442|">
+		<name>Carros e islas</name>
+		<category id="453" path="|436|442|453|">
+			<name>Carros de cocina y comedor</name>
+		</category>
+		<category id="6374" path="|436|442|6374|">
+			<name>Islas de cocina</name>
+		</category>
+	</category>
+	<category id="457" path="|436|457|">
+		<name>Centros de entretenimiento y multimedia</name>
+	</category>
+	<category id="6345" path="|436|6345|">
+		<name>Conjuntos de mobiliario</name>
+		<category id="6347" path="|436|6345|6347|">
+			<name>Conjuntos de mobiliario para cocinas y comedores</name>
+		</category>
+		<category id="6346" path="|436|6345|6346|">
+			<name>Conjuntos de mobiliario para dormitorios</name>
+		</category>
+		<category id="6348" path="|436|6345|6348|">
+			<name>Conjuntos de mobiliario para salones</name>
+		</category>
+		<category id="500000" path="|436|6345|500000|">
+			<name>Muebles de baño</name>
+		</category>
+	</category>
+	<category id="4163" path="|436|4163|">
+		<name>Divisores de ambientes</name>
+	</category>
+	<category id="464" path="|436|464|">
+		<name>Estanterías</name>
+		<category id="6372" path="|436|464|6372|">
+			<name>Estantes y estanterías</name>
+		</category>
+		<category id="465" path="|436|464|465|">
+			<name>Librerías y estanterías</name>
+		</category>
+	</category>
+	<category id="2786" path="|436|2786|">
+		<name>Fundas para futones</name>
+	</category>
+	<category id="450" path="|436|450|">
+		<name>Futones</name>
+	</category>
+	<category id="6392" path="|436|6392|">
+		<name>Mesas</name>
+		<category id="4484" path="|436|6392|4484|">
+			<name>Mesa camilla</name>
+		</category>
+		<category id="6351" path="|436|6392|6351|">
+			<name>Mesas de actividades</name>
+		</category>
+		<category id="4355" path="|436|6392|4355|">
+			<name>Mesas de cocina y de comedor</name>
+		</category>
+		<category id="2693" path="|436|6392|2693|">
+			<name>Mesas de juego y de póquer</name>
+		</category>
+		<category id="6369" path="|436|6392|6369|">
+			<name>Mesas decorativas</name>
+			<category id="1602" path="|436|6392|6369|1602|">
+				<name>Consolas para sofás</name>
+			</category>
+			<category id="1549" path="|436|6392|6369|1549|">
+				<name>Mesas auxiliares</name>
+			</category>
+			<category id="1395" path="|436|6392|6369|1395|">
+				<name>Mesas de centro</name>
+			</category>
+		</category>
+		<category id="5121" path="|436|6392|5121|">
+			<name>Mesas para máquinas de coser</name>
+		</category>
+		<category id="4080" path="|436|6392|4080|">
+			<name>Mesas plegables</name>
+		</category>
+		<category id="462" path="|436|6392|462|">
+			<name>Mesitas de noche</name>
+		</category>
+	</category>
+	<category id="4299" path="|436|4299|">
+		<name>Mobiliario de exterior</name>
+		<category id="6368" path="|436|4299|6368|">
+			<name>Asientos de exterior</name>
+			<category id="5044" path="|436|4299|6368|5044|">
+				<name>Bancos de exterior</name>
+			</category>
+			<category id="6828" path="|436|4299|6368|6828|">
+				<name>Sillas de exterior</name>
+			</category>
+			<category id="4513" path="|436|4299|6368|4513|">
+				<name>Sofás de exterior</name>
+			</category>
+			<category id="500111" path="|436|4299|6368|500111|">
+				<name>Sofás modulares de exterior</name>
+			</category>
+			<category id="4105" path="|436|4299|6368|4105|">
+				<name>Tumbonas</name>
+			</category>
+		</category>
+		<category id="7310" path="|436|4299|7310|">
+			<name>Cajas de almacenaje para exteriores</name>
+		</category>
+		<category id="6892" path="|436|4299|6892|">
+			<name>Camas para exteriores</name>
+		</category>
+		<category id="6367" path="|436|4299|6367|">
+			<name>Conjuntos de mobiliario de exterior</name>
+		</category>
+		<category id="2684" path="|436|4299|2684|">
+			<name>Mesas de exterior</name>
+		</category>
+		<category id="6822" path="|436|4299|6822|">
+			<name>Otomanas de exterior</name>
+		</category>
+	</category>
+	<category id="6362" path="|436|6362|">
+		<name>Mobiliario de oficina</name>
+		<category id="6908" path="|436|6362|6908|">
+			<name>Cubículos y mesas de trabajo</name>
+		</category>
+		<category id="4191" path="|436|6362|4191|">
+			<name>Escritorios</name>
+		</category>
+		<category id="6363" path="|436|6362|6363|">
+			<name>Mesas de oficina</name>
+			<category id="4317" path="|436|6362|6363|4317|">
+				<name>Mesas de conferencias</name>
+			</category>
+			<category id="2242" path="|436|6362|6363|2242|">
+				<name>Mesas para arte y dibujo</name>
+			</category>
+		</category>
+		<category id="500061" path="|436|6362|500061|">
+			<name>Muebles de oficina</name>
+		</category>
+		<category id="2045" path="|436|6362|2045|">
+			<name>Sillas de oficina</name>
+		</category>
+	</category>
+	<category id="554" path="|436|554|">
+		<name>Mobiliario para bebés y niños pequeños</name>
+		<category id="7070" path="|436|554|7070|">
+			<name>Accesorios para cunas y camas para niños</name>
+			<category id="7072" path="|436|554|7070|7072|">
+				<name>Acolchados y revestimientos para cunas</name>
+			</category>
+			<category id="7071" path="|436|554|7070|7071|">
+				<name>Kits de conversión para cunas</name>
+			</category>
+		</category>
+		<category id="7068" path="|436|554|7068|">
+			<name>Accesorios para moisés y cunas</name>
+		</category>
+		<category id="6969" path="|436|554|6969|">
+			<name>Accesorios para tronas y alzadores</name>
+		</category>
+		<category id="558" path="|436|554|558|">
+			<name>Cambiadores</name>
+		</category>
+		<category id="6349" path="|436|554|6349|">
+			<name>Conjuntos de mobiliario para bebés y niños pequeños</name>
+		</category>
+		<category id="6394" path="|436|554|6394|">
+			<name>Cunas y camas para niños</name>
+		</category>
+		<category id="6393" path="|436|554|6393|">
+			<name>Cunas y moisés</name>
+		</category>
+		<category id="559" path="|436|554|559|">
+			<name>Tronas y alzadores</name>
+		</category>
+	</category>
+	<category id="458" path="|436|458|">
+		<name>Otomanas</name>
+	</category>
+	<category id="443" path="|436|443|">
+		<name>Sillas</name>
+		<category id="456" path="|436|443|456|">
+			<name>Divanes</name>
+		</category>
+		<category id="2002" path="|436|443|2002|">
+			<name>Mecedoras</name>
+		</category>
+		<category id="438" path="|436|443|438|">
+			<name>Pufs</name>
+		</category>
+		<category id="7197" path="|436|443|7197|">
+			<name>Sillas colgantes</name>
+		</category>
+		<category id="500051" path="|436|443|500051|">
+			<name>Sillas de suelo</name>
+		</category>
+		<category id="5886" path="|436|443|5886|">
+			<name>Sillas para salón comedor y cocina</name>
+		</category>
+		<category id="6859" path="|436|443|6859|">
+			<name>Sillas poltrona</name>
+		</category>
+		<category id="2919" path="|436|443|2919|">
+			<name>Sillones de masaje eléctricos</name>
+		</category>
+		<category id="6800" path="|436|443|6800|">
+			<name>Sillones para videojuegos</name>
+		</category>
+		<category id="6499" path="|436|443|6499|">
+			<name>Sillones, sillones reclinables y sillones extensibles
+			</name>
+		</category>
+		<category id="1463" path="|436|443|1463|">
+			<name>Taburetes de bar</name>
+		</category>
+		<category id="3358" path="|436|443|3358|">
+			<name>Taburetes y sillas plegables</name>
+		</category>
+	</category>
+	<category id="460" path="|436|460|">
+		<name>Sofás</name>
+	</category>
+	<category id="6860" path="|436|6860|">
+		<name>Somier para futones</name>
+	</category>
+</category>

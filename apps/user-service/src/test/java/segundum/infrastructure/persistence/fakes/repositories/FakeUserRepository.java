@@ -36,13 +36,22 @@ public class FakeUserRepository implements UserRepository {
 
 	@Override
 	public void delete(UserId id) {
-		users.remove(id);
+		User user = users.get(id);
+		if (user != null) {
+			user.delete();
+		}
+	}
+	
+	@Override
+	public boolean existsById(UserId id) {
+		User user = users.get(id);
+		return user != null && !user.isDeleted();
 	}
 
 	@Override
 	public boolean existsByEmail(Email email) {
 		return users.values().stream()
-				.anyMatch(u -> u.getEmail().getValue().equals(email.getValue()));
+				.anyMatch(u -> !u.isDeleted() && u.getEmail().getValue().equals(email.getValue()));
 	}
 
 	@Override

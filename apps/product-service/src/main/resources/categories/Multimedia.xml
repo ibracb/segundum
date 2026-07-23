@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="783" path="|783|">
+	<name>Multimedia</name>
+	<category id="839" path="|783|839|">
+		<name>DVD y vídeo</name>
+		<category id="543528" path="|783|839|543528|">
+			<name>Cintas VHS de cine y televisión</name>
+		</category>
+		<category id="543527" path="|783|839|543527|">
+			<name>DVDs de cine y televisión</name>
+		</category>
+		<category id="543529" path="|783|839|543529|">
+			<name>Descargas digitales de cine y televisión</name>
+		</category>
+	</category>
+	<category id="784" path="|783|784|">
+		<name>Libros</name>
+		<category id="543541" path="|783|784|543541|">
+			<name>Audiolibros</name>
+		</category>
+		<category id="543542" path="|783|784|543542|">
+			<name>E-books</name>
+		</category>
+		<category id="543543" path="|783|784|543543|">
+			<name>Libros impresos</name>
+		</category>
+	</category>
+	<category id="5037" path="|783|5037|">
+		<name>Manuales de productos</name>
+		<category id="5040" path="|783|5037|5040|">
+			<name>Manuales de aparatos de cocina</name>
+		</category>
+		<category id="5861" path="|783|5037|5861|">
+			<name>Manuales de aparatos de ejercicio y fitness</name>
+		</category>
+		<category id="499821" path="|783|5037|499821|">
+			<name>Manuales de cámaras y ópticas</name>
+		</category>
+		<category id="5039" path="|783|5037|5039|">
+			<name>Manuales de electrodomésticos</name>
+		</category>
+		<category id="5038" path="|783|5037|5038|">
+			<name>Manuales de electrónica</name>
+		</category>
+		<category id="5860" path="|783|5037|5860|">
+			<name>Manuales de juguetes y modelos</name>
+		</category>
+		<category id="5041" path="|783|5037|5041|">
+			<name>Manuales de mantenimiento de vehículos</name>
+		</category>
+		<category id="499866" path="|783|5037|499866|">
+			<name>Manuales de suministros de oficina</name>
+		</category>
+		<category id="7516" path="|783|5037|7516|">
+			<name>Manuales para equipos y herramientas eléctricos</name>
+		</category>
+	</category>
+	<category id="855" path="|783|855|">
+		<name>Música y grabaciones</name>
+		<category id="543522" path="|783|855|543522|">
+			<name>CDs de música</name>
+		</category>
+		<category id="543524" path="|783|855|543524|">
+			<name>Casetes de música</name>
+		</category>
+		<category id="543526" path="|783|855|543526|">
+			<name>Descargas de música digital</name>
+		</category>
+		<category id="543525" path="|783|855|543525|">
+			<name>Palabra hablada y grabaciones de campo</name>
+		</category>
+		<category id="543523" path="|783|855|543523|">
+			<name>Vinilos y LPs</name>
+		</category>
+	</category>
+	<category id="887" path="|783|887|">
+		<name>Partituras</name>
+	</category>
+	<category id="499995" path="|783|499995|">
+		<name>Planos para proyectos de carpintería y madera</name>
+	</category>
+	<category id="886" path="|783|886|">
+		<name>Revistas y periódicos</name>
+		<category id="543540" path="|783|886|543540|">
+			<name>Periódicos</name>
+		</category>
+		<category id="543539" path="|783|886|543539|">
+			<name>Revistas</name>
+		</category>
+	</category>
+</category>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="2092" path="|2092|">
+	<name>Software</name>
+	<category id="5032" path="|2092|5032|">
+		<name>Bienes y moneda digitales</name>
+		<category id="500046" path="|2092|5032|500046|">
+			<name>Arte digital</name>
+		</category>
+		<category id="5035" path="|2092|5032|5035|">
+			<name>Fondo de pantalla</name>
+		</category>
+		<category id="2065" path="|2092|5032|2065|">
+			<name>Fotografía y vídeo de stock</name>
+		</category>
+		<category id="5036" path="|2092|5032|5036|">
+			<name>Fuentes</name>
+		</category>
+		<category id="5034" path="|2092|5032|5034|">
+			<name>Iconos de ordenador</name>
+		</category>
+		<category id="5935" path="|2092|5032|5935|">
+			<name>Moneda virtual</name>
+		</category>
+		<category id="8022" path="|2092|5032|8022|">
+			<name>Plantillas de documentos</name>
+		</category>
+	</category>
+	<category id="1279" path="|2092|1279|">
+		<name>Software de videojuegos</name>
+	</category>
+	<category id="313" path="|2092|313|">
+		<name>Software informático</name>
+		<category id="7225" path="|2092|313|7225|">
+			<name>Discos de restauración</name>
+		</category>
+		<category id="315" path="|2092|313|315|">
+			<name>Herramientas de compilación y programación</name>
+		</category>
+		<category id="321" path="|2092|313|321|">
+			<name>Sistemas operativos</name>
+		</category>
+		<category id="5300" path="|2092|313|5300|">
+			<name>Software corporativo y de productividad</name>
+		</category>
+		<category id="5303" path="|2092|313|5303|">
+			<name>Software de aplicaciones ofimáticas</name>
+		</category>
+		<category id="5304" path="|2092|313|5304|">
+			<name>Software de contabilidad</name>
+		</category>
+		<category id="5127" path="|2092|313|5127|">
+			<name>Software de diccionario y traducción</name>
+		</category>
+		<category id="319" path="|2092|313|319|">
+			<name>Software de diseño y multimedia</name>
+			<category id="5096" path="|2092|313|319|5096|">
+				<name>Software de composición musical</name>
+			</category>
+			<category id="6029" path="|2092|313|319|6029|">
+				<name>Software de diseño de hogar e interiores</name>
+			</category>
+			<category id="4951" path="|2092|313|319|4951|">
+				<name>Software de diseño gráfico</name>
+			</category>
+			<category id="4954" path="|2092|313|319|4954|">
+				<name>Software de diseño web</name>
+			</category>
+			<category id="4950" path="|2092|313|319|4950|">
+				<name>Software de edición de animación</name>
+			</category>
+			<category id="4952" path="|2092|313|319|4952|">
+				<name>Software de edición de sonido</name>
+			</category>
+			<category id="4953" path="|2092|313|319|4953|">
+				<name>Software de edición de vídeo</name>
+			</category>
+			<category id="4949" path="|2092|313|319|4949|">
+				<name>Software de edición no profesional</name>
+			</category>
+			<category id="6027" path="|2092|313|319|6027|">
+				<name>Software de modelado 3D</name>
+			</category>
+			<category id="6028" path="|2092|313|319|6028|">
+				<name>Software multimedia</name>
+			</category>
+		</category>
+		<category id="5302" path="|2092|313|5302|">
+			<name>Software de red</name>
+		</category>
+		<category id="5299" path="|2092|313|5299|">
+			<name>Software de seguridad y antivirus</name>
+		</category>
+		<category id="317" path="|2092|313|317|">
+			<name>Software educativo</name>
+		</category>
+		<category id="318" path="|2092|313|318|">
+			<name>Software para PDA y dispositivos portátiles</name>
+		</category>
+		<category id="3283" path="|2092|313|3283|">
+			<name>Software y datos de mapa para GPS</name>
+		</category>
+		<category id="5301" path="|2092|313|5301|">
+			<name>Utilidades y software de mantenimiento para ordenadores
+			</name>
+		</category>
+	</category>
+</category>

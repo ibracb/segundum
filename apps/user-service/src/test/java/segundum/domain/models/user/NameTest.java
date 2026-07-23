@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import segundum.domain.exceptions.name.NameBlankException;
-import segundum.domain.exceptions.name.NameInvalidFormatException;
-import segundum.domain.exceptions.name.NameNullException;
+import segundum.domain.exceptions.user.name.NameBlankException;
+import segundum.domain.exceptions.user.name.NameInvalidFormatException;
+import segundum.domain.exceptions.user.name.NameNullException;
 
 class NameTest {
 

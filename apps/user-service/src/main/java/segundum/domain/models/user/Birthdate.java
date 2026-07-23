@@ -2,8 +2,8 @@ package segundum.domain.models.user;
 
 import java.time.LocalDate;
 
-import segundum.domain.exceptions.birthdate.BirthdateInFutureException;
-import segundum.domain.exceptions.birthdate.BirthdateNullException;
+import segundum.domain.exceptions.user.birthdate.BirthdateInFutureException;
+import segundum.domain.exceptions.user.birthdate.BirthdateNullException;
 
 /**
  * Represents a user's birthdate.

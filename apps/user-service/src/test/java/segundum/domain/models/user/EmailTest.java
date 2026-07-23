@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import segundum.domain.exceptions.email.EmailBlankException;
-import segundum.domain.exceptions.email.EmailInvalidFormatException;
-import segundum.domain.exceptions.email.EmailNullException;
+import segundum.domain.exceptions.user.email.EmailBlankException;
+import segundum.domain.exceptions.user.email.EmailInvalidFormatException;
+import segundum.domain.exceptions.user.email.EmailNullException;
 
 class EmailTest {
 

@@ -7,7 +7,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import segundum.domain.events.DomainEvent;
-import segundum.domain.events.DomainEventPublisher;
+import segundum.domain.outbound.DomainEventPublisher;
 import segundum.infrastructure.utils.PropertiesReader;
 
 /**
@@ -49,7 +49,7 @@ public class RabbitMQEventPublisher implements DomainEventPublisher {
 			Channel channel = connection.createChannel();
 			String exchangeName = "bus";
 			boolean durable = true;
-			channel.exchangeDeclare(exchangeName,"topic", durable);
+			channel.exchangeDeclare(exchangeName, "topic", durable);
 			channel.close();
 			connection.close();
 			}

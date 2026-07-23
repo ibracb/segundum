@@ -1,8 +1,8 @@
 package segundum.domain.models.user;
 
-import segundum.domain.exceptions.email.EmailBlankException;
-import segundum.domain.exceptions.email.EmailInvalidFormatException;
-import segundum.domain.exceptions.email.EmailNullException;
+import segundum.domain.exceptions.user.email.EmailBlankException;
+import segundum.domain.exceptions.user.email.EmailInvalidFormatException;
+import segundum.domain.exceptions.user.email.EmailNullException;
 
 /**
  * Represents a user's email address.

@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import segundum.domain.exceptions.birthdate.BirthdateInFutureException;
-import segundum.domain.exceptions.birthdate.BirthdateNullException;
+import segundum.domain.exceptions.user.birthdate.BirthdateInFutureException;
+import segundum.domain.exceptions.user.birthdate.BirthdateNullException;
 
 class BirthdateTest {
 

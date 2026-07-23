@@ -42,6 +42,14 @@ public interface UserRepository {
 	 * @param id the unique identifier of the user to delete
 	 */
 	void delete(UserId id);
+	
+	/**
+	 * Checks if a user exists in the repository by their unique identifier.
+	 *
+	 * @param id the unique identifier of the user to check
+	 * @return true if a user with the given id exists, false otherwise
+	 */
+	boolean existsById(UserId id);
 
 	/**
 	 * Checks if a user exists in the repository by their email.

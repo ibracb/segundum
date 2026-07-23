@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="1239" path="|1239|">
+	<name>Juegos y juguetes</name>
+	<category id="1249" path="|1239|1249|">
+		<name>Estructuras para juegos al aire libre</name>
+		<category id="5524" path="|1239|1249|5524|">
+			<name>Accesorios para camas elásticas</name>
+		</category>
+		<category id="7219" path="|1239|1249|7219|">
+			<name>Accesorios para castillos hinchables</name>
+		</category>
+		<category id="6269" path="|1239|1249|6269|">
+			<name>Accesorios para columpios y estructuras de juegos</name>
+		</category>
+		<category id="2743" path="|1239|1249|2743|">
+			<name>Cajones de arena</name>
+		</category>
+		<category id="1738" path="|1239|1249|1738|">
+			<name>Camas elásticas</name>
+		</category>
+		<category id="1251" path="|1239|1249|1251|">
+			<name>Casitas infantiles</name>
+		</category>
+		<category id="6396" path="|1239|1249|6396|">
+			<name>Castillos hinchables</name>
+		</category>
+		<category id="6270" path="|1239|1249|6270|">
+			<name>Columpios y balancines</name>
+		</category>
+		<category id="6271" path="|1239|1249|6271|">
+			<name>Columpios y estructuras de juegos</name>
+		</category>
+		<category id="6464" path="|1239|1249|6464|">
+			<name>Equipos para juegos acuáticos</name>
+			<category id="6465" path="|1239|1249|6464|6465|">
+				<name>Aspersores de juego</name>
+			</category>
+			<category id="3556" path="|1239|1249|6464|3556|">
+				<name>Mesas de agua</name>
+			</category>
+			<category id="500095" path="|1239|1249|6464|500095|">
+				<name>Parques acuáticos y toboganes</name>
+			</category>
+		</category>
+		<category id="1863" path="|1239|1249|1863|">
+			<name>Saltadores</name>
+		</category>
+		<category id="6450" path="|1239|1249|6450|">
+			<name>Subibajas</name>
+		</category>
+		<category id="6397" path="|1239|1249|6397|">
+			<name>Tiendas y túneles de juego</name>
+		</category>
+		<category id="2867" path="|1239|1249|2867|">
+			<name>Toboganes</name>
+		</category>
+		<category id="3948" path="|1239|1249|3948|">
+			<name>Zancos de salto</name>
+		</category>
+	</category>
+	<category id="3793" path="|1239|3793|">
+		<name>Juegos</name>
+		<category id="7383" path="|1239|3793|7383|">
+			<name>Accesorios para fichas de póquer</name>
+			<category id="7384" path="|1239|3793|7383|7384|">
+				<name>Estuches y bandejas para fichas de póquer</name>
+			</category>
+		</category>
+		<category id="6853" path="|1239|3793|6853|">
+			<name>Accesorios para juegos de cartas</name>
+		</category>
+		<category id="6794" path="|1239|3793|6794|">
+			<name>Accesorios para trompos de batalla</name>
+		</category>
+		<category id="6037" path="|1239|3793|6037|">
+			<name>Dados y juegos de dados</name>
+		</category>
+		<category id="5403" path="|1239|3793|5403|">
+			<name>Estuches y fichas de póquer</name>
+		</category>
+		<category id="3749" path="|1239|3793|3749|">
+			<name>Juegos de bingo</name>
+		</category>
+		<category id="7411" path="|1239|3793|7411|">
+			<name>Juegos de blackjack y crap</name>
+		</category>
+		<category id="1247" path="|1239|3793|1247|">
+			<name>Juegos de cartas</name>
+		</category>
+		<category id="6054" path="|1239|3793|6054|">
+			<name>Juegos de destreza</name>
+		</category>
+		<category id="6038" path="|1239|3793|6038|">
+			<name>Juegos de fichas</name>
+		</category>
+		<category id="1246" path="|1239|3793|1246|">
+			<name>Juegos de mesa</name>
+		</category>
+		<category id="4554" path="|1239|3793|4554|">
+			<name>Juegos electrónicos portátiles</name>
+		</category>
+		<category id="7412" path="|1239|3793|7412|">
+			<name>Juegos y ruedas para ruletas</name>
+		</category>
+		<category id="8472" path="|1239|3793|8472|">
+			<name>Máquinas tragaperras</name>
+		</category>
+		<category id="6329" path="|1239|3793|6329|">
+			<name>Trompos de batalla</name>
+		</category>
+	</category>
+	<category id="1253" path="|1239|1253|">
+		<name>Juguetes</name>
+		<category id="500005" path="|1239|1253|500005|">
+			<name>Accesorios para armas de juguete</name>
+		</category>
+		<category id="8127" path="|1239|1253|8127|">
+			<name>Accesorios para juguetes de deportes</name>
+			<category id="8129" path="|1239|1253|8127|8129|">
+				<name>Accesorios para juguetes de fitness</name>
+				<category id="8128" path="|1239|1253|8127|8129|8128|">
+					<name>Accesorios para hula hoops</name>
+				</category>
+			</category>
+		</category>
+		<category id="7202" path="|1239|1253|7202|">
+			<name>Accesorios para juguetes de montar</name>
+		</category>
+		<category id="7366" path="|1239|1253|7366|">
+			<name>Accesorios para juguetes voladores</name>
+			<category id="7368" path="|1239|1253|7366|7368|">
+				<name>Accesorios para cometas</name>
+				<category id="7371" path="|1239|1253|7366|7368|7371|">
+					<name>Bobinas y carretes para cometas</name>
+				</category>
+			</category>
+		</category>
+		<category id="7311" path="|1239|1253|7311|">
+			<name>Accesorios para piscinas de pelotas</name>
+			<category id="7312" path="|1239|1253|7311|7312|">
+				<name>Pelotas para piscinas de pelotas</name>
+			</category>
+		</category>
+		<category id="2778" path="|1239|1253|2778|">
+			<name>Accesorios para vehículos de control remoto</name>
+		</category>
+		<category id="5970" path="|1239|1253|5970|">
+			<name>Accesorios para vehículos de juguete</name>
+			<category id="5971" path="|1239|1253|5970|5971|">
+				<name>Accesorios para coches de carreras de juguete</name>
+			</category>
+			<category id="5153" path="|1239|1253|5970|5153|">
+				<name>Accesorios para trenes de juguete</name>
+			</category>
+		</category>
+		<category id="3627" path="|1239|1253|3627|">
+			<name>Armas y artilugios de juguete</name>
+		</category>
+		<category id="499712" path="|1239|1253|499712|">
+			<name>Cestas de regalo de juguete</name>
+		</category>
+		<category id="2953" path="|1239|1253|2953|">
+			<name>Juguetes a cuerda</name>
+		</category>
+		<category id="4352" path="|1239|1253|4352|">
+			<name>Juguetes de actividad</name>
+			<category id="3534" path="|1239|1253|4352|3534|">
+				<name>Canicas</name>
+			</category>
+			<category id="7519" path="|1239|1253|4352|7519|">
+				<name>Juegos de vasos y bolas</name>
+			</category>
+			<category id="7473" path="|1239|1253|4352|7473|">
+				<name>Juguetes con cintas y serpentinas</name>
+			</category>
+			<category id="7425" path="|1239|1253|4352|7425|">
+				<name>Juguetes de padbol</name>
+			</category>
+			<category id="3874" path="|1239|1253|4352|3874|">
+				<name>Juguetes para hacer pompas de jabón</name>
+			</category>
+			<category id="3212" path="|1239|1253|4352|3212|">
+				<name>Líquido para pompas de jabón</name>
+			</category>
+			<category id="4216" path="|1239|1253|4352|4216|">
+				<name>Matatenas</name>
+			</category>
+			<category id="4177" path="|1239|1253|4352|4177|">
+				<name>Muelles mágicos</name>
+			</category>
+			<category id="3733" path="|1239|1253|4352|3733|">
+				<name>Pelotas saltarinas</name>
+			</category>
+			<category id="3466" path="|1239|1253|4352|3466|">
+				<name>Peonzas</name>
+			</category>
+			<category id="7148" path="|1239|1253|4352|7148|">
+				<name>Piezas y accesorios para yoyós</name>
+			</category>
+			<category id="3929" path="|1239|1253|4352|3929|">
+				<name>Yoyós</name>
+			</category>
+		</category>
+		<category id="1254" path="|1239|1253|1254|">
+			<name>Juguetes de construcción</name>
+			<category id="3287" path="|1239|1253|1254|3287|">
+				<name>Bloques de encaje</name>
+			</category>
+			<category id="3172" path="|1239|1253|1254|3172|">
+				<name>Bloques de espuma</name>
+			</category>
+			<category id="3617" path="|1239|1253|1254|3617|">
+				<name>Bloques de madera</name>
+			</category>
+			<category id="3163" path="|1239|1253|1254|3163|">
+				<name>Circuitos de canicas</name>
+			</category>
+			<category id="3805" path="|1239|1253|1254|3805|">
+				<name>Equipos de construcción de juguete</name>
+			</category>
+		</category>
+		<category id="2546" path="|1239|1253|2546|">
+			<name>Juguetes de control remoto</name>
+			<category id="3677" path="|1239|1253|2546|3677|">
+				<name>Aviones de control remoto</name>
+			</category>
+			<category id="3532" path="|1239|1253|2546|3532|">
+				<name>Botes y embarcaciones por control remoto</name>
+			</category>
+			<category id="3601" path="|1239|1253|2546|3601|">
+				<name>Coches de control remoto</name>
+			</category>
+			<category id="7090" path="|1239|1253|2546|7090|">
+				<name>Dirigibles y zepelines por control remoto</name>
+			</category>
+			<category id="3554" path="|1239|1253|2546|3554|">
+				<name>Helicópteros de control remoto</name>
+			</category>
+			<category id="5968" path="|1239|1253|2546|5968|">
+				<name>Motocicletas por control remoto</name>
+			</category>
+			<category id="6059" path="|1239|1253|2546|6059|">
+				<name>Robots por control remoto</name>
+			</category>
+			<category id="5969" path="|1239|1253|2546|5969|">
+				<name>Tanques por control remoto</name>
+			</category>
+		</category>
+		<category id="1266" path="|1239|1253|1266|">
+			<name>Juguetes de deporte</name>
+			<category id="3371" path="|1239|1253|1266|3371|">
+				<name>Balón de fútbol de juguete</name>
+			</category>
+			<category id="3665" path="|1239|1253|1266|3665|">
+				<name>Bolos de juguete</name>
+			</category>
+			<category id="3675" path="|1239|1253|1266|3675|">
+				<name>Bumeranes</name>
+			</category>
+			<category id="4167" path="|1239|1253|1266|4167|">
+				<name>Discos voladores</name>
+			</category>
+			<category id="3226" path="|1239|1253|1266|3226|">
+				<name>Equipo de golf de juguete</name>
+			</category>
+			<category id="3943" path="|1239|1253|1266|3943|">
+				<name>Equipo de hockey de juguete</name>
+			</category>
+			<category id="8529" path="|1239|1253|1266|8529|">
+				<name>Juguete de pesca</name>
+			</category>
+			<category id="3199" path="|1239|1253|1266|3199|">
+				<name>Juguetes de actividad física</name>
+				<category id="3215" path="|1239|1253|1266|3199|3215|">
+					<name>Hula hoops</name>
+				</category>
+			</category>
+			<category id="505284" path="|1239|1253|1266|505284|">
+				<name>Juguetes de deportes con raqueta</name>
+			</category>
+			<category id="500113" path="|1239|1253|1266|500113|">
+				<name>Mini-tablas y conjuntos de mini-tablas</name>
+			</category>
+			<category id="3552" path="|1239|1253|1266|3552|">
+				<name>Pelota de baloncesto de juguete</name>
+			</category>
+			<category id="3776" path="|1239|1253|1266|3776|">
+				<name>Pelota de béisbol de juguete</name>
+			</category>
+			<category id="3909" path="|1239|1253|1266|3909|">
+				<name>Pelotas de footbag</name>
+			</category>
+			<category id="499965" path="|1239|1253|1266|499965|">
+				<name>Pelotas para jugar</name>
+			</category>
+		</category>
+		<category id="3731" path="|1239|1253|3731|">
+			<name>Juguetes de dibujo y artesanía</name>
+			<category id="505818" path="|1239|1253|3731|505818|">
+				<name>Play-Doh y masilla</name>
+			</category>
+			<category id="3079" path="|1239|1253|3731|3079|">
+				<name>Tabletas de dibujo</name>
+			</category>
+		</category>
+		<category id="3229" path="|1239|1253|3229|">
+			<name>Juguetes de simulación</name>
+			<category id="3751" path="|1239|1253|3229|3751|">
+				<name>Herramientas de juguete</name>
+			</category>
+			<category id="8295" path="|1239|1253|3229|8295|">
+				<name>Juego simbólico de comprar y vender</name>
+			</category>
+			<category id="3680" path="|1239|1253|3229|3680|">
+				<name>Juegos de banca y dinero</name>
+			</category>
+			<category id="4004" path="|1239|1253|3229|4004|">
+				<name>Juguetes de ama de casa</name>
+			</category>
+			<category id="3298" path="|1239|1253|3229|3298|">
+				<name>Juguetes de cocina y comida</name>
+				<category id="543622" path="|1239|1253|3229|3298|543622|">
+					<name>Cocinas de juguete</name>
+				</category>
+				<category id="543624" path="|1239|1253|3229|3298|543624|">
+					<name>Comida de juguete</name>
+				</category>
+				<category id="543690" path="|1239|1253|3229|3298|543690|">
+					<name>Utensilios de cocina de juguete</name>
+				</category>
+				<category id="543623" path="|1239|1253|3229|3298|543623|">
+					<name>Utensilios de mesa de juguete</name>
+				</category>
+			</category>
+			<category id="3659" path="|1239|1253|3229|3659|">
+				<name>Juguetes de electricista</name>
+			</category>
+			<category id="3288" path="|1239|1253|3229|3288|">
+				<name>Juguetes de jardinería</name>
+			</category>
+			<category id="3129" path="|1239|1253|3229|3129|">
+				<name>Juguetes de profesiones y roles</name>
+			</category>
+		</category>
+		<category id="1262" path="|1239|1253|1262|">
+			<name>Juguetes educativos</name>
+			<category id="3088" path="|1239|1253|1262|3088|">
+				<name>Granjas de hormigas</name>
+			</category>
+			<category id="3500" path="|1239|1253|1262|3500|">
+				<name>Juegos de ciencias y exploración</name>
+			</category>
+			<category id="5529" path="|1239|1253|1262|5529|">
+				<name>Juguetes de lectura</name>
+			</category>
+			<category id="499938" path="|1239|1253|1262|499938|">
+				<name>Juguetes y modelos de astronomía</name>
+			</category>
+			<category id="3928" path="|1239|1253|1262|3928|">
+				<name>Kits para coleccionar insectos</name>
+			</category>
+			<category id="500015" path="|1239|1253|1262|500015|">
+				<name>Tarjetas educativas</name>
+			</category>
+			<category id="6466" path="|1239|1253|1262|6466|">
+				<name>Ábacos de juguete</name>
+			</category>
+		</category>
+		<category id="1264" path="|1239|1253|1264|">
+			<name>Juguetes musicales</name>
+			<category id="3252" path="|1239|1253|1264|3252|">
+				<name>Instrumentos de juguete</name>
+			</category>
+		</category>
+		<category id="3911" path="|1239|1253|3911|">
+			<name>Juguetes para baño</name>
+		</category>
+		<category id="1268" path="|1239|1253|1268|">
+			<name>Juguetes para la arena</name>
+		</category>
+		<category id="2799" path="|1239|1253|2799|">
+			<name>Juguetes para montarse</name>
+			<category id="6407" path="|1239|1253|2799|6407|">
+				<name>Caballitos</name>
+			</category>
+			<category id="6379" path="|1239|1253|2799|6379|">
+				<name>Carretas</name>
+			</category>
+			<category id="3441" path="|1239|1253|2799|3441|">
+				<name>Juguetes para mecerse y balancearse</name>
+			</category>
+			<category id="2724" path="|1239|1253|2799|2724|">
+				<name>Vehículos a pedales o para empujar</name>
+			</category>
+			<category id="2753" path="|1239|1253|2799|2753|">
+				<name>Vehículos eléctricos de juguete</name>
+			</category>
+		</category>
+		<category id="3074" path="|1239|1253|3074|">
+			<name>Juguetes para oficinas</name>
+			<category id="5872" path="|1239|1253|3074|5872|">
+				<name>Juguetes magnéticos</name>
+			</category>
+		</category>
+		<category id="3562" path="|1239|1253|3562|">
+			<name>Juguetes visuales</name>
+			<category id="3301" path="|1239|1253|3562|3301|">
+				<name>Caleidoscopios</name>
+			</category>
+			<category id="3782" path="|1239|1253|3562|3782|">
+				<name>Prismas</name>
+			</category>
+		</category>
+		<category id="1261" path="|1239|1253|1261|">
+			<name>Juguetes voladores</name>
+			<category id="3966" path="|1239|1253|1261|3966|">
+				<name>Cohetes de agua y aire</name>
+			</category>
+			<category id="3460" path="|1239|1253|1261|3460|">
+				<name>Cometas</name>
+			</category>
+			<category id="3263" path="|1239|1253|1261|3263|">
+				<name>Paracaidistas de juguete</name>
+			</category>
+			<category id="3378" path="|1239|1253|1261|3378|">
+				<name>Planeadores de juguete</name>
+			</category>
+		</category>
+		<category id="1255" path="|1239|1253|1255|">
+			<name>Muñecas, parques infantiles y figuras de juguete</name>
+			<category id="2497" path="|1239|1253|1255|2497|">
+				<name>Accesorios para casas de muñecas</name>
+			</category>
+			<category id="3584" path="|1239|1253|1255|3584|">
+				<name>Accesorios para muñecas y muñecos de acción</name>
+			</category>
+			<category id="6056" path="|1239|1253|1255|6056|">
+				<name>Accesorios para teatro de títeres y marionetas</name>
+			</category>
+			<category id="1259" path="|1239|1253|1255|1259|">
+				<name>Animales de peluche</name>
+			</category>
+			<category id="2499" path="|1239|1253|1255|2499|">
+				<name>Casitas de muñecas</name>
+			</category>
+			<category id="6058" path="|1239|1253|1255|6058|">
+				<name>Figuras de acción y de juguete</name>
+			</category>
+			<category id="1258" path="|1239|1253|1255|1258|">
+				<name>Marionetas</name>
+			</category>
+			<category id="1257" path="|1239|1253|1255|1257|">
+				<name>Muñecas</name>
+			</category>
+			<category id="8021" path="|1239|1253|1255|8021|">
+				<name>Muñecas magnéticas y de papel</name>
+			</category>
+			<category id="7114" path="|1239|1253|1255|7114|">
+				<name>Muñecos con cabeza oscilante</name>
+			</category>
+			<category id="3166" path="|1239|1253|1255|3166|">
+				<name>Parques infantiles</name>
+			</category>
+			<category id="6057" path="|1239|1253|1255|6057|">
+				<name>Teatros de títeres</name>
+			</category>
+		</category>
+		<category id="3207" path="|1239|1253|3207|">
+			<name>Piscinas de pelotas</name>
+		</category>
+		<category id="3625" path="|1239|1253|3625|">
+			<name>Robots de juguetes</name>
+		</category>
+		<category id="2505" path="|1239|1253|2505|">
+			<name>Vehículos para jugar</name>
+			<category id="3444" path="|1239|1253|2505|3444|">
+				<name>Aviones de juguete</name>
+			</category>
+			<category id="3792" path="|1239|1253|2505|3792|">
+				<name>Barcos de juguete</name>
+			</category>
+			<category id="3551" path="|1239|1253|2505|3551|">
+				<name>Coches de juguete</name>
+			</category>
+			<category id="3474" path="|1239|1253|2505|3474|">
+				<name>Colecciones de coches de carreras de juguete</name>
+			</category>
+			<category id="3506" path="|1239|1253|2505|3506|">
+				<name>Helicópteros de juguete</name>
+			</category>
+			<category id="3590" path="|1239|1253|2505|3590|">
+				<name>Motocicletas de juguete</name>
+			</category>
+			<category id="3589" path="|1239|1253|2505|3589|">
+				<name>Naves espaciales de juguete</name>
+			</category>
+			<category id="5152" path="|1239|1253|2505|5152|">
+				<name>Trenes de juguete y juegos de trenes</name>
+			</category>
+			<category id="3296" path="|1239|1253|2505|3296|">
+				<name>Vehículos de construcción y camiones de juguete</name>
+			</category>
+		</category>
+	</category>
+	<category id="3867" path="|1239|3867|">
+		<name>Rompecabezas</name>
+		<category id="7081" path="|1239|3867|7081|">
+			<name>Accesorios para puzles</name>
+		</category>
+		<category id="6725" path="|1239|3867|6725|">
+			<name>Puzles de madera y con agarrador</name>
+		</category>
+		<category id="2618" path="|1239|3867|2618|">
+			<name>Puzzles</name>
+		</category>
+		<category id="4011" path="|1239|3867|4011|">
+			<name>Rompecabezas mecánico</name>
+		</category>
+	</category>
+	<category id="4648" path="|1239|4648|">
+		<name>Temporizadores para juegos</name>
+	</category>
+</category>

@@ -1,0 +1,119 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ${MYSQL_CONTAINER_NAME}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ${RABBITMQ_CONTAINER_NAME}
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:7.0
+    container_name: ${MONGODB_CONTAINER_NAME}
+    ports:
+      - "${MONGODB_PORT}:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: ${MONGO_EXPRESS_CONTAINER_NAME}
+    ports:
+      - "${MONGO_EXPRESS_PORT}:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: ${MONGO_EXPRESS_MONGODB_SERVER}
+      ME_CONFIG_MONGODB_PORT: ${MONGO_EXPRESS_MONGODB_PORT}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_BASICAUTH_PASSWORD}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: ${PHPMYADMIN_CONTAINER_NAME}
+    environment:
+      PMA_HOST: ${PHPMYADMIN_PMA_HOST}
+      PMA_PORT: ${PHPMYADMIN_PMA_PORT}
+      PMA_USER: ${PHPMYADMIN_PMA_USER}
+      PMA_PASSWORD: ${PHPMYADMIN_PMA_PASSWORD}
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  user-service:
+    build:
+      context: ./apps/user-service
+      dockerfile: Dockerfile
+    container_name: ${USERS_CONTAINER_NAME}
+    ports:
+      - "${USERS_PORT}:8080"
+    environment:
+      USERS_JDBC_URL: ${USERS_JDBC_URL}
+      USERS_JDBC_USER: ${USERS_JDBC_USER}
+      USERS_JDBC_PASSWORD: ${USERS_JDBC_PASSWORD}
+      USERS_JDBC_DRIVER: ${USERS_JDBC_DRIVER}
+      RABBITMQ_URI: ${RABBITMQ_URI}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  product-service:
+    build:
+      context: ./apps/product-service
+      dockerfile: Dockerfile
+    container_name: ${PRODUCTS_CONTAINER_NAME}
+    ports:
+      - "${PRODUCTS_PORT}:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${PRODUCTS_SPRING_PROFILES_ACTIVE:-dev}
+      PRODUCTS_SPRING_DATASOURCE_URL: ${PRODUCTS_SPRING_DATASOURCE_URL}
+      PRODUCTS_SPRING_DATASOURCE_USERNAME: ${PRODUCTS_SPRING_DATASOURCE_USERNAME}
+      PRODUCTS_SPRING_DATASOURCE_PASSWORD: ${PRODUCTS_SPRING_DATASOURCE_PASSWORD}
+      PRODUCTS_SPRING_DATASOURCE_DRIVER_CLASS_NAME: ${PRODUCTS_SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+      PRODUCTS_SPRING_RABBITMQ_ADDRESSES: ${PRODUCTS_SPRING_RABBITMQ_ADDRESSES}
+      PRODUCTS_SPRING_DATA_MONGODB_URI: ${PRODUCTS_SPRING_DATA_MONGODB_URI}
+      PRODUCTS_SERVER_PORT: ${PRODUCTS_SERVER_PORT}
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
+  mongodb_data:

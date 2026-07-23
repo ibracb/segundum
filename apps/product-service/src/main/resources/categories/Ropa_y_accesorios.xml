@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="166" path="|166|">
+	<name>Ropa y accesorios</name>
+	<category id="6552" path="|166|6552|">
+		<name>Accesorios para bolsos y billeteras</name>
+		<category id="5841" path="|166|6552|5841|">
+			<name>Cadenas de bolsillo</name>
+		</category>
+		<category id="6277" path="|166|6552|6277|">
+			<name>Cintas</name>
+		</category>
+		<category id="6460" path="|166|6552|6460|">
+			<name>Fundas para talonarios</name>
+		</category>
+		<category id="175" path="|166|6552|175|">
+			<name>Llaveros</name>
+		</category>
+	</category>
+	<category id="1933" path="|166|1933|">
+		<name>Accesorios para zapatos</name>
+		<category id="1856" path="|166|1933|1856|">
+			<name>Cordones de zapatos</name>
+		</category>
+		<category id="2427" path="|166|1933|2427|">
+			<name>Espuelas</name>
+		</category>
+		<category id="5567" path="|166|1933|5567|">
+			<name>Forros para botas</name>
+		</category>
+		<category id="5385" path="|166|1933|5385|">
+			<name>Fundas para zapatos</name>
+		</category>
+		<category id="7078" path="|166|1933|7078|">
+			<name>Polainas</name>
+		</category>
+	</category>
+	<category id="6551" path="|166|6551|">
+		<name>Bolsos, billeteras y estuches</name>
+		<category id="2668" path="|166|6551|2668|">
+			<name>Billeteras y clips para billetes</name>
+		</category>
+		<category id="3032" path="|166|6551|3032|">
+			<name>Bolsos</name>
+		</category>
+		<category id="6170" path="|166|6551|6170|">
+			<name>Colgadores para pases e insignias</name>
+		</category>
+		<category id="6169" path="|166|6551|6169|">
+			<name>Estuches para tarjetas de visita</name>
+		</category>
+	</category>
+	<category id="187" path="|166|187|">
+		<name>Calzado</name>
+	</category>
+	<category id="167" path="|166|167|">
+		<name>Complementos</name>
+		<category id="5114" path="|166|167|5114|">
+			<name>Abanicos decorativos</name>
+		</category>
+		<category id="5443" path="|166|167|5443|">
+			<name>Accesorios de novia</name>
+			<category id="5446" path="|166|167|5443|5446|">
+				<name>Velos de novia</name>
+			</category>
+		</category>
+		<category id="5390" path="|166|167|5390|">
+			<name>Accesorios de ropa tradicional</name>
+			<category id="5686" path="|166|167|5390|5686|">
+				<name>Accesorios para obi</name>
+			</category>
+			<category id="5685" path="|166|167|5390|5685|">
+				<name>Calcetines tabi</name>
+			</category>
+			<category id="5687" path="|166|167|5390|5687|">
+				<name>Obis</name>
+			</category>
+			<category id="5688" path="|166|167|5390|5688|">
+				<name>Ropa interior para kimono</name>
+			</category>
+		</category>
+		<category id="171" path="|166|167|171|">
+			<name>Accesorios para el pelo</name>
+			<category id="7305" path="|166|167|171|7305|">
+				<name>Accesorios para pelucas</name>
+				<category id="7306" path="|166|167|171|7305|7306|">
+					<name>Cola y cinta adhesiva para pelucas</name>
+				</category>
+				<category id="7307" path="|166|167|171|7305|7307|">
+					<name>Gorros para pelucas</name>
+				</category>
+			</category>
+			<category id="1662" path="|166|167|171|1662|">
+				<name>Diademas y cintas</name>
+			</category>
+			<category id="4057" path="|166|167|171|4057|">
+				<name>Extensiones de cabello</name>
+			</category>
+			<category id="1483" path="|166|167|171|1483|">
+				<name>Gomas del pelo</name>
+			</category>
+			<category id="5915" path="|166|167|171|5915|">
+				<name>Guirnaldas para el pelo</name>
+			</category>
+			<category id="1948" path="|166|167|171|1948|">
+				<name>Horquillas para moños</name>
+			</category>
+			<category id="502988" path="|166|167|171|502988|">
+				<name>Horquillas, pinzas y clips para el pelo</name>
+				<category id="543644" path="|166|167|171|502988|543644|">
+					<name>Horquillas para el pelo</name>
+				</category>
+				<category id="543646" path="|166|167|171|502988|543646|">
+					<name>Pasadores para el pelo</name>
+				</category>
+				<category id="543645" path="|166|167|171|502988|543645|">
+					<name>Pinzas y clips para el pelo</name>
+				</category>
+			</category>
+			<category id="2477" path="|166|167|171|2477|">
+				<name>Peines</name>
+			</category>
+			<category id="181" path="|166|167|171|181|">
+				<name>Pelucas</name>
+			</category>
+			<category id="6183" path="|166|167|171|6183|">
+				<name>Redecillas para el pelo</name>
+			</category>
+			<category id="8451" path="|166|167|171|8451|">
+				<name>Rellenos para moños y para dar volumen al pelo</name>
+			</category>
+			<category id="5914" path="|166|167|171|5914|">
+				<name>Tiaras</name>
+			</category>
+		</category>
+		<category id="2020" path="|166|167|2020|">
+			<name>Accesorios para la cabeza</name>
+			<category id="7054" path="|166|167|2020|7054|">
+				<name>Tocados</name>
+			</category>
+			<category id="1922" path="|166|167|2020|1922|">
+				<name>Tocados para mujeres</name>
+			</category>
+			<category id="5939" path="|166|167|2020|5939|">
+				<name>Turbantes</name>
+			</category>
+		</category>
+		<category id="5422" path="|166|167|5422|">
+			<name>Accesorios para ropa de bebés y niños pequeños</name>
+			<category id="5623" path="|166|167|5422|5623|">
+				<name>Cinturones para bebés y niños pequeños</name>
+			</category>
+			<category id="5625" path="|166|167|5422|5625|">
+				<name>Gorros para bebés y niños pequeños</name>
+			</category>
+			<category id="5624" path="|166|167|5422|5624|">
+				<name>Manoplas y guantes para bebés y niños pequeños</name>
+			</category>
+			<category id="5626" path="|166|167|5422|5626|">
+				<name>Ropa protectora para bebés</name>
+			</category>
+		</category>
+		<category id="180" path="|166|167|180|">
+			<name>Alfileres de corbata</name>
+		</category>
+		<category id="6984" path="|166|167|6984|">
+			<name>Ballenas para cuellos</name>
+		</category>
+		<category id="499972" path="|166|167|499972|">
+			<name>Bandas</name>
+		</category>
+		<category id="177" path="|166|167|177|">
+			<name>Bufandas y chales</name>
+			<category id="543673" path="|166|167|177|543673|">
+				<name>Bufandas</name>
+			</category>
+			<category id="543674" path="|166|167|177|543674|">
+				<name>Chales</name>
+			</category>
+		</category>
+		<category id="5942" path="|166|167|5942|">
+			<name>Calientabrazos</name>
+		</category>
+		<category id="5941" path="|166|167|5941|">
+			<name>Calientapiernas</name>
+		</category>
+		<category id="4179" path="|166|167|4179|">
+			<name>Chapas</name>
+		</category>
+		<category id="169" path="|166|167|169|">
+			<name>Cinturones</name>
+		</category>
+		<category id="6268" path="|166|167|6268|">
+			<name>Collar de flores</name>
+		</category>
+		<category id="176" path="|166|167|176|">
+			<name>Corbatas y pajaritas</name>
+		</category>
+		<category id="6985" path="|166|167|6985|">
+			<name>Cubrebotones</name>
+		</category>
+		<category id="7230" path="|166|167|7230|">
+			<name>Cuellos polares</name>
+		</category>
+		<category id="502987" path="|166|167|502987|">
+			<name>Fajas de embarazo y cinturones de maternidad</name>
+		</category>
+		<category id="178" path="|166|167|178|">
+			<name>Gafas de sol</name>
+		</category>
+		<category id="193" path="|166|167|193|">
+			<name>Gemelos</name>
+		</category>
+		<category id="170" path="|166|167|170|">
+			<name>Guantes y mitones</name>
+		</category>
+		<category id="3913" path="|166|167|3913|">
+			<name>Hebillas</name>
+		</category>
+		<category id="7133" path="|166|167|7133|">
+			<name>Manguitos</name>
+		</category>
+		<category id="6238" path="|166|167|6238|">
+			<name>Orejeras</name>
+		</category>
+		<category id="1786" path="|166|167|1786|">
+			<name>Pasamontañas</name>
+		</category>
+		<category id="5207" path="|166|167|5207|">
+			<name>Pañuelos de bolsillo</name>
+		</category>
+		<category id="168" path="|166|167|168|">
+			<name>Pañuelos y pañoletas</name>
+			<category id="543586" path="|166|167|168|543586|">
+				<name>Bandanas</name>
+			</category>
+			<category id="543587" path="|166|167|168|543587|">
+				<name>Envolturas para el cuidado del pelo</name>
+			</category>
+		</category>
+		<category id="1893" path="|166|167|1893|">
+			<name>Pulseras de goma y muñequeras sudadera</name>
+		</category>
+		<category id="173" path="|166|167|173|">
+			<name>Sombreros</name>
+		</category>
+		<category id="179" path="|166|167|179|">
+			<name>Tirantes</name>
+		</category>
+	</category>
+	<category id="184" path="|166|184|">
+		<name>Disfraces y accesorios</name>
+		<category id="5192" path="|166|184|5192|">
+			<name>Accesorios para disfraces</name>
+			<category id="7304" path="|166|184|5192|7304|">
+				<name>Calvas</name>
+			</category>
+			<category id="5907" path="|166|184|5192|5907|">
+				<name>Capas para disfraces</name>
+			</category>
+			<category id="500118" path="|166|184|5192|500118|">
+				<name>Efectos especiales para disfraces</name>
+			</category>
+			<category id="8200" path="|166|184|5192|8200|">
+				<name>Guantes para disfraces</name>
+			</category>
+			<category id="500008" path="|166|184|5192|500008|">
+				<name>Imitaciones de productos de tabaco</name>
+			</category>
+			<category id="8018" path="|166|184|5192|8018|">
+				<name>Joyas falsas</name>
+			</category>
+			<category id="8017" path="|166|184|5192|8017|">
+				<name>Juegos de accesorios para disfraces</name>
+			</category>
+			<category id="5426" path="|166|184|5192|5426|">
+				<name>Sombreros para disfraces</name>
+			</category>
+		</category>
+		<category id="5194" path="|166|184|5194|">
+			<name>Máscaras</name>
+		</category>
+		<category id="5193" path="|166|184|5193|">
+			<name>Vestuario</name>
+		</category>
+		<category id="5387" path="|166|184|5387|">
+			<name>Zapatos para disfraces</name>
+		</category>
+	</category>
+	<category id="188" path="|166|188|">
+		<name>Joyería</name>
+		<category id="5122" path="|166|188|5122|">
+			<name>Accesorios para reloj</name>
+			<category id="5123" path="|166|188|5122|5123|">
+				<name>Correas de reloj</name>
+			</category>
+			<category id="6870" path="|166|188|5122|6870|">
+				<name>Cuerdas para relojes</name>
+			</category>
+			<category id="7471" path="|166|188|5122|7471|">
+				<name>Pegatinas y calcomanías para relojes</name>
+			</category>
+		</category>
+		<category id="200" path="|166|188|200|">
+			<name>Anillos</name>
+		</category>
+		<category id="197" path="|166|188|197|">
+			<name>Broches y alfileres</name>
+		</category>
+		<category id="192" path="|166|188|192|">
+			<name>Colgantes y dijes</name>
+		</category>
+		<category id="196" path="|166|188|196|">
+			<name>Collares</name>
+		</category>
+		<category id="6463" path="|166|188|6463|">
+			<name>Conjuntos de joyas</name>
+		</category>
+		<category id="190" path="|166|188|190|">
+			<name>Joyas para piercings</name>
+		</category>
+		<category id="194" path="|166|188|194|">
+			<name>Pendientes</name>
+		</category>
+		<category id="191" path="|166|188|191|">
+			<name>Pulseras</name>
+		</category>
+		<category id="201" path="|166|188|201|">
+			<name>Relojes de pulsera y de bolsillo</name>
+		</category>
+		<category id="189" path="|166|188|189|">
+			<name>Tobilleras</name>
+		</category>
+	</category>
+	<category id="1604" path="|166|1604|">
+		<name>Prendas de vestir</name>
+		<category id="212" path="|166|1604|212|">
+			<name>Camisas y tops</name>
+		</category>
+		<category id="7313" path="|166|1604|7313|">
+			<name>Conjuntos de ropa</name>
+		</category>
+		<category id="1581" path="|166|1604|1581|">
+			<name>Faldas</name>
+			<category id="6229" path="|166|1604|1581|6229|">
+				<name>Faldas hasta la rodilla</name>
+			</category>
+			<category id="6228" path="|166|1604|1581|6228|">
+				<name>Faldas largas</name>
+			</category>
+			<category id="2331" path="|166|1604|1581|2331|">
+				<name>Minifaldas</name>
+			</category>
+		</category>
+		<category id="5344" path="|166|1604|5344|">
+			<name>Faldas pantalón</name>
+		</category>
+		<category id="204" path="|166|1604|204|">
+			<name>Pantalones</name>
+		</category>
+		<category id="207" path="|166|1604|207|">
+			<name>Pantalones cortos</name>
+		</category>
+		<category id="203" path="|166|1604|203|">
+			<name>Ropa de abrigo</name>
+			<category id="5506" path="|166|1604|203|5506|">
+				<name>Cazadoras</name>
+			</category>
+			<category id="1831" path="|166|1604|203|1831|">
+				<name>Chalecos</name>
+			</category>
+			<category id="5598" path="|166|1604|203|5598|">
+				<name>Chaquetas y abrigos</name>
+			</category>
+			<category id="5514" path="|166|1604|203|5514|">
+				<name>Pantalones impermeables</name>
+			</category>
+			<category id="5909" path="|166|1604|203|5909|">
+				<name>Pantalones y trajes para nieve</name>
+			</category>
+			<category id="3066" path="|166|1604|203|3066|">
+				<name>Trajes impermeables</name>
+			</category>
+		</category>
+		<category id="182" path="|166|1604|182|">
+			<name>Ropa de bebés y niños pequeños</name>
+			<category id="5409" path="|166|1604|182|5409|">
+				<name>Bañadores para bebés y niños pequeños</name>
+			</category>
+			<category id="5411" path="|166|1604|182|5411|">
+				<name>Bodys para bebés</name>
+			</category>
+			<category id="5423" path="|166|1604|182|5423|">
+				<name>Calcetines para bebés y niños pequeños</name>
+			</category>
+			<category id="5410" path="|166|1604|182|5410|">
+				<name>Camisetas para bebés y niños pequeños</name>
+			</category>
+			<category id="5622" path="|166|1604|182|5622|">
+				<name>Conjuntos de ropa para bebés y niños pequeños</name>
+			</category>
+			<category id="5549" path="|166|1604|182|5549|">
+				<name>Cubrepañales</name>
+			</category>
+			<category id="5408" path="|166|1604|182|5408|">
+				<name>Pantalones para bebés y niños pequeños</name>
+			</category>
+			<category id="5412" path="|166|1604|182|5412|">
+				<name>Pijamas y saquitos para bebés</name>
+			</category>
+			<category id="5425" path="|166|1604|182|5425|">
+				<name>Ropa de abrigo para bebés y niños pequeños</name>
+			</category>
+			<category id="5621" path="|166|1604|182|5621|">
+				<name>Ropa interior para niños pequeños</name>
+			</category>
+			<category id="5424" path="|166|1604|182|5424|">
+				<name>Vestidos para bebés y niñas pequeñas</name>
+			</category>
+		</category>
+		<category id="5182" path="|166|1604|5182|">
+			<name>Ropa de una pieza</name>
+			<category id="5490" path="|166|1604|5182|5490|">
+				<name>Leotardos y unitardos</name>
+			</category>
+			<category id="5250" path="|166|1604|5182|5250|">
+				<name>Monos de pantalón corto y largo</name>
+			</category>
+			<category id="7132" path="|166|1604|5182|7132|">
+				<name>Pantalones de peto</name>
+			</category>
+		</category>
+		<category id="5322" path="|166|1604|5322|">
+			<name>Ropa deportiva</name>
+			<category id="5379" path="|166|1604|5322|5379|">
+				<name>Pantalones cortos de artes marciales</name>
+			</category>
+			<category id="5378" path="|166|1604|5322|5378|">
+				<name>Pantalones de boxeo</name>
+			</category>
+			<category id="3951" path="|166|1604|5322|3951|">
+				<name>Pantalones de fútbol americano</name>
+			</category>
+			<category id="5460" path="|166|1604|5322|5460|">
+				<name>Ropa de caza</name>
+				<category id="5461" path="|166|1604|5322|5460|5461|">
+					<name>Chalecos de caza y pesca</name>
+				</category>
+				<category id="5552" path="|166|1604|5322|5460|5552|">
+					<name>Pantalones tácticos y de caza</name>
+				</category>
+				<category id="5462" path="|166|1604|5322|5460|5462|">
+					<name>Trajes de camuflaje</name>
+				</category>
+			</category>
+			<category id="5697" path="|166|1604|5322|5697|">
+				<name>Ropa de ciclismo</name>
+				<category id="3455" path="|166|1604|5322|5697|3455|">
+					<name>Maillots de ciclismo</name>
+				</category>
+				<category id="6087" path="|166|1604|5322|5697|6087|">
+					<name>Maillots para ciclismo</name>
+				</category>
+				<category id="3729" path="|166|1604|5322|5697|3729|">
+					<name>Mallas de ciclismo</name>
+				</category>
+				<category id="3188" path="|166|1604|5322|5697|3188|">
+					<name>Pantalones de ciclismo</name>
+				</category>
+				<category id="3128" path="|166|1604|5322|5697|3128|">
+					<name>Petos de ciclismo</name>
+				</category>
+			</category>
+			<category id="5517" path="|166|1604|5322|5517|">
+				<name>Ropa de protección para motocicletas</name>
+				<category id="6006" path="|166|1604|5322|5517|6006|">
+					<name>Chaquetas de moto</name>
+				</category>
+				<category id="7003" path="|166|1604|5322|5517|7003|">
+					<name>Pantalones para ir en moto</name>
+				</category>
+				<category id="5463" path="|166|1604|5322|5517|5463|">
+					<name>Trajes de moto</name>
+				</category>
+			</category>
+			<category id="5555" path="|166|1604|5322|5555|">
+				<name>Ropa para paintball</name>
+			</category>
+			<category id="499979" path="|166|1604|5322|499979|">
+				<name>Vestidos, faldas y trajes de baile</name>
+			</category>
+		</category>
+		<category id="213" path="|166|1604|213|">
+			<name>Ropa interior y calcetines</name>
+			<category id="2563" path="|166|1604|213|2563|">
+				<name>Accesorios de lencería</name>
+				<category id="1675" path="|166|1604|213|2563|1675|">
+					<name>Ligas</name>
+				</category>
+				<category id="2160" path="|166|1604|213|2563|2160|">
+					<name>Ligueros</name>
+				</category>
+			</category>
+			<category id="7207" path="|166|1604|213|7207|">
+				<name>Accesorios para sujetadores</name>
+				<category id="7209" path="|166|1604|213|7207|7209|">
+					<name>Cubrepezones</name>
+				</category>
+				<category id="7211" path="|166|1604|213|7207|7211|">
+					<name>Extensores y tirantes para sujetadores</name>
+				</category>
+				<category id="7208" path="|166|1604|213|7207|7208|">
+					<name>Protectores de hombro para sujetadores</name>
+				</category>
+				<category id="7210" path="|166|1604|213|7207|7210|">
+					<name>Realzadores del busto</name>
+				</category>
+			</category>
+			<category id="5834" path="|166|1604|213|5834|">
+				<name>Braguitas</name>
+			</category>
+			<category id="209" path="|166|1604|213|209|">
+				<name>Calcetines</name>
+			</category>
+			<category id="2562" path="|166|1604|213|2562|">
+				<name>Calzoncillos</name>
+			</category>
+			<category id="2745" path="|166|1604|213|2745|">
+				<name>Camisetas interiores</name>
+			</category>
+			<category id="2963" path="|166|1604|213|2963|">
+				<name>Enaguas y pololos</name>
+			</category>
+			<category id="1578" path="|166|1604|213|1578|">
+				<name>Fajas reductoras</name>
+			</category>
+			<category id="1772" path="|166|1604|213|1772|">
+				<name>Lencería</name>
+			</category>
+			<category id="215" path="|166|1604|213|215|">
+				<name>Medias</name>
+			</category>
+			<category id="1807" path="|166|1604|213|1807|">
+				<name>Ropa interior térmica</name>
+			</category>
+			<category id="214" path="|166|1604|213|214|">
+				<name>Sujetadores</name>
+			</category>
+			<category id="5327" path="|166|1604|213|5327|">
+				<name>Suspensorios</name>
+			</category>
+		</category>
+		<category id="208" path="|166|1604|208|">
+			<name>Ropa para dormir y para estar en casa</name>
+			<category id="2302" path="|166|1604|208|2302|">
+				<name>Albornoces</name>
+			</category>
+			<category id="5513" path="|166|1604|208|5513|">
+				<name>Camisones</name>
+			</category>
+			<category id="2580" path="|166|1604|208|2580|">
+				<name>Pijamas</name>
+			</category>
+			<category id="5713" path="|166|1604|208|5713|">
+				<name>Ropa cómoda</name>
+			</category>
+		</category>
+		<category id="1594" path="|166|1604|1594|">
+			<name>Trajes</name>
+			<category id="1580" path="|166|1604|1594|1580|">
+				<name>Esmóquines</name>
+			</category>
+			<category id="1516" path="|166|1604|1594|1516|">
+				<name>Trajes de falda</name>
+			</category>
+			<category id="5183" path="|166|1604|1594|5183|">
+				<name>Trajes de pantalón</name>
+			</category>
+		</category>
+		<category id="5388" path="|166|1604|5388|">
+			<name>Trajes ceremoniales y tradicionales</name>
+			<category id="6031" path="|166|1604|5388|6031|">
+				<name>Dirndls</name>
+			</category>
+			<category id="6227" path="|166|1604|5388|6227|">
+				<name>Indumentaria japonesa negra formal</name>
+			</category>
+			<category id="5343" path="|166|1604|5388|5343|">
+				<name>Kimonos</name>
+				<category id="5684" path="|166|1604|5388|5343|5684|">
+					<name>Kimonos de novia</name>
+				</category>
+				<category id="5682" path="|166|1604|5388|5343|5682|">
+					<name>Kimonos furisode</name>
+				</category>
+				<category id="5683" path="|166|1604|5388|5343|5683|">
+					<name>Kimonos informales</name>
+				</category>
+				<category id="5681" path="|166|1604|5388|5343|5681|">
+					<name>Kimonos iromuji</name>
+				</category>
+				<category id="5680" path="|166|1604|5388|5343|5680|">
+					<name>Kimonos komon</name>
+				</category>
+				<category id="5679" path="|166|1604|5388|5343|5679|">
+					<name>Kimonos tomesode y houmongi</name>
+				</category>
+			</category>
+			<category id="7281" path="|166|1604|5388|7281|">
+				<name>Pantalones de cuero tradicionales</name>
+			</category>
+			<category id="5674" path="|166|1604|5388|5674|">
+				<name>Pantalones hakama</name>
+			</category>
+			<category id="5673" path="|166|1604|5388|5673|">
+				<name>Prendas para llevar sobre kimono</name>
+				<category id="5677" path="|166|1604|5388|5673|5677|">
+					<name>Abrigos con forma de kimono</name>
+				</category>
+				<category id="5678" path="|166|1604|5388|5673|5678|">
+					<name>Chaquetas haori</name>
+				</category>
+			</category>
+			<category id="5483" path="|166|1604|5388|5483|">
+				<name>Ropa para ceremonias religiosas</name>
+				<category id="8149" path="|166|1604|5388|5483|8149|">
+					<name>Vestidos para bautizos y comuniones</name>
+				</category>
+			</category>
+			<category id="8248" path="|166|1604|5388|8248|">
+				<name>Saris</name>
+			</category>
+			<category id="5676" path="|166|1604|5388|5676|">
+				<name>Yukata</name>
+			</category>
+		</category>
+		<category id="211" path="|166|1604|211|">
+			<name>Trajes de baño</name>
+		</category>
+		<category id="2306" path="|166|1604|2306|">
+			<name>Uniformes</name>
+			<category id="2292" path="|166|1604|2306|2292|">
+				<name>Batas blancas</name>
+			</category>
+			<category id="5878" path="|166|1604|2306|5878|">
+				<name>Monos de vuelo</name>
+			</category>
+			<category id="5484" path="|166|1604|2306|5484|">
+				<name>Monos y pantalones de trabajo</name>
+			</category>
+			<category id="206" path="|166|1604|2306|206|">
+				<name>Uniformes de colegio</name>
+			</category>
+			<category id="3414" path="|166|1604|2306|3414|">
+				<name>Uniformes de seguridad</name>
+			</category>
+			<category id="7235" path="|166|1604|2306|7235|">
+				<name>Uniformes de servicio de comida</name>
+				<category id="2396" path="|166|1604|2306|7235|2396|">
+					<name>Chaquetas de chef</name>
+				</category>
+				<category id="7237" path="|166|1604|2306|7235|7237|">
+					<name>Gorros de chef</name>
+				</category>
+				<category id="7236" path="|166|1604|2306|7235|7236|">
+					<name>Pantalones de chef</name>
+				</category>
+			</category>
+			<category id="3598" path="|166|1604|2306|3598|">
+				<name>Uniformes deportivos</name>
+				<category id="5564" path="|166|1604|2306|3598|5564|">
+					<name>Equipaciones de fútbol</name>
+				</category>
+				<category id="3683" path="|166|1604|2306|3598|3683|">
+					<name>Uniformes de animadoras</name>
+				</category>
+				<category id="3253" path="|166|1604|2306|3598|3253|">
+					<name>Uniformes de arbitraje</name>
+				</category>
+				<category id="4003" path="|166|1604|2306|3598|4003|">
+					<name>Uniformes de artes marciales</name>
+				</category>
+				<category id="3439" path="|166|1604|2306|3598|3439|">
+					<name>Uniformes de baloncesto</name>
+				</category>
+				<category id="3191" path="|166|1604|2306|3598|3191|">
+					<name>Uniformes de béisbol</name>
+				</category>
+				<category id="3724" path="|166|1604|2306|3598|3724|">
+					<name>Uniformes de cricket</name>
+				</category>
+				<category id="3888" path="|166|1604|2306|3598|3888|">
+					<name>Uniformes de fútbol americano</name>
+				</category>
+				<category id="3958" path="|166|1604|2306|3598|3958|">
+					<name>Uniformes de hockey</name>
+				</category>
+				<category id="3852" path="|166|1604|2306|3598|3852|">
+					<name>Uniformes de lucha libre</name>
+				</category>
+				<category id="3379" path="|166|1604|2306|3598|3379|">
+					<name>Uniformes de sóftbol</name>
+				</category>
+			</category>
+			<category id="5949" path="|166|1604|2306|5949|">
+				<name>Uniformes militares</name>
+			</category>
+		</category>
+		<category id="2271" path="|166|1604|2271|">
+			<name>Vestidos</name>
+		</category>
+		<category id="5441" path="|166|1604|5441|">
+			<name>Vestidos de novia y para el cortejo nupcial</name>
+			<category id="5329" path="|166|1604|5441|5329|">
+				<name>Vestidos de novia</name>
+			</category>
+			<category id="5330" path="|166|1604|5441|5330|">
+				<name>Vestidos para el cortejo nupcial</name>
+			</category>
+		</category>
+	</category>
+</category>

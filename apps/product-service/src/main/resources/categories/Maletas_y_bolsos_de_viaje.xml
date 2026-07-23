@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<category id="5181" path="|5181|">
+	<name>Maletas y bolsos de viaje</name>
+	<category id="110" path="|5181|110|">
+		<name>Accesorios de equipaje</name>
+		<category id="503014" path="|5181|110|503014|">
+			<name>Accesorios y revestimientos para contenedores impermeables
+			</name>
+		</category>
+		<category id="5650" path="|5181|110|5650|">
+			<name>Bolsos de viaje</name>
+		</category>
+		<category id="6919" path="|5181|110|6919|">
+			<name>Botellas y contenedores de viaje</name>
+		</category>
+		<category id="5652" path="|5181|110|5652|">
+			<name>Correas para equipaje</name>
+		</category>
+		<category id="5651" path="|5181|110|5651|">
+			<name>Etiquetas para equipaje</name>
+		</category>
+		<category id="7521" path="|5181|110|7521|">
+			<name>Fundas para mochilas</name>
+		</category>
+		<category id="5620" path="|5181|110|5620|">
+			<name>Organizadores de equipaje</name>
+		</category>
+		<category id="499691" path="|5181|110|499691|">
+			<name>Portaequipajes y soportes para maletas</name>
+		</category>
+	</category>
+	<category id="106" path="|5181|106|">
+		<name>Bandoleras grandes</name>
+	</category>
+	<category id="103" path="|5181|103|">
+		<name>Bolsas de deporte</name>
+	</category>
+	<category id="5608" path="|5181|5608|">
+		<name>Bolsas para compra</name>
+	</category>
+	<category id="549" path="|5181|549|">
+		<name>Bolsos de bebé</name>
+	</category>
+	<category id="502974" path="|5181|502974|">
+		<name>Contenedores impermeables</name>
+	</category>
+	<category id="105" path="|5181|105|">
+		<name>Fundas para trajes</name>
+	</category>
+	<category id="107" path="|5181|107|">
+		<name>Maletas</name>
+	</category>
+	<category id="101" path="|5181|101|">
+		<name>Maletines</name>
+	</category>
+	<category id="6553" path="|5181|6553|">
+		<name>Maletines neceser</name>
+	</category>
+	<category id="100" path="|5181|100|">
+		<name>Mochilas</name>
+	</category>
+	<category id="108" path="|5181|108|">
+		<name>Neceseres</name>
+	</category>
+	<category id="104" path="|5181|104|">
+		<name>Riñoneras</name>
+	</category>
+</category>

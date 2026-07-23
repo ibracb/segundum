@@ -6,7 +6,6 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import segundum.domain.exceptions.EntityNotFoundException;
-import segundum.infrastructure.rest.responses.ErrorResponse;
 
 /**
  * Exception mapper that maps EntityNotFoundException to HTTP 404 Not Found responses.

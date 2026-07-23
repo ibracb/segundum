@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import segundum.domain.exceptions.phone.PhoneBlankException;
-import segundum.domain.exceptions.phone.PhoneInvalidFormatException;
-import segundum.domain.exceptions.phone.PhoneNullException;
+import segundum.domain.exceptions.user.phone.PhoneBlankException;
+import segundum.domain.exceptions.user.phone.PhoneInvalidFormatException;
+import segundum.domain.exceptions.user.phone.PhoneNullException;
 
 class PhoneTest {
 

@@ -24,10 +24,10 @@ class UserTest {
 		name = new Name("Juan");
 		surname = new Surname("Pérez");
 		email = new Email("juan@email.com");
-		password = new Password("Abcdef123");
+		password = Password.plain("Abcdef123");
 		birthdate = new Birthdate(LocalDate.of(1990, 5, 15));
 		phone = new Phone("+34612345678");
-		user = UserFactory.createUser(name, surname, email, password, birthdate, phone);
+		user = UserFactory.create(name, surname, email, password, birthdate, phone);
 	}
 
 	@Test
@@ -56,7 +56,7 @@ class UserTest {
 
 	@Test
 	void shouldChangePassword() {
-		Password newPassword = new Password("NewPass123");
+		Password newPassword = Password.plain("NewPass123");
 		user.changePassword(newPassword);
 		assertEquals("NewPass123", user.getPassword().getValue());
 	}
@@ -105,6 +105,19 @@ class UserTest {
 		assertEquals("+34612345678", user.getPhone().getValue());
 		assertEquals(0, user.getPurchases());
 		assertEquals(0, user.getSales());
+	}
+
+	@Test
+	void shouldReturnActiveStatusByDefault() {
+		assertEquals(UserStatus.ACTIVE, user.getStatus());
+		assertFalse(user.isDeleted());
+	}
+
+	@Test
+	void shouldDeleteUser() {
+		user.delete();
+		assertEquals(UserStatus.DELETED, user.getStatus());
+		assertTrue(user.isDeleted());
 	}
 
 }
