@@ -15,7 +15,7 @@ public class PhoneAlreadyExistsExceptionMapper implements ExceptionMapper<PhoneA
 	public Response toResponse(PhoneAlreadyExistsException exception) {
 		ErrorResponse body = new ErrorResponse(
 				Response.Status.CONFLICT.getStatusCode(),
-				"Conflict",
+				Response.Status.CONFLICT.getReasonPhrase(),
 				exception.getMessage());
 		return Response.status(Response.Status.CONFLICT)
 				.entity(body)

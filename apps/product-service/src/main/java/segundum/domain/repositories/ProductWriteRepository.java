@@ -32,11 +32,4 @@ public interface ProductWriteRepository {
 	 */
 	void update(Product product);
 
-	/**
-	 * Deletes a product from the repository by its identifier.
-	 *
-	 * @param id the identifier of the product to delete
-	 */
-	void delete(ProductId id);
-
 }

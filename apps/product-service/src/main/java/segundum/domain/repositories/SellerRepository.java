@@ -16,8 +16,6 @@ public interface SellerRepository {
 
 	Seller update(Seller seller);
 
-	void delete(SellerId id);
-
 	boolean existsByEmail(Email email);
 
 }

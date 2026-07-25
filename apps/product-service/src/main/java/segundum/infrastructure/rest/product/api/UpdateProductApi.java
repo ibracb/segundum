@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.product.requests.UpdateProductRequest;
 
 @Tag(name = "Products", description = "Product management endpoints")
@@ -26,11 +28,11 @@ public interface UpdateProductApi {
 			@ApiResponse(responseCode = "204", description = "Product updated",
 					content = @Content),
 			@ApiResponse(responseCode = "400", description = "Invalid input",
-					content = @Content),
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Product not found",
-					content = @Content),
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Product is not in DRAFT state",
-					content = @Content)
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Void> updateProduct(

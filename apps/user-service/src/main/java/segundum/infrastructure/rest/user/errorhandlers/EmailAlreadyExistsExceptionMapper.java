@@ -15,7 +15,7 @@ public class EmailAlreadyExistsExceptionMapper implements ExceptionMapper<EmailA
 	public Response toResponse(EmailAlreadyExistsException exception) {
 		ErrorResponse body = new ErrorResponse(
 				Response.Status.CONFLICT.getStatusCode(),
-				"Conflict",
+				Response.Status.CONFLICT.getReasonPhrase(),
 				exception.getMessage());
 		return Response.status(Response.Status.CONFLICT)
 				.entity(body)

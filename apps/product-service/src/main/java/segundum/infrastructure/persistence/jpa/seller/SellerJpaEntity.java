@@ -38,7 +38,7 @@ public class SellerJpaEntity {
 	private String email;
 
 	/**
-	 * The status of the seller (ACTIVE, DELETED).
+	 * The status of the seller (ACTIVE, INACTIVE).
 	 */
 	@Column(name = "status", nullable = false)
 	private String status;

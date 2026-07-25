@@ -2,11 +2,15 @@ package segundum.domain.models.seller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
+
+import segundum.domain.exceptions.SameValueException;
+import segundum.domain.exceptions.seller.status.SellerNotActiveException;
 
 class SellerTest {
 
@@ -23,7 +27,7 @@ class SellerTest {
 		assertEquals("Pérez", seller.getSurname().getValue());
 		assertEquals("juan@email.com", seller.getEmail().getValue());
 		assertEquals(SellerStatus.ACTIVE, seller.getStatus());
-		assertFalse(seller.isDeleted());
+		assertTrue(seller.isActive());
 	}
 
 	@Test
@@ -34,10 +38,9 @@ class SellerTest {
 	}
 
 	@Test
-	void shouldNotChangeNameWhenSameValue() {
+	void shouldThrowWhenChangingNameToSameValue() {
 		Seller seller = SellerFactory.create(sellerId, name, surname, email);
-		seller.changeName(new Name("Juan"));
-		assertEquals("Juan", seller.getName().getValue());
+		assertThrows(SameValueException.class, () -> seller.changeName(new Name("Juan")));
 	}
 
 	@Test
@@ -48,17 +51,37 @@ class SellerTest {
 	}
 
 	@Test
-	void shouldNotChangeSurnameWhenSameValue() {
+	void shouldThrowWhenChangingSurnameToSameValue() {
 		Seller seller = SellerFactory.create(sellerId, name, surname, email);
-		seller.changeSurname(new Surname("Pérez"));
-		assertEquals("Pérez", seller.getSurname().getValue());
+		assertThrows(SameValueException.class, () -> seller.changeSurname(new Surname("Pérez")));
 	}
 
 	@Test
-	void shouldDeleteSeller() {
+	void shouldDeactivateSeller() {
 		Seller seller = SellerFactory.create(sellerId, name, surname, email);
-		seller.delete();
-		assertTrue(seller.isDeleted());
-		assertEquals(SellerStatus.DELETED, seller.getStatus());
+		seller.deactivate();
+		assertFalse(seller.isActive());
+		assertEquals(SellerStatus.INACTIVE, seller.getStatus());
+	}
+
+	@Test
+	void shouldThrowWhenDeactivatingInactiveSeller() {
+		Seller seller = SellerFactory.create(sellerId, name, surname, email);
+		seller.deactivate();
+		assertThrows(SellerNotActiveException.class, () -> seller.deactivate());
+	}
+
+	@Test
+	void shouldThrowWhenChangingNameIfInactive() {
+		Seller seller = SellerFactory.create(sellerId, name, surname, email);
+		seller.deactivate();
+		assertThrows(SellerNotActiveException.class, () -> seller.changeName(new Name("Carlos")));
+	}
+
+	@Test
+	void shouldThrowWhenChangingSurnameIfInactive() {
+		Seller seller = SellerFactory.create(sellerId, name, surname, email);
+		seller.deactivate();
+		assertThrows(SellerNotActiveException.class, () -> seller.changeSurname(new Surname("García")));
 	}
 }

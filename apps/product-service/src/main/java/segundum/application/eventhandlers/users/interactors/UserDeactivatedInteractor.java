@@ -2,8 +2,8 @@ package segundum.application.eventhandlers.users.interactors;
 
 import java.util.Optional;
 
-import segundum.application.eventhandlers.users.UserDeletedHandler;
-import segundum.application.events.users.UserDeleted;
+import segundum.application.eventhandlers.users.UserDeactivatedHandler;
+import segundum.application.events.users.UserDeactivated;
 import segundum.domain.exceptions.DomainException;
 import segundum.domain.models.seller.Seller;
 import segundum.domain.models.seller.SellerId;
@@ -11,10 +11,10 @@ import segundum.domain.outbound.LogEmitter;
 import segundum.domain.repositories.SellerRepository;
 
 /**
- * Interactor for handling user deleted events.
- * Deletes the Seller replica in the product service when a user is deleted.
+ * Interactor for handling user deactivated events.
+ * Deactivates the Seller replica in the product service when a user is deactivated.
  */
-public class UserDeletedInteractor implements UserDeletedHandler {
+public class UserDeactivatedInteractor implements UserDeactivatedHandler {
 
 	/**
 	 * The repository for managing seller data.
@@ -27,18 +27,18 @@ public class UserDeletedInteractor implements UserDeletedHandler {
 	private final LogEmitter logEmitter;
 
 	/**
-	 * Constructs a new UserDeletedHandlerInteractor with the given dependencies.
+	 * Constructs a new UserDeactivatedHandlerInteractor with the given dependencies.
 	 *
 	 * @param sellerRepository the repository for managing seller data
 	 * @param logger the logger
 	 */
-	public UserDeletedInteractor(SellerRepository sellerRepository, LogEmitter logEmitter) {
+	public UserDeactivatedInteractor(SellerRepository sellerRepository, LogEmitter logEmitter) {
 		this.sellerRepository = sellerRepository;
 		this.logEmitter = logEmitter;
 	}
 
 	@Override
-	public void handle(UserDeleted event) {
+	public void handle(UserDeactivated event) {
 		try {
 			SellerId sellerId = SellerId.fromUUID(event.getUserId());
 			Optional<Seller> seller = sellerRepository.findById(sellerId);
@@ -47,8 +47,7 @@ public class UserDeletedInteractor implements UserDeletedHandler {
 				return;
 			}
 			Seller sellerEntity = seller.get();
-			sellerEntity.delete();
-			sellerRepository.delete(sellerId);
+			sellerEntity.deactivate();
 			sellerRepository.update(sellerEntity);
 		}
 		catch(DomainException e) {

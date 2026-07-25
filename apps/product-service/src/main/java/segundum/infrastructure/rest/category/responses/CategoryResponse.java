@@ -1,14 +1,19 @@
 package segundum.infrastructure.rest.category.responses;
 
-/**
- * Response DTO for category data.
- */
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Category information")
 public class CategoryResponse {
 
+	@Schema(description = "Category identifier", example = "1")
 	private String id;
+	@Schema(description = "Category name", example = "Electronics")
 	private String name;
+	@Schema(description = "Category path in the hierarchy (format: |id|id|...)", example = "|1|2|")
 	private String path;
+	@Schema(description = "Category description", example = "Electronic devices and accessories")
 	private String description;
+	@Schema(description = "Parent category identifier", example = "2")
 	private String parentId;
 
 	public CategoryResponse() {

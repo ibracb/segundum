@@ -12,6 +12,7 @@ import segundum.application.commands.CreateProductCommand;
 import segundum.application.usecases.CreateProductUseCase;
 import segundum.domain.events.ProductCreated;
 import segundum.domain.exceptions.EntityNotFoundException;
+import segundum.domain.exceptions.seller.status.SellerNotActiveException;
 import segundum.domain.models.category.CategoryId;
 import segundum.domain.models.product.ConditionStatus;
 import segundum.domain.models.product.Description;
@@ -124,5 +125,23 @@ class CreateProductInteractorTest {
 				nonExistentSellerId);
 
 		assertThrows(EntityNotFoundException.class, () -> interactor.execute(command));
+	}
+
+	@Test
+	void shouldThrowWhenSellerIsInactive() {
+		Seller inactiveSeller = sellerRepository.findById(sellerId).get();
+		inactiveSeller.deactivate();
+		sellerRepository.create(inactiveSeller);
+
+		CreateProductCommand command = new CreateProductCommand(
+				new Title("iPhone 14"),
+				new Description("Un iPhone en perfecto estado"),
+				new Price(29.99),
+				ConditionStatus.NEW,
+				categoryId,
+				false,
+				sellerId);
+
+		assertThrows(SellerNotActiveException.class, () -> interactor.execute(command));
 	}
 }

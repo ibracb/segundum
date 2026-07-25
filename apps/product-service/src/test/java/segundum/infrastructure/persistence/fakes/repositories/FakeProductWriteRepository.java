@@ -27,11 +27,6 @@ public class FakeProductWriteRepository implements ProductWriteRepository {
 		products.put(product.getProductId(), product);
 	}
 
-	@Override
-	public void delete(ProductId id) {
-		products.remove(id);
-	}
-
 	public Map<ProductId, Product> getAll() {
 		return products;
 	}

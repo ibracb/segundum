@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.product.responses.SellerProductResponse;
 
 @Tag(name = "Products", description = "Product management endpoints")
@@ -27,7 +28,13 @@ public interface GetSellerForSaleProductsApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "For-sale products retrieved successfully",
 					content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-							schema = @Schema(implementation = SellerProductResponse.class)))
+							schema = @Schema(implementation = SellerProductResponse.class))),
+			@ApiResponse(responseCode = "400", description = "Invalid seller identifier",
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "404", description = "Seller not found",
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "409", description = "Seller is not active",
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@GetMapping(value = "/{id}/products/for-sale", produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<PagedModel<EntityModel<SellerProductResponse>>> getSellerForSaleProducts(

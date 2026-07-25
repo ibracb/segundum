@@ -44,13 +44,4 @@ public class JpaProductWriteRepository implements ProductWriteRepository {
 		productJpaRepository.save(ProductMapper.toEntity(product));
 	}
 
-	@Override
-	public void delete(ProductId id) {
-		Optional.ofNullable(productJpaRepository.findActiveById(id.getValue().toString()))
-				.ifPresent(entity -> {
-					entity.setSaleStatus("DELETED");
-					productJpaRepository.save(entity);
-				});
-	}
-
 }

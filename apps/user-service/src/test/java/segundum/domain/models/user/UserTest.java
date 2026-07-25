@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segundum.domain.exceptions.SameValueException;
+import segundum.domain.exceptions.user.status.UserNotActiveException;
 
 class UserTest {
 
@@ -39,7 +40,7 @@ class UserTest {
 
 	@Test
 	void shouldThrowWhenSameName() {
-		assertThrows(SameValueException.class, () -> user.changeName(name));
+		assertThrows(SameValueException.class, () -> user.changeName(new Name("Juan")));
 	}
 
 	@Test
@@ -51,7 +52,7 @@ class UserTest {
 
 	@Test
 	void shouldThrowWhenSameSurname() {
-		assertThrows(SameValueException.class, () -> user.changeSurname(surname));
+		assertThrows(SameValueException.class, () -> user.changeSurname(new Surname("Pérez")));
 	}
 
 	@Test
@@ -110,14 +111,26 @@ class UserTest {
 	@Test
 	void shouldReturnActiveStatusByDefault() {
 		assertEquals(UserStatus.ACTIVE, user.getStatus());
-		assertFalse(user.isDeleted());
+		assertTrue(user.isActive());
 	}
 
 	@Test
-	void shouldDeleteUser() {
-		user.delete();
-		assertEquals(UserStatus.DELETED, user.getStatus());
-		assertTrue(user.isDeleted());
+	void shouldDeactivateUser() {
+		user.deactivate();
+		assertEquals(UserStatus.INACTIVE, user.getStatus());
+		assertFalse(user.isActive());
+	}
+
+	@Test
+	void shouldThrowWhenChangingNameIfInactive() {
+		user.deactivate();
+		assertThrows(UserNotActiveException.class, () -> user.changeName(new Name("Carlos")));
+	}
+
+	@Test
+	void shouldThrowWhenChangingSurnameIfInactive() {
+		user.deactivate();
+		assertThrows(UserNotActiveException.class, () -> user.changeSurname(new Surname("García")));
 	}
 
 }

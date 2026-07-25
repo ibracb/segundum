@@ -15,7 +15,7 @@ public class SameValueExceptionMapper implements ExceptionMapper<SameValueExcept
 	public Response toResponse(SameValueException exception) {
 		ErrorResponse body = new ErrorResponse(
 				Response.Status.CONFLICT.getStatusCode(),
-				"Conflict",
+				Response.Status.CONFLICT.getReasonPhrase(),
 				exception.getMessage());
 		return Response.status(Response.Status.CONFLICT)
 				.entity(body)

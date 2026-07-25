@@ -1,6 +1,7 @@
 package segundum.application.usecases.interactors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -9,10 +10,10 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import segundum.application.commands.DeleteUserCommand;
-import segundum.application.usecases.DeleteUserUseCase;
+import segundum.application.commands.DeactivateUserCommand;
+import segundum.application.usecases.DeactivateUserUseCase;
 import segundum.application.commands.RegisterUserCommand;
-import segundum.domain.events.UserDeleted;
+import segundum.domain.events.UserDeactivated;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.user.Birthdate;
 import segundum.domain.models.user.Email;
@@ -27,18 +28,18 @@ import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.FakePasswordHasher;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
-class DeleteUserInteractorTest {
+class DeactivateUserInteractorTest {
 
 	private UserRepository repository;
 	private FakePublisher publisher;
-	private DeleteUserUseCase interactor;
+	private DeactivateUserUseCase interactor;
 	private User existingUser;
 
 	@BeforeEach
 	void setUp() {
 		repository = new FakeUserRepository();
 		publisher = new FakePublisher();
-		interactor = new DeleteUserInteractor(repository, publisher);
+		interactor = new DeactivateUserInteractor(repository, publisher);
 
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				new Name("Juan"), new Surname("Pérez"),
@@ -51,28 +52,28 @@ class DeleteUserInteractorTest {
 	}
 
 	@Test
-	void shouldDeleteUser() {
+	void shouldDeactivateUser() {
 		UserId userId = existingUser.getUserId();
-		interactor.execute(new DeleteUserCommand(userId));
+		interactor.execute(new DeactivateUserCommand(userId));
 		assertTrue(repository.findById(userId).isPresent());
-		assertTrue(repository.findById(userId).get().isDeleted());
+		assertFalse(repository.findById(userId).get().isActive());
 	}
 
 	@Test
-	void shouldPublishUserDeletedEvent() {
+	void shouldPublishUserDeactivatedEvent() {
 		UserId userId = existingUser.getUserId();
-		interactor.execute(new DeleteUserCommand(userId));
+		interactor.execute(new DeactivateUserCommand(userId));
 
 		assertEquals(1, publisher.getPublishedEvents().size());
-		assertTrue(publisher.getPublishedEvents().get(0) instanceof UserDeleted);
-		UserDeleted event = (UserDeleted) publisher.getPublishedEvents().get(0);
+		assertTrue(publisher.getPublishedEvents().get(0) instanceof UserDeactivated);
+		UserDeactivated event = (UserDeactivated) publisher.getPublishedEvents().get(0);
 		assertEquals(userId, event.getUserId());
 	}
 
 	@Test
 	void shouldThrowWhenUserNotFound() {
 		UserId nonExistentId = UserId.generate();
-		assertThrows(EntityNotFoundException.class, () -> interactor.execute(new DeleteUserCommand(nonExistentId)));
+		assertThrows(EntityNotFoundException.class, () -> interactor.execute(new DeactivateUserCommand(nonExistentId)));
 	}
 
 }

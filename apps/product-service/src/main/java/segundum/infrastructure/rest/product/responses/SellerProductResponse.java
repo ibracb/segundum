@@ -1,13 +1,23 @@
 package segundum.infrastructure.rest.product.responses;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Product summary for seller views")
 public class SellerProductResponse {
 
+	@Schema(description = "Product identifier", example = "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
 	private String productId;
+	@Schema(description = "Product title", example = "iPhone 12")
 	private String title;
+	@Schema(description = "Product price", example = "299.99")
 	private Double price;
+	@Schema(description = "Condition status", example = "GOOD")
 	private String conditionStatus;
+	@Schema(description = "Publication date", example = "2024-01-15")
 	private String publicationDate;
+	@Schema(description = "Category name", example = "Electronics")
 	private String categoryName;
+	@Schema(description = "Number of views", example = "150")
 	private long views;
 
 	public SellerProductResponse() {

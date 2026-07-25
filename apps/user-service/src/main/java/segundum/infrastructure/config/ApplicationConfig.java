@@ -4,12 +4,12 @@ import javax.ws.rs.ApplicationPath;
 
 import org.glassfish.jersey.server.ResourceConfig;
 
-import segundum.application.usecases.DeleteUserUseCase;
+import segundum.application.usecases.DeactivateUserUseCase;
 import segundum.application.usecases.GetUserProfileUseCase;
 import segundum.application.usecases.GetUserStatsUseCase;
 import segundum.application.usecases.RegisterUserUseCase;
 import segundum.application.usecases.UpdateUserProfileUseCase;
-import segundum.application.usecases.interactors.DeleteUserInteractor;
+import segundum.application.usecases.interactors.DeactivateUserInteractor;
 import segundum.application.usecases.interactors.GetUserProfileInteractor;
 import segundum.application.usecases.interactors.GetUserStatsInteractor;
 import segundum.application.usecases.interactors.RegisterUserInteractor;
@@ -20,9 +20,10 @@ import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.gson.GsonConfig;
 import segundum.infrastructure.messaging.rabbitmq.RabbitMQEventPublisher;
 import segundum.infrastructure.persistence.jpa.user.JpaUserRepository;
+import segundum.infrastructure.rest.config.OpenApiConfig;
 import segundum.infrastructure.rest.handlers.EntityNotFoundExceptionMapper;
 import segundum.infrastructure.rest.handlers.GenericExceptionMapper;
-import segundum.infrastructure.rest.user.controllers.DeleteUserController;
+import segundum.infrastructure.rest.user.controllers.DeactivateUserController;
 import segundum.infrastructure.rest.user.controllers.GetUserProfileController;
 import segundum.infrastructure.rest.user.controllers.GetUserStatsController;
 import segundum.infrastructure.rest.user.controllers.RegisterUserController;
@@ -31,6 +32,7 @@ import segundum.infrastructure.rest.user.errorhandlers.DomainExceptionMapper;
 import segundum.infrastructure.rest.user.errorhandlers.EmailAlreadyExistsExceptionMapper;
 import segundum.infrastructure.rest.user.errorhandlers.PhoneAlreadyExistsExceptionMapper;
 import segundum.infrastructure.rest.user.errorhandlers.SameValueExceptionMapper;
+import segundum.infrastructure.rest.user.errorhandlers.UserNotActiveExceptionMapper;
 import segundum.infrastructure.security.BCryptPasswordHasher;
 
 /**
@@ -53,7 +55,7 @@ public class ApplicationConfig extends ResourceConfig {
 
         RegisterUserUseCase registerUser = new RegisterUserInteractor(userRepository, eventPublisher, passwordHasher);
         UpdateUserProfileUseCase updateUser = new UpdateUserProfileInteractor(userRepository, eventPublisher, passwordHasher);
-        DeleteUserUseCase deleteUser = new DeleteUserInteractor(userRepository, eventPublisher);
+        DeactivateUserUseCase deactivateUser = new DeactivateUserInteractor(userRepository, eventPublisher);
         GetUserProfileUseCase getUserProfile = new GetUserProfileInteractor(userRepository);
         GetUserStatsUseCase getUserStats = new GetUserStatsInteractor(userRepository);
 
@@ -61,7 +63,7 @@ public class ApplicationConfig extends ResourceConfig {
         register(new GetUserStatsController(getUserStats));
         register(new RegisterUserController(registerUser));
         register(new UpdateUserProfileController(updateUser));
-        register(new DeleteUserController(deleteUser));
+        register(new DeactivateUserController(deactivateUser));
 
         register(DomainExceptionMapper.class);
         register(EmailAlreadyExistsExceptionMapper.class);
@@ -70,5 +72,7 @@ public class ApplicationConfig extends ResourceConfig {
         register(EntityNotFoundExceptionMapper.class);
         register(GenericExceptionMapper.class);
         register(GsonConfig.class);
+        register(OpenApiConfig.class);
+        register(UserNotActiveExceptionMapper.class);
     }
 }

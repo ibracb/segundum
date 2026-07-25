@@ -1,5 +1,7 @@
 package segundum.domain.models.pickup;
 
+import java.util.Objects;
+
 import segundum.domain.exceptions.pickup.description.DescriptionBlankException;
 import segundum.domain.exceptions.pickup.description.DescriptionNullException;
 import segundum.domain.exceptions.pickup.description.DescriptionTooLongException;
@@ -190,6 +192,21 @@ public class PickupLocation {
 	 */
 	public double getLongitude() {
 		return longitude;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		PickupLocation that = (PickupLocation) o;
+		return Double.compare(that.latitude, latitude) == 0 &&
+				Double.compare(that.longitude, longitude) == 0 &&
+				description.equals(that.description);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, latitude, longitude);
 	}
 
 }

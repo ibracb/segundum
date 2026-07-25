@@ -79,4 +79,17 @@ public class Title {
 		return value;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Title title = (Title) o;
+		return value.equals(title.value);
+	}
+
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+
 }

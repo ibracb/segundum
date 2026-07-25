@@ -24,11 +24,14 @@ services:
     ports:
       - "${RABBITMQ_PORT}:5672"
       - "${RABBITMQ_MANAGEMENT_PORT}:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 60s
 
   mongodb:
     image: mongo:7.0
@@ -117,3 +120,4 @@ services:
 volumes:
   mysql_data:
   mongodb_data:
+  rabbitmq_data:

@@ -33,25 +33,16 @@ public class FakeUserRepository implements UserRepository {
 	public Optional<User> findById(UserId id) {
 		return Optional.ofNullable(users.get(id));
 	}
-
-	@Override
-	public void delete(UserId id) {
-		User user = users.get(id);
-		if (user != null) {
-			user.delete();
-		}
-	}
 	
 	@Override
 	public boolean existsById(UserId id) {
-		User user = users.get(id);
-		return user != null && !user.isDeleted();
+		return users.containsKey(id);
 	}
 
 	@Override
 	public boolean existsByEmail(Email email) {
 		return users.values().stream()
-				.anyMatch(u -> !u.isDeleted() && u.getEmail().getValue().equals(email.getValue()));
+				.anyMatch(u -> u.getEmail().getValue().equals(email.getValue()));
 	}
 
 	@Override

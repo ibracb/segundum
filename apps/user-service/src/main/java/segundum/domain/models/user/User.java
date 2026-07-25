@@ -1,6 +1,7 @@
 package segundum.domain.models.user;
 
 import segundum.domain.exceptions.SameValueException;
+import segundum.domain.exceptions.user.status.UserNotActiveException;
 
 /**
  * Represents a user in the system.
@@ -123,12 +124,10 @@ public class User {
 	 * Changes the name of the user.
 	 * 
 	 * @param name the new name of the user
-	 * @throws SameValueException if the new name is the same as the current name
 	 */
 	public void changeName(Name name) {
-		if(this.name.equals(name)) {
-			throw new SameValueException("name");
-		}
+		ensureIsActive();
+		ensureNameIsNotTheSame(name);
 		this.name = name;
 	}
 	
@@ -139,9 +138,8 @@ public class User {
 	 * @throws SameValueException if the new surname is the same as the current surname
 	 */
 	public void changeSurname(Surname surname) {
-		if(this.surname.equals(surname)) {
-			throw new SameValueException("surname");
-		}
+		ensureIsActive();
+		ensureSurnameIsNotTheSame(surname);
 		this.surname = surname;
 	}
 	
@@ -149,25 +147,19 @@ public class User {
 	 * Changes the password of the user.
 	 * 
 	 * @param newPassword the new password of the user
-	 * @throws SameValueException if the new password is the same as the current password
 	 */
-	public void changePassword(Password newPassword) {
-		if(this.password.equals(newPassword)) {
-			throw new SameValueException("password");
-		}
-		this.password = newPassword;
+	public void changePassword(Password password) {
+		ensurePasswordIsNotTheSame(password);
+		this.password = password;
 	}
 	
 	/**
 	 * Changes the phone number of the user.
 	 * 
 	 * @param phone the new phone number of the user
-	 * @throws SameValueException if the new phone number is the same as the current phone number
 	 */
 	public void changePhone(Phone phone) {
-		if(this.phone.equals(phone)) {
-			throw new SameValueException("phone");
-		}
+		ensurePhoneIsNotTheSame(phone);
 		this.phone = phone;
 	}
 	
@@ -186,19 +178,20 @@ public class User {
 	}
 	
 	/**
-	 * Deletes the user by setting status to DELETED.
+	 * Deactivates the user by setting status to INACTIVE.
 	 */
-	public void delete() {
-		this.status = UserStatus.DELETED;
+	public void deactivate() {
+		ensureIsActive();
+		status = UserStatus.INACTIVE;
 	}
 
 	/**
-	 * Checks if the user has been deleted.
+	 * Checks if the user has been deactivated.
 	 *
-	 * @return true if the user is deleted, false otherwise
+	 * @return true if the user is inactive, false otherwise
 	 */
-	public boolean isDeleted() {
-		return this.status == UserStatus.DELETED;
+	public boolean isActive() {
+		return status == UserStatus.ACTIVE;
 	}
 	
 	
@@ -290,6 +283,60 @@ public class User {
 	 */
 	public UserStatus getStatus() {
 		return status;
+	}
+	
+	/**
+	 * Ensures that the new name is not the same as the current name.
+	 * 
+	 * @param name the new name to check
+	 * @throws SameValueException if the new name is the same as the current name
+	 */
+	private void ensureNameIsNotTheSame(Name name) {
+		if(this.name.equals(name)) {
+			throw new SameValueException("name");
+		}
+	}
+	
+	/**
+	 * Ensures that the new surname is not the same as the current surname.
+	 * 
+	 * @param surname the new surname to check
+	 * @throws SameValueException if the new surname is the same as the current surname
+	 */
+	private void ensureSurnameIsNotTheSame(Surname surname) {
+		if(this.surname.equals(surname)) {
+			throw new SameValueException("surname");
+		}
+	}
+	
+	/**
+	 * Ensures that the new password is not the same as the current password.
+	 * 
+	 * @param password the new password to check
+	 * @throws SameValueException if the new password is the same as the current password
+	 */
+	private void ensurePasswordIsNotTheSame(Password password) {
+		if(this.password.equals(password)) {
+			throw new SameValueException("password");
+		}
+	}
+	
+	/**
+	 * Ensures that the new phone number is not the same as the current phone number.
+	 * 
+	 * @param phone the new phone number to check
+	 * @throws SameValueException if the new phone number is the same as the current phone number
+	 */
+	private void ensurePhoneIsNotTheSame(Phone phone) {
+		if(this.phone.equals(phone)) {
+			throw new SameValueException("phone");
+		}
+	}
+	
+	private void ensureIsActive() {
+		if (this.status != UserStatus.ACTIVE) {
+			throw new UserNotActiveException(userId.getValue().toString());
+		}
 	}
 
 }

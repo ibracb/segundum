@@ -3,9 +3,9 @@ package segundum.domain.events;
 import segundum.domain.models.user.UserId;
 
 /**
- * Represents the event of a user being deleted in the system.
+ * Represents the event of a user being deactivated in the system.
  */
-public class UserDeleted extends DomainEvent {
+public class UserDeactivated extends DomainEvent {
 	
 	/**
 	 * The unique identifier of the user.
@@ -13,11 +13,11 @@ public class UserDeleted extends DomainEvent {
 	private final UserId userId;
 	
 	/**
-	 * Constructs a new UserDeleted event with the given parameters.
+	 * Constructs a new UserDeactivated event with the given parameters.
 	 * 
 	 * @param userId the unique identifier of the user
 	 */
-	public UserDeleted(UserId userId) {
+	public UserDeactivated(UserId userId) {
 		super();
 		this.userId = userId;
 	}

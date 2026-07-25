@@ -1,9 +1,15 @@
 package segundum.infrastructure.rest.product.responses;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Pickup location details")
 public class PickupLocationResponse {
 
+	@Schema(description = "Location description", example = "Main entrance")
 	private String description;
+	@Schema(description = "Latitude", example = "40.4168")
 	private double latitude;
+	@Schema(description = "Longitude", example = "-3.7038")
 	private double longitude;
 
 	public PickupLocationResponse() {

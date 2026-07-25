@@ -4,8 +4,10 @@ import segundum.application.commands.CreateProductCommand;
 import segundum.application.usecases.CreateProductUseCase;
 import segundum.domain.events.ProductCreated;
 import segundum.domain.exceptions.EntityNotFoundException;
+import segundum.domain.exceptions.seller.status.SellerNotActiveException;
 import segundum.domain.models.product.Product;
 import segundum.domain.models.product.ProductFactory;
+import segundum.domain.models.seller.Seller;
 import segundum.domain.models.product.ProductId;
 import segundum.domain.outbound.DomainEventPublisher;
 import segundum.domain.repositories.CategoryWriteRepository;
@@ -35,8 +37,10 @@ public class CreateProductInteractor implements CreateProductUseCase {
 		if (!categoryWriteRepository.existsById(command.getCategoryId())) {
 			throw new EntityNotFoundException("Category", command.getCategoryId().toString());
 		}
-		if (!sellerRepository.existsById(command.getSellerId())) {
-			throw new EntityNotFoundException("Seller", command.getSellerId().getValue().toString());
+		Seller seller = sellerRepository.findById(command.getSellerId())
+				.orElseThrow(() -> new EntityNotFoundException("Seller", command.getSellerId().getValue().toString()));
+		if (!seller.isActive()) {
+			throw new SellerNotActiveException(command.getSellerId());
 		}
 		Product product = ProductFactory.create(
 				command.getTitle(),

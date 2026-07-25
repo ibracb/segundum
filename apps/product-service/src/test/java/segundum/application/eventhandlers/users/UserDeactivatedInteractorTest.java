@@ -1,6 +1,7 @@
 package segundum.application.eventhandlers.users;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
@@ -8,8 +9,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import segundum.application.eventhandlers.users.interactors.UserDeletedInteractor;
-import segundum.application.events.users.UserDeleted;
+import segundum.application.eventhandlers.users.interactors.UserDeactivatedInteractor;
+import segundum.application.events.users.UserDeactivated;
 import segundum.domain.models.seller.Email;
 import segundum.domain.models.seller.Name;
 import segundum.domain.models.seller.Seller;
@@ -19,21 +20,21 @@ import segundum.domain.models.seller.Surname;
 import segundum.infrastructure.logging.fakes.FakeLogEmitter;
 import segundum.infrastructure.persistence.fakes.repositories.FakeSellerRepository;
 
-class UserDeletedInteractorTest {
+class UserDeactivatedInteractorTest {
 
 	private FakeSellerRepository sellerRepository;
 	private FakeLogEmitter logEmitter;
-	private UserDeletedInteractor interactor;
+	private UserDeactivatedInteractor interactor;
 
 	@BeforeEach
 	void setUp() {
 		sellerRepository = new FakeSellerRepository();
 		logEmitter = new FakeLogEmitter();
-		interactor = new UserDeletedInteractor(sellerRepository, logEmitter);
+		interactor = new UserDeactivatedInteractor(sellerRepository, logEmitter);
 	}
 
 	@Test
-	void shouldDeleteSeller() {
+	void shouldDeactivateSeller() {
 		UUID userId = UUID.randomUUID();
 		SellerId sellerId = SellerId.fromUUID(userId);
 		Seller seller = SellerFactory.create(sellerId,
@@ -42,16 +43,17 @@ class UserDeletedInteractorTest {
 				new Email("juan@email.com"));
 		sellerRepository.create(seller);
 
-		UserDeleted event = new UserDeleted(userId);
+		UserDeactivated event = new UserDeactivated(userId);
 		interactor.handle(event);
 
-		assertTrue(sellerRepository.findById(sellerId).get().isDeleted());
+		assertTrue(sellerRepository.findById(sellerId).isPresent());
+		assertFalse(sellerRepository.findById(sellerId).get().isActive());
 	}
 
 	@Test
-	void shouldNotDeleteWhenSellerNotFound() {
+	void shouldNotDeactivateWhenSellerNotFound() {
 		UUID userId = UUID.randomUUID();
-		UserDeleted event = new UserDeleted(userId);
+		UserDeactivated event = new UserDeactivated(userId);
 
 		interactor.handle(event);
 
@@ -60,7 +62,7 @@ class UserDeletedInteractorTest {
 	
 	@Test
 	void shouldLogWarningOnInvalidEvent() {
-		UserDeleted event = new UserDeleted(null);
+		UserDeactivated event = new UserDeactivated(null);
 
 		interactor.handle(event);
 

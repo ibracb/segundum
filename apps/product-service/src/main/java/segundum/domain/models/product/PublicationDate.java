@@ -49,4 +49,17 @@ public class PublicationDate {
 		return value;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		PublicationDate that = (PublicationDate) o;
+		return value.equals(that.value);
+	}
+
+	@Override
+	public int hashCode() {
+		return value.hashCode();
+	}
+
 }

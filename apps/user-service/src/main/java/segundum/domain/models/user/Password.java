@@ -1,5 +1,7 @@
 package segundum.domain.models.user;
 
+import java.util.Objects;
+
 import segundum.domain.exceptions.user.password.PasswordBlankException;
 import segundum.domain.exceptions.user.password.PasswordNullException;
 import segundum.domain.exceptions.user.password.PasswordTooLongException;
@@ -98,6 +100,19 @@ public class Password {
 	 */
 	public boolean isHashed() {
 		return hashed;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Password password = (Password) o;
+		return hashed == password.hashed && value.equals(password.value);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(value, hashed);
 	}
 
 }

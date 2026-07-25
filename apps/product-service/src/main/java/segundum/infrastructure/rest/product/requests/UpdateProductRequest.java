@@ -1,14 +1,17 @@
 package segundum.infrastructure.rest.product.requests;
 
-/**
- * Request for updating an existing product.
- */
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Request to update an existing product")
 public class UpdateProductRequest {
 
+	@Schema(description = "New price", example = "249.99")
 	private Double price;
 
+	@Schema(description = "New description", example = "Updated description")
 	private String description;
 
+	@Schema(description = "New condition status", example = "LIKE_NEW")
 	private String conditionStatus;
 
 	/**

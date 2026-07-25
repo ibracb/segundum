@@ -71,29 +71,10 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public void delete(UserId id) {
-        EntityManager em = getEntityManager();
-        try {
-            em.getTransaction().begin();
-            UserJpaEntity entity = em.find(UserJpaEntity.class, id.getValue().toString());
-            if (entity != null) {
-                entity.setStatus("DELETED");
-                em.merge(entity);
-            }
-            em.getTransaction().commit();
-        } catch (PersistenceException e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        }
-    }
-    
-    @Override
 	public boolean existsById(UserId id) {
     			EntityManager em = getEntityManager();
 		TypedQuery<Long> query = em.createQuery(
-				"SELECT COUNT(u) FROM UserJpaEntity u WHERE u.id = :id AND u.status != 'DELETED'", Long.class);
+				"SELECT COUNT(u) FROM UserJpaEntity u WHERE u.id = :id", Long.class);
 		query.setParameter("id", id.getValue().toString());
 		return query.getSingleResult() > 0;
 	}
@@ -102,7 +83,7 @@ public class JpaUserRepository implements UserRepository {
     public boolean existsByEmail(Email email) {
         EntityManager em = getEntityManager();
         TypedQuery<Long> query = em.createQuery(
-                "SELECT COUNT(u) FROM UserJpaEntity u WHERE u.email = :email AND u.status != 'DELETED'", Long.class);
+                "SELECT COUNT(u) FROM UserJpaEntity u WHERE u.email = :email", Long.class);
         query.setParameter("email", email.getValue());
         return query.getSingleResult() > 0;
     }

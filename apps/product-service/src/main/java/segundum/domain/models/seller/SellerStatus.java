@@ -11,8 +11,8 @@ public enum SellerStatus {
 	ACTIVE,
 
 	/**
-	 * The seller has been soft-deleted.
+	 * The seller has been deactivated.
 	 */
-	DELETED
+	INACTIVE
 
 }

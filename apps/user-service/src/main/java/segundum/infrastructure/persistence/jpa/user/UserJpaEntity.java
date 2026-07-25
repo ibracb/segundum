@@ -69,7 +69,7 @@ public class UserJpaEntity {
 	private long sales;
 
 	/**
-	 * The status of the user (ACTIVE, DELETED).
+	 * The status of the user (ACTIVE, INACTIVE).
 	 */
 	@Column(name = "status", nullable = false)
 	private String status;

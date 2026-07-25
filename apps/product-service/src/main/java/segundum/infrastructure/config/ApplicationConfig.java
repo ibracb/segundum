@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import segundum.application.eventhandlers.users.UserDeletedHandler;
+import segundum.application.eventhandlers.users.UserDeactivatedHandler;
 import segundum.application.eventhandlers.users.UserRegisteredHandler;
 import segundum.application.eventhandlers.users.UserUpdatedHandler;
-import segundum.application.eventhandlers.users.interactors.UserDeletedInteractor;
+import segundum.application.eventhandlers.users.interactors.UserDeactivatedInteractor;
 import segundum.application.eventhandlers.users.interactors.UserRegisteredInteractor;
 import segundum.application.eventhandlers.users.interactors.UserUpdatedInteractor;
 import segundum.application.repositories.CategoryReadRepository;
@@ -170,15 +170,15 @@ public class ApplicationConfig {
 	}
 
 	/**
-	 * Instantiates the user deleted handler.
+	 * Instantiates the user deactivated handler.
 	 *
 	 * @param sellerRepository the repository for managing seller data
 	 * @param logger the logger
-	 * @return the user deleted handler
+	 * @return the user deactivated handler
 	 */
 	@Bean
-	public UserDeletedHandler userDeletedHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
-		return new UserDeletedInteractor(sellerRepository, logEmitter);
+	public UserDeactivatedHandler userDeactivatedHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
+		return new UserDeactivatedInteractor(sellerRepository, logEmitter);
 	}
 
 	@Bean
@@ -224,13 +224,15 @@ public class ApplicationConfig {
 	}
 
 	@Bean
-	public GetSellerDraftProductsUseCase getSellerDraftProductsUseCase(ProductReadRepository productReadRepository) {
-		return new GetSellerDraftProductsInteractor(productReadRepository);
+	public GetSellerDraftProductsUseCase getSellerDraftProductsUseCase(
+			ProductReadRepository productReadRepository, SellerRepository sellerRepository) {
+		return new GetSellerDraftProductsInteractor(productReadRepository, sellerRepository);
 	}
 
 	@Bean
-	public GetSellerForSaleProductsUseCase getSellerForSaleProductsUseCase(ProductReadRepository productReadRepository) {
-		return new GetSellerForSaleProductsInteractor(productReadRepository);
+	public GetSellerForSaleProductsUseCase getSellerForSaleProductsUseCase(
+			ProductReadRepository productReadRepository, SellerRepository sellerRepository) {
+		return new GetSellerForSaleProductsInteractor(productReadRepository, sellerRepository);
 	}
 
 	@Bean

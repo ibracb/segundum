@@ -1,18 +1,23 @@
 package segundum.infrastructure.rest.user.requests;
 
-/**
- * Represents a request to update a user's profile.
- */
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Request to update a user's profile")
 public class UpdateUserProfileRequest {
 
+	@Schema(description = "User ID", example = "a1b2c3d4-e5f6-7890-abcd-ef1234567890")
 	private String userId;
 
+	@Schema(description = "Updated first name", example = "John")
 	private String name;
 
+	@Schema(description = "Updated last name", example = "Doe")
 	private String surname;
 
+	@Schema(description = "Updated password", example = "newSecurePass456")
 	private String password;
 
+	@Schema(description = "Updated phone number", example = "+34698765432")
 	private String phone;
 
 	public UpdateUserProfileRequest() {

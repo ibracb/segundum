@@ -36,11 +36,6 @@ public class FakeSellerRepository implements SellerRepository {
 	}
 
 	@Override
-	public void delete(SellerId id) {
-		sellers.remove(id);
-	}
-
-	@Override
 	public boolean existsByEmail(Email email) {
 		return sellers.values().stream()
 				.anyMatch(s -> s.getEmail().getValue().equals(email.getValue()));

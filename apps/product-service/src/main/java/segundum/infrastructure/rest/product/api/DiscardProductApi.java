@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import segundum.infrastructure.rest.handlers.ErrorResponse;
 
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
@@ -21,9 +23,9 @@ public interface DiscardProductApi {
 			@ApiResponse(responseCode = "204", description = "Product discarded",
 					content = @Content),
 			@ApiResponse(responseCode = "404", description = "Product not found",
-					content = @Content),
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Product is not in DRAFT state",
-					content = @Content)
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
 	@DeleteMapping("/{id}/discard")
 	ResponseEntity<Void> discardProduct(

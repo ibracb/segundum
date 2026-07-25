@@ -55,15 +55,6 @@ public class JpaSellerRepository implements SellerRepository {
 	}
 
 	@Override
-	public void delete(SellerId id) {
-		sellerJpaRepository.findById(id.getValue().toString())
-				.ifPresent(entity -> {
-					entity.setStatus("DELETED");
-					sellerJpaRepository.save(entity);
-				});
-	}
-
-	@Override
 	public boolean existsByEmail(Email email) {
 		return sellerJpaRepository.existsByEmail(email.getValue());
 	}

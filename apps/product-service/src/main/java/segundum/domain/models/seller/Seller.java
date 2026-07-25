@@ -1,5 +1,8 @@
 package segundum.domain.models.seller;
 
+import segundum.domain.exceptions.SameValueException;
+import segundum.domain.exceptions.seller.status.SellerNotActiveException;
+
 /**
  * Represents a seller in the product service.
  */
@@ -69,9 +72,8 @@ public class Seller {
 	 * @param name the new name of the seller
 	 */
 	public void changeName(Name name) {
-		if(this.name.equals(name)) {
-			return;
-		}
+		ensureIsActive();
+		ensureNameIsNotTheSame(name);
 		this.name = name;
 	}
 	
@@ -81,9 +83,8 @@ public class Seller {
 	 * @param surname the new surname of the seller
 	 */
 	public void changeSurname(Surname surname) {
-		if(this.surname.equals(surname)) {
-			return;
-		}
+		ensureIsActive();
+		ensureSurnameIsNotTheSame(surname);
 		this.surname = surname;
 	}
 	
@@ -134,19 +135,38 @@ public class Seller {
 	}
 
 	/**
-	 * Deletes the seller by setting status to DELETED.
+	 * Deactivates the seller by setting status to INACTIVE.
 	 */
-	public void delete() {
-		this.status = SellerStatus.DELETED;
+	public void deactivate() {
+		ensureIsActive();
+		this.status = SellerStatus.INACTIVE;
 	}
 
 	/**
-	 * Checks if the seller has been deleted.
+	 * Checks if the seller has been deactivated.
 	 *
-	 * @return true if the seller is deleted, false otherwise
+	 * @return true if the seller is inactive, false otherwise
 	 */
-	public boolean isDeleted() {
-		return this.status == SellerStatus.DELETED;
+	public boolean isActive() {
+		return this.status == SellerStatus.ACTIVE;
+	}
+
+	private void ensureIsActive() {
+		if (this.status != SellerStatus.ACTIVE) {
+			throw new SellerNotActiveException(this.sellerId);
+		}
+	}
+
+	private void ensureNameIsNotTheSame(Name name) {
+		if (this.name.equals(name)) {
+			throw new SameValueException("name");
+		}
+	}
+
+	private void ensureSurnameIsNotTheSame(Surname surname) {
+		if (this.surname.equals(surname)) {
+			throw new SameValueException("surname");
+		}
 	}
 
 }

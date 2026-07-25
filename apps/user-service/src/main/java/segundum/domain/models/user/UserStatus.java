@@ -11,8 +11,8 @@ public enum UserStatus {
 	ACTIVE,
 
 	/**
-	 * The user has been soft-deleted.
+	 * The user has been deactivated.
 	 */
-	DELETED
+	INACTIVE
 
 }

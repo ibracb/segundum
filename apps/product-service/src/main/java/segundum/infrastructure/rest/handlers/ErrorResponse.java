@@ -1,18 +1,21 @@
 package segundum.infrastructure.rest.handlers;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Error response DTO for API error responses.
  * Follows the same format as the user-service.
  */
+@Schema(description = "Standard error response returned by the API")
 public class ErrorResponse {
-
-	/** The HTTP status code of the error. */
+	
+	@Schema(description = "HTTP status code", example = "XXX")
 	private int code;
-
-	/** The HTTP status text of the error. */
+	
+	@Schema(description = "HTTP status reason phrase", example = "Error")
 	private String error;
-
-	/** A human-readable description of the error. */
+	
+	@Schema(description = "Human-readable error message", example = "Description of the problem")
 	private String message;
 
 	public ErrorResponse() {

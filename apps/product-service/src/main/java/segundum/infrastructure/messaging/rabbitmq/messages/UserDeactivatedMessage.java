@@ -1,9 +1,9 @@
 package segundum.infrastructure.messaging.rabbitmq.messages;
 
 /**
- * Message DTO for user deleted messages.
+ * Message DTO for user deactivated messages.
  */
-public class UserDeletedMessage extends UserMessage {
+public class UserDeactivatedMessage extends UserMessage {
 
 	/**
 	 * The user identifier.

@@ -6,14 +6,14 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-import segundum.application.eventhandlers.users.UserDeletedHandler;
+import segundum.application.eventhandlers.users.UserDeactivatedHandler;
 import segundum.application.eventhandlers.users.UserRegisteredHandler;
 import segundum.application.eventhandlers.users.UserUpdatedHandler;
-import segundum.application.events.users.UserDeleted;
+import segundum.application.events.users.UserDeactivated;
 import segundum.application.events.users.UserRegistered;
 import segundum.application.events.users.UserUpdated;
 import segundum.infrastructure.messaging.rabbitmq.config.RabbitMQConfig;
-import segundum.infrastructure.messaging.rabbitmq.messages.UserDeletedMessage;
+import segundum.infrastructure.messaging.rabbitmq.messages.UserDeactivatedMessage;
 import segundum.infrastructure.messaging.rabbitmq.messages.UserRegisteredMessage;
 import segundum.infrastructure.messaging.rabbitmq.messages.UserUpdatedMessage;
 
@@ -33,23 +33,23 @@ public class RabbitMQUserEventConsumer {
 	 */
 	private final UserUpdatedHandler userUpdatedHandler;
 	/**
-	 * The handler for user deleted events.
+	 * The handler for user deactivated events.
 	 */
-	private final UserDeletedHandler userDeletedHandler;
+	private final UserDeactivatedHandler userDeactivatedHandler;
 
 	/**
 	 * Constructs a new RabbitMQUserEventConsumer with the given handlers.
 	 *
 	 * @param userRegisteredHandler the handler for user registered events
 	 * @param userUpdatedHandler the handler for user updated events
-	 * @param userDeletedHandler the handler for user deleted events
+	 * @param userDeactivatedHandler the handler for user deactivated events
 	 */
 	public RabbitMQUserEventConsumer(UserRegisteredHandler userRegisteredHandler,
 			UserUpdatedHandler userUpdatedHandler,
-			UserDeletedHandler userDeletedHandler) {
+			UserDeactivatedHandler userDeactivatedHandler) {
 		this.userRegisteredHandler = userRegisteredHandler;
 		this.userUpdatedHandler = userUpdatedHandler;
-		this.userDeletedHandler = userDeletedHandler;
+		this.userDeactivatedHandler = userDeactivatedHandler;
 	}
 
 	/**
@@ -80,13 +80,13 @@ public class RabbitMQUserEventConsumer {
 	}
 
 	/**
-	 * Consumes user deleted events from the queue.
+	 * Consumes user deactivated events from the queue.
 	 *
-	 * @param message the deserialized user deleted event
+	 * @param message the deserialized user deactivated event
 	 */
 	@RabbitHandler
-	public void consumeUserDeleted(UserDeletedMessage message) {
-		userDeletedHandler.handle(new UserDeleted(
+	public void consumeUserDeactivated(UserDeactivatedMessage message) {
+		userDeactivatedHandler.handle(new UserDeactivated(
 				UUID.fromString(message.getUserId().getValue())));
 	}
 

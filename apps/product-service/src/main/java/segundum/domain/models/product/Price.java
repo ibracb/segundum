@@ -44,4 +44,17 @@ public class Price {
 		return value;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Price price = (Price) o;
+		return Double.compare(price.value, value) == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return Double.hashCode(value);
+	}
+
 }

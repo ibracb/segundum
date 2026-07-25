@@ -1,14 +1,17 @@
 package segundum.infrastructure.rest.handlers;
 
-/**
- * Represents an error response returned by the REST API.
- */
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Standard error response returned by the API")
 public class ErrorResponse {
-
+	
+	@Schema(description = "HTTP status code", example = "XXX")
 	private int code;
-
+	
+	@Schema(description = "HTTP status reason phrase", example = "Error")
 	private String error;
-
+	
+	@Schema(description = "Human-readable error message", example = "Description of the problem")
 	private String message;
 
 	public ErrorResponse(int code, String error, String message) {

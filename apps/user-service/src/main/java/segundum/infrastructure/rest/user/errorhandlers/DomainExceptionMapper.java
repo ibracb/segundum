@@ -15,7 +15,7 @@ public class DomainExceptionMapper implements ExceptionMapper<DomainException> {
 	public Response toResponse(DomainException exception) {
 		ErrorResponse body = new ErrorResponse(
 				Response.Status.BAD_REQUEST.getStatusCode(),
-				"Bad Request",
+				Response.Status.BAD_REQUEST.getReasonPhrase(),
 				exception.getMessage());
 		return Response.status(Response.Status.BAD_REQUEST)
 				.entity(body)

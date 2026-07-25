@@ -5,33 +5,39 @@ import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-/**
- * Represents a request to register a new user.
- */
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Request to register a new user")
 public class RegisterUserRequest {
 
 	@NotNull
 	@NotBlank
+	@Schema(description = "User's first name", example = "John")
 	private String name;
 
 	@NotNull
 	@NotBlank
+	@Schema(description = "User's last name", example = "Doe")
 	private String surname;
 
 	@NotNull
 	@NotBlank
+	@Schema(description = "User's email address", example = "john.doe@example.com")
 	private String email;
 
 	@NotNull
 	@NotBlank
+	@Schema(description = "User's password", example = "securePass123")
 	private String password;
 
 	@NotNull
 	@NotBlank
+	@Schema(description = "User's birthdate", example = "1990-01-15")
 	private LocalDate birthdate;
 
 	@NotNull
 	@NotBlank
+	@Schema(description = "User's phone number", example = "+34612345678")
 	private String phone;
 
 	public RegisterUserRequest() {

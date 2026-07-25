@@ -37,13 +37,6 @@ public interface UserRepository {
 	Optional<User> findById(UserId id);
 	
 	/**
-	 * Deletes a user from the repository by their unique identifier.
-	 *
-	 * @param id the unique identifier of the user to delete
-	 */
-	void delete(UserId id);
-	
-	/**
 	 * Checks if a user exists in the repository by their unique identifier.
 	 *
 	 * @param id the unique identifier of the user to check
