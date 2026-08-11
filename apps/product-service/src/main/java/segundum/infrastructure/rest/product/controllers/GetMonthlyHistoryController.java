@@ -20,14 +20,28 @@ import segundum.infrastructure.rest.product.api.GetMonthlyHistoryApi;
 import segundum.infrastructure.rest.product.assemblers.ProductModelAssembler;
 import segundum.infrastructure.rest.product.responses.ProductSummaryResponse;
 
+/**
+ * Represents the controller for retrieving the monthly history of products.
+ */
 @RestController
 public class GetMonthlyHistoryController implements GetMonthlyHistoryApi {
 
+	/**
+	 * The use case.
+	 */
 	private final GetMonthlyHistoryUseCase useCase;
+	/**
+	 * The assembler.
+	 */
 	private final ProductModelAssembler assembler;
 
-	public GetMonthlyHistoryController(GetMonthlyHistoryUseCase useCase,
-			ProductModelAssembler assembler) {
+	/**
+	 * Constructs a new GetMonthlyHistoryController with the given dependencies.
+	 *
+	 * @param useCase the use case
+	 * @param assembler the assembler
+	 */
+	public GetMonthlyHistoryController(GetMonthlyHistoryUseCase useCase, ProductModelAssembler assembler) {
 		this.useCase = useCase;
 		this.assembler = assembler;
 	}

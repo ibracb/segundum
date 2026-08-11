@@ -18,6 +18,9 @@ import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.user.requests.RegisterUserRequest;
 import segundum.infrastructure.rest.user.responses.UserProfileResponse;
 
+/**
+ * Represents the REST API for registering a new user.
+ */
 @Tag(name = "Users", description = "User management endpoints")
 @Path("/users")
 public interface RegisterUserApi {

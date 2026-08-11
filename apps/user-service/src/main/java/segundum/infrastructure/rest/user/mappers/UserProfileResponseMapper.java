@@ -8,9 +8,18 @@ import segundum.infrastructure.rest.user.responses.UserProfileResponse;
  */
 public class UserProfileResponseMapper {
 
+	/**
+	 * Private constructor to prevent instantiation.
+	 */
 	private UserProfileResponseMapper() {
 	}
 
+	/**
+	 * Converts a User into a UserProfileResponse.
+	 *
+	 * @param user the user to convert
+	 * @return the UserProfileResponse representing the user's profile
+	 */
 	public static UserProfileResponse fromDomain(User user) {
 		return new UserProfileResponse(
 				user.getUserId().getValue().toString(),

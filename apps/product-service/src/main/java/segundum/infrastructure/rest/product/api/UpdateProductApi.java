@@ -19,6 +19,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.product.requests.UpdateProductRequest;
 
+/**
+ * Represents the REST API for updating a product.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
 public interface UpdateProductApi {

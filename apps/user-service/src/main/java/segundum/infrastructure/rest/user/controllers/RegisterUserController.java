@@ -15,10 +15,21 @@ import segundum.infrastructure.rest.user.api.RegisterUserApi;
 import segundum.infrastructure.rest.user.mappers.UserProfileResponseMapper;
 import segundum.infrastructure.rest.user.requests.RegisterUserRequest;
 
+/**
+ * Represents the controller that handles the registration of a new user.
+ */
 public class RegisterUserController implements RegisterUserApi {
 
+	/**
+	 * The use case for registering a new user.
+	 */
 	private final RegisterUserUseCase registerUserUseCase;
 
+	/**
+	 * Constructs a new RegisterUserController with the given use case.
+	 *
+	 * @param registerUserUseCase the use case for registering a new user
+	 */
 	public RegisterUserController(RegisterUserUseCase registerUserUseCase) {
 		this.registerUserUseCase = registerUserUseCase;
 	}

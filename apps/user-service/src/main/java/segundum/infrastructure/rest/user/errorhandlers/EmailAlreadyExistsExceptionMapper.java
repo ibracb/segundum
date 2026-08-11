@@ -8,6 +8,9 @@ import javax.ws.rs.ext.Provider;
 import segundum.domain.exceptions.user.email.EmailAlreadyExistsException;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 
+/**
+ * Represents a mapper that converts email already exists exceptions into HTTP responses.
+ */
 @Provider
 public class EmailAlreadyExistsExceptionMapper implements ExceptionMapper<EmailAlreadyExistsException> {
 

@@ -9,10 +9,21 @@ import segundum.infrastructure.persistence.mongodb.category.CategoryReadDocument
 import segundum.infrastructure.persistence.mongodb.category.CategoryReadMongoRepository;
 
 @Component
+/**
+ * Represents the projection that updates the read side when a category is created.
+ */
 public class CategoryCreatedProjection {
 
+	/**
+	 * The repository used to persist category read documents.
+	 */
 	private final CategoryReadMongoRepository repository;
 
+	/**
+	 * Constructs a new CategoryCreatedProjection with the given repository.
+	 *
+	 * @param repository the category read Mongo repository
+	 */
 	public CategoryCreatedProjection(CategoryReadMongoRepository repository) {
 		this.repository = repository;
 	}

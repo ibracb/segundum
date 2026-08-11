@@ -8,11 +8,22 @@ import segundum.application.usecases.PutProductForSaleUseCase;
 import segundum.domain.models.product.ProductId;
 import segundum.infrastructure.rest.product.api.PutProductForSaleApi;
 
+/**
+ * Represents the controller for putting a product for sale.
+ */
 @RestController
 public class PutProductForSaleController implements PutProductForSaleApi {
 
+	/**
+	 * The put product on sale use case.
+	 */
 	private final PutProductForSaleUseCase putProductOnSaleUseCase;
 
+	/**
+	 * Constructs a new PutProductForSaleController with the given dependencies.
+	 *
+	 * @param putProductOnSaleUseCase the put product on sale use case
+	 */
 	public PutProductForSaleController(PutProductForSaleUseCase putProductOnSaleUseCase) {
 		this.putProductOnSaleUseCase = putProductOnSaleUseCase;
 	}

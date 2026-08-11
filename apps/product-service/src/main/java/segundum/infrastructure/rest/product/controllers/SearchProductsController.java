@@ -23,14 +23,28 @@ import segundum.infrastructure.rest.product.api.SearchProductsApi;
 import segundum.infrastructure.rest.product.assemblers.ProductModelAssembler;
 import segundum.infrastructure.rest.product.responses.ProductSearchResultResponse;
 
+/**
+ * Represents the controller for searching products.
+ */
 @RestController
 public class SearchProductsController implements SearchProductsApi {
 
+	/**
+	 * The use case.
+	 */
 	private final SearchProductsUseCase useCase;
+	/**
+	 * The assembler.
+	 */
 	private final ProductModelAssembler assembler;
 
-	public SearchProductsController(SearchProductsUseCase useCase,
-			ProductModelAssembler assembler) {
+	/**
+	 * Constructs a new SearchProductsController with the given dependencies.
+	 *
+	 * @param useCase the use case
+	 * @param assembler the assembler
+	 */
+	public SearchProductsController(SearchProductsUseCase useCase, ProductModelAssembler assembler) {
 		this.useCase = useCase;
 		this.assembler = assembler;
 	}

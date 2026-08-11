@@ -1,0 +1,49 @@
+name: Sale Service CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/sale-service/**'
+      - '.github/workflows/sale-service-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/sale-service/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: temurin
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build and test with Maven
+        run: mvn -B clean package
+        working-directory: apps/sale-service
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: apps/sale-service/target/site/jacoco/
+
+      - name: Verify JAR
+        run: ls -la target/*.jar
+        working-directory: apps/sale-service

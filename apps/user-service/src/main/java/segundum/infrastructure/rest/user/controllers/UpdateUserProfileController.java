@@ -14,10 +14,21 @@ import segundum.infrastructure.rest.user.api.UpdateUserProfileApi;
 import segundum.infrastructure.rest.user.mappers.UserProfileResponseMapper;
 import segundum.infrastructure.rest.user.requests.UpdateUserProfileRequest;
 
+/**
+ * Represents the controller that handles the update of a user profile.
+ */
 public class UpdateUserProfileController implements UpdateUserProfileApi {
 
+	/**
+	 * The use case for updating a user profile.
+	 */
 	private final UpdateUserProfileUseCase updateUserUseCase;
 
+	/**
+	 * Constructs a new UpdateUserProfileController with the given use case.
+	 *
+	 * @param updateUserUseCase the use case for updating a user profile
+	 */
 	public UpdateUserProfileController(UpdateUserProfileUseCase updateUserUseCase) {
 		this.updateUserUseCase = updateUserUseCase;
 	}

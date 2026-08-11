@@ -3,6 +3,7 @@ package segundum.infrastructure.persistence.mongodb.product;
 import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -46,6 +47,7 @@ public class ProductReadDocument {
 	private PickupLocationDocument pickupLocation;
 
 	@Field("seller_id")
+	@Indexed
 	private String sellerId;
 
 	@Field("views")

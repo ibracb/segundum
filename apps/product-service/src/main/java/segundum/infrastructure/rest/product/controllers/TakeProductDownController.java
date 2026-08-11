@@ -8,11 +8,22 @@ import segundum.application.usecases.TakeProductDownUseCase;
 import segundum.domain.models.product.ProductId;
 import segundum.infrastructure.rest.product.api.TakeProductDownApi;
 
+/**
+ * Represents the controller for taking a product down from sale.
+ */
 @RestController
 public class TakeProductDownController implements TakeProductDownApi {
 
+	/**
+	 * The take product down use case.
+	 */
 	private final TakeProductDownUseCase takeProductDownUseCase;
 
+	/**
+	 * Constructs a new TakeProductDownController with the given dependencies.
+	 *
+	 * @param takeProductDownUseCase the take product down use case
+	 */
 	public TakeProductDownController(TakeProductDownUseCase takeProductDownUseCase) {
 		this.takeProductDownUseCase = takeProductDownUseCase;
 	}

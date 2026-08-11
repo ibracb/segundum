@@ -11,10 +11,21 @@ import segundum.application.readmodels.category.CategoryReadModel;
 import segundum.application.repositories.CategoryReadRepository;
 import segundum.domain.models.category.CategoryId;
 
+/**
+ * Represents the MongoDB implementation of the category read repository.
+ */
 public class MongoCategoryReadRepository implements CategoryReadRepository {
 
+	/**
+	 * The MongoDB template.
+	 */
 	private final MongoTemplate mongoTemplate;
 
+	/**
+	 * Constructs a new MongoCategoryReadRepository with the given template.
+	 *
+	 * @param mongoTemplate the MongoDB template
+	 */
 	public MongoCategoryReadRepository(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
@@ -37,6 +48,12 @@ public class MongoCategoryReadRepository implements CategoryReadRepository {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Maps a category read document to a category read model.
+	 *
+	 * @param doc the category read document
+	 * @return the category read model
+	 */
 	private static CategoryReadModel toReadModel(CategoryReadDocument doc) {
 		return new CategoryReadModel(
 				doc.getCategoryId(),

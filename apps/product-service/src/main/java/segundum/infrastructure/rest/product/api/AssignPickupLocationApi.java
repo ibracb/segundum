@@ -19,6 +19,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.product.requests.AssignPickupLocationRequest;
 
+/**
+ * Represents the REST API for assigning a pickup location to a product.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
 public interface AssignPickupLocationApi {

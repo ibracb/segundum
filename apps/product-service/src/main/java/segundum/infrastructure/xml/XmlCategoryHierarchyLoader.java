@@ -20,12 +20,27 @@ import segundum.domain.outbound.CategoryHierarchyLoader;
 import segundum.domain.outbound.DomainEventPublisher;
 import segundum.domain.repositories.CategoryWriteRepository;
 
+/**
+ * Represents the loader that reads a category hierarchy from an XML source.
+ */
 @Component
 public class XmlCategoryHierarchyLoader implements CategoryHierarchyLoader {
 
+	/**
+	 * The repository used to write categories.
+	 */
 	private final CategoryWriteRepository categoryWriteRepository;
+	/**
+	 * The publisher used to publish domain events.
+	 */
 	private final DomainEventPublisher domainEventPublisher;
 
+	/**
+	 * Constructs a new XmlCategoryHierarchyLoader with the given dependencies.
+	 *
+	 * @param categoryWriteRepository the repository used to write categories
+	 * @param domainEventPublisher the publisher used to publish domain events
+	 */
 	public XmlCategoryHierarchyLoader(CategoryWriteRepository categoryWriteRepository,
 			DomainEventPublisher domainEventPublisher) {
 		this.categoryWriteRepository = categoryWriteRepository;
@@ -58,6 +73,12 @@ public class XmlCategoryHierarchyLoader implements CategoryHierarchyLoader {
 		}
 	}
 
+	/**
+	 * Saves the given category model and its subcategories recursively.
+	 *
+	 * @param model the category model to save
+	 * @param parentCategoryId the identifier of the parent category
+	 */
 	private void saveRecursively(CategoryXmlModel model, CategoryId parentCategoryId) {
 		CategoryId categoryId = CategoryId.fromString(model.getId());
 		if (categoryWriteRepository.existsById(categoryId)) {

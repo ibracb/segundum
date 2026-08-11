@@ -17,6 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.product.requests.CreateProductRequest;
 
+/**
+ * Represents the REST API for creating a new product.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
 public interface CreateProductApi {

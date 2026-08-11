@@ -14,6 +14,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 
+/**
+ * Represents the REST API for removing a product.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
 public interface RemoveProductApi {

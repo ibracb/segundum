@@ -1,6 +1,7 @@
 package segundum.infrastructure.persistence.mongodb.product;
 
 import segundum.application.readmodels.product.PickupLocationReadModel;
+import segundum.application.readmodels.product.ProductBasicInfo;
 import segundum.application.readmodels.product.ProductDetail;
 import segundum.application.readmodels.product.ProductSearchResult;
 import segundum.application.readmodels.product.ProductSummary;
@@ -18,11 +19,23 @@ import segundum.domain.models.product.SaleStatus;
 import segundum.domain.models.product.Title;
 import segundum.domain.models.seller.SellerId;
 
+/**
+ * Represents a mapper between product read documents and read models.
+ */
 public class ProductReadMapper {
 
+	/**
+	 * Constructs a new ProductReadMapper.
+	 */
 	private ProductReadMapper() {
 	}
 
+	/**
+	 * Maps a product read document to a product domain model.
+	 *
+	 * @param doc the product read document
+	 * @return the product domain model
+	 */
 	public static Product toDomain(ProductReadDocument doc) {
 		PickupLocation pickupLocation = null;
 		if (doc.getPickupLocation() != null) {
@@ -45,6 +58,12 @@ public class ProductReadMapper {
 				doc.getViews());
 	}
 
+	/**
+	 * Maps a product read document to a product summary.
+	 *
+	 * @param doc the product read document
+	 * @return the product summary
+	 */
 	public static ProductSummary toSummary(ProductReadDocument doc) {
 		return new ProductSummary(
 				doc.getProductId(),
@@ -55,6 +74,12 @@ public class ProductReadMapper {
 				doc.getViews());
 	}
 
+	/**
+	 * Maps a product read document to a product search result.
+	 *
+	 * @param doc the product read document
+	 * @return the product search result
+	 */
 	public static ProductSearchResult toSearchResult(ProductReadDocument doc) {
 		return new ProductSearchResult(
 				doc.getProductId(),
@@ -64,6 +89,12 @@ public class ProductReadMapper {
 				doc.getCategoryName());
 	}
 
+	/**
+	 * Maps a product read document to a product detail.
+	 *
+	 * @param doc the product read document
+	 * @return the product detail
+	 */
 	public static ProductDetail toDetail(ProductReadDocument doc) {
 		PickupLocationReadModel pickupLocation = null;
 		if (doc.getPickupLocation() != null) {
@@ -85,6 +116,34 @@ public class ProductReadMapper {
 				doc.getViews());
 	}
 
+	/**
+	 * Maps a product read document to product basic information.
+	 *
+	 * @param doc the product read document
+	 * @return the product basic information
+	 */
+	public static ProductBasicInfo toBasicInfo(ProductReadDocument doc) {
+		PickupLocationReadModel pickupLocation = null;
+		if (doc.getPickupLocation() != null) {
+			PickupLocationDocument pld = doc.getPickupLocation();
+			pickupLocation = new PickupLocationReadModel(pld.getDescription(), pld.getLatitude(), pld.getLongitude());
+		}
+
+		return new ProductBasicInfo(
+				doc.getProductId(),
+				doc.getTitle(),
+				doc.getPrice(),
+				pickupLocation,
+				doc.getSellerId(),
+				doc.getSaleStatus());
+	}
+
+	/**
+	 * Maps a product read document to a seller product.
+	 *
+	 * @param doc the product read document
+	 * @return the seller product
+	 */
 	public static SellerProduct toSellerProduct(ProductReadDocument doc) {
 		return new SellerProduct(
 				doc.getProductId(),

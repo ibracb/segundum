@@ -10,13 +10,23 @@ import segundum.domain.models.product.ProductId;
 import segundum.infrastructure.rest.product.api.AssignPickupLocationApi;
 import segundum.infrastructure.rest.product.requests.AssignPickupLocationRequest;
 
+/**
+ * Represents the controller for assigning a pickup location to a product.
+ */
 @RestController
 public class AssignPickupLocationController implements AssignPickupLocationApi {
 
+	/**
+	 * The assign product pickup location use case.
+	 */
 	private final AssignProductPickupLocationUseCase assignProductPickupLocationUseCase;
 
-	public AssignPickupLocationController(
-			AssignProductPickupLocationUseCase assignProductPickupLocationUseCase) {
+	/**
+	 * Constructs a new AssignPickupLocationController with the given dependencies.
+	 *
+	 * @param assignProductPickupLocationUseCase the assign product pickup location use case
+	 */
+	public AssignPickupLocationController(AssignProductPickupLocationUseCase assignProductPickupLocationUseCase) {
 		this.assignProductPickupLocationUseCase = assignProductPickupLocationUseCase;
 	}
 

@@ -18,8 +18,17 @@ import segundum.infrastructure.rest.product.responses.ProductSummaryResponse;
 import segundum.infrastructure.rest.product.responses.SellerProductResponse;
 
 @Component
+/**
+ * Represents the assembler that builds product HATEOAS models.
+ */
 public class ProductModelAssembler {
 
+	/**
+	 * Builds a model for a product detail.
+	 *
+	 * @param product the product detail
+	 * @return the product detail model
+	 */
 	public EntityModel<ProductDetailResponse> toDetailModel(ProductDetail product) {
 		PickupLocationResponse pickup = product.getPickupLocation() != null
 				? new PickupLocationResponse(
@@ -45,6 +54,12 @@ public class ProductModelAssembler {
 		return model;
 	}
 
+	/**
+	 * Builds a model for a product search result.
+	 *
+	 * @param result the product search result
+	 * @return the product search result model
+	 */
 	public EntityModel<ProductSearchResultResponse> toSearchResultModel(ProductSearchResult result) {
 		ProductSearchResultResponse response = new ProductSearchResultResponse(
 				result.getProductId(),
@@ -58,6 +73,12 @@ public class ProductModelAssembler {
 		return model;
 	}
 
+	/**
+	 * Builds a model for a product summary.
+	 *
+	 * @param summary the product summary
+	 * @return the product summary model
+	 */
 	public EntityModel<ProductSummaryResponse> toSummaryModel(ProductSummary summary) {
 		ProductSummaryResponse response = new ProductSummaryResponse(
 				summary.getProductId(),
@@ -72,6 +93,12 @@ public class ProductModelAssembler {
 		return model;
 	}
 
+	/**
+	 * Builds a model for a seller product.
+	 *
+	 * @param product the seller product
+	 * @return the seller product model
+	 */
 	public EntityModel<SellerProductResponse> toSellerProductModel(SellerProduct product) {
 		SellerProductResponse response = new SellerProductResponse(
 				product.getProductId(),

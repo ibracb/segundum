@@ -8,6 +8,9 @@ import javax.ws.rs.ext.Provider;
 import segundum.domain.exceptions.user.status.UserNotActiveException;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 
+/**
+ * Maps a UserNotActiveException to an HTTP conflict response.
+ */
 @Provider
 public class UserNotActiveExceptionMapper implements ExceptionMapper<UserNotActiveException> {
 

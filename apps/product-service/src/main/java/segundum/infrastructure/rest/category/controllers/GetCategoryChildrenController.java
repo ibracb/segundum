@@ -20,11 +20,26 @@ import segundum.infrastructure.rest.category.assemblers.CategoryModelAssembler;
 import segundum.infrastructure.rest.category.responses.CategoryResponse;
 
 @RestController
+/**
+ * Represents the controller for retrieving the children of a category.
+ */
 public class GetCategoryChildrenController implements GetCategoryChildrenApi {
 
+	/**
+	 * The use case used to retrieve the children of a category.
+	 */
 	private final GetCategoryChildrenUseCase getCategoryChildrenUseCase;
+	/**
+	 * The assembler used to build category models.
+	 */
 	private final CategoryModelAssembler assembler;
 
+	/**
+	 * Constructs a new GetCategoryChildrenController with the given dependencies.
+	 *
+	 * @param getCategoryChildrenUseCase the get category children use case
+	 * @param assembler the category model assembler
+	 */
 	public GetCategoryChildrenController(
 			GetCategoryChildrenUseCase getCategoryChildrenUseCase,
 			CategoryModelAssembler assembler) {

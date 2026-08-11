@@ -8,6 +8,9 @@ import javax.ws.rs.ext.Provider;
 import segundum.domain.exceptions.DomainException;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 
+/**
+ * Represents a mapper that converts domain exceptions into HTTP responses.
+ */
 @Provider
 public class DomainExceptionMapper implements ExceptionMapper<DomainException> {
 

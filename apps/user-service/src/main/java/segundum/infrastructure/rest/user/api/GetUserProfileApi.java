@@ -17,6 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.user.responses.UserProfileResponse;
 
+/**
+ * Represents the REST API for retrieving the profile of a user.
+ */
 @Tag(name = "Users", description = "User management endpoints")
 @Path("/users")
 public interface GetUserProfileApi {

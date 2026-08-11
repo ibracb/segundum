@@ -18,6 +18,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.category.responses.CategoryResponse;
 
+
+/**
+ * Represents the REST API for retrieving the children of a category.
+ */
 @Tag(name = "Categories", description = "Category management endpoints")
 @RequestMapping("/categories")
 public interface GetCategoryChildrenApi {

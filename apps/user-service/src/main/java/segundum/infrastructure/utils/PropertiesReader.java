@@ -9,6 +9,9 @@ import java.util.Properties;
  */
 public class PropertiesReader {
 
+	/**
+	 * The loaded properties.
+	 */
 	private Properties properties;
 
 	/**

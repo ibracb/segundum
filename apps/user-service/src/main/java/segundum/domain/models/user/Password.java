@@ -21,10 +21,24 @@ import segundum.domain.exceptions.user.password.PasswordTooShortException;
  */
 public class Password {
 
+	/**
+	 * The minimum length allowed for a plain-text password.
+	 */
 	private static final int MIN_LENGTH = 8;
+
+	/**
+	 * The maximum length allowed for a plain-text password.
+	 */
 	private static final int MAX_LENGTH = 64;
 
+	/**
+	 * The value of the password.
+	 */
 	private final String value;
+
+	/**
+	 * Whether this password is already hashed.
+	 */
 	private final boolean hashed;
 
 	/**

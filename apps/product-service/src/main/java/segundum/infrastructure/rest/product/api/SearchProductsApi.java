@@ -18,6 +18,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.product.responses.ProductSearchResultResponse;
 
+/**
+ * Represents the REST API for searching products.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
 public interface SearchProductsApi {

@@ -1,29 +1,21 @@
 package segundum.infrastructure.config;
 
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import segundum.application.eventhandlers.users.UserDeactivatedHandler;
-import segundum.application.eventhandlers.users.UserRegisteredHandler;
-import segundum.application.eventhandlers.users.UserUpdatedHandler;
-import segundum.application.eventhandlers.users.interactors.UserDeactivatedInteractor;
-import segundum.application.eventhandlers.users.interactors.UserRegisteredInteractor;
-import segundum.application.eventhandlers.users.interactors.UserUpdatedInteractor;
+import segundum.application.eventhandlers.SaleEventHandler;
+import segundum.application.eventhandlers.UserEventHandler;
+import segundum.application.eventhandlers.interactors.SaleEventHandlerInteractor;
+import segundum.application.eventhandlers.interactors.UserEventHandlerInteractor;
 import segundum.application.repositories.CategoryReadRepository;
 import segundum.application.repositories.ProductReadRepository;
-import segundum.application.eventhandlers.sales.SaleCancelledHandler;
-import segundum.application.eventhandlers.sales.SaleCompletedHandler;
-import segundum.application.eventhandlers.sales.SaleReservedHandler;
-import segundum.application.eventhandlers.sales.interactors.SaleCancelledInteractor;
-import segundum.application.eventhandlers.sales.interactors.SaleCompletedInteractor;
-import segundum.application.eventhandlers.sales.interactors.SaleReservedInteractor;
 import segundum.application.usecases.AssignProductPickupLocationUseCase;
 import segundum.application.usecases.CreateProductUseCase;
 import segundum.application.usecases.DiscardProductUseCase;
 import segundum.application.usecases.GetCategoryChildrenUseCase;
 import segundum.application.usecases.GetMonthlyHistoryUseCase;
+import segundum.application.usecases.GetProductBasicInfoUseCase;
 import segundum.application.usecases.GetProductDetailUseCase;
 import segundum.application.usecases.GetRootCategoriesUseCase;
 import segundum.application.usecases.IncrementProductViewsUseCase;
@@ -40,6 +32,7 @@ import segundum.application.usecases.interactors.CreateProductInteractor;
 import segundum.application.usecases.interactors.DiscardProductInteractor;
 import segundum.application.usecases.interactors.GetCategoryChildrenInteractor;
 import segundum.application.usecases.interactors.GetMonthlyHistoryInteractor;
+import segundum.application.usecases.interactors.GetProductBasicInfoInteractor;
 import segundum.application.usecases.interactors.GetProductDetailInteractor;
 import segundum.application.usecases.interactors.GetRootCategoriesInteractor;
 import segundum.application.usecases.interactors.IncrementProductViewsInteractor;
@@ -57,7 +50,6 @@ import segundum.domain.outbound.LogEmitter;
 import segundum.domain.repositories.CategoryWriteRepository;
 import segundum.domain.repositories.ProductWriteRepository;
 import segundum.domain.repositories.SellerRepository;
-import segundum.infrastructure.events.SpringEventPublisher;
 import segundum.infrastructure.logging.Slf4jLogEmitter;
 import segundum.infrastructure.persistence.mongodb.category.CategoryReadMongoRepository;
 import segundum.infrastructure.persistence.mongodb.category.MongoCategoryReadRepository;
@@ -73,11 +65,6 @@ public class ApplicationConfig {
 	@Bean
 	public LogEmitter logEmitter() {
 		return new Slf4jLogEmitter(ApplicationConfig.class);
-	}
-
-	@Bean
-	public DomainEventPublisher domainEventPublisher(ApplicationEventPublisher publisher) {
-		return new SpringEventPublisher(publisher);
 	}
 
 	@Bean
@@ -146,39 +133,29 @@ public class ApplicationConfig {
 	}
 
 	/**
-	 * Instantiates the user registered handler.
+	 * Instantiates the sales bounded context handler.
 	 *
-	 * @param sellerRepository the repository for managing seller data
-	 * @param logger the logger
-	 * @return the user registered handler
+	 * @param productWriteRepository the repository for writing product data
+	 * @param domainEventPublisher the publisher for domain events
+	 * @param logEmitter the logger
+	 * @return the sales handler
 	 */
 	@Bean
-	public UserRegisteredHandler userRegisteredHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
-		return new UserRegisteredInteractor(sellerRepository, logEmitter);
+	public SaleEventHandler salesHandler(ProductWriteRepository productWriteRepository,
+			DomainEventPublisher domainEventPublisher, LogEmitter logEmitter) {
+		return new SaleEventHandlerInteractor(productWriteRepository, domainEventPublisher, logEmitter);
 	}
 
 	/**
-	 * Instantiates the user updated handler.
+	 * Instantiates the users bounded context handler.
 	 *
 	 * @param sellerRepository the repository for managing seller data
-	 * @param logger the logger
-	 * @return the user updated handler
+	 * @param logEmitter the logger
+	 * @return the users handler
 	 */
 	@Bean
-	public UserUpdatedHandler userUpdatedHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
-		return new UserUpdatedInteractor(sellerRepository, logEmitter);
-	}
-
-	/**
-	 * Instantiates the user deactivated handler.
-	 *
-	 * @param sellerRepository the repository for managing seller data
-	 * @param logger the logger
-	 * @return the user deactivated handler
-	 */
-	@Bean
-	public UserDeactivatedHandler userDeactivatedHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
-		return new UserDeactivatedInteractor(sellerRepository, logEmitter);
+	public UserEventHandler usersHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
+		return new UserEventHandlerInteractor(sellerRepository, logEmitter);
 	}
 
 	@Bean
@@ -219,6 +196,11 @@ public class ApplicationConfig {
 	}
 
 	@Bean
+	public GetProductBasicInfoUseCase getProductBasicInfoUseCase(ProductReadRepository productReadRepository) {
+		return new GetProductBasicInfoInteractor(productReadRepository);
+	}
+
+	@Bean
 	public GetProductDetailUseCase getProductDetailUseCase(ProductReadRepository productReadRepository) {
 		return new GetProductDetailInteractor(productReadRepository);
 	}
@@ -233,24 +215,6 @@ public class ApplicationConfig {
 	public GetSellerForSaleProductsUseCase getSellerForSaleProductsUseCase(
 			ProductReadRepository productReadRepository, SellerRepository sellerRepository) {
 		return new GetSellerForSaleProductsInteractor(productReadRepository, sellerRepository);
-	}
-
-	@Bean
-	public SaleReservedHandler saleReservedHandler(ProductWriteRepository productWriteRepository,
-			DomainEventPublisher domainEventPublisher, LogEmitter logEmitter) {
-		return new SaleReservedInteractor(productWriteRepository, domainEventPublisher, logEmitter);
-	}
-
-	@Bean
-	public SaleCompletedHandler saleCompletedHandler(ProductWriteRepository productWriteRepository,
-			DomainEventPublisher domainEventPublisher, LogEmitter logEmitter) {
-		return new SaleCompletedInteractor(productWriteRepository, domainEventPublisher, logEmitter);
-	}
-
-	@Bean
-	public SaleCancelledHandler saleCancelledHandler(ProductWriteRepository productWriteRepository,
-			DomainEventPublisher domainEventPublisher, LogEmitter logEmitter) {
-		return new SaleCancelledInteractor(productWriteRepository, domainEventPublisher, logEmitter);
 	}
 
 }

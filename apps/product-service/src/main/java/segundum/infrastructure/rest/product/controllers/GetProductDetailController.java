@@ -13,14 +13,28 @@ import segundum.infrastructure.rest.product.api.GetProductDetailApi;
 import segundum.infrastructure.rest.product.assemblers.ProductModelAssembler;
 import segundum.infrastructure.rest.product.responses.ProductDetailResponse;
 
+/**
+ * Represents the controller for retrieving the detail of a product.
+ */
 @RestController
 public class GetProductDetailController implements GetProductDetailApi {
 
+	/**
+	 * The use case.
+	 */
 	private final GetProductDetailUseCase useCase;
+	/**
+	 * The assembler.
+	 */
 	private final ProductModelAssembler assembler;
 
-	public GetProductDetailController(GetProductDetailUseCase useCase,
-			ProductModelAssembler assembler) {
+	/**
+	 * Constructs a new GetProductDetailController with the given dependencies.
+	 *
+	 * @param useCase the use case
+	 * @param assembler the assembler
+	 */
+	public GetProductDetailController(GetProductDetailUseCase useCase, ProductModelAssembler assembler) {
 		this.useCase = useCase;
 		this.assembler = assembler;
 	}

@@ -11,10 +11,21 @@ import segundum.infrastructure.persistence.mongodb.product.ProductReadDocument;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadMongoRepository;
 
 @Component
+/**
+ * Represents the projection that updates the read side when a product is reserved.
+ */
 public class ProductReservedProjection {
 
+	/**
+	 * The repository used to persist product read documents.
+	 */
 	private final ProductReadMongoRepository repository;
 
+	/**
+	 * Constructs a new ProductReservedProjection with the given repository.
+	 *
+	 * @param repository the product read Mongo repository
+	 */
 	public ProductReservedProjection(ProductReadMongoRepository repository) {
 		this.repository = repository;
 	}

@@ -18,11 +18,22 @@ import segundum.domain.models.seller.SellerId;
 import segundum.infrastructure.rest.product.api.CreateProductApi;
 import segundum.infrastructure.rest.product.requests.CreateProductRequest;
 
+/**
+ * Represents the controller for creating a new product.
+ */
 @RestController
 public class CreateProductController implements CreateProductApi {
 
+	/**
+	 * The create product use case.
+	 */
 	private final CreateProductUseCase createProductUseCase;
 
+	/**
+	 * Constructs a new CreateProductController with the given dependencies.
+	 *
+	 * @param createProductUseCase the create product use case
+	 */
 	public CreateProductController(CreateProductUseCase createProductUseCase) {
 		this.createProductUseCase = createProductUseCase;
 	}

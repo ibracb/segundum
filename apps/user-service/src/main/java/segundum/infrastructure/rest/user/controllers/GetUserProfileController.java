@@ -9,10 +9,21 @@ import segundum.domain.models.user.UserId;
 import segundum.infrastructure.rest.user.api.GetUserProfileApi;
 import segundum.infrastructure.rest.user.mappers.UserProfileResponseMapper;
 
+/**
+ * Represents the controller that handles the retrieval of a user profile.
+ */
 public class GetUserProfileController implements GetUserProfileApi {
 
+	/**
+	 * The use case for retrieving a user profile.
+	 */
 	private final GetUserProfileUseCase getUserProfileUseCase;
 
+	/**
+	 * Constructs a new GetUserProfileController with the given use case.
+	 *
+	 * @param getUserProfileUseCase the use case for retrieving a user profile
+	 */
 	public GetUserProfileController(GetUserProfileUseCase getUserProfileUseCase) {
 		this.getUserProfileUseCase = getUserProfileUseCase;
 	}

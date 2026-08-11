@@ -11,13 +11,31 @@ import segundum.application.commands.LoadCategoryHierarchyCommand;
 import segundum.application.usecases.LoadCategoryHierarchyUseCase;
 
 @Component
+/**
+ * Loads the category hierarchy from XML files at application startup.
+ */
 public class CategoryStartupLoader implements CommandLineRunner {
 
+	/**
+	 * The logger used to log messages.
+	 */
 	private static final Logger log = LoggerFactory.getLogger(CategoryStartupLoader.class);
 
+	/**
+	 * The use case used to load the category hierarchy.
+	 */
 	private final LoadCategoryHierarchyUseCase loadCategoryHierarchyUseCase;
+	/**
+	 * The resolver used to locate category XML resources.
+	 */
 	private final ResourcePatternResolver resourcePatternResolver;
 
+	/**
+	 * Constructs a new CategoryStartupLoader with the given dependencies.
+	 *
+	 * @param loadCategoryHierarchyUseCase the load category hierarchy use case
+	 * @param resourcePatternResolver the resource pattern resolver
+	 */
 	public CategoryStartupLoader(LoadCategoryHierarchyUseCase loadCategoryHierarchyUseCase,
 			ResourcePatternResolver resourcePatternResolver) {
 		this.loadCategoryHierarchyUseCase = loadCategoryHierarchyUseCase;

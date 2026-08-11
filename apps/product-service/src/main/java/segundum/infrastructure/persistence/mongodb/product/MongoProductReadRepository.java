@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import segundum.application.readmodels.common.Page;
+import segundum.application.readmodels.product.ProductBasicInfo;
 import segundum.application.readmodels.product.ProductDetail;
 import segundum.application.readmodels.product.ProductSearchResult;
 import segundum.application.readmodels.product.ProductSummary;
@@ -25,15 +26,36 @@ import segundum.domain.models.product.Price;
 import segundum.domain.models.product.ProductId;
 import segundum.domain.models.seller.SellerId;
 
+/**
+ * Represents the MongoDB implementation of the product read repository.
+ */
 public class MongoProductReadRepository implements ProductReadRepository {
 
+	/**
+	 * The Spring Data repository for product read documents.
+	 */
 	private final ProductReadMongoRepository mongoRepository;
+	/**
+	 * The MongoDB template.
+	 */
 	private final MongoTemplate mongoTemplate;
 
+	/**
+	 * Constructs a new MongoProductReadRepository with the given dependencies.
+	 *
+	 * @param mongoRepository the product read Mongo repository
+	 * @param mongoTemplate the MongoDB template
+	 */
 	public MongoProductReadRepository(ProductReadMongoRepository mongoRepository,
 			MongoTemplate mongoTemplate) {
 		this.mongoRepository = mongoRepository;
 		this.mongoTemplate = mongoTemplate;
+	}
+
+	@Override
+	public Optional<ProductBasicInfo> findBasicInfoById(ProductId id) {
+		return mongoRepository.findById(id.getValue().toString())
+				.map(ProductReadMapper::toBasicInfo);
 	}
 
 	@Override

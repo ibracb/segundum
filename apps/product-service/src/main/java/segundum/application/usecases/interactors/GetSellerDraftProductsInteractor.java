@@ -10,11 +10,26 @@ import segundum.domain.exceptions.seller.status.SellerNotActiveException;
 import segundum.domain.models.seller.Seller;
 import segundum.domain.repositories.SellerRepository;
 
+/**
+ * Represents the interactor for obtaining the draft products of a seller.
+ */
 public class GetSellerDraftProductsInteractor implements GetSellerDraftProductsUseCase {
 
+	/**
+	 * The repository used to read products.
+	 */
 	private final ProductReadRepository productReadRepository;
+	/**
+	 * The repository used to read sellers.
+	 */
 	private final SellerRepository sellerRepository;
 
+	/**
+	 * Constructs a new GetSellerDraftProductsInteractor with the given repositories.
+	 *
+	 * @param productReadRepository the product read repository
+	 * @param sellerRepository the seller repository
+	 */
 	public GetSellerDraftProductsInteractor(ProductReadRepository productReadRepository,
 			SellerRepository sellerRepository) {
 		this.productReadRepository = productReadRepository;

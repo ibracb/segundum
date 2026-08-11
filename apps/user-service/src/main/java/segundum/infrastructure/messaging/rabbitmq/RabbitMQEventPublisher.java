@@ -8,6 +8,7 @@ import com.rabbitmq.client.ConnectionFactory;
 
 import segundum.domain.events.DomainEvent;
 import segundum.domain.outbound.DomainEventPublisher;
+import segundum.infrastructure.messaging.messages.UserMessageMapper;
 import segundum.infrastructure.utils.PropertiesReader;
 
 /**
@@ -32,15 +33,24 @@ public class RabbitMQEventPublisher implements DomainEventPublisher {
 			reader = new PropertiesReader("config.properties"); 
 		}
 		catch (Exception e) { 
-			throw new ExceptionInInitializerError("No se pudo cargar config.properties: " + e.getMessage()); 
+			throw new ExceptionInInitializerError("The file config.properties cannot be loaded: " + e.getMessage()); 
 		} 
 	}
 	
 	/**
-	 * Initializes the RabbitMQEventPublisher by creating a connection to the RabbitMQ server and declaring the exchange.
-	 * If any error occurs during initialization, a RabbitMQException is thrown.
+	 * The message mapper for converting domain events to messages.
 	 */
-	public RabbitMQEventPublisher() {	
+	private final UserMessageMapper mapper;
+
+	/**
+	 * Constructs a new RabbitMQEventPublisher by creating a connection to the RabbitMQ server and declaring the exchange.
+	 * If any error occurs during initialization, a RabbitMQException is thrown.
+	 *
+	 * @param mapper the message mapper for converting domain events to messages
+	 * @throws RabbitMQException if an error occurs during initialization
+	 */
+	public RabbitMQEventPublisher(UserMessageMapper mapper) {
+		this.mapper = mapper;
 		try {
 			String uri = reader.getProperty("rabbitmq.uri");
 			ConnectionFactory factory = new ConnectionFactory();
@@ -54,7 +64,7 @@ public class RabbitMQEventPublisher implements DomainEventPublisher {
 			connection.close();
 			}
 			catch(Exception e) {
-				throw new RabbitMQException("Error initializing RabbitMQ publisher: " + e.getMessage());
+				throw new RabbitMQException("Error initializing RabbitMQ event publisher: " + e.getMessage());
 			}		
 	}
 
@@ -67,11 +77,10 @@ public class RabbitMQEventPublisher implements DomainEventPublisher {
 			Connection connection = factory.newConnection();
 			Channel channel = connection.createChannel();
 			Gson gson = new Gson();
-			String message = gson.toJson(event);
-			channel.basicPublish("bus", "bus.users." + event.getType(), new AMQP.BasicProperties.Builder()
-					.contentType("application/json")
-					.deliveryMode(2)
-					.build(), message.getBytes());
+			String message = gson.toJson(mapper.map(event));
+			channel.basicPublish("bus", "bus.users." + event.getType(),
+					new AMQP.BasicProperties.Builder().contentType("application/json").build(),
+					message.getBytes());
 			channel.close();
 			connection.close();
 			}

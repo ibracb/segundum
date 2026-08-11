@@ -14,6 +14,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 
+/**
+ * Represents the REST API for deactivating a user.
+ */
 @Tag(name = "Users", description = "User management endpoints")
 @Path("/users")
 public interface DeactivateUserApi {

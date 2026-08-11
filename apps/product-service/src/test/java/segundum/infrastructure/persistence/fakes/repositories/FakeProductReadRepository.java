@@ -3,6 +3,7 @@ package segundum.infrastructure.persistence.fakes.repositories;
 import java.util.Optional;
 
 import segundum.application.readmodels.common.Page;
+import segundum.application.readmodels.product.ProductBasicInfo;
 import segundum.application.readmodels.product.ProductDetail;
 import segundum.application.readmodels.product.ProductSearchResult;
 import segundum.application.readmodels.product.ProductSummary;
@@ -17,10 +18,16 @@ import segundum.domain.models.seller.SellerId;
 public class FakeProductReadRepository implements ProductReadRepository {
 
 	private Optional<ProductDetail> productDetail = Optional.empty();
+	private Optional<ProductBasicInfo> productBasicInfo = Optional.empty();
 	private Page<ProductSummary> monthlyHistoryResult = new Page<>(java.util.Collections.emptyList(), 0, 0, 20);
 	private Page<ProductSearchResult> searchResult = new Page<>(java.util.Collections.emptyList(), 0, 0, 20);
 	private Page<SellerProduct> sellerDraftsResult = new Page<>(java.util.Collections.emptyList(), 0, 0, 20);
 	private Page<SellerProduct> sellerForSaleResult = new Page<>(java.util.Collections.emptyList(), 0, 0, 20);
+
+	@Override
+	public Optional<ProductBasicInfo> findBasicInfoById(ProductId id) {
+		return productBasicInfo;
+	}
 
 	@Override
 	public Optional<ProductDetail> findById(ProductId id) {
@@ -46,6 +53,10 @@ public class FakeProductReadRepository implements ProductReadRepository {
 	@Override
 	public Page<SellerProduct> findForSaleBySeller(SellerId sellerId, int pageNumber, int pageSize) {
 		return sellerForSaleResult;
+	}
+
+	public void setProductBasicInfo(Optional<ProductBasicInfo> productBasicInfo) {
+		this.productBasicInfo = productBasicInfo;
 	}
 
 	public void setProductDetail(Optional<ProductDetail> productDetail) {

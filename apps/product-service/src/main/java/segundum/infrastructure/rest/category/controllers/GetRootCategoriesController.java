@@ -19,11 +19,26 @@ import segundum.infrastructure.rest.category.assemblers.CategoryModelAssembler;
 import segundum.infrastructure.rest.category.responses.CategoryResponse;
 
 @RestController
+/**
+ * Represents the controller for retrieving the root categories.
+ */
 public class GetRootCategoriesController implements GetRootCategoriesApi {
 
+	/**
+	 * The use case used to retrieve the root categories.
+	 */
 	private final GetRootCategoriesUseCase getRootCategoriesUseCase;
+	/**
+	 * The assembler used to build category models.
+	 */
 	private final CategoryModelAssembler assembler;
 
+	/**
+	 * Constructs a new GetRootCategoriesController with the given dependencies.
+	 *
+	 * @param getRootCategoriesUseCase the get root categories use case
+	 * @param assembler the category model assembler
+	 */
 	public GetRootCategoriesController(
 			GetRootCategoriesUseCase getRootCategoriesUseCase,
 			CategoryModelAssembler assembler) {

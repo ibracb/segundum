@@ -12,11 +12,22 @@ import segundum.domain.models.product.ProductId;
 import segundum.infrastructure.rest.product.api.UpdateProductApi;
 import segundum.infrastructure.rest.product.requests.UpdateProductRequest;
 
+/**
+ * Represents the controller for updating a product.
+ */
 @RestController
 public class UpdateProductController implements UpdateProductApi {
 
+	/**
+	 * The update product use case.
+	 */
 	private final UpdateProductUseCase updateProductUseCase;
 
+	/**
+	 * Constructs a new UpdateProductController with the given dependencies.
+	 *
+	 * @param updateProductUseCase the update product use case
+	 */
 	public UpdateProductController(UpdateProductUseCase updateProductUseCase) {
 		this.updateProductUseCase = updateProductUseCase;
 	}

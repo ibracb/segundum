@@ -17,7 +17,7 @@ public class ProductFactory {
 
 	/**
 	 * Creates a new Product with the given parameters.
-	 * The sale status is set to FOR_SALE.
+	 * The sale status is set to DRAFT.
 	 * The views counter is initialized to 0.
 	 * The pickup location is not set (use assignPickupLocation after creation).
 	 *

@@ -17,6 +17,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.product.responses.ProductDetailResponse;
 
+/**
+ * Represents the REST API for retrieving the detail of a product.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
 public interface GetProductDetailApi {
@@ -29,7 +32,7 @@ public interface GetProductDetailApi {
 			@ApiResponse(responseCode = "404", description = "Product not found",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{id}/detail", produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<EntityModel<ProductDetailResponse>> getProductDetail(
 			@Parameter(description = "The product identifier") @PathVariable("id") String id);
 

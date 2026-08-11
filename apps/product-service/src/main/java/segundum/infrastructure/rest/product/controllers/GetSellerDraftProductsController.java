@@ -21,14 +21,28 @@ import segundum.infrastructure.rest.product.api.GetSellerDraftProductsApi;
 import segundum.infrastructure.rest.product.assemblers.ProductModelAssembler;
 import segundum.infrastructure.rest.product.responses.SellerProductResponse;
 
+/**
+ * Represents the controller for retrieving the draft products of a seller.
+ */
 @RestController
 public class GetSellerDraftProductsController implements GetSellerDraftProductsApi {
 
+	/**
+	 * The use case.
+	 */
 	private final GetSellerDraftProductsUseCase useCase;
+	/**
+	 * The assembler.
+	 */
 	private final ProductModelAssembler assembler;
 
-	public GetSellerDraftProductsController(GetSellerDraftProductsUseCase useCase,
-			ProductModelAssembler assembler) {
+	/**
+	 * Constructs a new GetSellerDraftProductsController with the given dependencies.
+	 *
+	 * @param useCase the use case
+	 * @param assembler the assembler
+	 */
+	public GetSellerDraftProductsController(GetSellerDraftProductsUseCase useCase, ProductModelAssembler assembler) {
 		this.useCase = useCase;
 		this.assembler = assembler;
 	}

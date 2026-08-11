@@ -19,6 +19,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.product.responses.ProductSummaryResponse;
 
+/**
+ * Represents the REST API for retrieving the monthly history of products.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/products")
 public interface GetMonthlyHistoryApi {

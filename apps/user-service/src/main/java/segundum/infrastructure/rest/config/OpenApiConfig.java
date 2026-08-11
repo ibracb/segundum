@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
 import io.swagger.v3.oas.models.OpenAPI;
 import segundum.infrastructure.rest.user.controllers.DeactivateUserController;
+import segundum.infrastructure.rest.user.controllers.GetUserNameController;
 import segundum.infrastructure.rest.user.controllers.GetUserProfileController;
 import segundum.infrastructure.rest.user.controllers.GetUserStatsController;
 import segundum.infrastructure.rest.user.controllers.RegisterUserController;
@@ -27,17 +28,32 @@ import segundum.infrastructure.rest.user.controllers.UpdateUserProfileController
     title = "SegundUM - User Service API",
     description = "REST API for managing users in the marketplace",
     version = "1.0.0"))
+/**
+ * Represents the OpenAPI configuration and endpoints for the user service API.
+ */
 public class OpenApiConfig {
 
+    /**
+     * The resource classes exposed by the API.
+     */
     private static final Set<Class<?>> RESOURCE_CLASSES = Set.of(
             RegisterUserController.class,
             GetUserProfileController.class,
             GetUserStatsController.class,
             UpdateUserProfileController.class,
-            DeactivateUserController.class);
+            DeactivateUserController.class,
+            GetUserNameController.class);
 
+    /**
+     * The generated OpenAPI specification.
+     */
     private static final OpenAPI OPENAPI = initOpenApi();
 
+    /**
+     * Initializes the OpenAPI specification from the resource classes.
+     *
+     * @return the generated OpenAPI specification
+     */
     private static OpenAPI initOpenApi() {
         SwaggerConfiguration config = new SwaggerConfiguration()
                 .openAPI(new OpenAPI()
@@ -55,6 +71,11 @@ public class OpenApiConfig {
         return openAPI;
     }
 
+    /**
+     * Serves the OpenAPI specification as JSON.
+     *
+     * @return the response containing the OpenAPI JSON document
+     */
     @GET
     @Path("openapi.json")
     @Produces(MediaType.APPLICATION_JSON)
@@ -62,6 +83,11 @@ public class OpenApiConfig {
         return Response.ok(Json.pretty(OPENAPI)).build();
     }
 
+    /**
+     * Serves the OpenAPI specification as YAML.
+     *
+     * @return the response containing the OpenAPI YAML document
+     */
     @GET
     @Path("openapi.yaml")
     @Produces("application/yaml")
@@ -69,6 +95,11 @@ public class OpenApiConfig {
         return Response.ok(Yaml.pretty(OPENAPI)).build();
     }
 
+    /**
+     * Serves the Swagger UI page.
+     *
+     * @return the response containing the Swagger UI HTML page
+     */
     @GET
     @Path("swagger-ui")
     @Produces(MediaType.TEXT_HTML)

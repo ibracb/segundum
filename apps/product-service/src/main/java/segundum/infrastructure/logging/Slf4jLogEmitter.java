@@ -5,10 +5,21 @@ import org.slf4j.LoggerFactory;
 
 import segundum.domain.outbound.LogEmitter;
 
+/**
+ * Represents a log emitter backed by SLF4J.
+ */
 public class Slf4jLogEmitter implements LogEmitter {
 
+	/**
+	 * The SLF4J logger.
+	 */
 	private final Logger log;
 
+	/**
+	 * Constructs a new Slf4jLogEmitter for the given class.
+	 *
+	 * @param clazz the class for which to obtain a logger
+	 */
 	public Slf4jLogEmitter(Class<?> clazz) {
 		this.log = LoggerFactory.getLogger(clazz);
 	}

@@ -20,6 +20,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.product.responses.SellerProductResponse;
 
+/**
+ * Represents the REST API for retrieving the draft products of a seller.
+ */
 @Tag(name = "Products", description = "Product management endpoints")
 @RequestMapping("/sellers")
 public interface GetSellerDraftProductsApi {

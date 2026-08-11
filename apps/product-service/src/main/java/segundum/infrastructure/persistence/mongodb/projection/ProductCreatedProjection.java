@@ -15,11 +15,26 @@ import segundum.infrastructure.persistence.mongodb.product.ProductReadDocument;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadMongoRepository;
 
 @Component
+/**
+ * Represents the projection that updates the read side when a product is created.
+ */
 public class ProductCreatedProjection {
 
+	/**
+	 * The repository used to persist product read documents.
+	 */
 	private final ProductReadMongoRepository repository;
+	/**
+	 * The MongoDB template.
+	 */
 	private final MongoTemplate mongoTemplate;
 
+	/**
+	 * Constructs a new ProductCreatedProjection with the given dependencies.
+	 *
+	 * @param repository the product read Mongo repository
+	 * @param mongoTemplate the MongoDB template
+	 */
 	public ProductCreatedProjection(ProductReadMongoRepository repository,
 			MongoTemplate mongoTemplate) {
 		this.repository = repository;
@@ -48,6 +63,12 @@ public class ProductCreatedProjection {
 		repository.save(doc);
 	}
 
+	/**
+	 * Resolves the name of a category by its identifier.
+	 *
+	 * @param categoryId the category identifier
+	 * @return the category name, or null if the category is not found
+	 */
 	private String resolveCategoryName(String categoryId) {
 		Query query = new Query(Criteria.where("_id").is(categoryId));
 		Optional<CategoryReadDocument> category = Optional.ofNullable(

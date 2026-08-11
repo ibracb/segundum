@@ -2,6 +2,8 @@ package segundum.domain.models.product;
 
 import java.util.UUID;
 
+import segundum.domain.exceptions.product.productid.ProductIdNullException;
+
 /**
  * Represents a product's unique identifier.
  */
@@ -44,6 +46,9 @@ public class ProductId {
 	 * @return a new ProductId object
 	 */
 	public static ProductId fromUUID(UUID uuid) {
+		if (uuid == null) {
+			throw new ProductIdNullException();
+		}
 		return new ProductId(uuid);
 	}
 
