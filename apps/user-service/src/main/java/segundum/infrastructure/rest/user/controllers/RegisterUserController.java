@@ -3,7 +3,6 @@ package segundum.infrastructure.rest.user.controllers;
 import javax.ws.rs.core.Response;
 
 import segundum.application.commands.RegisterUserCommand;
-import segundum.application.usecases.RegisterUserUseCase;
 import segundum.domain.models.user.Birthdate;
 import segundum.domain.models.user.Email;
 import segundum.domain.models.user.Name;
@@ -11,6 +10,7 @@ import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
+import segundum.infrastructure.facades.RegisterUserFacade;
 import segundum.infrastructure.rest.user.api.RegisterUserApi;
 import segundum.infrastructure.rest.user.mappers.UserProfileResponseMapper;
 import segundum.infrastructure.rest.user.requests.RegisterUserRequest;
@@ -21,17 +21,17 @@ import segundum.infrastructure.rest.user.requests.RegisterUserRequest;
 public class RegisterUserController implements RegisterUserApi {
 
 	/**
-	 * The use case for registering a new user.
+	 * The facade for registering a user.
 	 */
-	private final RegisterUserUseCase registerUserUseCase;
+	private final RegisterUserFacade facade;
 
 	/**
-	 * Constructs a new RegisterUserController with the given use case.
+	 * Constructs a new RegisterUserController with the given facade.
 	 *
-	 * @param registerUserUseCase the use case for registering a new user
+	 * @param facade the facade for registering a user
 	 */
-	public RegisterUserController(RegisterUserUseCase registerUserUseCase) {
-		this.registerUserUseCase = registerUserUseCase;
+	public RegisterUserController(RegisterUserFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class RegisterUserController implements RegisterUserApi {
 				new Birthdate(request.getBirthdate()),
 				new Phone(request.getPhone())
 		);
-		User user = registerUserUseCase.execute(command);
+		User user = facade.run(command);
 		return Response.status(Response.Status.CREATED)
 				.entity(UserProfileResponseMapper.fromDomain(user))
 				.build();

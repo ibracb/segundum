@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import segundum.application.commands.ProposeSaleCommand;
-import segundum.application.usecases.ProposeSaleUseCase;
 import segundum.domain.models.sale.ProductId;
 import segundum.domain.models.sale.PurchaserId;
 import segundum.domain.models.sale.SaleId;
+import segundum.infrastructure.facades.ProposeSaleFacade;
 import segundum.infrastructure.rest.sale.api.ProposeSaleApi;
 import segundum.infrastructure.rest.sale.requests.ProposeSaleRequest;
 
@@ -21,17 +21,17 @@ import segundum.infrastructure.rest.sale.requests.ProposeSaleRequest;
 public class ProposeSaleController implements ProposeSaleApi {
 
     /**
-     * The use case for proposing a sale.
+     * The facade for proposing a sale.
      */
-    private final ProposeSaleUseCase proposeSaleUseCase;
+    private final ProposeSaleFacade facade;
 
     /**
-     * Constructs a new ProposeSaleController with the given use case.
+     * Constructs a new ProposeSaleController with the given facade.
      *
-     * @param proposeSaleUseCase the use case for proposing a sale
+     * @param facade the facade for proposing a sale
      */
-    public ProposeSaleController(ProposeSaleUseCase proposeSaleUseCase) {
-        this.proposeSaleUseCase = proposeSaleUseCase;
+    public ProposeSaleController(ProposeSaleFacade facade) {
+        this.facade = facade;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ProposeSaleController implements ProposeSaleApi {
         ProposeSaleCommand command = new ProposeSaleCommand(
                 ProductId.fromString(request.getProductId()),
                 PurchaserId.fromString(request.getPurchaserId()));
-        SaleId saleId = proposeSaleUseCase.execute(command);
+        SaleId saleId = facade.run(command);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(saleId.getValue().toString())

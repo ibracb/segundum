@@ -34,13 +34,18 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public User create(User user) {
         EntityManager em = getEntityManager();
-        try {
+        boolean ownsTransaction = !em.getTransaction().isActive();
+        if (ownsTransaction) {
             em.getTransaction().begin();
+        }
+        try {
             em.persist(UserMapper.toEntity(user));
-            em.getTransaction().commit();
+            if (ownsTransaction) {
+                em.getTransaction().commit();
+            }
             return user;
         } catch (PersistenceException e) {
-            if (em.getTransaction().isActive()) {
+            if (ownsTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
             throw e;
@@ -50,13 +55,18 @@ public class JpaUserRepository implements UserRepository {
     @Override
     public User update(User user) {
         EntityManager em = getEntityManager();
-        try {
+        boolean ownsTransaction = !em.getTransaction().isActive();
+        if (ownsTransaction) {
             em.getTransaction().begin();
+        }
+        try {
             em.merge(UserMapper.toEntity(user));
-            em.getTransaction().commit();
+            if (ownsTransaction) {
+                em.getTransaction().commit();
+            }
             return user;
         } catch (PersistenceException e) {
-            if (em.getTransaction().isActive()) {
+            if (ownsTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
             throw e;

@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.CancelSaleBySellerCommand;
-import segundum.application.usecases.CancelSaleBySellerUseCase;
 import segundum.domain.models.sale.SaleId;
 import segundum.domain.models.sale.SellerId;
+import segundum.infrastructure.facades.CancelSaleBySellerFacade;
 import segundum.infrastructure.rest.sale.api.CancelSaleBySellerApi;
 import segundum.infrastructure.rest.sale.requests.CancelSaleBySellerRequest;
 
@@ -17,22 +17,22 @@ import segundum.infrastructure.rest.sale.requests.CancelSaleBySellerRequest;
 public class CancelSaleBySellerController implements CancelSaleBySellerApi {
 
     /**
-     * The use case for cancelling a sale by the seller.
+     * The facade for cancelling a sale by the seller.
      */
-    private final CancelSaleBySellerUseCase cancelSaleBySellerUseCase;
+    private final CancelSaleBySellerFacade facade;
 
     /**
-     * Constructs a new CancelSaleBySellerController with the given use case.
+     * Constructs a new CancelSaleBySellerController with the given facade.
      *
-     * @param cancelSaleBySellerUseCase the use case for cancelling a sale by the seller
+     * @param facade the facade for cancelling a sale by the seller
      */
-    public CancelSaleBySellerController(CancelSaleBySellerUseCase cancelSaleBySellerUseCase) {
-        this.cancelSaleBySellerUseCase = cancelSaleBySellerUseCase;
+    public CancelSaleBySellerController(CancelSaleBySellerFacade facade) {
+        this.facade = facade;
     }
 
     @Override
     public ResponseEntity<Void> cancelSaleBySeller(String id, CancelSaleBySellerRequest request) {
-        cancelSaleBySellerUseCase.execute(new CancelSaleBySellerCommand(
+        facade.run(new CancelSaleBySellerCommand(
                 SaleId.fromString(id),
                 SellerId.fromString(request.getSellerId())));
         return ResponseEntity.noContent().build();

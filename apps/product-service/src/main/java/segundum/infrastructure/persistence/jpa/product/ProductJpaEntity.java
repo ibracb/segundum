@@ -4,10 +4,13 @@ import java.time.Instant;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -33,6 +36,8 @@ public class ProductJpaEntity {
 	/**
 	 * The description of the product.
 	 */
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "description", nullable = false)
 	private String description;
 

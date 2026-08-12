@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.ReserveSaleCommand;
-import segundum.application.usecases.ReserveSaleUseCase;
 import segundum.domain.models.sale.SaleId;
 import segundum.domain.models.sale.SellerId;
+import segundum.infrastructure.facades.ReserveSaleFacade;
 import segundum.infrastructure.rest.sale.api.ReserveSaleApi;
 import segundum.infrastructure.rest.sale.requests.ReserveSaleRequest;
 
@@ -17,22 +17,22 @@ import segundum.infrastructure.rest.sale.requests.ReserveSaleRequest;
 public class ReserveSaleController implements ReserveSaleApi {
 
     /**
-     * The use case for reserving a sale.
+     * The facade for reserving a sale.
      */
-    private final ReserveSaleUseCase reserveSaleUseCase;
+    private final ReserveSaleFacade facade;
 
     /**
-     * Constructs a new ReserveSaleController with the given use case.
+     * Constructs a new ReserveSaleController with the given facade.
      *
-     * @param reserveSaleUseCase the use case for reserving a sale
+     * @param facade the facade for reserving a sale
      */
-    public ReserveSaleController(ReserveSaleUseCase reserveSaleUseCase) {
-        this.reserveSaleUseCase = reserveSaleUseCase;
+    public ReserveSaleController(ReserveSaleFacade facade) {
+        this.facade = facade;
     }
 
     @Override
     public ResponseEntity<Void> reserveSale(String id, ReserveSaleRequest request) {
-        reserveSaleUseCase.execute(new ReserveSaleCommand(
+        facade.run(new ReserveSaleCommand(
                 SaleId.fromString(id),
                 SellerId.fromString(request.getSellerId())));
         return ResponseEntity.noContent().build();

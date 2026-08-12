@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.RejectSaleCommand;
-import segundum.application.usecases.RejectSaleUseCase;
 import segundum.domain.models.sale.SaleId;
 import segundum.domain.models.sale.SellerId;
+import segundum.infrastructure.facades.RejectSaleFacade;
 import segundum.infrastructure.rest.sale.api.RejectSaleApi;
 import segundum.infrastructure.rest.sale.requests.RejectSaleRequest;
 
@@ -17,22 +17,22 @@ import segundum.infrastructure.rest.sale.requests.RejectSaleRequest;
 public class RejectSaleController implements RejectSaleApi {
 
     /**
-     * The use case for rejecting a sale.
+     * The facade for rejecting a sale.
      */
-    private final RejectSaleUseCase rejectSaleUseCase;
+    private final RejectSaleFacade facade;
 
     /**
-     * Constructs a new RejectSaleController with the given use case.
+     * Constructs a new RejectSaleController with the given facade.
      *
-     * @param rejectSaleUseCase the use case for rejecting a sale
+     * @param facade the facade for rejecting a sale
      */
-    public RejectSaleController(RejectSaleUseCase rejectSaleUseCase) {
-        this.rejectSaleUseCase = rejectSaleUseCase;
+    public RejectSaleController(RejectSaleFacade facade) {
+        this.facade = facade;
     }
 
     @Override
     public ResponseEntity<Void> rejectSale(String id, RejectSaleRequest request) {
-        rejectSaleUseCase.execute(new RejectSaleCommand(
+        facade.run(new RejectSaleCommand(
                 SaleId.fromString(id),
                 SellerId.fromString(request.getSellerId())));
         return ResponseEntity.noContent().build();

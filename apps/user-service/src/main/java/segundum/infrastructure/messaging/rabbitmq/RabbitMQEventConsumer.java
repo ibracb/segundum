@@ -13,8 +13,8 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 
-import segundum.application.eventhandlers.SaleEventHandler;
 import segundum.application.events.sales.SaleCompleted;
+import segundum.infrastructure.facades.SaleEventFacade;
 import segundum.infrastructure.utils.PropertiesReader;
 
 /**
@@ -23,9 +23,9 @@ import segundum.infrastructure.utils.PropertiesReader;
 public class RabbitMQEventConsumer {
 
 	/**
-	 * The event handler for sales events.
+	 * The facade for the sales bounded context event handlers.
 	 */
-	private final SaleEventHandler saleEventHandler;
+	private final SaleEventFacade saleEventFacade;
 
 	/**
 	 * The RabbitMQ connection.
@@ -52,12 +52,12 @@ public class RabbitMQEventConsumer {
 	}
 
 	/**
-	 * Constructs a new RabbitMQEventConsumer with the given sale event handler.
+	 * Constructs a new RabbitMQEventConsumer with the given sale event facade.
 	 *
-	 * @param saleEventHandler the event handler for sales events
+	 * @param saleEventFacade the facade for the sales bounded context event handlers
 	 */
-	public RabbitMQEventConsumer(SaleEventHandler saleEventHandler) {
-		this.saleEventHandler = saleEventHandler;
+	public RabbitMQEventConsumer(SaleEventFacade saleEventFacade) {
+		this.saleEventFacade = saleEventFacade;
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class RabbitMQEventConsumer {
 								UUID purchaserId = UUID.fromString(object.get("purchaserId").getAsString());
 								UUID sellerId = UUID.fromString(object.get("sellerId").getAsString());
 								SaleCompleted event = new SaleCompleted(purchaserId, sellerId);
-								saleEventHandler.onSaleCompleted(event);
+								saleEventFacade.onSaleCompleted(event);
 							}
 							channel.basicAck(deliveryTag, false);
 						}

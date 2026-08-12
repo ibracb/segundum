@@ -2,7 +2,8 @@ package segundum.infrastructure.persistence.mongodb.projection;
 
 import java.util.Optional;
 
-import org.springframework.context.event.EventListener;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,7 @@ public class ProductUpdatedProjection {
 		this.repository = repository;
 	}
 
-	@EventListener
+	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	@Async("projectionTaskExecutor")
 	public void on(ProductUpdated event) {
 		String productId = event.getProductId().getValue().toString();

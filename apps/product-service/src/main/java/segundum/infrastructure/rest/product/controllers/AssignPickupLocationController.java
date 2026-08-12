@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.AssignProductPickupLocationCommand;
-import segundum.application.usecases.AssignProductPickupLocationUseCase;
 import segundum.domain.models.pickup.PickupLocation;
 import segundum.domain.models.product.ProductId;
+import segundum.infrastructure.facades.AssignPickupLocationFacade;
 import segundum.infrastructure.rest.product.api.AssignPickupLocationApi;
 import segundum.infrastructure.rest.product.requests.AssignPickupLocationRequest;
 
@@ -17,17 +17,17 @@ import segundum.infrastructure.rest.product.requests.AssignPickupLocationRequest
 public class AssignPickupLocationController implements AssignPickupLocationApi {
 
 	/**
-	 * The assign product pickup location use case.
+	 * The facade for assigning a pickup location.
 	 */
-	private final AssignProductPickupLocationUseCase assignProductPickupLocationUseCase;
+	private final AssignPickupLocationFacade facade;
 
 	/**
-	 * Constructs a new AssignPickupLocationController with the given dependencies.
+	 * Constructs a new AssignPickupLocationController with the given facade.
 	 *
-	 * @param assignProductPickupLocationUseCase the assign product pickup location use case
+	 * @param facade the facade for assigning a pickup location
 	 */
-	public AssignPickupLocationController(AssignProductPickupLocationUseCase assignProductPickupLocationUseCase) {
-		this.assignProductPickupLocationUseCase = assignProductPickupLocationUseCase;
+	public AssignPickupLocationController(AssignPickupLocationFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class AssignPickupLocationController implements AssignPickupLocationApi {
 		AssignProductPickupLocationCommand command = new AssignProductPickupLocationCommand(
 				ProductId.fromString(id),
 				pickupLocation);
-		assignProductPickupLocationUseCase.execute(command);
+		facade.run(command);
 		return ResponseEntity.noContent().build();
 	}
 

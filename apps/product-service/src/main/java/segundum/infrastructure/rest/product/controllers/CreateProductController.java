@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import segundum.application.commands.CreateProductCommand;
-import segundum.application.usecases.CreateProductUseCase;
 import segundum.domain.models.category.CategoryId;
 import segundum.domain.models.product.ConditionStatus;
 import segundum.domain.models.product.Description;
@@ -15,6 +14,7 @@ import segundum.domain.models.product.Price;
 import segundum.domain.models.product.ProductId;
 import segundum.domain.models.product.Title;
 import segundum.domain.models.seller.SellerId;
+import segundum.infrastructure.facades.CreateProductFacade;
 import segundum.infrastructure.rest.product.api.CreateProductApi;
 import segundum.infrastructure.rest.product.requests.CreateProductRequest;
 
@@ -25,17 +25,17 @@ import segundum.infrastructure.rest.product.requests.CreateProductRequest;
 public class CreateProductController implements CreateProductApi {
 
 	/**
-	 * The create product use case.
+	 * The facade for creating a product.
 	 */
-	private final CreateProductUseCase createProductUseCase;
+	private final CreateProductFacade facade;
 
 	/**
-	 * Constructs a new CreateProductController with the given dependencies.
+	 * Constructs a new CreateProductController with the given facade.
 	 *
-	 * @param createProductUseCase the create product use case
+	 * @param facade the facade for creating a product
 	 */
-	public CreateProductController(CreateProductUseCase createProductUseCase) {
-		this.createProductUseCase = createProductUseCase;
+	public CreateProductController(CreateProductFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class CreateProductController implements CreateProductApi {
 				CategoryId.fromString(request.getCategoryId()),
 				request.isShippingAvailable(),
 				SellerId.fromString(request.getSellerId()));
-		ProductId productId = createProductUseCase.execute(command);
+		ProductId productId = facade.run(command);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(productId.getValue().toString())

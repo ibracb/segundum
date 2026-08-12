@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.DiscardProductCommand;
-import segundum.application.usecases.DiscardProductUseCase;
 import segundum.domain.models.product.ProductId;
+import segundum.infrastructure.facades.DiscardProductFacade;
 import segundum.infrastructure.rest.product.api.DiscardProductApi;
 
 /**
@@ -15,22 +15,22 @@ import segundum.infrastructure.rest.product.api.DiscardProductApi;
 public class DiscardProductController implements DiscardProductApi {
 
 	/**
-	 * The discard product use case.
+	 * The facade for discarding a product.
 	 */
-	private final DiscardProductUseCase discardProductUseCase;
+	private final DiscardProductFacade facade;
 
 	/**
-	 * Constructs a new DiscardProductController with the given dependencies.
+	 * Constructs a new DiscardProductController with the given facade.
 	 *
-	 * @param discardProductUseCase the discard product use case
+	 * @param facade the facade for discarding a product
 	 */
-	public DiscardProductController(DiscardProductUseCase discardProductUseCase) {
-		this.discardProductUseCase = discardProductUseCase;
+	public DiscardProductController(DiscardProductFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
 	public ResponseEntity<Void> discardProduct(String id) {
-		discardProductUseCase.execute(new DiscardProductCommand(ProductId.fromString(id)));
+		facade.run(new DiscardProductCommand(ProductId.fromString(id)));
 		return ResponseEntity.noContent().build();
 	}
 

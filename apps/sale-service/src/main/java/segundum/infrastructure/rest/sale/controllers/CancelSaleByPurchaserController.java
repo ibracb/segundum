@@ -4,9 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.CancelSaleByPurchaserCommand;
-import segundum.application.usecases.CancelSaleByPurchaserUseCase;
 import segundum.domain.models.sale.PurchaserId;
 import segundum.domain.models.sale.SaleId;
+import segundum.infrastructure.facades.CancelSaleByPurchaserFacade;
 import segundum.infrastructure.rest.sale.api.CancelSaleByPurchaserApi;
 import segundum.infrastructure.rest.sale.requests.CancelSaleByPurchaserRequest;
 
@@ -17,22 +17,22 @@ import segundum.infrastructure.rest.sale.requests.CancelSaleByPurchaserRequest;
 public class CancelSaleByPurchaserController implements CancelSaleByPurchaserApi {
 
     /**
-     * The use case for cancelling a sale by the purchaser.
+     * The facade for cancelling a sale by the purchaser.
      */
-    private final CancelSaleByPurchaserUseCase cancelSaleByPurchaserUseCase;
+    private final CancelSaleByPurchaserFacade facade;
 
     /**
-     * Constructs a new CancelSaleByPurchaserController with the given use case.
+     * Constructs a new CancelSaleByPurchaserController with the given facade.
      *
-     * @param cancelSaleByPurchaserUseCase the use case for cancelling a sale by the purchaser
+     * @param facade the facade for cancelling a sale by the purchaser
      */
-    public CancelSaleByPurchaserController(CancelSaleByPurchaserUseCase cancelSaleByPurchaserUseCase) {
-        this.cancelSaleByPurchaserUseCase = cancelSaleByPurchaserUseCase;
+    public CancelSaleByPurchaserController(CancelSaleByPurchaserFacade facade) {
+        this.facade = facade;
     }
 
     @Override
     public ResponseEntity<Void> cancelSaleByPurchaser(String id, CancelSaleByPurchaserRequest request) {
-        cancelSaleByPurchaserUseCase.execute(new CancelSaleByPurchaserCommand(
+        facade.run(new CancelSaleByPurchaserCommand(
                 SaleId.fromString(id),
                 PurchaserId.fromString(request.getPurchaserId())));
         return ResponseEntity.noContent().build();

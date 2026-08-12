@@ -4,11 +4,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.UpdateProductCommand;
-import segundum.application.usecases.UpdateProductUseCase;
 import segundum.domain.models.product.ConditionStatus;
 import segundum.domain.models.product.Description;
 import segundum.domain.models.product.Price;
 import segundum.domain.models.product.ProductId;
+import segundum.infrastructure.facades.UpdateProductFacade;
 import segundum.infrastructure.rest.product.api.UpdateProductApi;
 import segundum.infrastructure.rest.product.requests.UpdateProductRequest;
 
@@ -19,17 +19,17 @@ import segundum.infrastructure.rest.product.requests.UpdateProductRequest;
 public class UpdateProductController implements UpdateProductApi {
 
 	/**
-	 * The update product use case.
+	 * The facade for updating a product.
 	 */
-	private final UpdateProductUseCase updateProductUseCase;
+	private final UpdateProductFacade facade;
 
 	/**
-	 * Constructs a new UpdateProductController with the given dependencies.
+	 * Constructs a new UpdateProductController with the given facade.
 	 *
-	 * @param updateProductUseCase the update product use case
+	 * @param facade the facade for updating a product
 	 */
-	public UpdateProductController(UpdateProductUseCase updateProductUseCase) {
-		this.updateProductUseCase = updateProductUseCase;
+	public UpdateProductController(UpdateProductFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class UpdateProductController implements UpdateProductApi {
 				price,
 				description,
 				conditionStatus);
-		updateProductUseCase.execute(command);
+		facade.run(command);
 		return ResponseEntity.noContent().build();
 	}
 

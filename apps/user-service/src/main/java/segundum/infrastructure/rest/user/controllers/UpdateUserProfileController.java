@@ -3,13 +3,13 @@ package segundum.infrastructure.rest.user.controllers;
 import javax.ws.rs.core.Response;
 
 import segundum.application.commands.UpdateUserCommand;
-import segundum.application.usecases.UpdateUserProfileUseCase;
 import segundum.domain.models.user.Name;
 import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
+import segundum.infrastructure.facades.UpdateUserProfileFacade;
 import segundum.infrastructure.rest.user.api.UpdateUserProfileApi;
 import segundum.infrastructure.rest.user.mappers.UserProfileResponseMapper;
 import segundum.infrastructure.rest.user.requests.UpdateUserProfileRequest;
@@ -20,17 +20,17 @@ import segundum.infrastructure.rest.user.requests.UpdateUserProfileRequest;
 public class UpdateUserProfileController implements UpdateUserProfileApi {
 
 	/**
-	 * The use case for updating a user profile.
+	 * The facade for updating a user profile.
 	 */
-	private final UpdateUserProfileUseCase updateUserUseCase;
+	private final UpdateUserProfileFacade facade;
 
 	/**
-	 * Constructs a new UpdateUserProfileController with the given use case.
+	 * Constructs a new UpdateUserProfileController with the given facade.
 	 *
-	 * @param updateUserUseCase the use case for updating a user profile
+	 * @param facade the facade for updating a user profile
 	 */
-	public UpdateUserProfileController(UpdateUserProfileUseCase updateUserUseCase) {
-		this.updateUserUseCase = updateUserUseCase;
+	public UpdateUserProfileController(UpdateUserProfileFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class UpdateUserProfileController implements UpdateUserProfileApi {
 				password,
 				phone
 		);
-		User user = updateUserUseCase.execute(command);
+		User user = facade.run(command);
 		return Response.ok(UserProfileResponseMapper.fromDomain(user)).build();
 	}
 

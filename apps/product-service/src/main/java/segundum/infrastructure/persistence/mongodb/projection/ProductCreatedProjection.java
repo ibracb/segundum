@@ -2,7 +2,8 @@ package segundum.infrastructure.persistence.mongodb.projection;
 
 import java.util.Optional;
 
-import org.springframework.context.event.EventListener;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -41,7 +42,7 @@ public class ProductCreatedProjection {
 		this.mongoTemplate = mongoTemplate;
 	}
 
-	@EventListener
+	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	@Async("projectionTaskExecutor")
 	public void on(ProductCreated event) {
 		String categoryName = resolveCategoryName(event.getCategoryId().getValue());

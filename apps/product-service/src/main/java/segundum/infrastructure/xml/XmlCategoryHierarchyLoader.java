@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import segundum.domain.events.CategoryCreated;
 import segundum.domain.models.category.Category;
@@ -46,8 +47,9 @@ public class XmlCategoryHierarchyLoader implements CategoryHierarchyLoader {
 		this.categoryWriteRepository = categoryWriteRepository;
 		this.domainEventPublisher = domainEventPublisher;
 	}
-
+	
 	@Override
+	@Transactional
 	public void load(String source) {
 		if (source == null) {
 			throw new IllegalArgumentException("Invalid path to load a category hierarchy");

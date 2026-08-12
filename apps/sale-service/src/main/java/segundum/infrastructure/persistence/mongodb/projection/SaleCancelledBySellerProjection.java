@@ -2,8 +2,9 @@ package segundum.infrastructure.persistence.mongodb.projection;
 
 import java.util.Optional;
 
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.stereotype.Component;
 
 import segundum.domain.events.SaleCancelledBySeller;
@@ -35,7 +36,7 @@ public class SaleCancelledBySellerProjection {
 	 *
 	 * @param event the cancelled by seller event
 	 */
-	@EventListener
+	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
 	@Async("projectionTaskExecutor")
 	public void on(SaleCancelledBySeller event) {
 		String saleId = event.getSaleId().asString();

@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.IncrementProductViewsCommand;
-import segundum.application.usecases.IncrementProductViewsUseCase;
 import segundum.domain.models.product.ProductId;
+import segundum.infrastructure.facades.IncrementProductViewsFacade;
 import segundum.infrastructure.rest.product.api.IncrementProductViewsApi;
 
 /**
@@ -15,23 +15,22 @@ import segundum.infrastructure.rest.product.api.IncrementProductViewsApi;
 public class IncrementProductViewsController implements IncrementProductViewsApi {
 
 	/**
-	 * The increment product views use case.
+	 * The facade for incrementing product views.
 	 */
-	private final IncrementProductViewsUseCase incrementProductViewsUseCase;
+	private final IncrementProductViewsFacade facade;
 
 	/**
-	 * Constructs a new IncrementProductViewsController with the given dependencies.
+	 * Constructs a new IncrementProductViewsController with the given facade.
 	 *
-	 * @param incrementProductViewsUseCase the increment product views use case
+	 * @param facade the facade for incrementing product views
 	 */
-	public IncrementProductViewsController(IncrementProductViewsUseCase incrementProductViewsUseCase) {
-		this.incrementProductViewsUseCase = incrementProductViewsUseCase;
+	public IncrementProductViewsController(IncrementProductViewsFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
 	public ResponseEntity<Void> incrementProductViews(String id) {
-		incrementProductViewsUseCase.execute(
-				new IncrementProductViewsCommand(ProductId.fromString(id)));
+		facade.run(new IncrementProductViewsCommand(ProductId.fromString(id)));
 		return ResponseEntity.noContent().build();
 	}
 

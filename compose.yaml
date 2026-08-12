@@ -8,12 +8,12 @@ services:
       - "${MYSQL_PORT}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d
+      - ./db:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 15
 
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
@@ -31,8 +31,8 @@ services:
       test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
       interval: 10s
       timeout: 5s
-      retries: 5
-      start_period: 60s
+      retries: 15
+      start_period: 240s
 
   mongodb:
     image: mongo:7.0
@@ -45,11 +45,13 @@ services:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 15
+      start_period: 240s
   
   mongo-express:
     image: mongo-express:1.0.2
     container_name: ${MONGO_EXPRESS_CONTAINER_NAME}
+    restart: on-failure:5
     ports:
       - "${MONGO_EXPRESS_PORT}:8081"
     environment:

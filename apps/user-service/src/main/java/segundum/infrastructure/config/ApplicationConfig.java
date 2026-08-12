@@ -27,6 +27,10 @@ import segundum.infrastructure.messaging.rabbitmq.RabbitMQEventPublisher;
 import segundum.infrastructure.messaging.messages.UserMessageMapper;
 import segundum.infrastructure.logging.Slf4jLogEmitter;
 import segundum.infrastructure.messaging.rabbitmq.RabbitMQEventConsumer;
+import segundum.infrastructure.facades.DeactivateUserFacade;
+import segundum.infrastructure.facades.RegisterUserFacade;
+import segundum.infrastructure.facades.SaleEventFacade;
+import segundum.infrastructure.facades.UpdateUserProfileFacade;
 import segundum.infrastructure.persistence.jpa.user.JpaUserRepository;
 import segundum.infrastructure.rest.config.OpenApiConfig;
 import segundum.infrastructure.rest.handlers.EntityNotFoundExceptionMapper;
@@ -70,19 +74,24 @@ public class ApplicationConfig extends ResourceConfig {
         GetUserStatsUseCase getUserStats = new GetUserStatsInteractor(userRepository);
         GetUserNameUseCase getUserName = new GetUserNameInteractor(userRepository);
 
+        RegisterUserFacade registerUserFacade = new RegisterUserFacade(registerUser);
+        UpdateUserProfileFacade updateUserProfileFacade = new UpdateUserProfileFacade(updateUser);
+        DeactivateUserFacade deactivateUserFacade = new DeactivateUserFacade(deactivateUser);
+
         LogEmitter logEmitter = new Slf4jLogEmitter(SaleEventHandlerInteractor.class);
         SaleEventHandler saleEventHandler = new SaleEventHandlerInteractor(userRepository, logEmitter);
+        SaleEventFacade saleEventFacade = new SaleEventFacade(saleEventHandler);
 
-        RabbitMQEventConsumer consumer = new RabbitMQEventConsumer(saleEventHandler);
+        RabbitMQEventConsumer consumer = new RabbitMQEventConsumer(saleEventFacade);
         consumer.start();
         Runtime.getRuntime().addShutdownHook(new Thread(consumer::stop));
 
         register(new GetUserProfileController(getUserProfile));
         register(new GetUserStatsController(getUserStats));
         register(new GetUserNameController(getUserName));
-        register(new RegisterUserController(registerUser));
-        register(new UpdateUserProfileController(updateUser));
-        register(new DeactivateUserController(deactivateUser));
+        register(new RegisterUserController(registerUserFacade));
+        register(new UpdateUserProfileController(updateUserProfileFacade));
+        register(new DeactivateUserController(deactivateUserFacade));
 
         register(saleEventHandler);
 

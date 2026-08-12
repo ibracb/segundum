@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.TakeProductDownCommand;
-import segundum.application.usecases.TakeProductDownUseCase;
 import segundum.domain.models.product.ProductId;
+import segundum.infrastructure.facades.TakeProductDownFacade;
 import segundum.infrastructure.rest.product.api.TakeProductDownApi;
 
 /**
@@ -15,22 +15,22 @@ import segundum.infrastructure.rest.product.api.TakeProductDownApi;
 public class TakeProductDownController implements TakeProductDownApi {
 
 	/**
-	 * The take product down use case.
+	 * The facade for taking a product down from sale.
 	 */
-	private final TakeProductDownUseCase takeProductDownUseCase;
+	private final TakeProductDownFacade facade;
 
 	/**
-	 * Constructs a new TakeProductDownController with the given dependencies.
+	 * Constructs a new TakeProductDownController with the given facade.
 	 *
-	 * @param takeProductDownUseCase the take product down use case
+	 * @param facade the facade for taking a product down from sale
 	 */
-	public TakeProductDownController(TakeProductDownUseCase takeProductDownUseCase) {
-		this.takeProductDownUseCase = takeProductDownUseCase;
+	public TakeProductDownController(TakeProductDownFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
 	public ResponseEntity<Void> takeProductDown(String id) {
-		takeProductDownUseCase.execute(new TakeProductDownCommand(ProductId.fromString(id)));
+		facade.run(new TakeProductDownCommand(ProductId.fromString(id)));
 		return ResponseEntity.noContent().build();
 	}
 

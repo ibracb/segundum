@@ -3,8 +3,8 @@ package segundum.infrastructure.rest.user.controllers;
 import javax.ws.rs.core.Response;
 
 import segundum.application.commands.DeactivateUserCommand;
-import segundum.application.usecases.DeactivateUserUseCase;
 import segundum.domain.models.user.UserId;
+import segundum.infrastructure.facades.DeactivateUserFacade;
 import segundum.infrastructure.rest.user.api.DeactivateUserApi;
 
 /**
@@ -13,23 +13,23 @@ import segundum.infrastructure.rest.user.api.DeactivateUserApi;
 public class DeactivateUserController implements DeactivateUserApi {
 
 	/**
-	 * The use case for deactivating a user.
+	 * The facade for deactivating a user.
 	 */
-	private final DeactivateUserUseCase deactivateUserUseCase;
+	private final DeactivateUserFacade facade;
 
 	/**
-	 * Constructs a new DeactivateUserController with the given use case.
+	 * Constructs a new DeactivateUserController with the given facade.
 	 *
-	 * @param deactivateUserUseCase the use case for deactivating a user
+	 * @param facade the facade for deactivating a user
 	 */
-	public DeactivateUserController(DeactivateUserUseCase deactivateUserUseCase) {
-		this.deactivateUserUseCase = deactivateUserUseCase;
+	public DeactivateUserController(DeactivateUserFacade facade) {
+		this.facade = facade;
 	}
 
 	@Override
 	public Response deactivateUser(String id) {
 		DeactivateUserCommand command = new DeactivateUserCommand(UserId.fromString(id));
-		deactivateUserUseCase.execute(command);
+		facade.run(command);
 		return Response.noContent().build();
 	}
 
