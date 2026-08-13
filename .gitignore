@@ -991,8 +991,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/java,visualstudiocode,eclipse,netbeans,intellij,aspnetcore,dotnetcore,csharp,node,windows,linux,macos,deno
-
-
-
-## MINE
-**/persistence.xml
