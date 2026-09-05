@@ -7,30 +7,34 @@ import org.glassfish.jersey.server.ResourceConfig;
 import segundum.application.usecases.DeactivateUserUseCase;
 import segundum.application.usecases.GetUserNameUseCase;
 import segundum.application.usecases.GetUserProfileUseCase;
+import segundum.application.usecases.GetUserListUseCase;
 import segundum.application.usecases.GetUserStatsUseCase;
 import segundum.application.usecases.RegisterUserUseCase;
-import segundum.application.eventhandlers.SaleEventHandler;
-import segundum.application.eventhandlers.interactors.SaleEventHandlerInteractor;
+import segundum.application.notificationhandlers.SaleNotificationHandler;
+import segundum.application.notificationhandlers.interactors.SaleNotificationHandlerInteractor;
+import segundum.application.finders.UserFinder;
 import segundum.application.usecases.UpdateUserProfileUseCase;
 import segundum.application.usecases.interactors.DeactivateUserInteractor;
 import segundum.application.usecases.interactors.GetUserNameInteractor;
 import segundum.application.usecases.interactors.GetUserProfileInteractor;
+import segundum.application.usecases.interactors.GetUserListInteractor;
 import segundum.application.usecases.interactors.GetUserStatsInteractor;
 import segundum.application.usecases.interactors.RegisterUserInteractor;
 import segundum.application.usecases.interactors.UpdateUserProfileInteractor;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.outbound.LogEmitter;
-import segundum.domain.outbound.PasswordHasher;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.application.outbound.LogEmitter;
+import segundum.application.outbound.PasswordHasher;
 import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.gson.GsonConfig;
 import segundum.infrastructure.messaging.rabbitmq.RabbitMQEventPublisher;
 import segundum.infrastructure.messaging.messages.UserMessageMapper;
 import segundum.infrastructure.logging.Slf4jLogEmitter;
-import segundum.infrastructure.messaging.rabbitmq.RabbitMQEventConsumer;
+import segundum.infrastructure.messaging.rabbitmq.RabbitMQConsumer;
 import segundum.infrastructure.facades.DeactivateUserFacade;
 import segundum.infrastructure.facades.RegisterUserFacade;
-import segundum.infrastructure.facades.SaleEventFacade;
+import segundum.infrastructure.facades.SaleNotificationFacade;
 import segundum.infrastructure.facades.UpdateUserProfileFacade;
+import segundum.infrastructure.persistence.jpa.user.JpaUserFinder;
 import segundum.infrastructure.persistence.jpa.user.JpaUserRepository;
 import segundum.infrastructure.rest.config.OpenApiConfig;
 import segundum.infrastructure.rest.handlers.EntityNotFoundExceptionMapper;
@@ -39,6 +43,7 @@ import segundum.infrastructure.rest.handlers.JsonSyntaxExceptionMapper;
 import segundum.infrastructure.rest.user.controllers.DeactivateUserController;
 import segundum.infrastructure.rest.user.controllers.GetUserNameController;
 import segundum.infrastructure.rest.user.controllers.GetUserProfileController;
+import segundum.infrastructure.rest.user.controllers.GetUserListController;
 import segundum.infrastructure.rest.user.controllers.GetUserStatsController;
 import segundum.infrastructure.rest.user.controllers.RegisterUserController;
 import segundum.infrastructure.rest.user.controllers.UpdateUserProfileController;
@@ -65,35 +70,38 @@ public class ApplicationConfig extends ResourceConfig {
     public ApplicationConfig() {
         PasswordHasher passwordHasher = new BCryptPasswordHasher();
         UserRepository userRepository = new JpaUserRepository();
+        UserFinder userFinder = new JpaUserFinder();
         DomainEventPublisher eventPublisher = new RabbitMQEventPublisher(new UserMessageMapper());
 
         RegisterUserUseCase registerUser = new RegisterUserInteractor(userRepository, eventPublisher, passwordHasher);
         UpdateUserProfileUseCase updateUser = new UpdateUserProfileInteractor(userRepository, eventPublisher, passwordHasher);
         DeactivateUserUseCase deactivateUser = new DeactivateUserInteractor(userRepository, eventPublisher);
-        GetUserProfileUseCase getUserProfile = new GetUserProfileInteractor(userRepository);
-        GetUserStatsUseCase getUserStats = new GetUserStatsInteractor(userRepository);
-        GetUserNameUseCase getUserName = new GetUserNameInteractor(userRepository);
+        GetUserProfileUseCase getUserProfile = new GetUserProfileInteractor(userFinder);
+        GetUserListUseCase getUserList = new GetUserListInteractor(userFinder);
+        GetUserStatsUseCase getUserStats = new GetUserStatsInteractor(userFinder);
+        GetUserNameUseCase getUserName = new GetUserNameInteractor(userFinder);
 
         RegisterUserFacade registerUserFacade = new RegisterUserFacade(registerUser);
         UpdateUserProfileFacade updateUserProfileFacade = new UpdateUserProfileFacade(updateUser);
         DeactivateUserFacade deactivateUserFacade = new DeactivateUserFacade(deactivateUser);
 
-        LogEmitter logEmitter = new Slf4jLogEmitter(SaleEventHandlerInteractor.class);
-        SaleEventHandler saleEventHandler = new SaleEventHandlerInteractor(userRepository, logEmitter);
-        SaleEventFacade saleEventFacade = new SaleEventFacade(saleEventHandler);
+        LogEmitter logEmitter = new Slf4jLogEmitter(SaleNotificationHandlerInteractor.class);
+        SaleNotificationHandler saleNotificationHandler = new SaleNotificationHandlerInteractor(userRepository, logEmitter);
+        SaleNotificationFacade saleNotificationFacade = new SaleNotificationFacade(saleNotificationHandler);
 
-        RabbitMQEventConsumer consumer = new RabbitMQEventConsumer(saleEventFacade);
+        RabbitMQConsumer consumer = new RabbitMQConsumer(saleNotificationFacade);
         consumer.start();
         Runtime.getRuntime().addShutdownHook(new Thread(consumer::stop));
 
         register(new GetUserProfileController(getUserProfile));
+        register(new GetUserListController(getUserList));
         register(new GetUserStatsController(getUserStats));
         register(new GetUserNameController(getUserName));
         register(new RegisterUserController(registerUserFacade));
         register(new UpdateUserProfileController(updateUserProfileFacade));
         register(new DeactivateUserController(deactivateUserFacade));
 
-        register(saleEventHandler);
+        register(saleNotificationHandler);
 
         register(DomainExceptionMapper.class);
         register(EmailAlreadyExistsExceptionMapper.class);

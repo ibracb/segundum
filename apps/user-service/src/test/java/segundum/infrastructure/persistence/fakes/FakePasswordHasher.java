@@ -1,7 +1,7 @@
 package segundum.infrastructure.persistence.fakes;
 
 import segundum.domain.models.user.Password;
-import segundum.domain.outbound.PasswordHasher;
+import segundum.application.outbound.PasswordHasher;
 
 /**
  * Fake implementation of PasswordHasher for testing purposes.

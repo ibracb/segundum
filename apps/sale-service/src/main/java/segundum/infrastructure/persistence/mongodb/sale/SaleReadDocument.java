@@ -13,7 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "sales")
 @CompoundIndexes({
 		@CompoundIndex(name = "seller_status", def = "{'seller_id': 1, 'status': 1}"),
-		@CompoundIndex(name = "purchaser_status", def = "{'purchaser_id': 1, 'status': 1}")
+		@CompoundIndex(name = "purchaser_status", def = "{'purchaser_id': 1, 'status': 1}"),
+		@CompoundIndex(name = "purchaser_seller_status", def = "{'purchaser_id': 1, 'seller_id': 1, 'status': 1}")
 })
 public class SaleReadDocument {
 

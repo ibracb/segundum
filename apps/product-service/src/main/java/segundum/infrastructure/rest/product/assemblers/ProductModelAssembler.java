@@ -17,10 +17,10 @@ import segundum.infrastructure.rest.product.responses.ProductSearchResultRespons
 import segundum.infrastructure.rest.product.responses.ProductSummaryResponse;
 import segundum.infrastructure.rest.product.responses.SellerProductResponse;
 
-@Component
 /**
  * Represents the assembler that builds product HATEOAS models.
  */
+@Component
 public class ProductModelAssembler {
 
 	/**

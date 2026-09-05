@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.RegisterUserCommand;
 import segundum.application.queries.GetUserProfileQuery;
+import segundum.application.readmodels.user.UserProfileReadModel;
 import segundum.application.usecases.GetUserProfileUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.user.Birthdate;
@@ -23,6 +24,7 @@ import segundum.domain.models.user.UserId;
 import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.FakePasswordHasher;
+import segundum.infrastructure.persistence.fakes.finders.FakeUserFinder;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
 class GetUserProfileInteractorTest {
@@ -41,7 +43,8 @@ class GetUserProfileInteractorTest {
 	@BeforeEach
 	void setUp() {
 		repository = new FakeUserRepository();
-		interactor = new GetUserProfileInteractor(repository);
+		FakeUserFinder userFinder = new FakeUserFinder((FakeUserRepository) repository);
+		interactor = new GetUserProfileInteractor(userFinder);
 
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				name, surname, email, password, birthdate, phone);
@@ -51,14 +54,13 @@ class GetUserProfileInteractorTest {
 
 	@Test
 	void shouldReturnUserProfileWhenUserExists() {
-		User user = interactor.execute(new GetUserProfileQuery(existingUser.getUserId()));
+		UserProfileReadModel profile = interactor.execute(new GetUserProfileQuery(existingUser.getUserId()));
 
-		assertEquals(existingUser.getUserId(), user.getUserId());
-		assertEquals("Juan", user.getName().getValue());
-		assertEquals("Pérez", user.getSurname().getValue());
-		assertEquals("juan@email.com", user.getEmail().getValue());
-		assertEquals("+34612345678", user.getPhone().getValue());
-		assertEquals(LocalDate.of(1990, 5, 15), user.getBirthdate().getValue());
+		assertEquals(existingUser.getUserId().getValue().toString(), profile.getId());
+		assertEquals("Juan", profile.getName());
+		assertEquals("Pérez", profile.getSurname());
+		assertEquals("juan@email.com", profile.getEmail());
+		assertEquals("+34612345678", profile.getPhone());
 	}
 
 	@Test

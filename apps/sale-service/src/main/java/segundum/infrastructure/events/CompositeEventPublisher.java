@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import segundum.domain.events.DomainEvent;
-import segundum.domain.outbound.DomainEventPublisher;
+import segundum.application.outbound.DomainEventPublisher;
 
 /**
  * Represents a domain event publisher that forwards events to multiple publishers.

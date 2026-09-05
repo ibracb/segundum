@@ -12,22 +12,6 @@ import segundum.domain.models.seller.SellerId;
 public interface SellerRepository {
 
 	/**
-	 * Finds a seller by its identifier.
-	 *
-	 * @param id the seller identifier
-	 * @return the seller, if it exists
-	 */
-	Optional<Seller> findById(SellerId id);
-
-	/**
-	 * Checks whether a seller exists by its identifier.
-	 *
-	 * @param id the seller identifier
-	 * @return true if the seller exists, false otherwise
-	 */
-	boolean existsById(SellerId id);
-
-	/**
 	 * Creates a new seller.
 	 *
 	 * @param seller the seller to create
@@ -42,7 +26,15 @@ public interface SellerRepository {
 	 * @return the updated seller
 	 */
 	Seller update(Seller seller);
-
+	
+	/**
+	 * Checks whether a seller exists by its identifier.
+	 *
+	 * @param id the seller identifier
+	 * @return true if the seller exists, false otherwise
+	 */
+	boolean existsById(SellerId id);
+	
 	/**
 	 * Checks whether a seller exists by its email.
 	 *
@@ -50,5 +42,13 @@ public interface SellerRepository {
 	 * @return true if a seller with the given email exists, false otherwise
 	 */
 	boolean existsByEmail(Email email);
+	
+	/**
+	 * Finds a seller by its identifier.
+	 *
+	 * @param id the seller identifier
+	 * @return the seller, if it exists
+	 */
+	Optional<Seller> findById(SellerId id);
 
 }

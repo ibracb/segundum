@@ -12,16 +12,16 @@ import segundum.application.queries.GetProductDetailQuery;
 import segundum.application.readmodels.product.ProductDetail;
 import segundum.application.usecases.GetProductDetailUseCase;
 import segundum.domain.models.product.ProductId;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeProductFinder;
 
 class GetProductDetailInteractorTest {
 
-	private FakeProductReadRepository repository;
+	private FakeProductFinder repository;
 	private GetProductDetailUseCase interactor;
 
 	@BeforeEach
 	void setUp() {
-		repository = new FakeProductReadRepository();
+		repository = new FakeProductFinder();
 		interactor = new GetProductDetailInteractor(repository);
 	}
 

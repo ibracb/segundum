@@ -30,17 +30,6 @@ public class JpaSellerRepository implements SellerRepository {
 	}
 
 	@Override
-	public Optional<Seller> findById(SellerId id) {
-		return sellerJpaRepository.findById(id.getValue().toString())
-				.map(SellerMapper::toDomain);
-	}
-
-	@Override
-	public boolean existsById(SellerId id) {
-		return sellerJpaRepository.existsById(id.getValue().toString());
-	}
-
-	@Override
 	public Seller create(Seller seller) {
 		SellerJpaEntity entity = sellerJpaRepository.save(
 				SellerMapper.toEntity(seller));
@@ -53,10 +42,21 @@ public class JpaSellerRepository implements SellerRepository {
 				SellerMapper.toEntity(seller));
 		return SellerMapper.toDomain(entity);
 	}
-
+	
+	@Override
+	public boolean existsById(SellerId id) {
+		return sellerJpaRepository.existsById(id.getValue().toString());
+	}
+	
 	@Override
 	public boolean existsByEmail(Email email) {
 		return sellerJpaRepository.existsByEmail(email.getValue());
+	}
+	
+	@Override
+	public Optional<Seller> findById(SellerId id) {
+		return sellerJpaRepository.findById(id.getValue().toString())
+				.map(SellerMapper::toDomain);
 	}
 
 }

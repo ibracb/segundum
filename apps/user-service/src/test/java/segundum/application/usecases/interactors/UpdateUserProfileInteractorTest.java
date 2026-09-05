@@ -22,7 +22,7 @@ import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
-import segundum.domain.outbound.PasswordHasher;
+import segundum.application.outbound.PasswordHasher;
 import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.FakePasswordHasher;

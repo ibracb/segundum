@@ -2,11 +2,11 @@ package segundum.application.usecases.interactors;
 
 import java.util.Optional;
 
+import segundum.application.readmodels.user.UserProfileReadModel;
 import segundum.application.queries.GetUserProfileQuery;
+import segundum.application.finders.UserFinder;
 import segundum.application.usecases.GetUserProfileUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
-import segundum.domain.models.user.User;
-import segundum.domain.repositories.UserRepository;
 
 /**
  * Represents the interactor for retrieving a user's profile from the system.
@@ -14,22 +14,22 @@ import segundum.domain.repositories.UserRepository;
 public class GetUserProfileInteractor implements GetUserProfileUseCase {
 
 	/**
-	 * The repository for managing users.
+	 * The read-side repository for users.
 	 */
-    private final UserRepository userRepository;
+    private final UserFinder userFinder;
 
     /**
-     * Constructs a new GetUserProfileInteractor with the given repository.
-     * @param userRepository The repository for managing users.
+     * Constructs a new GetUserProfileInteractor with the given read repository.
+     * @param userFinder The read-side repository for users.
      */
-    public GetUserProfileInteractor(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public GetUserProfileInteractor(UserFinder userFinder) {
+        this.userFinder = userFinder;
     }
 
     @Override
-    public User execute(GetUserProfileQuery query) {
-        Optional<User> user = userRepository.findById(query.getUserId());
-        return user.orElseThrow(
+    public UserProfileReadModel execute(GetUserProfileQuery query) {
+        Optional<UserProfileReadModel> profile = userFinder.findProfileById(query.getUserId());
+        return profile.orElseThrow(
                 () -> new EntityNotFoundException("User", query.getUserId().getValue().toString()));
     }
 

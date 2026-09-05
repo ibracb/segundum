@@ -2,9 +2,9 @@ package segundum.infrastructure.rest.user.controllers;
 
 import javax.ws.rs.core.Response;
 
+import segundum.application.readmodels.user.UserNameReadModel;
 import segundum.application.queries.GetUserNameQuery;
 import segundum.application.usecases.GetUserNameUseCase;
-import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
 import segundum.infrastructure.rest.user.api.GetUserNameApi;
 import segundum.infrastructure.rest.user.mappers.UserNameResponseMapper;
@@ -31,8 +31,8 @@ public class GetUserNameController implements GetUserNameApi {
     @Override
     public Response getUserName(String id) {
         GetUserNameQuery query = new GetUserNameQuery(UserId.fromString(id));
-        User user = getUserNameUseCase.execute(query);
-        return Response.ok(UserNameResponseMapper.fromDomain(user)).build();
+        UserNameReadModel userName = getUserNameUseCase.execute(query);
+        return Response.ok(UserNameResponseMapper.fromReadModel(userName)).build();
     }
 
 }

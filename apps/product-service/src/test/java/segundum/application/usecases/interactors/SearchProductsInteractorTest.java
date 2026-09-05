@@ -14,16 +14,16 @@ import segundum.application.usecases.SearchProductsUseCase;
 import segundum.domain.models.category.CategoryId;
 import segundum.domain.models.product.ConditionStatus;
 import segundum.domain.models.product.Price;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeProductFinder;
 
 class SearchProductsInteractorTest {
 
-	private FakeProductReadRepository repository;
+	private FakeProductFinder repository;
 	private SearchProductsUseCase interactor;
 
 	@BeforeEach
 	void setUp() {
-		repository = new FakeProductReadRepository();
+		repository = new FakeProductFinder();
 		interactor = new SearchProductsInteractor(repository);
 	}
 

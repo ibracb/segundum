@@ -8,8 +8,8 @@ import segundum.domain.exceptions.user.phone.PhoneAlreadyExistsException;
 import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.User;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.outbound.PasswordHasher;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.application.outbound.PasswordHasher;
 import segundum.domain.repositories.UserRepository;
 
 /**

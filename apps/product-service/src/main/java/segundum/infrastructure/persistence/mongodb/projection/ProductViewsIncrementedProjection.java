@@ -11,10 +11,10 @@ import segundum.domain.events.ProductViewsIncremented;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadDocument;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadMongoRepository;
 
-@Component
 /**
  * Represents the projection that updates the read side when the views of a product are incremented.
  */
+@Component
 public class ProductViewsIncrementedProjection {
 
 	/**

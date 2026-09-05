@@ -1,5 +1,7 @@
 package segundum.infrastructure.rest.handlers;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +13,7 @@ import segundum.domain.exceptions.EntityNotFoundException;
  * Exception mapper for EntityNotFoundException.
  */
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class EntityNotFoundExceptionMapper {
 
     @ExceptionHandler(EntityNotFoundException.class)

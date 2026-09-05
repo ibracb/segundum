@@ -5,8 +5,8 @@ import segundum.application.usecases.UpdateProductUseCase;
 import segundum.domain.events.ProductUpdated;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.product.Product;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.repositories.ProductWriteRepository;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.domain.repositories.ProductRepository;
 
 
 /**
@@ -14,18 +14,18 @@ import segundum.domain.repositories.ProductWriteRepository;
  */
 public class UpdateProductInteractor implements UpdateProductUseCase {
 
-	private final ProductWriteRepository productWriteRepository;
+	private final ProductRepository productRepository;
 	private final DomainEventPublisher domainEventPublisher;
 
-	public UpdateProductInteractor(ProductWriteRepository productWriteRepository,
+	public UpdateProductInteractor(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		this.productWriteRepository = productWriteRepository;
+		this.productRepository = productRepository;
 		this.domainEventPublisher = domainEventPublisher;
 	}
 
 	@Override
 	public void execute(UpdateProductCommand command) {
-		Product product = productWriteRepository.findById(command.getProductId())
+		Product product = productRepository.findById(command.getProductId())
 				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
 
 		if (command.getPrice() != null) {
@@ -38,7 +38,7 @@ public class UpdateProductInteractor implements UpdateProductUseCase {
 			product.changeConditionStatus(command.getConditionStatus());
 		}
 
-		productWriteRepository.update(product);
+		productRepository.update(product);
 
 		domainEventPublisher.publish(new ProductUpdated(
 				command.getProductId(),

@@ -22,7 +22,8 @@ import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
-import segundum.domain.outbound.PasswordHasher;
+import segundum.domain.models.user.UserRole;
+import segundum.application.outbound.PasswordHasher;
 import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.FakePasswordHasher;
@@ -104,6 +105,16 @@ class RegisterUserInteractorTest {
 
 		assertThrows(PhoneAlreadyExistsException.class, () -> interactor.execute(secondCommand));
 		assertEquals(1, publisher.getPublishedEvents().size());
+	}
+
+	@Test
+	void shouldAssignUserRoleByDefault() {
+		RegisterUserCommand command = new RegisterUserCommand(name, surname, email, password, birthdate, phone);
+		User user = interactor.execute(command);
+
+		assertNotNull(user.getUserRoles());
+		assertEquals(1, user.getUserRoles().size());
+		assertTrue(user.hasRole(UserRole.USER));
 	}
 
 }

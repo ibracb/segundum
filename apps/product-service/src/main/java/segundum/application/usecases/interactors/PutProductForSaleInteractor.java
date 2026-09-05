@@ -5,31 +5,31 @@ import segundum.application.usecases.PutProductForSaleUseCase;
 import segundum.domain.events.ProductPutOnSale;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.product.Product;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.repositories.ProductWriteRepository;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.domain.repositories.ProductRepository;
 
 /**
  * Interactor for putting a product on sale.
  */
 public class PutProductForSaleInteractor implements PutProductForSaleUseCase {
 
-	private final ProductWriteRepository productWriteRepository;
+	private final ProductRepository productRepository;
 	private final DomainEventPublisher domainEventPublisher;
 
-	public PutProductForSaleInteractor(ProductWriteRepository productWriteRepository,
+	public PutProductForSaleInteractor(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		this.productWriteRepository = productWriteRepository;
+		this.productRepository = productRepository;
 		this.domainEventPublisher = domainEventPublisher;
 	}
 
 	@Override
 	public void execute(PutProductForSaleCommand command) {
-		Product product = productWriteRepository.findById(command.getProductId())
+		Product product = productRepository.findById(command.getProductId())
 				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
 
 		product.putForSale();
 
-		productWriteRepository.update(product);
+		productRepository.update(product);
 
 		domainEventPublisher.publish(new ProductPutOnSale(product.getProductId()));
 	}

@@ -1,19 +1,19 @@
 package segundum.application.usecases;
 
+import segundum.application.readmodels.user.UserNameReadModel;
 import segundum.application.queries.GetUserNameQuery;
-import segundum.domain.models.user.User;
 
 /**
- * Represents the use case for retrieving the name of a user.
+ * Represents the use case for retrieving a user's name.
  */
 public interface GetUserNameUseCase {
 
-    /**
-     * Executes the retrieval of a user by the given query.
-     *
-     * @param query the query containing the user identifier
-     * @return the user whose name is being retrieved
-     */
-    User execute(GetUserNameQuery query);
+	/**
+	 * Executes the use case to retrieve a user's name.
+	 *
+	 * @param query the query containing the identifier of the user whose name is to be retrieved
+	 * @return the user name read model
+	 */
+    UserNameReadModel execute(GetUserNameQuery query);
 
 }

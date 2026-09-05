@@ -9,10 +9,10 @@ import segundum.domain.events.CategoryCreated;
 import segundum.infrastructure.persistence.mongodb.category.CategoryReadDocument;
 import segundum.infrastructure.persistence.mongodb.category.CategoryReadMongoRepository;
 
-@Component
 /**
  * Represents the projection that updates the read side when a category is created.
  */
+@Component
 public class CategoryCreatedProjection {
 
 	/**

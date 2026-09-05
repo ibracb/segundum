@@ -11,16 +11,16 @@ import segundum.application.queries.GetMonthlyHistoryQuery;
 import segundum.application.readmodels.common.Page;
 import segundum.application.readmodels.product.ProductSummary;
 import segundum.application.usecases.GetMonthlyHistoryUseCase;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeProductFinder;
 
 class GetMonthlyHistoryInteractorTest {
 
-	private FakeProductReadRepository repository;
+	private FakeProductFinder repository;
 	private GetMonthlyHistoryUseCase interactor;
 
 	@BeforeEach
 	void setUp() {
-		repository = new FakeProductReadRepository();
+		repository = new FakeProductFinder();
 		interactor = new GetMonthlyHistoryInteractor(repository);
 	}
 

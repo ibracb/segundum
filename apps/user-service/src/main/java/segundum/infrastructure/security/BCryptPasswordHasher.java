@@ -3,7 +3,7 @@ package segundum.infrastructure.security;
 import org.mindrot.jbcrypt.BCrypt;
 
 import segundum.domain.models.user.Password;
-import segundum.domain.outbound.PasswordHasher;
+import segundum.application.outbound.PasswordHasher;
 
 /**
  * BCrypt implementation of the PasswordHasher port.

@@ -5,6 +5,7 @@ import segundum.application.readmodels.product.ProductBasicInfoReadModel;
 import segundum.application.readmodels.purchaser.PurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsSellerReadModel;
+import segundum.application.readmodels.sale.SaleDetailReadModel;
 import segundum.application.readmodels.seller.SellerReadModel;
 
 /**
@@ -30,6 +31,16 @@ final class SaleReadMapper {
 				doc.getStatus(),
 				doc.getDatetime(),
 				toProduct(doc.getProduct()),
+				toPurchaser(doc.getPurchaser()));
+	}
+
+	static SaleDetailReadModel toSaleDetail(SaleReadDocument doc) {
+		return new SaleDetailReadModel(
+				doc.getId(),
+				doc.getStatus(),
+				doc.getDatetime(),
+				toProduct(doc.getProduct()),
+				toSeller(doc.getSeller()),
 				toPurchaser(doc.getPurchaser()));
 	}
 

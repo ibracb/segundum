@@ -27,7 +27,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 		log.error("Unhandled exception processing request", exception);
 		ErrorResponse body = new ErrorResponse(
 				Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(),
-				"Internal Server Error",
+				Response.Status.INTERNAL_SERVER_ERROR.getReasonPhrase(),
 				"An unexpected error occurred.");
 		return Response.serverError()
 				.entity(body)

@@ -1,10 +1,13 @@
 package segundum.infrastructure.persistence.jpa.user;
 
+import java.sql.Timestamp;
+
 import segundum.domain.models.user.Birthdate;
 import segundum.domain.models.user.Email;
 import segundum.domain.models.user.Name;
 import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
+import segundum.domain.models.user.RegistrationDate;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserFactory;
@@ -40,7 +43,9 @@ public class UserMapper {
                 user.getPhone().getValue(),
                 user.getPurchases(),
                 user.getSales(),
-                user.getStatus().name()
+                user.getStatus().name(),
+                Timestamp.from(user.getRegistrationDate().getValue()),
+                user.getUserRoles()
         );
     }
     
@@ -61,7 +66,9 @@ public class UserMapper {
                 new Phone(entity.getPhone()),
                 entity.getPurchases(),
                 entity.getSales(),
-                UserStatus.valueOf(entity.getStatus())
+                UserStatus.valueOf(entity.getStatus()),
+                RegistrationDate.fromInstant(entity.getRegistrationDate().toInstant()),
+                entity.getRoles()
         );
     }
     

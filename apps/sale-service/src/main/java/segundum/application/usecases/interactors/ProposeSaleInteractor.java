@@ -25,8 +25,8 @@ import segundum.domain.models.sale.SellerId;
 import segundum.domain.models.sale.SellerName;
 import segundum.domain.models.sale.SellerSurname;
 import segundum.domain.models.sale.Title;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.outbound.EventStore;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.application.outbound.EventStore;
 
 /**
  * Represents the interactor for proposing a sale.

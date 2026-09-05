@@ -9,9 +9,9 @@ import segundum.domain.models.product.Product;
 import segundum.domain.models.product.ProductFactory;
 import segundum.domain.models.seller.Seller;
 import segundum.domain.models.product.ProductId;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.repositories.CategoryWriteRepository;
-import segundum.domain.repositories.ProductWriteRepository;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.domain.repositories.CategoryRepository;
+import segundum.domain.repositories.ProductRepository;
 import segundum.domain.repositories.SellerRepository;
 
 /**
@@ -19,22 +19,22 @@ import segundum.domain.repositories.SellerRepository;
  */
 public class CreateProductInteractor implements CreateProductUseCase {
 
-	private final CategoryWriteRepository categoryWriteRepository;
+	private final CategoryRepository categoryRepository;
 	private final SellerRepository sellerRepository;
-	private final ProductWriteRepository productWriteRepository;
+	private final ProductRepository productRepository;
 	private final DomainEventPublisher domainEventPublisher;
 
-	public CreateProductInteractor(CategoryWriteRepository categoryWriteRepository, SellerRepository sellerRepository,
-			ProductWriteRepository productWriteRepository, DomainEventPublisher domainEventPublisher) {
-		this.categoryWriteRepository = categoryWriteRepository;
+	public CreateProductInteractor(CategoryRepository categoryRepository, SellerRepository sellerRepository,
+			ProductRepository productRepository, DomainEventPublisher domainEventPublisher) {
+		this.categoryRepository = categoryRepository;
 		this.sellerRepository = sellerRepository;
-		this.productWriteRepository = productWriteRepository;
+		this.productRepository = productRepository;
 		this.domainEventPublisher = domainEventPublisher;
 	}
 
 	@Override
 	public ProductId execute(CreateProductCommand command) {
-		if (!categoryWriteRepository.existsById(command.getCategoryId())) {
+		if (!categoryRepository.existsById(command.getCategoryId())) {
 			throw new EntityNotFoundException("Category", command.getCategoryId().toString());
 		}
 		Seller seller = sellerRepository.findById(command.getSellerId())
@@ -51,7 +51,7 @@ public class CreateProductInteractor implements CreateProductUseCase {
 				command.isShippingAvailable(),
 				command.getSellerId());
 
-		productWriteRepository.create(product);
+		productRepository.create(product);
 
 		domainEventPublisher.publish(new ProductCreated(
 				product.getProductId(),

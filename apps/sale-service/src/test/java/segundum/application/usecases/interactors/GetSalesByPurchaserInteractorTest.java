@@ -15,16 +15,16 @@ import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.usecases.GetSalesByPurchaserUseCase;
 import segundum.domain.models.sale.OrderStatus;
 import segundum.domain.models.sale.PurchaserId;
-import segundum.infrastructure.persistence.fakes.FakeSaleReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeSaleFinder;
 
 class GetSalesByPurchaserInteractorTest {
 
-	private FakeSaleReadRepository repository;
+	private FakeSaleFinder repository;
 	private GetSalesByPurchaserUseCase interactor;
 
 	@BeforeEach
 	void setUp() {
-		repository = new FakeSaleReadRepository();
+		repository = new FakeSaleFinder();
 		interactor = new GetSalesByPurchaserInteractor(repository);
 	}
 

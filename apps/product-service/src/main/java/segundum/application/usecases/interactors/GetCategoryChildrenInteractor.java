@@ -4,7 +4,7 @@ import java.util.List;
 
 import segundum.application.queries.GetCategoryChildrenQuery;
 import segundum.application.readmodels.category.CategoryReadModel;
-import segundum.application.repositories.CategoryReadRepository;
+import segundum.application.finders.CategoryFinder;
 import segundum.application.usecases.GetCategoryChildrenUseCase;
 
 /**
@@ -12,15 +12,15 @@ import segundum.application.usecases.GetCategoryChildrenUseCase;
  */
 public class GetCategoryChildrenInteractor implements GetCategoryChildrenUseCase {
 
-	private final CategoryReadRepository categoryReadRepository;
+	private final CategoryFinder categoryFinder;
 
-	public GetCategoryChildrenInteractor(CategoryReadRepository categoryReadRepository) {
-		this.categoryReadRepository = categoryReadRepository;
+	public GetCategoryChildrenInteractor(CategoryFinder categoryFinder) {
+		this.categoryFinder = categoryFinder;
 	}
 
 	@Override
 	public List<CategoryReadModel> execute(GetCategoryChildrenQuery query) {
-		return categoryReadRepository.findChildrenByParentCategoryId(query.getCategoryId());
+		return categoryFinder.findChildrenByParentCategoryId(query.getCategoryId());
 	}
 
 }

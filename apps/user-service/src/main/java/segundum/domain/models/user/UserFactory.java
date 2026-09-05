@@ -1,5 +1,7 @@
 package segundum.domain.models.user;
 
+import java.util.List;
+
 /**
  * Factory class for creating User objects.
  */
@@ -13,6 +15,7 @@ public class UserFactory {
 	
 	/**
 	 * Creates a new User object with the given parameters.
+	 * The user is created with the default USER role.
 	 * 
 	 * @param name the name of the user
 	 * @param surname the surname of the user
@@ -39,10 +42,12 @@ public class UserFactory {
 	 * @param purchases the number of purchases
 	 * @param sales the number of sales
 	 * @param status the status of the user
+	 * @param registrationDate the registration date of the user
+	 * @param roles the roles of the user
 	 * @return the reconstituted User object
 	 */
-	public static User reconstitute(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone, long purchases, long sales, UserStatus status) {
-		return new User(userId, name, surname, email, password, birthdate, phone, purchases, sales, status);
+	public static User reconstitute(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone, long purchases, long sales, UserStatus status, RegistrationDate registrationDate, List<UserRole> roles) {
+		return new User(userId, name, surname, email, password, birthdate, phone, purchases, sales, status, registrationDate, roles);
 	}
 
 }

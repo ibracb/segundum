@@ -2,9 +2,9 @@ package segundum.infrastructure.rest.user.controllers;
 
 import javax.ws.rs.core.Response;
 
+import segundum.application.readmodels.user.UserStatsReadModel;
 import segundum.application.queries.GetUserStatsQuery;
 import segundum.application.usecases.GetUserStatsUseCase;
-import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
 import segundum.infrastructure.rest.user.api.GetUserStatsApi;
 import segundum.infrastructure.rest.user.mappers.UserStatsResponseMapper;
@@ -31,8 +31,8 @@ public class GetUserStatsController implements GetUserStatsApi {
 	@Override
 	public Response getUserStats(String id) {
 		GetUserStatsQuery query = new GetUserStatsQuery(UserId.fromString(id));
-		User user = getUserStatsUseCase.execute(query);
-		return Response.ok(UserStatsResponseMapper.fromDomain(user)).build();
+		UserStatsReadModel stats = getUserStatsUseCase.execute(query);
+		return Response.ok(UserStatsResponseMapper.fromReadModel(stats)).build();
 	}
 
 }

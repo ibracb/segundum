@@ -5,31 +5,31 @@ import segundum.application.usecases.TakeProductDownUseCase;
 import segundum.domain.events.ProductTakenDown;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.product.Product;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.repositories.ProductWriteRepository;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.domain.repositories.ProductRepository;
 
 /**
  * Interactor for taking a product down from sale.
  */
 public class TakeProductDownInteractor implements TakeProductDownUseCase {
 
-	private final ProductWriteRepository productWriteRepository;
+	private final ProductRepository productRepository;
 	private final DomainEventPublisher domainEventPublisher;
 
-	public TakeProductDownInteractor(ProductWriteRepository productWriteRepository,
+	public TakeProductDownInteractor(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		this.productWriteRepository = productWriteRepository;
+		this.productRepository = productRepository;
 		this.domainEventPublisher = domainEventPublisher;
 	}
 
 	@Override
 	public void execute(TakeProductDownCommand command) {
-		Product product = productWriteRepository.findById(command.getProductId())
+		Product product = productRepository.findById(command.getProductId())
 				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
 
 		product.takeDown();
 
-		productWriteRepository.update(product);
+		productRepository.update(product);
 
 		domainEventPublisher.publish(new ProductTakenDown(product.getProductId()));
 	}

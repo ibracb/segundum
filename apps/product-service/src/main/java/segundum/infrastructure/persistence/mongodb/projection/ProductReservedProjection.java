@@ -11,10 +11,10 @@ import segundum.domain.events.ProductReserved;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadDocument;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadMongoRepository;
 
-@Component
 /**
  * Represents the projection that updates the read side when a product is reserved.
  */
+@Component
 public class ProductReservedProjection {
 
 	/**

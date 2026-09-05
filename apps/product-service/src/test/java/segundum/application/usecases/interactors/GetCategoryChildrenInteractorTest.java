@@ -14,16 +14,16 @@ import segundum.application.queries.GetCategoryChildrenQuery;
 import segundum.application.readmodels.category.CategoryReadModel;
 import segundum.application.usecases.GetCategoryChildrenUseCase;
 import segundum.domain.models.category.CategoryId;
-import segundum.infrastructure.persistence.fakes.repositories.FakeCategoryReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeCategoryFinder;
 
 class GetCategoryChildrenInteractorTest {
 
-	private FakeCategoryReadRepository repository;
+	private FakeCategoryFinder repository;
 	private GetCategoryChildrenUseCase interactor;
 
 	@BeforeEach
 	void setUp() {
-		repository = new FakeCategoryReadRepository();
+		repository = new FakeCategoryFinder();
 		interactor = new GetCategoryChildrenInteractor(repository);
 	}
 

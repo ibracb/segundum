@@ -2,7 +2,9 @@ package segundum.domain.models.user;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +16,7 @@ class UserFactoryTest {
 	private final Password password = Password.plain("Abcdef123");
 	private final Birthdate birthdate = new Birthdate(LocalDate.of(1990, 5, 15));
 	private final Phone phone = new Phone("+34612345678");
+	private final List<UserRole> roles = List.of(UserRole.USER);
 
 	@Test
 	void shouldCreateUser() {
@@ -28,17 +31,25 @@ class UserFactoryTest {
 		assertEquals("+34612345678", user.getPhone().getValue());
 		assertEquals(0, user.getPurchases());
 		assertEquals(0, user.getSales());
+		assertTrue(user.hasRole(UserRole.USER));
+		assertNotNull(user.getRegistrationDate());
+		assertNotNull(user.getUserRoles());
+		assertEquals(1, user.getUserRoles().size());
 	}
 
 	@Test
 	void shouldReconstituteUser() {
 		UserId userId = UserId.fromString("550e8400-e29b-41d4-a716-446655440000");
-		User user = UserFactory.reconstitute(userId, name, surname, email, password, birthdate, phone, 5, 3, UserStatus.ACTIVE);
+		RegistrationDate registrationDate = RegistrationDate.fromInstant(Instant.parse("2025-01-15T10:30:00Z"));
+		User user = UserFactory.reconstitute(userId, name, surname, email, password, birthdate, phone, 5, 3, UserStatus.ACTIVE, registrationDate, roles);
 
 		assertEquals(userId.getValue(), user.getUserId().getValue());
 		assertEquals("Juan", user.getName().getValue());
 		assertEquals(5, user.getPurchases());
 		assertEquals(3, user.getSales());
+		assertEquals(registrationDate, user.getRegistrationDate());
+		assertNotNull(user.getUserRoles());
+		assertTrue(user.hasRole(UserRole.USER));
 	}
 
 }

@@ -17,9 +17,9 @@ import segundum.domain.models.category.CategoryId;
 import segundum.domain.models.category.Description;
 import segundum.domain.models.category.Name;
 import segundum.domain.models.category.Path;
-import segundum.domain.outbound.CategoryHierarchyLoader;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.repositories.CategoryWriteRepository;
+import segundum.application.outbound.CategoryHierarchyLoader;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.domain.repositories.CategoryRepository;
 
 /**
  * Represents the loader that reads a category hierarchy from an XML source.
@@ -30,7 +30,7 @@ public class XmlCategoryHierarchyLoader implements CategoryHierarchyLoader {
 	/**
 	 * The repository used to write categories.
 	 */
-	private final CategoryWriteRepository categoryWriteRepository;
+	private final CategoryRepository categoryRepository;
 	/**
 	 * The publisher used to publish domain events.
 	 */
@@ -39,12 +39,12 @@ public class XmlCategoryHierarchyLoader implements CategoryHierarchyLoader {
 	/**
 	 * Constructs a new XmlCategoryHierarchyLoader with the given dependencies.
 	 *
-	 * @param categoryWriteRepository the repository used to write categories
+	 * @param categoryRepository the repository used to write categories
 	 * @param domainEventPublisher the publisher used to publish domain events
 	 */
-	public XmlCategoryHierarchyLoader(CategoryWriteRepository categoryWriteRepository,
+	public XmlCategoryHierarchyLoader(CategoryRepository categoryRepository,
 			DomainEventPublisher domainEventPublisher) {
-		this.categoryWriteRepository = categoryWriteRepository;
+		this.categoryRepository = categoryRepository;
 		this.domainEventPublisher = domainEventPublisher;
 	}
 	
@@ -83,14 +83,14 @@ public class XmlCategoryHierarchyLoader implements CategoryHierarchyLoader {
 	 */
 	private void saveRecursively(CategoryXmlModel model, CategoryId parentCategoryId) {
 		CategoryId categoryId = CategoryId.fromString(model.getId());
-		if (categoryWriteRepository.existsById(categoryId)) {
+		if (categoryRepository.existsById(categoryId)) {
 			return;
 		}
 		Name name = new Name(model.getName());
 		Path path = new Path(model.getPath());
 		Description description = new Description(model.getDescription());
 		Category category = CategoryFactory.create(categoryId, name, path, description, parentCategoryId);
-		categoryWriteRepository.create(category);
+		categoryRepository.create(category);
 
 		domainEventPublisher.publish(new CategoryCreated(
 				categoryId, name, path, description, parentCategoryId));

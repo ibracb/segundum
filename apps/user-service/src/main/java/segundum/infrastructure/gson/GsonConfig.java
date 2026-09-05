@@ -8,6 +8,8 @@ import com.google.gson.JsonPrimitive;
 
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+
+import java.time.Instant;
 import java.time.LocalDate;
 
 /**
@@ -32,6 +34,12 @@ public class GsonConfig implements ContextResolver<Gson> {
             .registerTypeAdapter(LocalDate.class,
                 (JsonDeserializer<LocalDate>) (json, type, ctx) ->
                     LocalDate.parse(json.getAsString()))
+            .registerTypeAdapter(Instant.class,
+                    (JsonSerializer<Instant>) (src, type, ctx) ->
+                        new JsonPrimitive(src.toString()))
+            .registerTypeAdapter(Instant.class,
+                    (JsonDeserializer<Instant>) (json, type, ctx) ->
+                        Instant.parse(json.getAsString()))
             .create();
     }
     

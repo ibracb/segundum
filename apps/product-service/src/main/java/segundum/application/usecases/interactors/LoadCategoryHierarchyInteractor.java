@@ -2,7 +2,7 @@ package segundum.application.usecases.interactors;
 
 import segundum.application.commands.LoadCategoryHierarchyCommand;
 import segundum.application.usecases.LoadCategoryHierarchyUseCase;
-import segundum.domain.outbound.CategoryHierarchyLoader;
+import segundum.application.outbound.CategoryHierarchyLoader;
 
 /**
  * Represents the interactor for loading a category hierarchy.

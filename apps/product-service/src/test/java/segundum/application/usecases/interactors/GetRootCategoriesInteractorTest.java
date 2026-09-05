@@ -13,16 +13,16 @@ import org.junit.jupiter.api.Test;
 import segundum.application.queries.GetRootCategoriesQuery;
 import segundum.application.readmodels.category.CategoryReadModel;
 import segundum.application.usecases.GetRootCategoriesUseCase;
-import segundum.infrastructure.persistence.fakes.repositories.FakeCategoryReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeCategoryFinder;
 
 class GetRootCategoriesInteractorTest {
 
-	private FakeCategoryReadRepository repository;
+	private FakeCategoryFinder repository;
 	private GetRootCategoriesUseCase interactor;
 
 	@BeforeEach
 	void setUp() {
-		repository = new FakeCategoryReadRepository();
+		repository = new FakeCategoryFinder();
 		interactor = new GetRootCategoriesInteractor(repository);
 	}
 

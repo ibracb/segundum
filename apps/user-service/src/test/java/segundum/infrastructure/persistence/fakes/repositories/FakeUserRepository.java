@@ -1,6 +1,7 @@
 package segundum.infrastructure.persistence.fakes.repositories;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -49,6 +50,15 @@ public class FakeUserRepository implements UserRepository {
 	public boolean existsByPhone(Phone phone) {
 		return users.values().stream()
 				.anyMatch(u -> u.getPhone().getValue().equals(phone.getValue()));
+	}
+
+	/**
+	 * Returns all users stored in this repository.
+	 *
+	 * @return the list of all users
+	 */
+	public List<User> getAll() {
+		return List.copyOf(users.values());
 	}
 
 }

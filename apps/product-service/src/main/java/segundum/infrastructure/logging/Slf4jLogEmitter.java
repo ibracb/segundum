@@ -3,7 +3,7 @@ package segundum.infrastructure.logging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import segundum.domain.outbound.LogEmitter;
+import segundum.application.outbound.LogEmitter;
 
 /**
  * Represents a log emitter backed by SLF4J.

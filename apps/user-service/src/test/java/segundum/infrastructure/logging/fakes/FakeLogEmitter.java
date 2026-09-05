@@ -3,7 +3,7 @@ package segundum.infrastructure.logging.fakes;
 import java.util.ArrayList;
 import java.util.List;
 
-import segundum.domain.outbound.LogEmitter;
+import segundum.application.outbound.LogEmitter;
 
 public class FakeLogEmitter implements LogEmitter {
 

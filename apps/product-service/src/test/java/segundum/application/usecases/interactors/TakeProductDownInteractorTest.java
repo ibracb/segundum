@@ -23,13 +23,13 @@ import segundum.domain.models.product.SaleStatus;
 import segundum.domain.models.product.Title;
 import segundum.domain.models.seller.SellerId;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductWriteRepository;
+import segundum.infrastructure.persistence.fakes.repositories.FakeProductRepository;
 
 import java.util.UUID;
 
 class TakeProductDownInteractorTest {
 
-	private FakeProductWriteRepository productRepository;
+	private FakeProductRepository productRepository;
 	private FakePublisher publisher;
 	private TakeProductDownUseCase interactor;
 
@@ -38,7 +38,7 @@ class TakeProductDownInteractorTest {
 
 	@BeforeEach
 	void setUp() {
-		productRepository = new FakeProductWriteRepository();
+		productRepository = new FakeProductRepository();
 		publisher = new FakePublisher();
 		interactor = new TakeProductDownInteractor(productRepository, publisher);
 	}

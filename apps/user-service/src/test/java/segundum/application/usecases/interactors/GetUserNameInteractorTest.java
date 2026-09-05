@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.RegisterUserCommand;
 import segundum.application.queries.GetUserNameQuery;
+import segundum.application.readmodels.user.UserNameReadModel;
 import segundum.application.usecases.GetUserNameUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.user.Birthdate;
@@ -23,6 +24,7 @@ import segundum.domain.models.user.UserId;
 import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.FakePasswordHasher;
+import segundum.infrastructure.persistence.fakes.finders.FakeUserFinder;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
 class GetUserNameInteractorTest {
@@ -41,7 +43,8 @@ class GetUserNameInteractorTest {
     @BeforeEach
     void setUp() {
         repository = new FakeUserRepository();
-        interactor = new GetUserNameInteractor(repository);
+        FakeUserFinder userFinder = new FakeUserFinder((FakeUserRepository) repository);
+        interactor = new GetUserNameInteractor(userFinder);
 
         RegisterUserCommand registerCommand = new RegisterUserCommand(
                 name, surname, email, password, birthdate, phone);
@@ -51,11 +54,11 @@ class GetUserNameInteractorTest {
 
     @Test
     void shouldReturnUserNameWhenUserExists() {
-        User user = interactor.execute(new GetUserNameQuery(existingUser.getUserId()));
+        UserNameReadModel userName = interactor.execute(new GetUserNameQuery(existingUser.getUserId()));
 
-        assertEquals(existingUser.getUserId(), user.getUserId());
-        assertEquals("Juan", user.getName().getValue());
-        assertEquals("Pérez", user.getSurname().getValue());
+        assertEquals(existingUser.getUserId().getValue().toString(), userName.getId());
+        assertEquals("Juan", userName.getName());
+        assertEquals("Pérez", userName.getSurname());
     }
 
     @Test

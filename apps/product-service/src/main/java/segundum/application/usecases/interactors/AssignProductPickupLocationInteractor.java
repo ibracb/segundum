@@ -5,30 +5,30 @@ import segundum.application.usecases.AssignProductPickupLocationUseCase;
 import segundum.domain.events.PickupLocationAssigned;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.product.Product;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.repositories.ProductWriteRepository;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.domain.repositories.ProductRepository;
 
 /**
  * Represents the interactor for assigning a pickup location to a product.
  */
 public class AssignProductPickupLocationInteractor implements AssignProductPickupLocationUseCase {
 
-	private final ProductWriteRepository productWriteRepository;
+	private final ProductRepository productRepository;
 	private final DomainEventPublisher domainEventPublisher;
 
-	public AssignProductPickupLocationInteractor(ProductWriteRepository productWriteRepository,
+	public AssignProductPickupLocationInteractor(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		this.productWriteRepository = productWriteRepository;
+		this.productRepository = productRepository;
 		this.domainEventPublisher = domainEventPublisher;
 	}
 
 	@Override
 	public void execute(AssignProductPickupLocationCommand command) {
-		Product product = productWriteRepository.findById(command.getProductId())
+		Product product = productRepository.findById(command.getProductId())
 				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
 		product.assignPickupLocation(command.getPickupLocation());
 
-		productWriteRepository.update(product);
+		productRepository.update(product);
 
 		domainEventPublisher.publish(new PickupLocationAssigned(
 				command.getProductId(),

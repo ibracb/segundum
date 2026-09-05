@@ -7,12 +7,14 @@ import segundum.application.readmodels.product.ProductBasicInfoReadModel;
 import segundum.application.readmodels.purchaser.PurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsSellerReadModel;
+import segundum.application.readmodels.sale.SaleDetailReadModel;
 import segundum.application.readmodels.seller.SellerReadModel;
 import segundum.infrastructure.rest.sale.responses.PickupLocationResponse;
 import segundum.infrastructure.rest.sale.responses.ProductBasicInfoResponse;
 import segundum.infrastructure.rest.sale.responses.PurchaserResponse;
 import segundum.infrastructure.rest.sale.responses.SaleAsPurchaserResponse;
 import segundum.infrastructure.rest.sale.responses.SaleAsSellerResponse;
+import segundum.infrastructure.rest.sale.responses.SaleDetailResponse;
 import segundum.infrastructure.rest.sale.responses.SellerResponse;
 
 /**
@@ -49,6 +51,23 @@ public class SaleModelAssembler {
                 sale.getStatus(),
                 sale.getDatetime(),
                 toProductResponse(sale.getProduct()),
+                toPurchaserResponse(sale.getPurchaser()));
+        return EntityModel.of(response);
+    }
+
+    /**
+     * Converts a sale read model into an entity model with full detail.
+     *
+     * @param sale the sale read model
+     * @return the entity model with full sale detail
+     */
+    public EntityModel<SaleDetailResponse> toSaleDetailModel(SaleDetailReadModel sale) {
+        SaleDetailResponse response = new SaleDetailResponse(
+                sale.getSaleId(),
+                sale.getStatus(),
+                sale.getDatetime(),
+                toProductResponse(sale.getProduct()),
+                toSellerResponse(sale.getSeller()),
                 toPurchaserResponse(sale.getPurchaser()));
         return EntityModel.of(response);
     }

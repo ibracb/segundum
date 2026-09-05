@@ -4,7 +4,7 @@ import java.util.List;
 
 import segundum.application.queries.GetRootCategoriesQuery;
 import segundum.application.readmodels.category.CategoryReadModel;
-import segundum.application.repositories.CategoryReadRepository;
+import segundum.application.finders.CategoryFinder;
 import segundum.application.usecases.GetRootCategoriesUseCase;
 
 /**
@@ -12,15 +12,15 @@ import segundum.application.usecases.GetRootCategoriesUseCase;
  */
 public class GetRootCategoriesInteractor implements GetRootCategoriesUseCase {
 
-	private final CategoryReadRepository categoryReadRepository;
+	private final CategoryFinder categoryFinder;
 
-	public GetRootCategoriesInteractor(CategoryReadRepository categoryReadRepository) {
-		this.categoryReadRepository = categoryReadRepository;
+	public GetRootCategoriesInteractor(CategoryFinder categoryFinder) {
+		this.categoryFinder = categoryFinder;
 	}
 
 	@Override
 	public List<CategoryReadModel> execute(GetRootCategoriesQuery query) {
-		return categoryReadRepository.findRootCategories();
+		return categoryFinder.findRootCategories();
 	}
 
 }

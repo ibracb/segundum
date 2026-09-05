@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 
 import segundum.domain.events.DomainEvent;
 
-@Component
-@Order(1)
 /**
  * Represents an event publisher that publishes events through Spring.
  */
+@Component
+@Order(1)
 public class SpringEventPublisher implements EventPublisher {
 
 	/**

@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
 import io.swagger.v3.oas.models.OpenAPI;
 import segundum.infrastructure.rest.user.controllers.DeactivateUserController;
+import segundum.infrastructure.rest.user.controllers.GetUserListController;
 import segundum.infrastructure.rest.user.controllers.GetUserNameController;
 import segundum.infrastructure.rest.user.controllers.GetUserProfileController;
 import segundum.infrastructure.rest.user.controllers.GetUserStatsController;
@@ -42,7 +43,8 @@ public class OpenApiConfig {
             GetUserStatsController.class,
             UpdateUserProfileController.class,
             DeactivateUserController.class,
-            GetUserNameController.class);
+            GetUserNameController.class,
+            GetUserListController.class);
 
     /**
      * The generated OpenAPI specification.

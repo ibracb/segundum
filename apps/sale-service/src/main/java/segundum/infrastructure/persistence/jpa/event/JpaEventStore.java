@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import segundum.domain.events.DomainEvent;
 import segundum.domain.events.SaleEvent;
@@ -16,7 +17,7 @@ import segundum.domain.models.sale.ProductId;
 import segundum.domain.models.sale.PurchaserId;
 import segundum.domain.models.sale.SaleFactory;
 import segundum.domain.models.sale.SaleId;
-import segundum.domain.outbound.EventStore;
+import segundum.application.outbound.EventStore;
 
 /**
  * Represents the JPA-based implementation of the event store.
@@ -97,7 +98,7 @@ public class JpaEventStore implements EventStore {
     private String serialize(Map<String, Object> payload) {
         try {
             return objectMapper.writeValueAsString(payload);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             throw new IllegalStateException("Could not serialize event payload", e);
         }
     }

@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import segundum.application.queries.GetProductBasicInfoQuery;
 import segundum.application.readmodels.product.ProductBasicInfo;
-import segundum.application.repositories.ProductReadRepository;
+import segundum.application.finders.ProductFinder;
 import segundum.application.usecases.GetProductBasicInfoUseCase;
 
 /**
@@ -15,20 +15,20 @@ public class GetProductBasicInfoInteractor implements GetProductBasicInfoUseCase
     /**
      * The repository used to read products.
      */
-    private final ProductReadRepository productReadRepository;
+    private final ProductFinder productFinder;
 
     /**
      * Constructs a new GetProductBasicInfoInteractor with the given repository.
      *
-     * @param productReadRepository the product read repository
+     * @param productFinder the product read repository
      */
-    public GetProductBasicInfoInteractor(ProductReadRepository productReadRepository) {
-        this.productReadRepository = productReadRepository;
+    public GetProductBasicInfoInteractor(ProductFinder productFinder) {
+        this.productFinder = productFinder;
     }
 
     @Override
     public Optional<ProductBasicInfo> execute(GetProductBasicInfoQuery query) {
-        return productReadRepository.findBasicInfoById(query.getProductId());
+        return productFinder.findBasicInfoById(query.getProductId());
     }
 
 }

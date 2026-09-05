@@ -8,8 +8,8 @@ import segundum.domain.events.DomainEvent;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.sale.Sale;
 import segundum.domain.models.sale.SaleFactory;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.outbound.EventStore;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.application.outbound.EventStore;
 
 /**
  * Represents the interactor for cancelling a sale by the seller.

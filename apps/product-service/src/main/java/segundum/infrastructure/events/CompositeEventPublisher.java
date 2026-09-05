@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import segundum.domain.events.DomainEvent;
-import segundum.domain.outbound.DomainEventPublisher;
+import segundum.application.outbound.DomainEventPublisher;
 
-@Component
 /**
  * Represents an event publisher that delegates to a list of event publishers.
  */
+@Component
 public class CompositeEventPublisher implements DomainEventPublisher {
 
 	/**

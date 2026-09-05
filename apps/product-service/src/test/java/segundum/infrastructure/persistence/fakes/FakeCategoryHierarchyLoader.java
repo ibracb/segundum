@@ -1,6 +1,6 @@
 package segundum.infrastructure.persistence.fakes;
 
-import segundum.domain.outbound.CategoryHierarchyLoader;
+import segundum.application.outbound.CategoryHierarchyLoader;
 
 public class FakeCategoryHierarchyLoader implements CategoryHierarchyLoader {
 

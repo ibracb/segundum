@@ -21,8 +21,8 @@ import segundum.domain.models.product.ProductId;
 import segundum.domain.models.product.Title;
 import segundum.domain.models.seller.SellerId;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
-import segundum.infrastructure.persistence.fakes.repositories.FakeCategoryWriteRepository;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductWriteRepository;
+import segundum.infrastructure.persistence.fakes.repositories.FakeCategoryRepository;
+import segundum.infrastructure.persistence.fakes.repositories.FakeProductRepository;
 import segundum.infrastructure.persistence.fakes.repositories.FakeSellerRepository;
 
 import java.util.UUID;
@@ -34,9 +34,9 @@ import segundum.domain.models.seller.Email;
 
 class CreateProductInteractorTest {
 
-	private FakeCategoryWriteRepository categoryRepository;
+	private FakeCategoryRepository categoryRepository;
 	private FakeSellerRepository sellerRepository;
-	private FakeProductWriteRepository productRepository;
+	private FakeProductRepository productRepository;
 	private FakePublisher publisher;
 	private CreateProductUseCase interactor;
 
@@ -45,9 +45,9 @@ class CreateProductInteractorTest {
 
 	@BeforeEach
 	void setUp() {
-		categoryRepository = new FakeCategoryWriteRepository();
+		categoryRepository = new FakeCategoryRepository();
 		sellerRepository = new FakeSellerRepository();
-		productRepository = new FakeProductWriteRepository();
+		productRepository = new FakeProductRepository();
 		publisher = new FakePublisher();
 		interactor = new CreateProductInteractor(categoryRepository, sellerRepository, productRepository, publisher);
 

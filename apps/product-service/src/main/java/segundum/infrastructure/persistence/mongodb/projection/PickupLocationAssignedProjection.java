@@ -12,10 +12,10 @@ import segundum.infrastructure.persistence.mongodb.product.PickupLocationDocumen
 import segundum.infrastructure.persistence.mongodb.product.ProductReadDocument;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadMongoRepository;
 
-@Component
 /**
  * Represents the projection that updates the read side when a pickup location is assigned to a product.
  */
+@Component
 public class PickupLocationAssignedProjection {
 
 	/**

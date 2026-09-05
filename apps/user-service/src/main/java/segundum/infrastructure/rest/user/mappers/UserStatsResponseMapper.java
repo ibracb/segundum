@@ -1,10 +1,10 @@
 package segundum.infrastructure.rest.user.mappers;
 
-import segundum.domain.models.user.User;
+import segundum.application.readmodels.user.UserStatsReadModel;
 import segundum.infrastructure.rest.user.responses.UserStatsResponse;
 
 /**
- * Mapper class for converting between User domain objects and UserStatsResponse objects.
+ * Mapper class for converting between UserStatsReadModel and UserStatsResponse objects.
  */
 public class UserStatsResponseMapper {
 
@@ -15,16 +15,16 @@ public class UserStatsResponseMapper {
 	}
 
 	/**
-	 * Converts a User into a UserStatsResponse.
+	 * Converts a UserStatsReadModel into a UserStatsResponse.
 	 *
-	 * @param user the user to convert
+	 * @param stats the user stats read model to convert
 	 * @return the UserStatsResponse representing the user's statistics
 	 */
-	public static UserStatsResponse fromDomain(User user) {
+	public static UserStatsResponse fromReadModel(UserStatsReadModel stats) {
 		return new UserStatsResponse(
-				user.getUserId().getValue().toString(),
-				user.getPurchases(),
-				user.getSales()
+				stats.getId(),
+				stats.getPurchases(),
+				stats.getSales()
 		);
 	}
 

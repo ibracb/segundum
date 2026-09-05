@@ -11,7 +11,7 @@ import segundum.domain.events.SaleProposed;
 import segundum.domain.models.AggregateId;
 import segundum.domain.models.sale.ProductId;
 import segundum.domain.models.sale.PurchaserId;
-import segundum.domain.outbound.EventStore;
+import segundum.application.outbound.EventStore;
 
 /**
  * In-memory implementation of the EventStore for testing.

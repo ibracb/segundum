@@ -21,21 +21,21 @@ import segundum.domain.models.seller.Seller;
 import segundum.domain.models.seller.SellerFactory;
 import segundum.domain.models.seller.SellerId;
 import segundum.domain.models.seller.Surname;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeProductFinder;
 import segundum.infrastructure.persistence.fakes.repositories.FakeSellerRepository;
 
 class GetSellerDraftProductsInteractorTest {
 
-	private FakeProductReadRepository productReadRepository;
+	private FakeProductFinder productFinder;
 	private FakeSellerRepository sellerRepository;
 	private GetSellerDraftProductsUseCase interactor;
 	private SellerId activeSellerId;
 
 	@BeforeEach
 	void setUp() {
-		productReadRepository = new FakeProductReadRepository();
+		productFinder = new FakeProductFinder();
 		sellerRepository = new FakeSellerRepository();
-		interactor = new GetSellerDraftProductsInteractor(productReadRepository, sellerRepository);
+		interactor = new GetSellerDraftProductsInteractor(productFinder, sellerRepository);
 
 		activeSellerId = SellerId.fromUUID(UUID.randomUUID());
 		Seller seller = SellerFactory.create(activeSellerId,
@@ -48,7 +48,7 @@ class GetSellerDraftProductsInteractorTest {
 	@Test
 	void shouldDelegateToRepository() {
 		Page<SellerProduct> expectedResult = new Page<SellerProduct>(Collections.emptyList(), 0, 0, 20);
-		productReadRepository.setSellerDraftsResult(expectedResult);
+		productFinder.setSellerDraftsResult(expectedResult);
 
 		Page<SellerProduct> result = interactor.execute(new GetSellerDraftProductsQuery(activeSellerId, 0, 20));
 

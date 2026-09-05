@@ -3,7 +3,7 @@ package segundum.application.usecases.interactors;
 import segundum.application.queries.GetSellerForSaleProductsQuery;
 import segundum.application.readmodels.common.Page;
 import segundum.application.readmodels.product.SellerProduct;
-import segundum.application.repositories.ProductReadRepository;
+import segundum.application.finders.ProductFinder;
 import segundum.application.usecases.GetSellerForSaleProductsUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.exceptions.seller.status.SellerNotActiveException;
@@ -18,7 +18,7 @@ public class GetSellerForSaleProductsInteractor implements GetSellerForSaleProdu
 	/**
 	 * The repository used to read products.
 	 */
-	private final ProductReadRepository productReadRepository;
+	private final ProductFinder productFinder;
 	/**
 	 * The repository used to read sellers.
 	 */
@@ -27,12 +27,12 @@ public class GetSellerForSaleProductsInteractor implements GetSellerForSaleProdu
 	/**
 	 * Constructs a new GetSellerForSaleProductsInteractor with the given repositories.
 	 *
-	 * @param productReadRepository the product read repository
+	 * @param productFinder the product read repository
 	 * @param sellerRepository the seller repository
 	 */
-	public GetSellerForSaleProductsInteractor(ProductReadRepository productReadRepository,
+	public GetSellerForSaleProductsInteractor(ProductFinder productFinder,
 			SellerRepository sellerRepository) {
-		this.productReadRepository = productReadRepository;
+		this.productFinder = productFinder;
 		this.sellerRepository = sellerRepository;
 	}
 
@@ -43,7 +43,7 @@ public class GetSellerForSaleProductsInteractor implements GetSellerForSaleProdu
 		if (!seller.isActive()) {
 			throw new SellerNotActiveException(query.getSellerId());
 		}
-		return productReadRepository.findForSaleBySeller(
+		return productFinder.findForSaleBySeller(
 				query.getSellerId(),
 				query.getPageNumber(),
 				query.getPageSize());

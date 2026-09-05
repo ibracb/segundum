@@ -7,10 +7,11 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import segundum.application.gateways.GetProductBasicInfo;
 import segundum.application.gateways.GetPurchaser;
 import segundum.application.gateways.GetSeller;
-import segundum.application.repositories.SaleReadRepository;
+import segundum.application.finders.SaleFinder;
 import segundum.application.usecases.CancelSaleByPurchaserUseCase;
 import segundum.application.usecases.CancelSaleBySellerUseCase;
 import segundum.application.usecases.CompleteSaleUseCase;
+import segundum.application.usecases.SearchSalesUseCase;
 import segundum.application.usecases.GetSalesByPurchaserUseCase;
 import segundum.application.usecases.GetSalesBySellerUseCase;
 import segundum.application.usecases.ProposeSaleUseCase;
@@ -20,13 +21,14 @@ import segundum.application.usecases.interactors.CancelSaleByPurchaserInteractor
 import segundum.application.usecases.interactors.CancelSaleBySellerInteractor;
 import segundum.application.usecases.interactors.CompleteSaleInteractor;
 import segundum.application.usecases.interactors.GetSalesByPurchaserInteractor;
+import segundum.application.usecases.interactors.SearchSalesInteractor;
 import segundum.application.usecases.interactors.GetSalesBySellerInteractor;
 import segundum.application.usecases.interactors.ProposeSaleInteractor;
 import segundum.application.usecases.interactors.RejectSaleInteractor;
 import segundum.application.usecases.interactors.ReserveSaleInteractor;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.outbound.EventStore;
-import segundum.infrastructure.persistence.mongodb.sale.MongoSaleReadRepository;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.application.outbound.EventStore;
+import segundum.infrastructure.persistence.mongodb.sale.MongoSaleFinder;
 
 /**
  * Represents the application configuration for the sale service.
@@ -41,8 +43,8 @@ public class ApplicationConfig {
      * @return the sale read repository
      */
     @Bean
-    public SaleReadRepository saleReadRepository(MongoTemplate mongoTemplate) {
-        return new MongoSaleReadRepository(mongoTemplate);
+    public SaleFinder saleFinder(MongoTemplate mongoTemplate) {
+        return new MongoSaleFinder(mongoTemplate);
     }
 
     /**
@@ -126,23 +128,34 @@ public class ApplicationConfig {
     /**
      * Creates the get sales by purchaser use case bean.
      *
-     * @param saleReadRepository the sale read repository
+     * @param saleFinder the sale read repository
      * @return the get sales by purchaser use case
      */
     @Bean
-    public GetSalesByPurchaserUseCase getSalesByPurchaserUseCase(SaleReadRepository saleReadRepository) {
-        return new GetSalesByPurchaserInteractor(saleReadRepository);
+    public GetSalesByPurchaserUseCase getSalesByPurchaserUseCase(SaleFinder saleFinder) {
+        return new GetSalesByPurchaserInteractor(saleFinder);
     }
 
     /**
      * Creates the get sales by seller use case bean.
      *
-     * @param saleReadRepository the sale read repository
+     * @param saleFinder the sale read repository
      * @return the get sales by seller use case
      */
     @Bean
-    public GetSalesBySellerUseCase getSalesBySellerUseCase(SaleReadRepository saleReadRepository) {
-        return new GetSalesBySellerInteractor(saleReadRepository);
+    public GetSalesBySellerUseCase getSalesBySellerUseCase(SaleFinder saleFinder) {
+        return new GetSalesBySellerInteractor(saleFinder);
+    }
+
+    /**
+     * Creates the search sales use case bean.
+     *
+     * @param saleFinder the sale read repository
+     * @return the search sales use case
+     */
+    @Bean
+    public SearchSalesUseCase searchSalesUseCase(SaleFinder saleFinder) {
+        return new SearchSalesInteractor(saleFinder);
     }
 
 }

@@ -13,16 +13,16 @@ import segundum.application.readmodels.product.PickupLocationReadModel;
 import segundum.application.readmodels.product.ProductBasicInfo;
 import segundum.application.usecases.GetProductBasicInfoUseCase;
 import segundum.domain.models.product.ProductId;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductReadRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeProductFinder;
 
 class GetProductBasicInfoInteractorTest {
 
-    private FakeProductReadRepository repository;
+    private FakeProductFinder repository;
     private GetProductBasicInfoUseCase interactor;
 
     @BeforeEach
     void setUp() {
-        repository = new FakeProductReadRepository();
+        repository = new FakeProductFinder();
         interactor = new GetProductBasicInfoInteractor(repository);
     }
 

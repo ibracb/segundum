@@ -21,13 +21,13 @@ import segundum.domain.models.product.ProductId;
 import segundum.domain.models.product.Title;
 import segundum.domain.models.seller.SellerId;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
-import segundum.infrastructure.persistence.fakes.repositories.FakeProductWriteRepository;
+import segundum.infrastructure.persistence.fakes.repositories.FakeProductRepository;
 
 import java.util.UUID;
 
 class UpdateProductInteractorTest {
 
-	private FakeProductWriteRepository productRepository;
+	private FakeProductRepository productRepository;
 	private FakePublisher publisher;
 	private UpdateProductUseCase interactor;
 
@@ -37,7 +37,7 @@ class UpdateProductInteractorTest {
 
 	@BeforeEach
 	void setUp() {
-		productRepository = new FakeProductWriteRepository();
+		productRepository = new FakeProductRepository();
 		publisher = new FakePublisher();
 		interactor = new UpdateProductInteractor(productRepository, publisher);
 

@@ -1,10 +1,10 @@
 package segundum.infrastructure.rest.user.mappers;
 
-import segundum.domain.models.user.User;
+import segundum.application.readmodels.user.UserNameReadModel;
 import segundum.infrastructure.rest.user.responses.UserNameResponse;
 
 /**
- * Represents a mapper for converting a User into a UserNameResponse.
+ * Represents a mapper for converting a UserNameReadModel into a UserNameResponse.
  */
 public class UserNameResponseMapper {
 
@@ -15,16 +15,16 @@ public class UserNameResponseMapper {
 	}
 
 	/**
-	 * Converts a User into a UserNameResponse.
+	 * Converts a UserNameReadModel into a UserNameResponse.
 	 *
-	 * @param user the user to convert
+	 * @param userName the user name read model to convert
 	 * @return the UserNameResponse representing the user's name
 	 */
-	public static UserNameResponse fromDomain(User user) {
+	public static UserNameResponse fromReadModel(UserNameReadModel userName) {
         return new UserNameResponse(
-                user.getUserId().getValue().toString(),
-                user.getName().getValue(),
-                user.getSurname().getValue()
+                userName.getId(),
+                userName.getName(),
+                userName.getSurname()
         );
     }
 

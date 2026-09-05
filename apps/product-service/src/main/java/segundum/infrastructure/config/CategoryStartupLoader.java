@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import segundum.application.commands.LoadCategoryHierarchyCommand;
 import segundum.application.usecases.LoadCategoryHierarchyUseCase;
 
-@Component
 /**
  * Loads the category hierarchy from XML files at application startup.
  */
+@Component
 public class CategoryStartupLoader implements CommandLineRunner {
 
 	/**

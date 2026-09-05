@@ -7,7 +7,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import segundum.domain.events.DomainEvent;
-import segundum.domain.outbound.DomainEventPublisher;
+import segundum.application.outbound.DomainEventPublisher;
 import segundum.infrastructure.messaging.messages.UserMessageMapper;
 import segundum.infrastructure.utils.PropertiesReader;
 

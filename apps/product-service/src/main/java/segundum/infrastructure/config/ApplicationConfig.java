@@ -4,12 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import segundum.application.eventhandlers.SaleEventHandler;
-import segundum.application.eventhandlers.UserEventHandler;
-import segundum.application.eventhandlers.interactors.SaleEventHandlerInteractor;
-import segundum.application.eventhandlers.interactors.UserEventHandlerInteractor;
-import segundum.application.repositories.CategoryReadRepository;
-import segundum.application.repositories.ProductReadRepository;
+import segundum.application.notificationhandlers.SaleNotificationHandler;
+import segundum.application.notificationhandlers.UserNotificationHandler;
+import segundum.application.notificationhandlers.interactors.SaleNotificationHandlerInteractor;
+import segundum.application.notificationhandlers.interactors.UserNotificationHandlerInteractor;
+import segundum.application.finders.CategoryFinder;
+import segundum.application.finders.ProductFinder;
 import segundum.application.usecases.AssignProductPickupLocationUseCase;
 import segundum.application.usecases.CreateProductUseCase;
 import segundum.application.usecases.DiscardProductUseCase;
@@ -44,16 +44,16 @@ import segundum.application.usecases.interactors.GetSellerDraftProductsInteracto
 import segundum.application.usecases.interactors.GetSellerForSaleProductsInteractor;
 import segundum.application.usecases.interactors.TakeProductDownInteractor;
 import segundum.application.usecases.interactors.UpdateProductInteractor;
-import segundum.domain.outbound.CategoryHierarchyLoader;
-import segundum.domain.outbound.DomainEventPublisher;
-import segundum.domain.outbound.LogEmitter;
-import segundum.domain.repositories.CategoryWriteRepository;
-import segundum.domain.repositories.ProductWriteRepository;
+import segundum.application.outbound.CategoryHierarchyLoader;
+import segundum.application.outbound.DomainEventPublisher;
+import segundum.application.outbound.LogEmitter;
+import segundum.domain.repositories.CategoryRepository;
+import segundum.domain.repositories.ProductRepository;
 import segundum.domain.repositories.SellerRepository;
 import segundum.infrastructure.logging.Slf4jLogEmitter;
 import segundum.infrastructure.persistence.mongodb.category.CategoryReadMongoRepository;
-import segundum.infrastructure.persistence.mongodb.category.MongoCategoryReadRepository;
-import segundum.infrastructure.persistence.mongodb.product.MongoProductReadRepository;
+import segundum.infrastructure.persistence.mongodb.category.MongoCategoryFinder;
+import segundum.infrastructure.persistence.mongodb.product.MongoProductFinder;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadMongoRepository;
 
 /**
@@ -68,82 +68,82 @@ public class ApplicationConfig {
 	}
 
 	@Bean
-	public ProductReadRepository productReadRepository(
+	public ProductFinder productFinder(
 			ProductReadMongoRepository mongoRepository,
 			MongoTemplate mongoTemplate) {
-		return new MongoProductReadRepository(mongoRepository, mongoTemplate);
+		return new MongoProductFinder(mongoRepository, mongoTemplate);
 	}
 
 	@Bean
-	public CategoryReadRepository categoryReadRepository(
+	public CategoryFinder categoryFinder(
 			CategoryReadMongoRepository mongoRepository,
 			MongoTemplate mongoTemplate) {
-		return new MongoCategoryReadRepository(mongoTemplate);
+		return new MongoCategoryFinder(mongoTemplate);
 	}
 
 	@Bean
-	public CreateProductUseCase createProductUseCase(CategoryWriteRepository categoryWriteRepository,
-			SellerRepository sellerRepository, ProductWriteRepository productWriteRepository,
+	public CreateProductUseCase createProductUseCase(CategoryRepository categoryRepository,
+			SellerRepository sellerRepository, ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new CreateProductInteractor(categoryWriteRepository, sellerRepository,
-				productWriteRepository, domainEventPublisher);
+		return new CreateProductInteractor(categoryRepository, sellerRepository,
+				productRepository, domainEventPublisher);
 	}
 
 	@Bean
-	public UpdateProductUseCase updateProductUseCase(ProductWriteRepository productWriteRepository,
+	public UpdateProductUseCase updateProductUseCase(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new UpdateProductInteractor(productWriteRepository, domainEventPublisher);
+		return new UpdateProductInteractor(productRepository, domainEventPublisher);
 	}
 
 	@Bean
-	public DiscardProductUseCase discardProductUseCase(ProductWriteRepository productWriteRepository,
+	public DiscardProductUseCase discardProductUseCase(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new DiscardProductInteractor(productWriteRepository, domainEventPublisher);
+		return new DiscardProductInteractor(productRepository, domainEventPublisher);
 	}
 
 	@Bean
-	public PutProductForSaleUseCase putProductOnSaleUseCase(ProductWriteRepository productWriteRepository,
+	public PutProductForSaleUseCase putProductOnSaleUseCase(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new PutProductForSaleInteractor(productWriteRepository, domainEventPublisher);
+		return new PutProductForSaleInteractor(productRepository, domainEventPublisher);
 	}
 
 	@Bean
-	public TakeProductDownUseCase takeProductDownUseCase(ProductWriteRepository productWriteRepository,
+	public TakeProductDownUseCase takeProductDownUseCase(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new TakeProductDownInteractor(productWriteRepository, domainEventPublisher);
+		return new TakeProductDownInteractor(productRepository, domainEventPublisher);
 	}
 
 	@Bean
-	public RemoveProductUseCase removeProductUseCase(ProductWriteRepository productWriteRepository,
+	public RemoveProductUseCase removeProductUseCase(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new RemoveProductInteractor(productWriteRepository, domainEventPublisher);
+		return new RemoveProductInteractor(productRepository, domainEventPublisher);
 	}
 
 	@Bean
 	public AssignProductPickupLocationUseCase assignProductPickupLocationUseCase(
-			ProductWriteRepository productWriteRepository,
+			ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new AssignProductPickupLocationInteractor(productWriteRepository, domainEventPublisher);
+		return new AssignProductPickupLocationInteractor(productRepository, domainEventPublisher);
 	}
 
 	@Bean
-	public IncrementProductViewsUseCase incrementProductViewsUseCase(ProductWriteRepository productWriteRepository,
+	public IncrementProductViewsUseCase incrementProductViewsUseCase(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher) {
-		return new IncrementProductViewsInteractor(productWriteRepository, domainEventPublisher);
+		return new IncrementProductViewsInteractor(productRepository, domainEventPublisher);
 	}
 
 	/**
 	 * Instantiates the sales bounded context handler.
 	 *
-	 * @param productWriteRepository the repository for writing product data
+	 * @param productRepository the repository for writing product data
 	 * @param domainEventPublisher the publisher for domain events
 	 * @param logEmitter the logger
 	 * @return the sales handler
 	 */
 	@Bean
-	public SaleEventHandler salesHandler(ProductWriteRepository productWriteRepository,
+	public SaleNotificationHandler salesHandler(ProductRepository productRepository,
 			DomainEventPublisher domainEventPublisher, LogEmitter logEmitter) {
-		return new SaleEventHandlerInteractor(productWriteRepository, domainEventPublisher, logEmitter);
+		return new SaleNotificationHandlerInteractor(productRepository, domainEventPublisher, logEmitter);
 	}
 
 	/**
@@ -154,8 +154,8 @@ public class ApplicationConfig {
 	 * @return the users handler
 	 */
 	@Bean
-	public UserEventHandler usersHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
-		return new UserEventHandlerInteractor(sellerRepository, logEmitter);
+	public UserNotificationHandler usersHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
+		return new UserNotificationHandlerInteractor(sellerRepository, logEmitter);
 	}
 
 	@Bean
@@ -166,55 +166,55 @@ public class ApplicationConfig {
 	/**
 	 * Instantiates the get root categories use case.
 	 *
-	 * @param categoryReadRepository the repository for reading category data
+	 * @param categoryFinder the repository for reading category data
 	 * @return the get root categories use case
 	 */
 	@Bean
-	public GetRootCategoriesUseCase getRootCategoriesUseCase(CategoryReadRepository categoryReadRepository) {
-		return new GetRootCategoriesInteractor(categoryReadRepository);
+	public GetRootCategoriesUseCase getRootCategoriesUseCase(CategoryFinder categoryFinder) {
+		return new GetRootCategoriesInteractor(categoryFinder);
 	}
 
 	/**
 	 * Instantiates the get category children use case.
 	 *
-	 * @param categoryReadRepository the repository for reading category data
+	 * @param categoryFinder the repository for reading category data
 	 * @return the get category children use case
 	 */
 	@Bean
-	public GetCategoryChildrenUseCase getCategoryChildrenUseCase(CategoryReadRepository categoryReadRepository) {
-		return new GetCategoryChildrenInteractor(categoryReadRepository);
+	public GetCategoryChildrenUseCase getCategoryChildrenUseCase(CategoryFinder categoryFinder) {
+		return new GetCategoryChildrenInteractor(categoryFinder);
 	}
 
 	@Bean
-	public SearchProductsUseCase searchProductsUseCase(ProductReadRepository productReadRepository) {
-		return new SearchProductsInteractor(productReadRepository);
+	public SearchProductsUseCase searchProductsUseCase(ProductFinder productFinder) {
+		return new SearchProductsInteractor(productFinder);
 	}
 
 	@Bean
-	public GetMonthlyHistoryUseCase getMonthlyHistoryUseCase(ProductReadRepository productReadRepository) {
-		return new GetMonthlyHistoryInteractor(productReadRepository);
+	public GetMonthlyHistoryUseCase getMonthlyHistoryUseCase(ProductFinder productFinder) {
+		return new GetMonthlyHistoryInteractor(productFinder);
 	}
 
 	@Bean
-	public GetProductBasicInfoUseCase getProductBasicInfoUseCase(ProductReadRepository productReadRepository) {
-		return new GetProductBasicInfoInteractor(productReadRepository);
+	public GetProductBasicInfoUseCase getProductBasicInfoUseCase(ProductFinder productFinder) {
+		return new GetProductBasicInfoInteractor(productFinder);
 	}
 
 	@Bean
-	public GetProductDetailUseCase getProductDetailUseCase(ProductReadRepository productReadRepository) {
-		return new GetProductDetailInteractor(productReadRepository);
+	public GetProductDetailUseCase getProductDetailUseCase(ProductFinder productFinder) {
+		return new GetProductDetailInteractor(productFinder);
 	}
 
 	@Bean
 	public GetSellerDraftProductsUseCase getSellerDraftProductsUseCase(
-			ProductReadRepository productReadRepository, SellerRepository sellerRepository) {
-		return new GetSellerDraftProductsInteractor(productReadRepository, sellerRepository);
+			ProductFinder productFinder, SellerRepository sellerRepository) {
+		return new GetSellerDraftProductsInteractor(productFinder, sellerRepository);
 	}
 
 	@Bean
 	public GetSellerForSaleProductsUseCase getSellerForSaleProductsUseCase(
-			ProductReadRepository productReadRepository, SellerRepository sellerRepository) {
-		return new GetSellerForSaleProductsInteractor(productReadRepository, sellerRepository);
+			ProductFinder productFinder, SellerRepository sellerRepository) {
+		return new GetSellerForSaleProductsInteractor(productFinder, sellerRepository);
 	}
 
 }

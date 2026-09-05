@@ -1,11 +1,21 @@
 package segundum.infrastructure.persistence.jpa.user;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+
+import segundum.domain.models.user.UserRole;
 
 /**
  * Represents a user entity in the database.
@@ -75,6 +85,21 @@ public class UserJpaEntity {
 	private String status;
 
 	/**
+	 * The registration date of the user.
+	 */
+	@Column(name = "registration_date", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
+	private Timestamp registrationDate;
+
+	/**
+	 * The roles of the user.
+	 */
+	@ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role")
+	private List<UserRole> roles;
+
+	/**
 	 * Constructs a new UserEntity with the given parameters.
 	 * 
 	 * @param id the unique identifier of the user
@@ -87,8 +112,10 @@ public class UserJpaEntity {
 	 * @param purchases the number of purchases made by the user
 	 * @param sales the number of sales made by the user
 	 * @param status the status of the user
+	 * @param registrationDate the registration date of the user
+	 * @param roles the roles of the user
 	 */
-	public UserJpaEntity(String id, String name, String surname, String email, String password, LocalDate birthdate, String phone, long purchases, long sales, String status) {
+	public UserJpaEntity(String id, String name, String surname, String email, String password, LocalDate birthdate, String phone, long purchases, long sales, String status, Timestamp registrationDate, List<UserRole> roles) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -99,6 +126,8 @@ public class UserJpaEntity {
 		this.purchases = purchases;
 		this.sales = sales;
 		this.status = status;
+		this.registrationDate = registrationDate;
+		this.roles = roles;
 	}
 	
 	/**
@@ -204,6 +233,24 @@ public class UserJpaEntity {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	/**
+	 * Returns the registration date of the user.
+	 *
+	 * @return the user registration date
+	 */
+	public Timestamp getRegistrationDate() {
+		return registrationDate;
+	}
+
+	/**
+	 * Returns the roles of the user.
+	 *
+	 * @return the user roles
+	 */
+	public List<UserRole> getRoles() {
+		return roles;
 	}
 
 }

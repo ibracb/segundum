@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import segundum.domain.events.DomainEvent;
 import segundum.domain.events.SaleCancelledByPurchaser;
@@ -155,7 +156,7 @@ public class EventMapper {
     private Map<String, Object> readPayload(String payload) {
         try {
             return objectMapper.readValue(payload, Map.class);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             throw new IllegalStateException("Could not deserialize event payload", e);
         }
     }

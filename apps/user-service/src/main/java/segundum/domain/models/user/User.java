@@ -1,5 +1,7 @@
 package segundum.domain.models.user;
 
+import java.util.List;
+
 import segundum.domain.exceptions.SameValueException;
 import segundum.domain.exceptions.user.status.UserNotActiveException;
 
@@ -70,7 +72,18 @@ public class User {
 	private UserStatus status;
 
 	/**
+	 * The registration date of the user.
+	 */
+	private final RegistrationDate registrationDate;
+
+	/**
+	 * The roles of the user.
+	 */
+	private List<UserRole> roles;
+
+	/**
 	 * Constructs a new User object with the given parameters.
+	 * The user is created with the default USER role.
 	 * 
 	 * @param name the name of the user
 	 * @param surname the surname of the user
@@ -90,6 +103,8 @@ public class User {
 		this.purchases = NO_PURCHASES;
 		this.sales = NO_SALES;
 		this.status = UserStatus.ACTIVE;
+		this.registrationDate = RegistrationDate.now();
+		this.roles = List.of(UserRole.USER);
 	}
 	
 	/**
@@ -105,9 +120,12 @@ public class User {
 	 * @param purchases the number of purchases made by the user
 	 * @param sales the number of sales made by the user
 	 * @param status the status of the user
+	 * @param registrationDate the registration date of the user
+	 * @param roles the roles of the user
 	 */
 	User(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate,
-			Phone phone, long purchases, long sales, UserStatus status) {
+			Phone phone, long purchases, long sales, UserStatus status, RegistrationDate registrationDate,
+			List<UserRole> roles) {
 		this.userId = userId;
 		this.name = name;
 		this.surname = surname;
@@ -118,6 +136,8 @@ public class User {
 		this.purchases = purchases;
 		this.sales = sales;
 		this.status = status;
+		this.registrationDate = registrationDate;
+		this.roles = roles;
 	}
 	
 	/**
@@ -283,6 +303,34 @@ public class User {
 	 */
 	public UserStatus getStatus() {
 		return status;
+	}
+
+	/**
+	 * Returns the registration date of the user.
+	 *
+	 * @return the user registration date
+	 */
+	public RegistrationDate getRegistrationDate() {
+		return registrationDate;
+	}
+
+	/**
+	 * Returns the roles of the user.
+	 *
+	 * @return the user roles
+	 */
+	public List<UserRole> getUserRoles() {
+		return roles;
+	}
+
+	/**
+	 * Checks if the user has the given role.
+	 *
+	 * @param role the role to check
+	 * @return true if the user has the role, false otherwise
+	 */
+	public boolean hasRole(UserRole role) {
+		return roles.contains(role);
 	}
 	
 	/**

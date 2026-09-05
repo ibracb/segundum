@@ -5,7 +5,7 @@ import segundum.application.usecases.DeactivateUserUseCase;
 import segundum.domain.events.UserDeactivated;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.user.User;
-import segundum.domain.outbound.DomainEventPublisher;
+import segundum.application.outbound.DomainEventPublisher;
 import segundum.domain.repositories.UserRepository;
 
 /**

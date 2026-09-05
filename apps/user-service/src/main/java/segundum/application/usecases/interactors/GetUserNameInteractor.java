@@ -2,11 +2,11 @@ package segundum.application.usecases.interactors;
 
 import java.util.Optional;
 
+import segundum.application.readmodels.user.UserNameReadModel;
 import segundum.application.queries.GetUserNameQuery;
+import segundum.application.finders.UserFinder;
 import segundum.application.usecases.GetUserNameUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
-import segundum.domain.models.user.User;
-import segundum.domain.repositories.UserRepository;
 
 /**
  * Represents the interactor for retrieving the name of a user in the system.
@@ -14,23 +14,23 @@ import segundum.domain.repositories.UserRepository;
 public class GetUserNameInteractor implements GetUserNameUseCase {
 
     /**
-     * The repository for managing users.
+     * The read-side repository for users.
      */
-    private final UserRepository userRepository;
+    private final UserFinder userFinder;
 
     /**
-     * Constructs a new GetUserNameInteractor with the given repository.
+     * Constructs a new GetUserNameInteractor with the given read repository.
      *
-     * @param userRepository the repository for managing users
+     * @param userFinder the read-side repository for users
      */
-    public GetUserNameInteractor(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public GetUserNameInteractor(UserFinder userFinder) {
+        this.userFinder = userFinder;
     }
 
     @Override
-    public User execute(GetUserNameQuery query) {
-        Optional<User> user = userRepository.findById(query.getUserId());
-        return user.orElseThrow(
+    public UserNameReadModel execute(GetUserNameQuery query) {
+        Optional<UserNameReadModel> name = userFinder.findNameById(query.getUserId());
+        return name.orElseThrow(
                 () -> new EntityNotFoundException("User", query.getUserId().getValue().toString()));
     }
 

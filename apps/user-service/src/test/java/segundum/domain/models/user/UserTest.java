@@ -106,6 +106,7 @@ class UserTest {
 		assertEquals("+34612345678", user.getPhone().getValue());
 		assertEquals(0, user.getPurchases());
 		assertEquals(0, user.getSales());
+		assertNotNull(user.getRegistrationDate());
 	}
 
 	@Test
@@ -131,6 +132,18 @@ class UserTest {
 	void shouldThrowWhenChangingSurnameIfInactive() {
 		user.deactivate();
 		assertThrows(UserNotActiveException.class, () -> user.changeSurname(new Surname("García")));
+	}
+
+	@Test
+	void shouldReturnCorrectRoles() {
+		assertNotNull(user.getUserRoles());
+		assertEquals(1, user.getUserRoles().size());
+		assertTrue(user.hasRole(UserRole.USER));
+	}
+
+	@Test
+	void shouldReturnFalseForNonAssignedRole() {
+		assertFalse(user.hasRole(UserRole.ADMINISTRATOR));
 	}
 
 }

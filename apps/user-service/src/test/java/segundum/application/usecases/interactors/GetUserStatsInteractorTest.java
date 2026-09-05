@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.RegisterUserCommand;
 import segundum.application.queries.GetUserStatsQuery;
+import segundum.application.readmodels.user.UserStatsReadModel;
 import segundum.application.usecases.GetUserStatsUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.models.user.Birthdate;
@@ -23,6 +24,7 @@ import segundum.domain.models.user.UserId;
 import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.FakePasswordHasher;
+import segundum.infrastructure.persistence.fakes.finders.FakeUserFinder;
 import segundum.infrastructure.persistence.fakes.repositories.FakeUserRepository;
 
 class GetUserStatsInteractorTest {
@@ -41,7 +43,8 @@ class GetUserStatsInteractorTest {
 	@BeforeEach
 	void setUp() {
 		repository = new FakeUserRepository();
-		interactor = new GetUserStatsInteractor(repository);
+		FakeUserFinder userFinder = new FakeUserFinder((FakeUserRepository) repository);
+		interactor = new GetUserStatsInteractor(userFinder);
 
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				name, surname, email, password, birthdate, phone);
@@ -51,11 +54,11 @@ class GetUserStatsInteractorTest {
 
 	@Test
 	void shouldReturnUserStatsWhenUserExists() {
-		User user = interactor.execute(new GetUserStatsQuery(existingUser.getUserId()));
+		UserStatsReadModel stats = interactor.execute(new GetUserStatsQuery(existingUser.getUserId()));
 
-		assertEquals(existingUser.getUserId(), user.getUserId());
-		assertEquals(0, user.getPurchases());
-		assertEquals(0, user.getSales());
+		assertEquals(existingUser.getUserId().getValue().toString(), stats.getId());
+		assertEquals(0, stats.getPurchases());
+		assertEquals(0, stats.getSales());
 	}
 
 	@Test

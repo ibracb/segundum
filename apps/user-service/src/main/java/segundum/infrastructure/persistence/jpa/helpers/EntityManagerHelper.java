@@ -36,10 +36,10 @@ public class EntityManagerHelper {
 	 */
 	static {
 		Map<String, Object> persistenceProperties = new HashMap<>();
-		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.url", "USERS_JDBC_URL");
-		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.user", "USERS_JDBC_USER");
-		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.password", "USERS_JDBC_PASSWORD");
-		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.driver", "USERS_JDBC_DRIVER");
+		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.url", "USER_SERVICE_DATASOURCE_URL");
+		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.user", "USER_SERVICE_DATASOURCE_USERNAME");
+		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.password", "USER_SERVICE_DATASOURCE_PASSWORD");
+		overridePersistenceProperty(persistenceProperties, "javax.persistence.jdbc.driver", "USER_SERVICE_DATASOURCE_DRIVER");
 		entityManagerFactory = Persistence.createEntityManagerFactory("users", persistenceProperties);
 		entityManagerHolder = new ThreadLocal<>();
 	}

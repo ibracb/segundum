@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import segundum.domain.events.DomainEvent;
-import segundum.domain.outbound.DomainEventPublisher;
+import segundum.application.outbound.DomainEventPublisher;
 
 public class FakePublisher implements DomainEventPublisher {
 

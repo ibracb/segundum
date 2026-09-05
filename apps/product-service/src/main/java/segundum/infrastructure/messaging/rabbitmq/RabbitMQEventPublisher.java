@@ -8,13 +8,12 @@ import segundum.domain.events.CategoryCreated;
 import segundum.domain.events.DomainEvent;
 import segundum.infrastructure.events.EventPublisher;
 import segundum.infrastructure.messaging.messages.ProductMessageMapper;
-import segundum.infrastructure.messaging.rabbitmq.config.RabbitMQConfig;
 
-@Component
-@Order(2)
 /**
  * Represents an event publisher that publishes events through RabbitMQ.
  */
+@Component
+@Order(2)
 public class RabbitMQEventPublisher implements EventPublisher {
 
 	/**
