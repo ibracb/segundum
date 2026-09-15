@@ -15,7 +15,7 @@ public interface ProductApi {
      * @param id the identifier of the product
      * @return a call that yields the basic information of the product
      */
-    @GET("api/products/{id}/basic-info")
+    @GET("{id}/basic-info")
     Call<ProductBasicInfoResponse> getProductBasicInfo(@Path("id") String id);
 
 }

@@ -31,7 +31,7 @@ public class GetUserNameInteractor implements GetUserNameUseCase {
     public UserNameReadModel execute(GetUserNameQuery query) {
         Optional<UserNameReadModel> name = userFinder.findNameById(query.getUserId());
         return name.orElseThrow(
-                () -> new EntityNotFoundException("User", query.getUserId().getValue().toString()));
+                () -> new EntityNotFoundException("User", "ID", query.getUserId().getValue().toString()));
     }
 
 }

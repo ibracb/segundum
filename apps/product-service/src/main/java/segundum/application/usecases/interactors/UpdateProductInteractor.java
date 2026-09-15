@@ -26,7 +26,7 @@ public class UpdateProductInteractor implements UpdateProductUseCase {
 	@Override
 	public void execute(UpdateProductCommand command) {
 		Product product = productRepository.findById(command.getProductId())
-				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
+				.orElseThrow(() -> new EntityNotFoundException("Product", "ID", command.getProductId().getValue().toString()));
 
 		if (command.getPrice() != null) {
 			product.changePrice(command.getPrice());

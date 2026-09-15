@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +24,7 @@ import segundum.infrastructure.rest.sale.requests.CancelSaleBySellerRequest;
 /**
  * Represents the API for cancelling a sale by the seller.
  */
+@PreAuthorize("hasAuthority('USER')")
 @Tag(name = "Sales", description = "Sale management endpoints")
 @RequestMapping("/sales")
 public interface CancelSaleBySellerApi {

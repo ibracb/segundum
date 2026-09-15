@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,6 +23,7 @@ import segundum.infrastructure.rest.handlers.ErrorResponse;
 @RequestMapping("/products")
 public interface RemoveProductApi {
 
+	@PreAuthorize("hasAuthority('USER') and @productFinder.findById(T(segundum.domain.models.product.ProductId).fromString(#id)).orElse(null).sellerId == principal")
 	@Operation(summary = "Remove a product")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Product removed",

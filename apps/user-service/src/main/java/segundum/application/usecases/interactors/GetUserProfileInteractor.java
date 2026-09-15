@@ -30,7 +30,7 @@ public class GetUserProfileInteractor implements GetUserProfileUseCase {
     public UserProfileReadModel execute(GetUserProfileQuery query) {
         Optional<UserProfileReadModel> profile = userFinder.findProfileById(query.getUserId());
         return profile.orElseThrow(
-                () -> new EntityNotFoundException("User", query.getUserId().getValue().toString()));
+                () -> new EntityNotFoundException("User", "ID", query.getUserId().getValue().toString()));
     }
 
 }

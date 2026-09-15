@@ -49,7 +49,7 @@ public class UpdateUserProfileInteractor implements UpdateUserProfileUseCase {
 	@Override
 	public User execute(UpdateUserCommand command) {
 		User user = userRepository.findById(command.getUserId()).orElseThrow(
-				() -> new EntityNotFoundException("User", command.getUserId().getValue().toString()));
+				() -> new EntityNotFoundException("User", "ID", command.getUserId().getValue().toString()));
 		if (command.getName() != null) {
 			user.changeName(command.getName());
 		}

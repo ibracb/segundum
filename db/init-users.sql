@@ -21,3 +21,10 @@ CREATE TABLE IF NOT EXISTS user_roles (
     PRIMARY KEY (user_id, role),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- Seed admin user (email: admin@segundum.com, password: admin123)
+INSERT IGNORE INTO users (id, name, surname, email, password, birthdate, phone, purchases, sales, status, registration_date)
+VALUES ('a0000000-0000-0000-0000-000000000001', 'Admin', 'SegundUM', 'admin@segundum.com', '$2a$12$w85WdtKDSzStEIEqVo.TsOZyeSV9w8DJnhSCBmw3kYGqKjkr617ii', '1990-01-01', '+34000000000', 0, 0, 'ACTIVE', CURRENT_TIMESTAMP);
+
+INSERT IGNORE INTO user_roles (user_id, role)
+VALUES ('a0000000-0000-0000-0000-000000000001', 'ADMINISTRATOR');

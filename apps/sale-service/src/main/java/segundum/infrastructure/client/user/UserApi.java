@@ -15,7 +15,7 @@ public interface UserApi {
      * @param id the identifier of the user
      * @return a call that yields the name of the user
      */
-    @GET("api/users/{id}/name")
+    @GET("{id}/name")
     Call<UserNameResponse> getUserName(@Path("id") String id);
 
 }

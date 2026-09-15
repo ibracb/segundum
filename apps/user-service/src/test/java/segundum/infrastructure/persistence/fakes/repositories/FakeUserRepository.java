@@ -51,7 +51,14 @@ public class FakeUserRepository implements UserRepository {
 		return users.values().stream()
 				.anyMatch(u -> u.getPhone().getValue().equals(phone.getValue()));
 	}
-
+	
+	@Override
+	public Optional<User> findByEmail(Email email) {
+		return users.values().stream()
+				.filter(u -> u.getEmail().getValue().equals(email.getValue()))
+				.findFirst();
+	}
+	
 	/**
 	 * Returns all users stored in this repository.
 	 *

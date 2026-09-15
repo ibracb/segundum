@@ -30,7 +30,7 @@ public class GetUserStatsInteractor implements GetUserStatsUseCase {
 	public UserStatsReadModel execute(GetUserStatsQuery query) {
 		Optional<UserStatsReadModel> stats = userFinder.findStatsById(query.getUserId());
 		return stats.orElseThrow(
-				() -> new EntityNotFoundException("User", query.getUserId().getValue().toString()));
+				() -> new EntityNotFoundException("User", "ID", query.getUserId().getValue().toString()));
 	}
 
 }

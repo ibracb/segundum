@@ -25,7 +25,7 @@ public class TakeProductDownInteractor implements TakeProductDownUseCase {
 	@Override
 	public void execute(TakeProductDownCommand command) {
 		Product product = productRepository.findById(command.getProductId())
-				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
+				.orElseThrow(() -> new EntityNotFoundException("Product", "ID", command.getProductId().getValue().toString()));
 
 		product.takeDown();
 

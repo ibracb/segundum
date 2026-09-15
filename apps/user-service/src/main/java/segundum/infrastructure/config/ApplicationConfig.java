@@ -53,6 +53,13 @@ import segundum.infrastructure.rest.user.errorhandlers.PhoneAlreadyExistsExcepti
 import segundum.infrastructure.rest.user.errorhandlers.SameValueExceptionMapper;
 import segundum.infrastructure.rest.user.errorhandlers.UserNotActiveExceptionMapper;
 import segundum.infrastructure.security.BCryptPasswordHasher;
+import segundum.infrastructure.security.JwtUtils;
+import segundum.infrastructure.security.JwtTokenFilter;
+import segundum.application.usecases.AuthenticateUserUseCase;
+import segundum.application.usecases.interactors.AuthenticateUserInteractor;
+import segundum.infrastructure.facades.AuthenticateUserFacade;
+import segundum.infrastructure.rest.user.controllers.AuthenticateUserController;
+import segundum.infrastructure.rest.user.errorhandlers.BadCredentialsExceptionMapper;
 
 /**
  * Application configuration for the user service.
@@ -73,6 +80,14 @@ public class ApplicationConfig extends ResourceConfig {
         UserFinder userFinder = new JpaUserFinder();
         DomainEventPublisher eventPublisher = new RabbitMQEventPublisher(new UserMessageMapper());
 
+        // JWT Security
+        String jwtSecret = System.getenv("JWT_SECRET");
+        if (jwtSecret == null || jwtSecret.isEmpty()) {
+            jwtSecret = "default-secret-change-in-production";
+        }
+        JwtUtils jwtUtils = new JwtUtils(jwtSecret);
+        JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(jwtUtils);
+
         RegisterUserUseCase registerUser = new RegisterUserInteractor(userRepository, eventPublisher, passwordHasher);
         UpdateUserProfileUseCase updateUser = new UpdateUserProfileInteractor(userRepository, eventPublisher, passwordHasher);
         DeactivateUserUseCase deactivateUser = new DeactivateUserInteractor(userRepository, eventPublisher);
@@ -80,10 +95,12 @@ public class ApplicationConfig extends ResourceConfig {
         GetUserListUseCase getUserList = new GetUserListInteractor(userFinder);
         GetUserStatsUseCase getUserStats = new GetUserStatsInteractor(userFinder);
         GetUserNameUseCase getUserName = new GetUserNameInteractor(userFinder);
+        AuthenticateUserUseCase authenticateUser = new AuthenticateUserInteractor(userRepository, passwordHasher);
 
         RegisterUserFacade registerUserFacade = new RegisterUserFacade(registerUser);
         UpdateUserProfileFacade updateUserProfileFacade = new UpdateUserProfileFacade(updateUser);
         DeactivateUserFacade deactivateUserFacade = new DeactivateUserFacade(deactivateUser);
+        AuthenticateUserFacade authenticateUserFacade = new AuthenticateUserFacade(authenticateUser);
 
         LogEmitter logEmitter = new Slf4jLogEmitter(SaleNotificationHandlerInteractor.class);
         SaleNotificationHandler saleNotificationHandler = new SaleNotificationHandlerInteractor(userRepository, logEmitter);
@@ -93,6 +110,7 @@ public class ApplicationConfig extends ResourceConfig {
         consumer.start();
         Runtime.getRuntime().addShutdownHook(new Thread(consumer::stop));
 
+        register(new AuthenticateUserController(authenticateUserFacade));
         register(new GetUserProfileController(getUserProfile));
         register(new GetUserListController(getUserList));
         register(new GetUserStatsController(getUserStats));
@@ -100,6 +118,9 @@ public class ApplicationConfig extends ResourceConfig {
         register(new RegisterUserController(registerUserFacade));
         register(new UpdateUserProfileController(updateUserProfileFacade));
         register(new DeactivateUserController(deactivateUserFacade));
+
+        // Register JWT filter as a provider
+        register(jwtTokenFilter);
 
         register(saleNotificationHandler);
 
@@ -113,5 +134,6 @@ public class ApplicationConfig extends ResourceConfig {
         register(GsonConfig.class);
         register(OpenApiConfig.class);
         register(UserNotActiveExceptionMapper.class);
+        register(BadCredentialsExceptionMapper.class);
     }
 }

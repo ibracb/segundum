@@ -25,7 +25,7 @@ public class IncrementProductViewsInteractor implements IncrementProductViewsUse
 	@Override
 	public void execute(IncrementProductViewsCommand command) {
 		Product product = productRepository.findById(command.getProductId())
-				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
+				.orElseThrow(() -> new EntityNotFoundException("Product", "ID", command.getProductId().getValue().toString()));
 		product.incrementViews();
 
 		productRepository.update(product);

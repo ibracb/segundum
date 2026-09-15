@@ -28,7 +28,7 @@ public class GetProductBasicInfoController implements GetProductBasicInfoApi {
     public ResponseEntity<ProductBasicInfoResponse> getProductBasicInfo(String id) {
         ProductId productId = ProductId.fromString(id);
         ProductBasicInfo product = useCase.execute(new GetProductBasicInfoQuery(productId))
-                .orElseThrow(() -> new EntityNotFoundException("Product", id));
+                .orElseThrow(() -> new EntityNotFoundException("Product", "ID", id));
 
         PickupLocationResponse pickup = product.getPickupLocation() != null
                 ? new PickupLocationResponse(

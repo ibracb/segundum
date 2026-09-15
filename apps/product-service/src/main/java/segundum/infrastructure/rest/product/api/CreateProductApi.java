@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,6 +26,7 @@ import segundum.infrastructure.rest.product.requests.CreateProductRequest;
 @RequestMapping("/products")
 public interface CreateProductApi {
 
+	@PreAuthorize("hasAuthority('USER') and #request.sellerId == principal")
 	@Operation(summary = "Create a new product")
 		@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Product created",

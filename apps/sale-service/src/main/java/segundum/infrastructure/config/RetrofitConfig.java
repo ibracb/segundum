@@ -18,14 +18,14 @@ public class RetrofitConfig {
 	/**
 	 * The URL of the user service.
 	 */
-	@Value("${user.service.url}")
-    private String userServiceUrl;
+	@Value("${user.route}")
+    private String userRoute;
 	
 	/**
 	 * The URL of the product service.
 	 */
-    @Value("${product.service.url}")
-    private String productServiceUrl;
+    @Value("${product.route}")
+    private String productRoute;
 
     /**
      * Creates the user service Retrofit bean.
@@ -35,7 +35,7 @@ public class RetrofitConfig {
     @Bean
     public Retrofit userRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(withTrailingSlash(userServiceUrl))
+                .baseUrl(withTrailingSlash(userRoute))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
@@ -48,7 +48,7 @@ public class RetrofitConfig {
     @Bean
     public Retrofit productRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(withTrailingSlash(productServiceUrl))
+                .baseUrl(withTrailingSlash(productRoute))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

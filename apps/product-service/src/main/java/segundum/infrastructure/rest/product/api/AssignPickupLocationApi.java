@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,6 +28,7 @@ import segundum.infrastructure.rest.product.requests.AssignPickupLocationRequest
 @RequestMapping("/products")
 public interface AssignPickupLocationApi {
 
+	@PreAuthorize("hasAuthority('USER') and @productFinder.findById(T(segundum.domain.models.product.ProductId).fromString(#id)).orElse(null).sellerId == principal")
 	@Operation(summary = "Assign a pickup location to a product")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Pickup location assigned",

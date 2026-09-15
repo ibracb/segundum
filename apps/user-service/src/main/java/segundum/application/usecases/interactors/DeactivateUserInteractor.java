@@ -37,7 +37,7 @@ public class DeactivateUserInteractor implements DeactivateUserUseCase {
 	@Override
 	public void execute(DeactivateUserCommand command) {
 		User user = userRepository.findById(command.getUserId()).orElseThrow(
-				() -> new EntityNotFoundException("User", command.getUserId().getValue().toString()));
+				() -> new EntityNotFoundException("User", "ID", command.getUserId().getValue().toString()));
 		user.deactivate();
 		userRepository.update(user);
 		domainEventPublisher.publish(new UserDeactivated(command.getUserId()));

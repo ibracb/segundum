@@ -1,5 +1,6 @@
 package segundum.infrastructure.rest.user.controllers;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.core.Response;
 
 import segundum.application.commands.RegisterUserCommand;
@@ -34,8 +35,9 @@ public class RegisterUserController implements RegisterUserApi {
 		this.facade = facade;
 	}
 
-	@Override
-	public Response registerUser(RegisterUserRequest request) {
+    @Override
+    @PermitAll
+    public Response registerUser(RegisterUserRequest request) {
 		RegisterUserCommand command = new RegisterUserCommand(
 				new Name(request.getName()),
 				new Surname(request.getSurname()),
