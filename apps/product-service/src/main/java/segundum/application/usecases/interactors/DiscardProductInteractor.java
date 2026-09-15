@@ -25,7 +25,7 @@ public class DiscardProductInteractor implements DiscardProductUseCase {
 	@Override
 	public void execute(DiscardProductCommand command) {
 		Product product = productRepository.findById(command.getProductId())
-				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
+				.orElseThrow(() -> new EntityNotFoundException("Product", "ID", command.getProductId().getValue().toString()));
 
 		product.discard();
 

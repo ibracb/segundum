@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -46,6 +47,7 @@ public class GetUserListController implements GetUserListApi {
 	 * @return a response containing the list of user info
 	 */
 	@Override
+	@RolesAllowed("ADMINISTRATOR")
 	public Response getUserList() {
 		GetUserListQuery query = new GetUserListQuery();
 		List<UserInfoReadModel> infos = getUserListUseCase.execute(query);

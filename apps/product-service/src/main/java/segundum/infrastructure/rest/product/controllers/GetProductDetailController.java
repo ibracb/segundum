@@ -43,7 +43,7 @@ public class GetProductDetailController implements GetProductDetailApi {
 	public ResponseEntity<EntityModel<ProductDetailResponse>> getProductDetail(String id) {
 		ProductId productId = ProductId.fromString(id);
 		ProductDetail product = useCase.execute(new GetProductDetailQuery(productId))
-				.orElseThrow(() -> new EntityNotFoundException("Product", id));
+				.orElseThrow(() -> new EntityNotFoundException("Product", "ID", id));
 		return ResponseEntity.ok(assembler.toDetailModel(product));
 	}
 

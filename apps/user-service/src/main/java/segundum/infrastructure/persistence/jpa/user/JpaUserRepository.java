@@ -106,5 +106,15 @@ public class JpaUserRepository implements UserRepository {
         query.setParameter("phone", phone.getValue());
         return query.getSingleResult() > 0;
     }
-    
+
+    @Override
+    public Optional<User> findByEmail(Email email) {
+        EntityManager em = getEntityManager();
+        TypedQuery<UserJpaEntity> query = em.createQuery(
+                "SELECT u FROM UserJpaEntity u WHERE u.email = :email", UserJpaEntity.class);
+        query.setParameter("email", email.getValue());
+        UserJpaEntity entity = query.getResultStream().findFirst().orElse(null);
+        return Optional.ofNullable(entity).map(UserMapper::toDomain);
+    }
+
 }

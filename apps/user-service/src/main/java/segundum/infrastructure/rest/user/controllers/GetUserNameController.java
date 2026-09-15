@@ -1,5 +1,6 @@
 package segundum.infrastructure.rest.user.controllers;
 
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.core.Response;
 
 import segundum.application.readmodels.user.UserNameReadModel;
@@ -29,6 +30,7 @@ public class GetUserNameController implements GetUserNameApi {
     }
 
     @Override
+    @PermitAll
     public Response getUserName(String id) {
         GetUserNameQuery query = new GetUserNameQuery(UserId.fromString(id));
         UserNameReadModel userName = getUserNameUseCase.execute(query);

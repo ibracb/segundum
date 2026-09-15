@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.queries.GetSalesByPurchaserQuery;
@@ -47,6 +48,7 @@ public class GetSalesByPurchaserController implements GetSalesByPurchaserApi {
     }
 
     @Override
+    @PreAuthorize("#purchaserId == principal")
     public ResponseEntity<PagedModel<EntityModel<SaleAsPurchaserResponse>>> getSalesByPurchaser(
             String purchaserId, String status, Pageable pageable) {
         GetSalesByPurchaserQuery query = new GetSalesByPurchaserQuery(

@@ -41,7 +41,7 @@ public class ReserveSaleInteractor implements ReserveSaleUseCase {
     public void execute(ReserveSaleCommand command) {
         List<DomainEvent> history = eventStore.loadEvents(command.getSaleId());
         if (history.isEmpty()) {
-            throw new EntityNotFoundException("Sale", command.getSaleId().asString());
+            throw new EntityNotFoundException("Sale", "ID", command.getSaleId().asString());
         }
 
         Sale sale = SaleFactory.loadFromHistory(history);

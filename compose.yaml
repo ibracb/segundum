@@ -59,6 +59,7 @@ services:
       USER_SERVICE_DATASOURCE_PASSWORD: ${USER_SERVICE_DATASOURCE_PASSWORD}
       USER_SERVICE_DATASOURCE_DRIVER: ${USER_SERVICE_DATASOURCE_DRIVER}
       RABBITMQ_URI: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       mysql:
         condition: service_healthy
@@ -78,6 +79,7 @@ services:
       PRODUCT_SERVICE_DATASOURCE_PASSWORD: ${PRODUCT_SERVICE_DATASOURCE_PASSWORD}
       RABBITMQ_URI: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
       MONGODB_URI: ${MONGODB_URI}
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       mysql:
         condition: service_healthy
@@ -99,8 +101,9 @@ services:
       SALE_SERVICE_DATASOURCE_PASSWORD: ${SALE_SERVICE_DATASOURCE_PASSWORD}
       RABBITMQ_URI: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
       MONGODB_URI: ${MONGODB_URI}
-      USER_SERVICE_URL: ${USER_SERVICE_URL}
-      PRODUCT_SERVICE_URL: ${PRODUCT_SERVICE_URL}
+      USER_ROUTE: ${USER_ROUTE}
+      PRODUCT_ROUTE: ${PRODUCT_ROUTE}
+      JWT_SECRET: ${JWT_SECRET}
     depends_on:
       mysql:
         condition: service_healthy
@@ -108,6 +111,25 @@ services:
         condition: service_healthy
       mongodb:
         condition: service_healthy
+  api-gateway:
+    build:
+      context: ./apps/api-gateway
+      dockerfile: Dockerfile
+    container_name: ${API_GATEWAY_CONTAINER_NAME}
+    ports:
+      - "${API_GATEWAY_PORT}:8090"
+    environment:
+      SERVER_PORT: "8090"
+      USER_ROUTE: ${USER_ROUTE}
+      PRODUCT_ROUTE: ${PRODUCT_ROUTE}
+      CATEGORY_ROUTE: ${CATEGORY_ROUTE}
+      SELLER_ROUTE: ${SELLER_ROUTE}
+      SALE_ROUTE: ${SALE_ROUTE}
+      JWT_SECRET: ${JWT_SECRET}
+    depends_on:
+      - user-service
+      - product-service
+      - sale-service
 volumes:
   mysql_data:
   mongodb_data:

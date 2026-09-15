@@ -39,7 +39,7 @@ public class GetSellerDraftProductsInteractor implements GetSellerDraftProductsU
 	@Override
 	public Page<SellerProduct> execute(GetSellerDraftProductsQuery query) {
 		Seller seller = sellerRepository.findById(query.getSellerId())
-				.orElseThrow(() -> new EntityNotFoundException("Seller", query.getSellerId().getValue().toString()));
+				.orElseThrow(() -> new EntityNotFoundException("Seller", "ID", query.getSellerId().getValue().toString()));
 		if (!seller.isActive()) {
 			throw new SellerNotActiveException(query.getSellerId());
 		}

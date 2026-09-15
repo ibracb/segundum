@@ -76,6 +76,7 @@ public class JpaUserFinder implements UserFinder {
 				"SELECT u FROM UserJpaEntity u ORDER BY u.registrationDate DESC",
 				UserJpaEntity.class);
 		return query.getResultList().stream()
+				.filter(entity -> !entity.getRoles().contains(segundum.domain.models.user.UserRole.ADMINISTRATOR))
 				.map(entity -> new UserInfoReadModel(
 						entity.getId(),
 						entity.getName(),

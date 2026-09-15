@@ -60,4 +60,12 @@ public interface UserRepository {
 	 */
 	boolean existsByPhone(Phone phone);
 
+	/**
+	 * Finds a user by their email address.
+	 *
+	 * @param email the email of the user to find
+	 * @return an Optional containing the found user, or empty if not found
+	 */
+	Optional<User> findByEmail(Email email);
+
 }

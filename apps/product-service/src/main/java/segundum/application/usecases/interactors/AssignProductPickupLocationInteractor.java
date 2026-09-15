@@ -25,7 +25,7 @@ public class AssignProductPickupLocationInteractor implements AssignProductPicku
 	@Override
 	public void execute(AssignProductPickupLocationCommand command) {
 		Product product = productRepository.findById(command.getProductId())
-				.orElseThrow(() -> new EntityNotFoundException("Product", command.getProductId().getValue().toString()));
+				.orElseThrow(() -> new EntityNotFoundException("Product", "ID", command.getProductId().getValue().toString()));
 		product.assignPickupLocation(command.getPickupLocation());
 
 		productRepository.update(product);

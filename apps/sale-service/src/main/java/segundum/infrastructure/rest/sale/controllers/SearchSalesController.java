@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.queries.SearchSalesQuery;
@@ -41,6 +42,7 @@ public class SearchSalesController implements SearchSalesApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     public ResponseEntity<PagedModel<EntityModel<SaleDetailResponse>>> searchSales(
             String purchaserId, String sellerId, String status, Pageable pageable) {
         SearchSalesQuery query = new SearchSalesQuery(

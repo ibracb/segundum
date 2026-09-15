@@ -3,6 +3,7 @@ package segundum.infrastructure.rest.sale.controllers;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,6 +36,7 @@ public class ProposeSaleController implements ProposeSaleApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER') and #request.purchaserId == principal")
     public ResponseEntity<Void> proposeSale(ProposeSaleRequest request) {
         ProposeSaleCommand command = new ProposeSaleCommand(
                 ProductId.fromString(request.getProductId()),

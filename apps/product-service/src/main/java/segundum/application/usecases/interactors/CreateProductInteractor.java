@@ -35,10 +35,10 @@ public class CreateProductInteractor implements CreateProductUseCase {
 	@Override
 	public ProductId execute(CreateProductCommand command) {
 		if (!categoryRepository.existsById(command.getCategoryId())) {
-			throw new EntityNotFoundException("Category", command.getCategoryId().toString());
+			throw new EntityNotFoundException("Category", "ID", command.getCategoryId().toString());
 		}
 		Seller seller = sellerRepository.findById(command.getSellerId())
-				.orElseThrow(() -> new EntityNotFoundException("Seller", command.getSellerId().getValue().toString()));
+				.orElseThrow(() -> new EntityNotFoundException("Seller", "ID", command.getSellerId().getValue().toString()));
 		if (!seller.isActive()) {
 			throw new SellerNotActiveException(command.getSellerId());
 		}
