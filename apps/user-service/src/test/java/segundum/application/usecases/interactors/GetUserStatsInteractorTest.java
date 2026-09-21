@@ -49,7 +49,8 @@ class GetUserStatsInteractorTest {
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				name, surname, email, password, birthdate, phone);
 		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository, new FakePublisher(), new FakePasswordHasher());
-		existingUser = registerInteractor.execute(registerCommand);
+		UserId userId = registerInteractor.execute(registerCommand);
+		existingUser = repository.findById(userId).get();
 	}
 
 	@Test

@@ -30,17 +30,13 @@ public class JpaSellerRepository implements SellerRepository {
 	}
 
 	@Override
-	public Seller create(Seller seller) {
-		SellerJpaEntity entity = sellerJpaRepository.save(
-				SellerMapper.toEntity(seller));
-		return SellerMapper.toDomain(entity);
+	public void create(Seller seller) {
+		sellerJpaRepository.save(SellerMapper.toEntity(seller));
 	}
 
 	@Override
-	public Seller update(Seller seller) {
-		SellerJpaEntity entity = sellerJpaRepository.save(
-				SellerMapper.toEntity(seller));
-		return SellerMapper.toDomain(entity);
+	public void update(Seller seller) {
+		sellerJpaRepository.save(SellerMapper.toEntity(seller));
 	}
 	
 	@Override

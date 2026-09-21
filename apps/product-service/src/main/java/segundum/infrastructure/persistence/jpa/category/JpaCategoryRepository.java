@@ -27,17 +27,13 @@ public class JpaCategoryRepository implements CategoryRepository {
 	}
 
 	@Override
-	public Category create(Category category) {
-		CategoryJpaEntity entity = categoryJpaRepository.save(
-				CategoryMapper.toEntity(category));
-		return CategoryMapper.toDomain(entity);
+	public void create(Category category) {
+		categoryJpaRepository.save(CategoryMapper.toEntity(category));
 	}
 
 	@Override
-	public Category update(Category category) {
-		CategoryJpaEntity entity = categoryJpaRepository.save(
-				CategoryMapper.toEntity(category));
-		return CategoryMapper.toDomain(entity);
+	public void update(Category category) {
+		categoryJpaRepository.save(CategoryMapper.toEntity(category));
 	}
 
 	@Override

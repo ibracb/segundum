@@ -8,6 +8,7 @@ import segundum.domain.exceptions.user.phone.PhoneAlreadyExistsException;
 import segundum.domain.models.user.Password;
 import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserFactory;
+import segundum.domain.models.user.UserId;
 import segundum.application.outbound.DomainEventPublisher;
 import segundum.application.outbound.PasswordHasher;
 import segundum.domain.repositories.UserRepository;
@@ -47,7 +48,7 @@ public class RegisterUserInteractor implements RegisterUserUseCase {
 	}
 
 	@Override
-	public User execute(RegisterUserCommand command) {
+	public UserId execute(RegisterUserCommand command) {
 		if (userRepository.existsByEmail(command.getEmail())) {
 			throw new EmailAlreadyExistsException(command.getEmail().getValue());
 		}
@@ -64,6 +65,6 @@ public class RegisterUserInteractor implements RegisterUserUseCase {
 				command.getPhone());
 		userRepository.create(user);
 		domainEventPublisher.publish(new UserRegistered(user.getUserId(), user.getName(), user.getSurname(), user.getEmail()));
-		return user;
+		return user.getUserId();
 	}
 }

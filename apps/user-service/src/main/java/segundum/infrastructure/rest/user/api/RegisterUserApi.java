@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.user.requests.RegisterUserRequest;
-import segundum.infrastructure.rest.user.responses.UserProfileResponse;
 
 /**
  * Represents the REST API for registering a new user.
@@ -29,7 +28,7 @@ public interface RegisterUserApi {
 	@Operation(summary = "Register a new user")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "User registered",
-					content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
+					content = @Content),
 			@ApiResponse(responseCode = "400", description = "Invalid input",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Email already exists or phone already exists",

@@ -38,7 +38,8 @@ class SaleNotificationHandlerInteractorTest {
 	private User register(Name name, Surname surname, Email email) {
 		User user = UserFactory.create(name, surname, email, Password.plain("Abcdef123"),
 				new Birthdate(LocalDate.of(1990, 5, 15)), new Phone("+34612345678"));
-		return repository.create(user);
+		repository.create(user);
+		return user;
 	}
 
 	@Test

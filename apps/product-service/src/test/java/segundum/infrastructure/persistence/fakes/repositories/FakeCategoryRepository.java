@@ -12,15 +12,13 @@ public class FakeCategoryRepository implements CategoryRepository {
 	private final Map<CategoryId, Category> categories = new HashMap<>();
 
 	@Override
-	public Category create(Category category) {
+	public void create(Category category) {
 		categories.put(category.getCategoryId(), category);
-		return category;
 	}
 
 	@Override
-	public Category update(Category category) {
+	public void update(Category category) {
 		categories.put(category.getCategoryId(), category);
-		return category;
 	}
 
 	@Override

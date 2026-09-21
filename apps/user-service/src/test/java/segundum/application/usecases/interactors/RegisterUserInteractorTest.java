@@ -22,6 +22,7 @@ import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
+import segundum.domain.models.user.UserId;
 import segundum.domain.models.user.UserRole;
 import segundum.application.outbound.PasswordHasher;
 import segundum.domain.repositories.UserRepository;
@@ -54,9 +55,11 @@ class RegisterUserInteractorTest {
 	@Test
 	void shouldRegisterUser() {
 		RegisterUserCommand command = new RegisterUserCommand(name, surname, email, password, birthdate, phone);
-		User user = interactor.execute(command);
+		UserId userId = interactor.execute(command);
 
-		assertNotNull(user.getUserId());
+		assertNotNull(userId);
+		assertTrue(repository.findById(userId).isPresent());
+		User user = repository.findById(userId).get();
 		assertEquals("Juan", user.getName().getValue());
 		assertEquals("Pérez", user.getSurname().getValue());
 		assertEquals("juan@email.com", user.getEmail().getValue());
@@ -64,18 +67,17 @@ class RegisterUserInteractorTest {
 		assertEquals(LocalDate.of(1990, 5, 15), user.getBirthdate().getValue());
 		assertEquals(0, user.getPurchases());
 		assertEquals(0, user.getSales());
-		assertTrue(repository.findById(user.getUserId()).isPresent());
 	}
 
 	@Test
 	void shouldPublishUserRegisteredEvent() {
 		RegisterUserCommand command = new RegisterUserCommand(name, surname, email, password, birthdate, phone);
-		User user = interactor.execute(command);
+		UserId userId = interactor.execute(command);
 
 		assertEquals(1, publisher.getPublishedEvents().size());
 		assertTrue(publisher.getPublishedEvents().get(0) instanceof UserRegistered);
 		UserRegistered event = (UserRegistered) publisher.getPublishedEvents().get(0);
-		assertEquals(user.getUserId(), event.getUserId());
+		assertEquals(userId, event.getUserId());
 		assertEquals("Juan", event.getName().getValue());
 		assertEquals("Pérez", event.getSurname().getValue());
 		assertEquals("juan@email.com", event.getEmail().getValue());
@@ -110,8 +112,9 @@ class RegisterUserInteractorTest {
 	@Test
 	void shouldAssignUserRoleByDefault() {
 		RegisterUserCommand command = new RegisterUserCommand(name, surname, email, password, birthdate, phone);
-		User user = interactor.execute(command);
+		UserId userId = interactor.execute(command);
 
+		User user = repository.findById(userId).get();
 		assertNotNull(user.getUserRoles());
 		assertEquals(1, user.getUserRoles().size());
 		assertTrue(user.hasRole(UserRole.USER));

@@ -1,5 +1,7 @@
 package segundum.infrastructure.rest.user.controllers;
 
+import java.net.URI;
+
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.core.Response;
 
@@ -10,10 +12,9 @@ import segundum.domain.models.user.Name;
 import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
-import segundum.domain.models.user.User;
+import segundum.domain.models.user.UserId;
 import segundum.infrastructure.facades.RegisterUserFacade;
 import segundum.infrastructure.rest.user.api.RegisterUserApi;
-import segundum.infrastructure.rest.user.mappers.UserProfileResponseMapper;
 import segundum.infrastructure.rest.user.requests.RegisterUserRequest;
 
 /**
@@ -46,9 +47,11 @@ public class RegisterUserController implements RegisterUserApi {
 				new Birthdate(request.getBirthdate()),
 				new Phone(request.getPhone())
 		);
-		User user = facade.run(command);
+		UserId userId = facade.run(command);
+		String apiBaseUrl = System.getenv("API_BASE_URL");
+		URI location = URI.create(apiBaseUrl + "/api/users/" + userId.getValue().toString());
 		return Response.status(Response.Status.CREATED)
-				.entity(UserProfileResponseMapper.fromDomain(user))
+				.location(location)
 				.build();
 	}
 

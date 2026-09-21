@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.handlers.ErrorResponse;
 import segundum.infrastructure.rest.user.requests.UpdateUserProfileRequest;
-import segundum.infrastructure.rest.user.responses.UserProfileResponse;
 
 /**
  * Represents the REST API for updating the profile of a user.
@@ -30,8 +29,8 @@ public interface UpdateUserProfileApi {
 	@Path("/{id}")
 	@Operation(summary = "Update user profile")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Profile updated",
-					content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
+			@ApiResponse(responseCode = "204", description = "Profile updated",
+					content = @Content),
 			@ApiResponse(responseCode = "400", description = "Invalid input",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "User not found",

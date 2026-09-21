@@ -16,17 +16,15 @@ public interface UserRepository {
 	 * Creates a new user in the repository.
 	 *
 	 * @param user the user to create
-	 * @return the created user
 	 */
-	User create(User user);
+	void create(User user);
 	
 	/**
 	 * Updates an existing user in the repository.
 	 *
 	 * @param user the user to update
-	 * @return the updated user
 	 */
-	User update(User user);
+	void update(User user);
 	
 	/**
 	 * Finds a user by their unique identifier.

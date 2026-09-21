@@ -32,7 +32,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public User create(User user) {
+    public void create(User user) {
         EntityManager em = getEntityManager();
         boolean ownsTransaction = !em.getTransaction().isActive();
         if (ownsTransaction) {
@@ -43,7 +43,6 @@ public class JpaUserRepository implements UserRepository {
             if (ownsTransaction) {
                 em.getTransaction().commit();
             }
-            return user;
         } catch (PersistenceException e) {
             if (ownsTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
@@ -53,7 +52,7 @@ public class JpaUserRepository implements UserRepository {
     }
 
     @Override
-    public User update(User user) {
+    public void update(User user) {
         EntityManager em = getEntityManager();
         boolean ownsTransaction = !em.getTransaction().isActive();
         if (ownsTransaction) {
@@ -64,7 +63,6 @@ public class JpaUserRepository implements UserRepository {
             if (ownsTransaction) {
                 em.getTransaction().commit();
             }
-            return user;
         } catch (PersistenceException e) {
             if (ownsTransaction && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();

@@ -7,11 +7,9 @@ import segundum.domain.models.user.Name;
 import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
-import segundum.domain.models.user.User;
 import segundum.domain.models.user.UserId;
 import segundum.infrastructure.facades.UpdateUserProfileFacade;
 import segundum.infrastructure.rest.user.api.UpdateUserProfileApi;
-import segundum.infrastructure.rest.user.mappers.UserProfileResponseMapper;
 import segundum.infrastructure.rest.user.requests.UpdateUserProfileRequest;
 
 /**
@@ -46,8 +44,8 @@ public class UpdateUserProfileController implements UpdateUserProfileApi {
 				password,
 				phone
 		);
-		User user = facade.run(command);
-		return Response.ok(UserProfileResponseMapper.fromDomain(user)).build();
+		facade.run(command);
+		return Response.noContent().build();
 	}
 
 }
