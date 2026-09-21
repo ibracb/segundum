@@ -1,4 +1,4 @@
-package segundum.auth;
+package segundum.infrastructure.auth;
 
 import java.io.IOException;
 import java.util.Arrays;

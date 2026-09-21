@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.LoginCommand;
 import segundum.application.readmodels.auth.AuthenticatedUserReadModel;
-import segundum.auth.JwtUtils;
+import segundum.infrastructure.auth.JwtUtils;
 import segundum.infrastructure.facades.AuthFacade;
 import segundum.infrastructure.rest.auth.api.LoginApi;
 import segundum.infrastructure.rest.auth.requests.LoginRequest;
