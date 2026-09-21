@@ -15,17 +15,15 @@ public interface SellerRepository {
 	 * Creates a new seller.
 	 *
 	 * @param seller the seller to create
-	 * @return the created seller
 	 */
-	Seller create(Seller seller);
+	void create(Seller seller);
 
 	/**
 	 * Updates an existing seller.
 	 *
 	 * @param seller the seller to update
-	 * @return the updated seller
 	 */
-	Seller update(Seller seller);
+	void update(Seller seller);
 	
 	/**
 	 * Checks whether a seller exists by its identifier.

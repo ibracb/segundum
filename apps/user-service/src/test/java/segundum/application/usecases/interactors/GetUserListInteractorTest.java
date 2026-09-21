@@ -21,6 +21,7 @@ import segundum.domain.models.user.Password;
 import segundum.domain.models.user.Phone;
 import segundum.domain.models.user.Surname;
 import segundum.domain.models.user.User;
+import segundum.domain.models.user.UserId;
 import segundum.domain.repositories.UserRepository;
 import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.FakePasswordHasher;
@@ -53,7 +54,7 @@ class GetUserListInteractorTest {
         interactor = new GetUserListInteractor(userFinder);
     }
 
-    private User registerUser(Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone) {
+    private UserId registerUser(Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone) {
         RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository, new FakePublisher(), new FakePasswordHasher());
         return registerInteractor.execute(new RegisterUserCommand(name, surname, email, password, birthdate, phone));
     }
@@ -76,7 +77,8 @@ class GetUserListInteractorTest {
 
     @Test
     void shouldReturnUserInfoWithCorrectFields() {
-        User user = registerUser(name1, surname1, email1, password1, birthdate1, phone1);
+    	UserId userId = registerUser(name1, surname1, email1, password1, birthdate1, phone1);
+    	User user = repository.findById(userId).get();
 
         UserInfoReadModel info = interactor.execute(new GetUserListQuery()).get(0);
 

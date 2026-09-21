@@ -4,7 +4,6 @@ import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import segundum.application.commands.CreateProductCommand;
 import segundum.domain.models.category.CategoryId;
@@ -49,10 +48,8 @@ public class CreateProductController implements CreateProductApi {
 				request.isShippingAvailable(),
 				SellerId.fromString(request.getSellerId()));
 		ProductId productId = facade.run(command);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(productId.getValue().toString())
-				.toUri();
+		String apiBaseUrl = System.getenv("API_BASE_URL");
+		URI location = URI.create(apiBaseUrl + "/api/products/" + productId.getValue().toString());
 		return ResponseEntity.created(location).build();
 	}
 

@@ -47,7 +47,7 @@ public class UpdateUserProfileInteractor implements UpdateUserProfileUseCase {
 	}
 
 	@Override
-	public User execute(UpdateUserCommand command) {
+	public void execute(UpdateUserCommand command) {
 		User user = userRepository.findById(command.getUserId()).orElseThrow(
 				() -> new EntityNotFoundException("User", "ID", command.getUserId().getValue().toString()));
 		if (command.getName() != null) {
@@ -67,7 +67,6 @@ public class UpdateUserProfileInteractor implements UpdateUserProfileUseCase {
 		userRepository.update(user);
 		domainEventPublisher.publish(new UserUpdated(user.getUserId(), user.getName(),
 				user.getSurname()));
-		return user;
 	}
 
 	/**

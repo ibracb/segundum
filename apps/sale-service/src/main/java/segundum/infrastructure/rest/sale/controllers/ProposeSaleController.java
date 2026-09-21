@@ -5,7 +5,6 @@ import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import segundum.application.commands.ProposeSaleCommand;
 import segundum.domain.models.sale.ProductId;
@@ -42,10 +41,8 @@ public class ProposeSaleController implements ProposeSaleApi {
                 ProductId.fromString(request.getProductId()),
                 PurchaserId.fromString(request.getPurchaserId()));
         SaleId saleId = facade.run(command);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(saleId.getValue().toString())
-                .toUri();
+        String apiBaseUrl = System.getenv("API_BASE_URL");
+        URI location = URI.create(apiBaseUrl + "/api/sales/" + saleId.getValue().toString());
         return ResponseEntity.created(location).build();
     }
 

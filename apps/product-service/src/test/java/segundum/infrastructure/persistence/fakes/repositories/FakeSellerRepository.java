@@ -14,15 +14,13 @@ public class FakeSellerRepository implements SellerRepository {
 	private final Map<SellerId, Seller> sellers = new HashMap<>();
 
 	@Override
-	public Seller create(Seller seller) {
+	public void create(Seller seller) {
 		sellers.put(seller.getSellerId(), seller);
-		return seller;
 	}
 
 	@Override
-	public Seller update(Seller seller) {
+	public void update(Seller seller) {
 		sellers.put(seller.getSellerId(), seller);
-		return seller;
 	}
 	
 	@Override

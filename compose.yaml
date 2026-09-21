@@ -3,8 +3,6 @@ services:
     image: mysql:8.0
     container_name: ${MYSQL_CONTAINER_NAME}
     environment:
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "${MYSQL_PORT}:3306"
@@ -30,7 +28,7 @@ services:
       retries: 15
       start_period: 240s
   rabbitmq:
-    image: rabbitmq:3.13-management-alpine
+    image: rabbitmq:3.13-alpine
     container_name: ${RABBITMQ_CONTAINER_NAME}
     restart: unless-stopped
     environment:
@@ -60,6 +58,7 @@ services:
       USER_SERVICE_DATASOURCE_DRIVER: ${USER_SERVICE_DATASOURCE_DRIVER}
       RABBITMQ_URI: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
       JWT_SECRET: ${JWT_SECRET}
+      API_BASE_URL: ${API_BASE_URL}
     depends_on:
       mysql:
         condition: service_healthy
@@ -80,6 +79,7 @@ services:
       RABBITMQ_URI: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
       MONGODB_URI: ${MONGODB_URI}
       JWT_SECRET: ${JWT_SECRET}
+      API_BASE_URL: ${API_BASE_URL}
     depends_on:
       mysql:
         condition: service_healthy
@@ -104,6 +104,7 @@ services:
       USER_ROUTE: ${USER_ROUTE}
       PRODUCT_ROUTE: ${PRODUCT_ROUTE}
       JWT_SECRET: ${JWT_SECRET}
+      API_BASE_URL: ${API_BASE_URL}
     depends_on:
       mysql:
         condition: service_healthy

@@ -47,7 +47,8 @@ class DeactivateUserInteractorTest {
 				new Birthdate(LocalDate.of(1990, 5, 15)),
 				new Phone("+34612345678"));
 		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository, publisher, new FakePasswordHasher());
-		existingUser = registerInteractor.execute(registerCommand);
+		UserId userId = registerInteractor.execute(registerCommand);
+		existingUser = repository.findById(userId).get();
 		publisher.clear();
 	}
 

@@ -53,7 +53,8 @@ class UpdateUserProfileInteractorTest {
 		RegisterUserCommand registerCommand = new RegisterUserCommand(
 				name, surname, email, password, birthdate, phone);
 		RegisterUserInteractor registerInteractor = new RegisterUserInteractor(repository, publisher, passwordHasher);
-		existingUser = registerInteractor.execute(registerCommand);
+		UserId userId = registerInteractor.execute(registerCommand);
+		existingUser = repository.findById(userId).get();
 		publisher.clear();
 	}
 
@@ -66,8 +67,9 @@ class UpdateUserProfileInteractorTest {
 
 		UpdateUserCommand command = new UpdateUserCommand(
 				existingUser.getUserId(), newName, newSurname, newPassword, newPhone);
-		User updatedUser = interactor.execute(command);
+		interactor.execute(command);
 
+		User updatedUser = repository.findById(existingUser.getUserId()).get();
 		assertEquals("Carlos", updatedUser.getName().getValue());
 		assertEquals("García", updatedUser.getSurname().getValue());
 		assertEquals("hashed:NewPass456", updatedUser.getPassword().getValue());
@@ -99,8 +101,9 @@ class UpdateUserProfileInteractorTest {
 
 		UpdateUserCommand command = new UpdateUserCommand(
 				existingUser.getUserId(), newName, null, null, newPhone);
-		User updatedUser = interactor.execute(command);
+		interactor.execute(command);
 
+		User updatedUser = repository.findById(existingUser.getUserId()).get();
 		assertEquals("Carlos", updatedUser.getName().getValue());
 		assertEquals("Pérez", updatedUser.getSurname().getValue());
 		assertTrue(updatedUser.getPassword().isHashed());

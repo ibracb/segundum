@@ -2,7 +2,7 @@ package segundum.infrastructure.facades;
 
 import segundum.application.commands.RegisterUserCommand;
 import segundum.application.usecases.RegisterUserUseCase;
-import segundum.domain.models.user.User;
+import segundum.domain.models.user.UserId;
 
 /**
  * Represents the transaction boundary for registering a user.
@@ -27,9 +27,9 @@ public final class RegisterUserFacade {
 	 * Registers a user within a single transaction.
 	 *
 	 * @param command the register user command
-	 * @return the registered user
+	 * @return the identifier of the registered user
 	 */
-	public User run(RegisterUserCommand command) {
+	public UserId run(RegisterUserCommand command) {
 		return UnitOfWork.run(() -> useCase.execute(command));
 	}
 

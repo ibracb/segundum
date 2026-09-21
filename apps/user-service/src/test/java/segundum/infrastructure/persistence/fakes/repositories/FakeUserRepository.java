@@ -19,15 +19,13 @@ public class FakeUserRepository implements UserRepository {
 	private final Map<UserId, User> users = new HashMap<>();
 
 	@Override
-	public User create(User user) {
+	public void create(User user) {
 		users.put(user.getUserId(), user);
-		return user;
 	}
 
 	@Override
-	public User update(User user) {
+	public void update(User user) {
 		users.put(user.getUserId(), user);
-		return user;
 	}
 
 	@Override

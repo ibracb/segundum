@@ -12,17 +12,15 @@ public interface CategoryRepository {
 	 * Creates a new category in the repository.
 	 *
 	 * @param category the category to create
-	 * @return the created category
 	 */
-	Category create(Category category);
+	void create(Category category);
 
 	/**
 	 * Updates an existing category in the repository.
 	 *
 	 * @param category the category to update
-	 * @return the updated category
 	 */
-	Category update(Category category);
+	void update(Category category);
 
 	/**
 	 * Checks if a category exists in the repository by their identifier.
