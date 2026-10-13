@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.user.responses.UserNameResponse;
 
 /**
@@ -26,12 +26,15 @@ public interface GetUserNameApi {
 
     @GET
     @Path("/{id}/name")
-    @Operation(summary = "Get user name and surname by ID")
+    @Operation(summary = "Get user name and surname by ID",
+            description = "Returns the name and surname of a user. Internal endpoint: the API gateway blocks it with a 403.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User name found",
                     content = @Content(schema = @Schema(implementation = UserNameResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Blocked at the API gateway: always 403, with or without token",
+                    content = @Content),
             @ApiResponse(responseCode = "404", description = "User not found",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
     @Produces(MediaType.APPLICATION_JSON)
     Response getUserName(@PathParam("id") @Parameter(description = "User ID") String id);

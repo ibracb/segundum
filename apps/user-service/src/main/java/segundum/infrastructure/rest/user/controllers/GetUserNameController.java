@@ -3,6 +3,8 @@ package segundum.infrastructure.rest.user.controllers;
 import javax.annotation.security.PermitAll;
 import javax.ws.rs.core.Response;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 import segundum.application.readmodels.user.UserNameReadModel;
 import segundum.application.queries.GetUserNameQuery;
 import segundum.application.usecases.GetUserNameUseCase;
@@ -12,7 +14,11 @@ import segundum.infrastructure.rest.user.mappers.UserNameResponseMapper;
 
 /**
  * Represents the controller that handles the retrieval of a user name.
+ *
+ * <p>Internal endpoint, blocked at the API gateway: hidden from the OpenAPI
+ * document because it is not part of the public API of the platform.</p>
  */
+@Hidden
 public class GetUserNameController implements GetUserNameApi {
 
     /**

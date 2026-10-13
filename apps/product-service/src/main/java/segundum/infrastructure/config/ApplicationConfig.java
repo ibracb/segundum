@@ -10,6 +10,7 @@ import segundum.application.notificationhandlers.interactors.SaleNotificationHan
 import segundum.application.notificationhandlers.interactors.UserNotificationHandlerInteractor;
 import segundum.application.finders.CategoryFinder;
 import segundum.application.finders.ProductFinder;
+import segundum.application.finders.SellerFinder;
 import segundum.application.usecases.AssignProductPickupLocationUseCase;
 import segundum.application.usecases.CreateProductUseCase;
 import segundum.application.usecases.DiscardProductUseCase;
@@ -55,6 +56,8 @@ import segundum.infrastructure.persistence.mongodb.category.CategoryReadMongoRep
 import segundum.infrastructure.persistence.mongodb.category.MongoCategoryFinder;
 import segundum.infrastructure.persistence.mongodb.product.MongoProductFinder;
 import segundum.infrastructure.persistence.mongodb.product.ProductReadMongoRepository;
+import segundum.infrastructure.persistence.mongodb.seller.MongoSellerFinder;
+import segundum.infrastructure.persistence.mongodb.seller.SellerReadMongoRepository;
 
 /**
  * Spring configuration for application handler beans.
@@ -79,6 +82,11 @@ public class ApplicationConfig {
 			CategoryReadMongoRepository mongoRepository,
 			MongoTemplate mongoTemplate) {
 		return new MongoCategoryFinder(mongoTemplate);
+	}
+
+	@Bean
+	public SellerFinder sellerFinder(SellerReadMongoRepository mongoRepository) {
+		return new MongoSellerFinder(mongoRepository);
 	}
 
 	@Bean
@@ -150,12 +158,14 @@ public class ApplicationConfig {
 	 * Instantiates the users bounded context handler.
 	 *
 	 * @param sellerRepository the repository for managing seller data
+	 * @param domainEventPublisher the publisher for domain events
 	 * @param logEmitter the logger
 	 * @return the users handler
 	 */
 	@Bean
-	public UserNotificationHandler usersHandler(SellerRepository sellerRepository, LogEmitter logEmitter) {
-		return new UserNotificationHandlerInteractor(sellerRepository, logEmitter);
+	public UserNotificationHandler usersHandler(SellerRepository sellerRepository,
+			DomainEventPublisher domainEventPublisher, LogEmitter logEmitter) {
+		return new UserNotificationHandlerInteractor(sellerRepository, domainEventPublisher, logEmitter);
 	}
 
 	@Bean
@@ -207,14 +217,14 @@ public class ApplicationConfig {
 
 	@Bean
 	public GetSellerDraftProductsUseCase getSellerDraftProductsUseCase(
-			ProductFinder productFinder, SellerRepository sellerRepository) {
-		return new GetSellerDraftProductsInteractor(productFinder, sellerRepository);
+			ProductFinder productFinder, SellerFinder sellerFinder) {
+		return new GetSellerDraftProductsInteractor(productFinder, sellerFinder);
 	}
 
 	@Bean
 	public GetSellerForSaleProductsUseCase getSellerForSaleProductsUseCase(
-			ProductFinder productFinder, SellerRepository sellerRepository) {
-		return new GetSellerForSaleProductsInteractor(productFinder, sellerRepository);
+			ProductFinder productFinder, SellerFinder sellerFinder) {
+		return new GetSellerForSaleProductsInteractor(productFinder, sellerFinder);
 	}
 
 }

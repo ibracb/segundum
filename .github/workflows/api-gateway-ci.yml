@@ -12,7 +12,7 @@ on:
       - 'apps/api-gateway/**'
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-24.04
 
     steps:
@@ -33,9 +33,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build with Maven (skip tests)
-        run: mvn -B clean package -DskipTests
+      - name: Build and test with Maven
+        run: mvn -B clean package
         working-directory: apps/api-gateway
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: apps/api-gateway/target/site/jacoco/
 
       - name: Verify JAR
         run: ls -la target/*.jar

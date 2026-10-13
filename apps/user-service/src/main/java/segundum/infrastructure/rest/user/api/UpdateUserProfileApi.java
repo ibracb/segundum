@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.user.requests.UpdateUserProfileRequest;
 
 /**
@@ -33,10 +33,16 @@ public interface UpdateUserProfileApi {
 					content = @Content),
 			@ApiResponse(responseCode = "400", description = "Invalid input",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "401", description = "Missing, invalid or expired authentication token (body: {\"code\": 401, \"error\": \"Unauthorized\", \"message\": \"...\"})",
+					content = @Content),
+			@ApiResponse(responseCode = "403",
+					description = "Access denied: the path user ID does not match the authenticated user "
+							+ "(body: {\"code\": 403, \"error\": \"Forbidden\", \"message\": \"Access denied\"})",
+					content = @Content),
 			@ApiResponse(responseCode = "404", description = "User not found",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Phone already exists or same value",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 	})
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

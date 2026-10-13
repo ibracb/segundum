@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.product.requests.CreateProductRequest;
 
 /**
@@ -33,10 +33,12 @@ public interface CreateProductApi {
 					content = @Content),
 			@ApiResponse(responseCode = "400", description = "Invalid input",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "403", description = "Access denied: missing or invalid authentication token",
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Seller not found",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Seller is not active",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Void> createProduct(@Valid @RequestBody CreateProductRequest request);

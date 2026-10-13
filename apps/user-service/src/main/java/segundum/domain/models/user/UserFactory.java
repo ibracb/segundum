@@ -41,13 +41,17 @@ public class UserFactory {
 	 * @param phone the phone number of the user
 	 * @param purchases the number of purchases
 	 * @param sales the number of sales
+	 * @param ratingsAsPurchaser the number of ratings received as purchaser
+	 * @param ratingsAsSeller the number of ratings received as seller
+	 * @param averageRatingAsPurchaser the average of the ratings received as purchaser
+	 * @param averageRatingAsSeller the average of the ratings received as seller
 	 * @param status the status of the user
 	 * @param registrationDate the registration date of the user
 	 * @param roles the roles of the user
 	 * @return the reconstituted User object
 	 */
-	public static User reconstitute(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone, long purchases, long sales, UserStatus status, RegistrationDate registrationDate, List<UserRole> roles) {
-		return new User(userId, name, surname, email, password, birthdate, phone, purchases, sales, status, registrationDate, roles);
+	public static User reconstitute(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate, Phone phone, long purchases, long sales, long ratingsAsPurchaser, long ratingsAsSeller, double averageRatingAsPurchaser, double averageRatingAsSeller, UserStatus status, RegistrationDate registrationDate, List<UserRole> roles) {
+		return new User(userId, name, surname, email, password, birthdate, phone, purchases, sales, ratingsAsPurchaser, ratingsAsSeller, averageRatingAsPurchaser, averageRatingAsSeller, status, registrationDate, roles);
 	}
 
 }

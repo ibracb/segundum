@@ -17,8 +17,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtRequestFilter jwtRequestFilter;
 
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    private final JsonAuthenticationEntryPoint authenticationEntryPoint;
+
+    private final JsonAccessDeniedHandler accessDeniedHandler;
+
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter,
+            JsonAuthenticationEntryPoint authenticationEntryPoint,
+            JsonAccessDeniedHandler accessDeniedHandler) {
         this.jwtRequestFilter = jwtRequestFilter;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
     @Override
@@ -30,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                // Public endpoints
+                .antMatchers("/swagger-ui.html", "/swagger-ui", "/swagger-ui/**",
+                        "/v3/api-docs/**", "/webjars/swagger-ui/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers(HttpMethod.GET, "/products").permitAll()
@@ -39,13 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/products/history/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/sellers/*/products/for-sale").permitAll()
                 .antMatchers(HttpMethod.GET, "/categories/**").permitAll()
-                // Internal endpoints (blocked at gateway)
                 .antMatchers("/users/authenticate").denyAll()
                 .antMatchers("/users/*/name").denyAll()
                 .antMatchers("/products/*/basic-info").denyAll()
-                // All other endpoints require authentication
+                .antMatchers("/sales/*/parties").denyAll()
                 .anyRequest().authenticated()
             .and()
-            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
     }
 }

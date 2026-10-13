@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 
 /**
  * Represents the REST API for removing a product.
@@ -23,15 +23,17 @@ import segundum.infrastructure.rest.handlers.ErrorResponse;
 @RequestMapping("/products")
 public interface RemoveProductApi {
 
-	@PreAuthorize("hasAuthority('USER') and @productFinder.findById(T(segundum.domain.models.product.ProductId).fromString(#id)).orElse(null).sellerId == principal")
+	@PreAuthorize("hasAuthority('USER') and @productFinder.findById(T(segundum.domain.models.product.ProductId).fromString(#id)).orElse(null)?.sellerId == principal")
 	@Operation(summary = "Remove a product")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Product removed",
 					content = @Content),
+			@ApiResponse(responseCode = "403", description = "Access denied: missing or invalid token, or the caller is not the owner of the product",
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Product not found",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Product is not FOR_SALE",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 	})
 	@DeleteMapping("/{id}/remove")
 	ResponseEntity<Void> removeProduct(

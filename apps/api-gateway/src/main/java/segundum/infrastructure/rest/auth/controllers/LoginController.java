@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import segundum.application.commands.LoginCommand;
-import segundum.application.readmodels.auth.AuthenticatedUserReadModel;
+import segundum.application.dtos.auth.AuthenticatedUserData;
 import segundum.infrastructure.auth.JwtUtils;
 import segundum.infrastructure.facades.AuthFacade;
 import segundum.infrastructure.rest.auth.api.LoginApi;
 import segundum.infrastructure.rest.auth.requests.LoginRequest;
 import segundum.infrastructure.rest.auth.responses.AuthResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 
 /**
  * Controller for user authentication.
@@ -44,11 +45,12 @@ public class LoginController implements LoginApi {
     }
 
     @Override
-    public ResponseEntity<AuthResponse> login(LoginRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> login(LoginRequest request, HttpServletResponse response) {
         LoginCommand command = new LoginCommand(request.getEmail(), request.getPassword());
-        AuthenticatedUserReadModel user = authFacade.run(command);
+        AuthenticatedUserData user = authFacade.run(command);
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse(401, "Unauthorized", "Invalid credentials"));
         }
         String token = jwtUtils.generateToken(user.getId(), user.getFullName(), user.getRoles());
 

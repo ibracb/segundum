@@ -12,41 +12,42 @@ import org.junit.jupiter.api.Test;
 import segundum.application.queries.GetSellerForSaleProductsQuery;
 import segundum.application.readmodels.common.Page;
 import segundum.application.readmodels.product.SellerProduct;
+import segundum.application.readmodels.seller.SellerReadModel;
 import segundum.application.usecases.GetSellerForSaleProductsUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.exceptions.seller.status.SellerNotActiveException;
-import segundum.domain.models.seller.Email;
-import segundum.domain.models.seller.Name;
-import segundum.domain.models.seller.Seller;
-import segundum.domain.models.seller.SellerFactory;
 import segundum.domain.models.seller.SellerId;
-import segundum.domain.models.seller.Surname;
 import segundum.infrastructure.persistence.fakes.finders.FakeProductFinder;
-import segundum.infrastructure.persistence.fakes.repositories.FakeSellerRepository;
+import segundum.infrastructure.persistence.fakes.finders.FakeSellerFinder;
 
 class GetSellerForSaleProductsInteractorTest {
 
 	private FakeProductFinder productFinder;
-	private FakeSellerRepository sellerRepository;
+	private FakeSellerFinder sellerFinder;
 	private GetSellerForSaleProductsUseCase interactor;
 	private SellerId activeSellerId;
 
 	@BeforeEach
 	void setUp() {
 		productFinder = new FakeProductFinder();
-		sellerRepository = new FakeSellerRepository();
-		interactor = new GetSellerForSaleProductsInteractor(productFinder, sellerRepository);
+		sellerFinder = new FakeSellerFinder();
+		interactor = new GetSellerForSaleProductsInteractor(productFinder, sellerFinder);
 
 		activeSellerId = SellerId.fromUUID(UUID.randomUUID());
-		Seller seller = SellerFactory.create(activeSellerId,
-				new Name("Juan"),
-				new Surname("Pérez"),
-				new Email("juan@email.com"));
-		sellerRepository.create(seller);
+		sellerFinder.put(activeSeller());
+	}
+
+	private SellerReadModel activeSeller() {
+		return new SellerReadModel(
+				activeSellerId.getValue().toString(),
+				"Juan",
+				"Pérez",
+				"juan@email.com",
+				true);
 	}
 
 	@Test
-	void shouldDelegateToRepository() {
+	void shouldDelegateToFinder() {
 		Page<SellerProduct> expectedResult = new Page<SellerProduct>(Collections.emptyList(), 0, 0, 20);
 		productFinder.setSellerForSaleResult(expectedResult);
 
@@ -64,9 +65,12 @@ class GetSellerForSaleProductsInteractorTest {
 
 	@Test
 	void shouldThrowWhenSellerIsInactive() {
-		Seller inactiveSeller = sellerRepository.findById(activeSellerId).get();
-		inactiveSeller.deactivate();
-		sellerRepository.create(inactiveSeller);
+		sellerFinder.put(new SellerReadModel(
+				activeSellerId.getValue().toString(),
+				"Juan",
+				"Pérez",
+				"juan@email.com",
+				false));
 
 		assertThrows(SellerNotActiveException.class,
 				() -> interactor.execute(new GetSellerForSaleProductsQuery(activeSellerId, 0, 20)));

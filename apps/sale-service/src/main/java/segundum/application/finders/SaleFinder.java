@@ -1,11 +1,15 @@
 package segundum.application.finders;
 
+import java.util.Optional;
+
 import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsSellerReadModel;
 import segundum.application.readmodels.sale.SaleDetailReadModel;
+import segundum.application.readmodels.sale.SalePartiesReadModel;
 import segundum.application.readmodels.common.Page;
 import segundum.domain.models.sale.OrderStatus;
 import segundum.domain.models.sale.PurchaserId;
+import segundum.domain.models.sale.SaleId;
 import segundum.domain.models.sale.SellerId;
 
 /**
@@ -47,5 +51,13 @@ public interface SaleFinder {
      */
     Page<SaleDetailReadModel> searchSales(PurchaserId purchaserId, SellerId sellerId,
             OrderStatus status, int pageNumber, int pageSize);
+
+    /**
+     * Finds the parties (purchaser and seller) of a sale.
+     *
+     * @param saleId the identifier of the sale
+     * @return the parties of the sale, if it exists
+     */
+    Optional<SalePartiesReadModel> findPartiesBySaleId(SaleId saleId);
 
 }

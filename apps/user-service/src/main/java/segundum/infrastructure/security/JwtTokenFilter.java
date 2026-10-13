@@ -17,6 +17,10 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 
+import com.google.gson.Gson;
+
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
+
 /**
  * JAX-RS filter that validates JWT tokens on incoming requests.
  * <p>
@@ -29,6 +33,11 @@ public class JwtTokenFilter implements ContainerRequestFilter {
 
     private final JwtUtils jwtUtils;
 
+    /**
+     * Serializer of the error bodies of the platform.
+     */
+    private static final Gson GSON = new Gson();
+
     @Context
     private ResourceInfo resourceInfo;
 
@@ -40,18 +49,15 @@ public class JwtTokenFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         Method resourceMethod = resourceInfo.getResourceMethod();
 
-        // Check for @PermitAll annotation
         if (resourceMethod != null && resourceMethod.isAnnotationPresent(javax.annotation.security.PermitAll.class)) {
             return;
         }
 
-        // Skip auth for authenticate endpoint
         String path = requestContext.getUriInfo().getPath();
         if (path.endsWith("/authenticate")) {
             return;
         }
 
-        // Extract token from header or cookie
         String token = null;
 
         String authorizationHeader = requestContext.getHeaderString("Authorization");
@@ -71,11 +77,7 @@ public class JwtTokenFilter implements ContainerRequestFilter {
         }
 
         if (token == null) {
-            requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED)
-                            .entity("{\"error\": \"Missing or invalid Authorization header\"}")
-                            .type("application/json")
-                            .build());
+            requestContext.abortWith(unauthorized("Missing or invalid access token"));
             return;
         }
 
@@ -84,11 +86,9 @@ public class JwtTokenFilter implements ContainerRequestFilter {
             String userId = jwtUtils.extractUserId(claims);
             List<String> roles = jwtUtils.extractRoles(claims);
 
-            // Store user info in request attributes for controllers
             requestContext.setProperty("userId", userId);
             requestContext.setProperty("roles", roles);
 
-            // Check @RolesAllowed annotation
             if (resourceMethod != null && resourceMethod.isAnnotationPresent(javax.annotation.security.RolesAllowed.class)) {
                 javax.annotation.security.RolesAllowed rolesAllowed =
                         resourceMethod.getAnnotation(javax.annotation.security.RolesAllowed.class);
@@ -97,34 +97,21 @@ public class JwtTokenFilter implements ContainerRequestFilter {
                 boolean hasAllowedRole = roles.stream()
                         .anyMatch(role -> Arrays.asList(allowedRoles).contains(role));
                 if (!hasAllowedRole) {
-                    requestContext.abortWith(
-                            Response.status(Response.Status.FORBIDDEN)
-                                    .entity("{\"error\": \"Insufficient permissions\"}")
-                                    .type("application/json")
-                                    .build());
+                    requestContext.abortWith(forbidden("Insufficient permissions"));
                     return;
                 }
             }
 
-            // Ownership check: modify operations require owner
             String pathId = extractIdFromPath(path);
             String method = requestContext.getMethod();
             if (pathId != null && !pathId.equals(userId)
                     && !"GET".equals(method)) {
-                requestContext.abortWith(
-                        Response.status(Response.Status.FORBIDDEN)
-                                .entity("{\"error\": \"Access denied\"}")
-                                .type("application/json")
-                                .build());
+                requestContext.abortWith(forbidden("Access denied"));
                 return;
             }
 
         } catch (ExpiredJwtException | MalformedJwtException | SignatureException e) {
-            requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED)
-                            .entity("{\"error\": \"Invalid JWT token\"}")
-                            .type("application/json")
-                            .build());
+            requestContext.abortWith(unauthorized("Invalid JWT token"));
         }
     }
 
@@ -143,6 +130,33 @@ public class JwtTokenFilter implements ContainerRequestFilter {
             }
         }
         return null;
+    }
+
+    /**
+     * Builds the 401 response with the error body of the platform.
+     */
+    private static Response unauthorized(String message) {
+        return error(Response.Status.UNAUTHORIZED, message);
+    }
+
+    /**
+     * Builds the 403 response with the error body of the platform.
+     */
+    private static Response forbidden(String message) {
+        return error(Response.Status.FORBIDDEN, message);
+    }
+
+    /**
+     * Builds the JSON error body shared by the services of the platform:
+     * status code, reason phrase and message.
+     */
+    private static Response error(Response.Status status, String message) {
+        ErrorResponse error = new ErrorResponse(
+                status.getStatusCode(), status.getReasonPhrase(), message);
+        return Response.status(status)
+                .entity(GSON.toJson(error))
+                .type("application/json")
+                .build();
     }
 
 }

@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import segundum.infrastructure.rest.auth.requests.LoginRequest;
 import segundum.infrastructure.rest.auth.responses.AuthResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 
 /**
  * REST API for user authentication.
@@ -29,11 +30,11 @@ public interface LoginApi {
             @ApiResponse(responseCode = "200", description = "Authentication successful",
                     content = @Content(schema = @Schema(implementation = AuthResponse.class))),
             @ApiResponse(responseCode = "401", description = "Invalid credentials",
-                    content = @Content)
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request,
+    ResponseEntity<?> login(@RequestBody LoginRequest request,
                                         HttpServletResponse response);
 
 }

@@ -1,0 +1,52 @@
+name: Rating Service CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/rating-service/**'
+      - '.github/workflows/rating-service-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/rating-service/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Cache NuGet dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Run tests with coverage
+        run: dotnet test RatingService.sln -c Release --collect:"XPlat Code Coverage" --results-directory ./TestResults
+        working-directory: apps/rating-service
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: apps/rating-service/TestResults/
+
+      - name: Publish
+        run: dotnet publish src/RatingService.csproj -c Release -o publish
+        working-directory: apps/rating-service
+
+      - name: Verify output
+        run: ls -la publish/
+        working-directory: apps/rating-service

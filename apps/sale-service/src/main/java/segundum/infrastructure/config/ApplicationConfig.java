@@ -11,6 +11,7 @@ import segundum.application.finders.SaleFinder;
 import segundum.application.usecases.CancelSaleByPurchaserUseCase;
 import segundum.application.usecases.CancelSaleBySellerUseCase;
 import segundum.application.usecases.CompleteSaleUseCase;
+import segundum.application.usecases.GetSalePartiesUseCase;
 import segundum.application.usecases.SearchSalesUseCase;
 import segundum.application.usecases.GetSalesByPurchaserUseCase;
 import segundum.application.usecases.GetSalesBySellerUseCase;
@@ -20,6 +21,7 @@ import segundum.application.usecases.ReserveSaleUseCase;
 import segundum.application.usecases.interactors.CancelSaleByPurchaserInteractor;
 import segundum.application.usecases.interactors.CancelSaleBySellerInteractor;
 import segundum.application.usecases.interactors.CompleteSaleInteractor;
+import segundum.application.usecases.interactors.GetSalePartiesInteractor;
 import segundum.application.usecases.interactors.GetSalesByPurchaserInteractor;
 import segundum.application.usecases.interactors.SearchSalesInteractor;
 import segundum.application.usecases.interactors.GetSalesBySellerInteractor;
@@ -156,6 +158,17 @@ public class ApplicationConfig {
     @Bean
     public SearchSalesUseCase searchSalesUseCase(SaleFinder saleFinder) {
         return new SearchSalesInteractor(saleFinder);
+    }
+
+    /**
+     * Creates the get sale parties use case bean.
+     *
+     * @param saleFinder the sale read repository
+     * @return the get sale parties use case
+     */
+    @Bean
+    public GetSalePartiesUseCase getSalePartiesUseCase(SaleFinder saleFinder) {
+        return new GetSalePartiesInteractor(saleFinder);
     }
 
 }

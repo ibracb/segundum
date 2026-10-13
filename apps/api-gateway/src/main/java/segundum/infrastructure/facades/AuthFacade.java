@@ -3,7 +3,7 @@ package segundum.infrastructure.facades;
 import org.springframework.stereotype.Component;
 
 import segundum.application.commands.LoginCommand;
-import segundum.application.readmodels.auth.AuthenticatedUserReadModel;
+import segundum.application.dtos.auth.AuthenticatedUserData;
 import segundum.application.usecases.LoginUseCase;
 
 /**
@@ -30,9 +30,9 @@ public class AuthFacade {
      * Executes the login.
      *
      * @param command the login command
-     * @return the authenticated user read model
+     * @return the authenticated user data
      */
-    public AuthenticatedUserReadModel run(LoginCommand command) {
+    public AuthenticatedUserData run(LoginCommand command) {
         return loginUseCase.execute(command);
     }
 

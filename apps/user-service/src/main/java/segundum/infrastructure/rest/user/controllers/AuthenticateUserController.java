@@ -3,7 +3,7 @@ package segundum.infrastructure.rest.user.controllers;
 import javax.ws.rs.core.Response;
 
 import segundum.application.commands.AuthenticateUserCommand;
-import segundum.application.readmodels.user.AuthenticatedUserReadModel;
+import segundum.application.dtos.auth.AuthenticatedUserData;
 import segundum.domain.models.user.Email;
 import segundum.infrastructure.facades.AuthenticateUserFacade;
 import segundum.infrastructure.rest.user.api.AuthenticateUserApi;
@@ -34,7 +34,7 @@ public class AuthenticateUserController implements AuthenticateUserApi {
         AuthenticateUserCommand command = new AuthenticateUserCommand(
                 new Email(request.getEmail()),
                 request.getPassword());
-        AuthenticatedUserReadModel result = facade.run(command);
+        AuthenticatedUserData result = facade.run(command);
         return Response.ok(result).build();
     }
 

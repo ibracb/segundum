@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import retrofit2.Response;
 import segundum.application.gateways.AuthenticateUser;
-import segundum.application.readmodels.auth.AuthenticatedUserReadModel;
+import segundum.application.dtos.auth.AuthenticatedUserData;
 import segundum.infrastructure.client.ExternalServiceException;
 
 /**
@@ -30,7 +30,7 @@ public class AuthenticateUserRetrofitGateway implements AuthenticateUser {
     }
 
     @Override
-    public AuthenticatedUserReadModel fetch(String email, String password) {
+    public AuthenticatedUserData fetch(String email, String password) {
         Response<AuthenticatedUserDTO> response;
         try {
             response = userApi.authenticate(new AuthenticateUserRequest(email, password)).execute();
@@ -41,7 +41,7 @@ public class AuthenticateUserRetrofitGateway implements AuthenticateUser {
             return null;
         }
         AuthenticatedUserDTO dto = response.body();
-        return new AuthenticatedUserReadModel(dto.getId(), dto.getFullName(), dto.getRoles());
+        return new AuthenticatedUserData(dto.getId(), dto.getFullName(), dto.getRoles());
     }
 
 }

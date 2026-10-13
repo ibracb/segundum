@@ -1,7 +1,7 @@
 package segundum.application.readmodels.sale;
 
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.product.ProductBasicInfo;
+import segundum.application.dtos.seller.SellerData;
 
 /**
  * Represents a sale as seen by the purchaser.
@@ -26,12 +26,12 @@ public class SaleAsPurchaserReadModel {
     /**
      * The product of the sale.
      */
-    private final ProductBasicInfoReadModel product;
+    private final ProductBasicInfo product;
 
     /**
      * The seller of the sale.
      */
-    private final SellerReadModel seller;
+    private final SellerData seller;
 
     /**
      * Constructs a new SaleAsPurchaserReadModel with the given values.
@@ -43,7 +43,7 @@ public class SaleAsPurchaserReadModel {
      * @param seller   the seller of the sale
      */
     public SaleAsPurchaserReadModel(String saleId, String status, String datetime,
-            ProductBasicInfoReadModel product, SellerReadModel seller) {
+            ProductBasicInfo product, SellerData seller) {
         this.saleId = saleId;
         this.status = status;
         this.datetime = datetime;
@@ -77,13 +77,13 @@ public class SaleAsPurchaserReadModel {
      *
      * @return the product of the sale
      */
-    public ProductBasicInfoReadModel getProduct() { return product; }
+    public ProductBasicInfo getProduct() { return product; }
 
     /**
      * Returns the seller of the sale.
      *
      * @return the seller of the sale
      */
-    public SellerReadModel getSeller() { return seller; }
+    public SellerData getSeller() { return seller; }
 
 }

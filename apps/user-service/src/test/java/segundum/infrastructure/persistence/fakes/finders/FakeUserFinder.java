@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import segundum.application.readmodels.user.UserInfoReadModel;
 import segundum.application.readmodels.user.UserNameReadModel;
 import segundum.application.readmodels.user.UserProfileReadModel;
+import segundum.application.readmodels.user.UserRatingsReadModel;
 import segundum.application.readmodels.user.UserStatsReadModel;
 import segundum.application.finders.UserFinder;
 import segundum.domain.models.user.User;
@@ -46,6 +47,11 @@ public class FakeUserFinder implements UserFinder {
 	public Optional<UserStatsReadModel> findStatsById(UserId id) {
 		return userRepository.findById(id).map(this::toStatsReadModel);
 	}
+
+	@Override
+	public Optional<UserRatingsReadModel> findRatingsById(UserId id) {
+		return userRepository.findById(id).map(this::toRatingsReadModel);
+	}
 	
 	@Override
 	public List<UserInfoReadModel> findAllUserInfo() {
@@ -78,6 +84,16 @@ public class FakeUserFinder implements UserFinder {
 				user.getUserId().getValue().toString(),
 				user.getPurchases(),
 				user.getSales()
+		);
+	}
+
+	private UserRatingsReadModel toRatingsReadModel(User user) {
+		return new UserRatingsReadModel(
+				user.getUserId().getValue().toString(),
+				user.getRatingsAsPurchaser(),
+				user.getRatingsAsSeller(),
+				user.getAverageRatingAsPurchaser(),
+				user.getAverageRatingAsSeller()
 		);
 	}
 	

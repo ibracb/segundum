@@ -2,7 +2,7 @@ package segundum.application.usecases.interactors;
 
 import segundum.application.commands.LoginCommand;
 import segundum.application.gateways.AuthenticateUser;
-import segundum.application.readmodels.auth.AuthenticatedUserReadModel;
+import segundum.application.dtos.auth.AuthenticatedUserData;
 import segundum.application.usecases.LoginUseCase;
 
 /**
@@ -26,7 +26,7 @@ public class LoginInteractor implements LoginUseCase {
     }
 
     @Override
-    public AuthenticatedUserReadModel execute(LoginCommand command) {
+    public AuthenticatedUserData execute(LoginCommand command) {
         return authenticateUser.fetch(command.getEmail(), command.getPassword());
     }
 

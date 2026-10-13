@@ -109,6 +109,22 @@ class UpdateProductInteractorTest {
 	}
 
 	@Test
+	void shouldPublishProductUpdatedEventWithFullResultingState_WhenTheUpdateIsPartial() {
+		UpdateProductCommand command = new UpdateProductCommand(
+				existingProduct.getProductId(),
+				new Price(49.99),
+				null,
+				null);
+
+		interactor.execute(command);
+
+		ProductUpdated event = (ProductUpdated) publisher.getPublishedEvents().get(0);
+		assertEquals(49.99, event.getPrice().getValue());
+		assertEquals("Un iPhone en perfecto estado", event.getDescription().getValue());
+		assertEquals(ConditionStatus.NEW, event.getConditionStatus());
+	}
+
+	@Test
 	void shouldThrowWhenProductNotFound() {
 		ProductId nonExistentId = ProductId.generate();
 		UpdateProductCommand command = new UpdateProductCommand(

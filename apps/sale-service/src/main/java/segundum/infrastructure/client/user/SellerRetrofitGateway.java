@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import retrofit2.Response;
 import segundum.application.gateways.GetSeller;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.seller.SellerData;
 import segundum.domain.models.sale.SellerId;
 import segundum.infrastructure.client.ExternalServiceException;
 
@@ -31,7 +31,7 @@ public class SellerRetrofitGateway implements GetSeller {
     }
 
     @Override
-    public SellerReadModel fetch(SellerId sellerId) {
+    public SellerData fetch(SellerId sellerId) {
         Response<UserNameResponse> response;
         try {
             response = userApi.getUserName(sellerId.getValue().toString()).execute();
@@ -42,7 +42,7 @@ public class SellerRetrofitGateway implements GetSeller {
             throw new ExternalServiceException("Seller not found: " + sellerId.getValue());
         }
         UserNameResponse dto = response.body();
-        return new SellerReadModel(dto.getId(), dto.getName(), dto.getSurname());
+        return new SellerData(dto.getId(), dto.getName(), dto.getSurname());
     }
 
 }

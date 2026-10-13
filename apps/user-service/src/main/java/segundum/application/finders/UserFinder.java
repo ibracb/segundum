@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import segundum.application.readmodels.user.UserProfileReadModel;
+import segundum.application.readmodels.user.UserRatingsReadModel;
 import segundum.application.readmodels.user.UserStatsReadModel;
 import segundum.application.readmodels.user.UserInfoReadModel;
 import segundum.application.readmodels.user.UserNameReadModel;
@@ -37,6 +38,14 @@ public interface UserFinder {
 	 * @return the user statistics data, if it exists
 	 */
 	Optional<UserStatsReadModel> findStatsById(UserId id);
+
+	/**
+	 * Finds the ratings summary of a user by their identifier.
+	 *
+	 * @param id the user identifier
+	 * @return the user ratings summary, if it exists
+	 */
+	Optional<UserRatingsReadModel> findRatingsById(UserId id);
 
 	/**
 	 * Finds the info data of all users.

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import segundum.domain.events.CategoryCreated;
 import segundum.domain.events.DomainEvent;
+import segundum.domain.events.SellerCreated;
+import segundum.domain.events.SellerDeactivated;
+import segundum.domain.events.SellerUpdated;
 import segundum.infrastructure.events.EventPublisher;
 import segundum.infrastructure.messaging.messages.ProductMessageMapper;
 
@@ -39,7 +42,13 @@ public class RabbitMQEventPublisher implements EventPublisher {
 
 	@Override
 	public <T extends DomainEvent> void publish(T event) {
-		if (event instanceof CategoryCreated) {
+		// Category and seller events are consumed only by the in-process
+		// projections; there is no external subscriber, so they are not
+		// broadcast through RabbitMQ.
+		if (event instanceof CategoryCreated
+				|| event instanceof SellerCreated
+				|| event instanceof SellerUpdated
+				|| event instanceof SellerDeactivated) {
 			return;
 		}
 		rabbitTemplate.convertAndSend(

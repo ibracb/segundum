@@ -9,10 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segundum.application.commands.ProposeSaleCommand;
-import segundum.application.readmodels.product.PickupLocationReadModel;
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
-import segundum.application.readmodels.purchaser.PurchaserReadModel;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.product.PickupLocationData;
+import segundum.application.dtos.product.ProductBasicInfo;
+import segundum.application.dtos.purchaser.PurchaserData;
+import segundum.application.dtos.seller.SellerData;
 import segundum.application.usecases.ProposeSaleUseCase;
 import segundum.domain.events.DomainEvent;
 import segundum.domain.events.SaleProposed;
@@ -47,11 +47,11 @@ class ProposeSaleInteractorTest {
 
 	@Test
 	void shouldProposeSaleAndPublishEvent() {
-		productGateway.setProduct(new ProductBasicInfoReadModel(
+		productGateway.setProduct(new ProductBasicInfo(
 				SaleFixture.PRODUCT.toString(), "iPhone 13", 100.0, null,
 				SaleFixture.SELLER.toString(), "FOR_SALE"));
-		sellerGateway.setSeller(new SellerReadModel(SaleFixture.SELLER.toString(), "Juan", "Pérez"));
-		purchaserGateway.setPurchaser(new PurchaserReadModel(SaleFixture.PURCHASER.toString(), "Ana", "López"));
+		sellerGateway.setSeller(new SellerData(SaleFixture.SELLER.toString(), "Juan", "Pérez"));
+		purchaserGateway.setPurchaser(new PurchaserData(SaleFixture.PURCHASER.toString(), "Ana", "López"));
 
 		SaleId saleId = interactor.execute(new ProposeSaleCommand(
 				SaleFixture.productId(), SaleFixture.purchaserId()));
@@ -70,7 +70,7 @@ class ProposeSaleInteractorTest {
 
 	@Test
 	void shouldThrowWhenProductNotForSale() {
-		productGateway.setProduct(new ProductBasicInfoReadModel(
+		productGateway.setProduct(new ProductBasicInfo(
 				SaleFixture.PRODUCT.toString(), "iPhone 13", 100.0, null,
 				SaleFixture.SELLER.toString(), "SOLD"));
 
@@ -82,11 +82,11 @@ class ProposeSaleInteractorTest {
 
 	@Test
 	void shouldThrowWhenProposalAlreadyExists() {
-		productGateway.setProduct(new ProductBasicInfoReadModel(
+		productGateway.setProduct(new ProductBasicInfo(
 				SaleFixture.PRODUCT.toString(), "iPhone 13", 100.0, null,
 				SaleFixture.SELLER.toString(), "FOR_SALE"));
-		sellerGateway.setSeller(new SellerReadModel(SaleFixture.SELLER.toString(), "Juan", "Pérez"));
-		purchaserGateway.setPurchaser(new PurchaserReadModel(SaleFixture.PURCHASER.toString(), "Ana", "López"));
+		sellerGateway.setSeller(new SellerData(SaleFixture.SELLER.toString(), "Juan", "Pérez"));
+		purchaserGateway.setPurchaser(new PurchaserData(SaleFixture.PURCHASER.toString(), "Ana", "López"));
 		SaleFixture.seedProposed(eventStore, SaleFixture.saleId());
 
 		assertThrows(SaleAlreadyProposedException.class, () -> interactor.execute(
@@ -95,12 +95,12 @@ class ProposeSaleInteractorTest {
 
 	@Test
 	void shouldCreateSaleWithPickupLocation() {
-		PickupLocationReadModel pickup = new PickupLocationReadModel("Plaza Mayor", 40.4168, -3.7038);
-		productGateway.setProduct(new ProductBasicInfoReadModel(
+		PickupLocationData pickup = new PickupLocationData("Plaza Mayor", 40.4168, -3.7038);
+		productGateway.setProduct(new ProductBasicInfo(
 				SaleFixture.PRODUCT.toString(), "iPhone 13", 100.0, pickup,
 				SaleFixture.SELLER.toString(), "FOR_SALE"));
-		sellerGateway.setSeller(new SellerReadModel(SaleFixture.SELLER.toString(), "Juan", "Pérez"));
-		purchaserGateway.setPurchaser(new PurchaserReadModel(SaleFixture.PURCHASER.toString(), "Ana", "López"));
+		sellerGateway.setSeller(new SellerData(SaleFixture.SELLER.toString(), "Juan", "Pérez"));
+		purchaserGateway.setPurchaser(new PurchaserData(SaleFixture.PURCHASER.toString(), "Ana", "López"));
 
 		interactor.execute(new ProposeSaleCommand(SaleFixture.productId(), SaleFixture.purchaserId()));
 

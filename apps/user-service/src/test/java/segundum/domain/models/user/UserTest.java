@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import segundum.domain.exceptions.SameValueException;
+import segundum.domain.exceptions.user.rating.RatingScoreInvalidException;
 import segundum.domain.exceptions.user.status.UserNotActiveException;
 
 class UserTest {
@@ -93,6 +94,56 @@ class UserTest {
 		assertEquals(1, user.getSales());
 		user.incrementSales();
 		assertEquals(2, user.getSales());
+	}
+
+	@Test
+	void shouldStartWithoutRatings() {
+		assertEquals(0, user.getRatingsAsPurchaser());
+		assertEquals(0, user.getRatingsAsSeller());
+		assertEquals(0.0, user.getAverageRatingAsPurchaser());
+		assertEquals(0.0, user.getAverageRatingAsSeller());
+	}
+
+	@Test
+	void shouldRegisterRatingsAsPurchaser() {
+		user.registerRatingAsPurchaser(5);
+		assertEquals(1, user.getRatingsAsPurchaser());
+		assertEquals(5.0, user.getAverageRatingAsPurchaser());
+
+		user.registerRatingAsPurchaser(4);
+		assertEquals(2, user.getRatingsAsPurchaser());
+		assertEquals(4.5, user.getAverageRatingAsPurchaser());
+	}
+
+	@Test
+	void shouldRegisterRatingsAsSeller() {
+		user.registerRatingAsSeller(3);
+		assertEquals(1, user.getRatingsAsSeller());
+		assertEquals(3.0, user.getAverageRatingAsSeller());
+
+		user.registerRatingAsSeller(4);
+		assertEquals(2, user.getRatingsAsSeller());
+		assertEquals(3.5, user.getAverageRatingAsSeller());
+	}
+
+	@Test
+	void shouldNotMixRatingsOfBothRoles() {
+		user.registerRatingAsPurchaser(5);
+
+		assertEquals(1, user.getRatingsAsPurchaser());
+		assertEquals(0, user.getRatingsAsSeller());
+		assertEquals(0.0, user.getAverageRatingAsSeller());
+	}
+
+	@Test
+	void shouldThrowWhenRegisteringRatingWithInvalidScore() {
+		assertThrows(RatingScoreInvalidException.class, () -> user.registerRatingAsPurchaser(0));
+		assertThrows(RatingScoreInvalidException.class, () -> user.registerRatingAsSeller(6));
+
+		assertEquals(0, user.getRatingsAsPurchaser());
+		assertEquals(0, user.getRatingsAsSeller());
+		assertEquals(0.0, user.getAverageRatingAsPurchaser());
+		assertEquals(0.0, user.getAverageRatingAsSeller());
 	}
 
 	@Test

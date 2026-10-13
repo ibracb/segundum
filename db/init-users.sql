@@ -11,6 +11,10 @@ CREATE TABLE IF NOT EXISTS users (
     phone VARCHAR(255) UNIQUE,
     purchases BIGINT NOT NULL DEFAULT 0,
     sales BIGINT NOT NULL DEFAULT 0,
+    ratings_as_purchaser BIGINT NOT NULL DEFAULT 0,
+    ratings_as_seller BIGINT NOT NULL DEFAULT 0,
+    average_rating_as_purchaser DOUBLE NOT NULL DEFAULT 0,
+    average_rating_as_seller DOUBLE NOT NULL DEFAULT 0,
     status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
     registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -23,8 +27,8 @@ CREATE TABLE IF NOT EXISTS user_roles (
 );
 
 -- Seed admin user (email: admin@segundum.com, password: admin123)
-INSERT IGNORE INTO users (id, name, surname, email, password, birthdate, phone, purchases, sales, status, registration_date)
-VALUES ('a0000000-0000-0000-0000-000000000001', 'Admin', 'SegundUM', 'admin@segundum.com', '$2a$12$w85WdtKDSzStEIEqVo.TsOZyeSV9w8DJnhSCBmw3kYGqKjkr617ii', '1990-01-01', '+34000000000', 0, 0, 'ACTIVE', CURRENT_TIMESTAMP);
+INSERT IGNORE INTO users (id, name, surname, email, password, birthdate, phone, purchases, sales, ratings_as_purchaser, ratings_as_seller, average_rating_as_purchaser, average_rating_as_seller, status, registration_date)
+VALUES ('a0000000-0000-0000-0000-000000000001', 'Admin', 'SegundUM', 'admin@segundum.com', '$2a$12$w85WdtKDSzStEIEqVo.TsOZyeSV9w8DJnhSCBmw3kYGqKjkr617ii', '1990-01-01', '+34000000000', 0, 0, 0, 0, 0, 0, 'ACTIVE', CURRENT_TIMESTAMP);
 
 INSERT IGNORE INTO user_roles (user_id, role)
 VALUES ('a0000000-0000-0000-0000-000000000001', 'ADMINISTRATOR');

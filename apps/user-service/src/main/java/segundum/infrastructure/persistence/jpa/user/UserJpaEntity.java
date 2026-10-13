@@ -79,6 +79,30 @@ public class UserJpaEntity {
 	private long sales;
 
 	/**
+	 * The number of ratings received as purchaser.
+	 */
+	@Column(name = "ratings_as_purchaser", nullable = false)
+	private long ratingsAsPurchaser;
+
+	/**
+	 * The number of ratings received as seller.
+	 */
+	@Column(name = "ratings_as_seller", nullable = false)
+	private long ratingsAsSeller;
+
+	/**
+	 * The average of the ratings received as purchaser.
+	 */
+	@Column(name = "average_rating_as_purchaser", nullable = false)
+	private double averageRatingAsPurchaser;
+
+	/**
+	 * The average of the ratings received as seller.
+	 */
+	@Column(name = "average_rating_as_seller", nullable = false)
+	private double averageRatingAsSeller;
+
+	/**
 	 * The status of the user (ACTIVE, INACTIVE).
 	 */
 	@Column(name = "status", nullable = false)
@@ -111,11 +135,15 @@ public class UserJpaEntity {
 	 * @param phone the phone number of the user
 	 * @param purchases the number of purchases made by the user
 	 * @param sales the number of sales made by the user
+	 * @param ratingsAsPurchaser the number of ratings received as purchaser
+	 * @param ratingsAsSeller the number of ratings received as seller
+	 * @param averageRatingAsPurchaser the average of the ratings received as purchaser
+	 * @param averageRatingAsSeller the average of the ratings received as seller
 	 * @param status the status of the user
 	 * @param registrationDate the registration date of the user
 	 * @param roles the roles of the user
 	 */
-	public UserJpaEntity(String id, String name, String surname, String email, String password, LocalDate birthdate, String phone, long purchases, long sales, String status, Timestamp registrationDate, List<UserRole> roles) {
+	public UserJpaEntity(String id, String name, String surname, String email, String password, LocalDate birthdate, String phone, long purchases, long sales, long ratingsAsPurchaser, long ratingsAsSeller, double averageRatingAsPurchaser, double averageRatingAsSeller, String status, Timestamp registrationDate, List<UserRole> roles) {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
@@ -125,6 +153,10 @@ public class UserJpaEntity {
 		this.phone = phone;
 		this.purchases = purchases;
 		this.sales = sales;
+		this.ratingsAsPurchaser = ratingsAsPurchaser;
+		this.ratingsAsSeller = ratingsAsSeller;
+		this.averageRatingAsPurchaser = averageRatingAsPurchaser;
+		this.averageRatingAsSeller = averageRatingAsSeller;
 		this.status = status;
 		this.registrationDate = registrationDate;
 		this.roles = roles;
@@ -215,6 +247,42 @@ public class UserJpaEntity {
 	 */
 	public long getSales() {
 		return sales;
+	}
+
+	/**
+	 * Returns the number of ratings received as purchaser.
+	 *
+	 * @return the number of ratings received as purchaser
+	 */
+	public long getRatingsAsPurchaser() {
+		return ratingsAsPurchaser;
+	}
+
+	/**
+	 * Returns the number of ratings received as seller.
+	 *
+	 * @return the number of ratings received as seller
+	 */
+	public long getRatingsAsSeller() {
+		return ratingsAsSeller;
+	}
+
+	/**
+	 * Returns the average of the ratings received as purchaser.
+	 *
+	 * @return the average of the ratings received as purchaser
+	 */
+	public double getAverageRatingAsPurchaser() {
+		return averageRatingAsPurchaser;
+	}
+
+	/**
+	 * Returns the average of the ratings received as seller.
+	 *
+	 * @return the average of the ratings received as seller
+	 */
+	public double getAverageRatingAsSeller() {
+		return averageRatingAsSeller;
 	}
 
 	/**

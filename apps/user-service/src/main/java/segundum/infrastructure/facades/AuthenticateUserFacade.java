@@ -1,7 +1,7 @@
 package segundum.infrastructure.facades;
 
 import segundum.application.commands.AuthenticateUserCommand;
-import segundum.application.readmodels.user.AuthenticatedUserReadModel;
+import segundum.application.dtos.auth.AuthenticatedUserData;
 import segundum.application.usecases.AuthenticateUserUseCase;
 
 /**
@@ -27,9 +27,9 @@ public final class AuthenticateUserFacade {
      * Authenticates a user within a single transaction.
      *
      * @param command the authenticate user command
-     * @return the authenticated user read model
+     * @return the authenticated user data
      */
-    public AuthenticatedUserReadModel run(AuthenticateUserCommand command) {
+    public AuthenticatedUserData run(AuthenticateUserCommand command) {
         return UnitOfWork.run(() -> useCase.execute(command));
     }
 
