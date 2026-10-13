@@ -1,12 +1,13 @@
 package segundum.infrastructure.persistence.mongodb.sale;
 
-import segundum.application.readmodels.product.PickupLocationReadModel;
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
-import segundum.application.readmodels.purchaser.PurchaserReadModel;
+import segundum.application.dtos.product.PickupLocationData;
+import segundum.application.dtos.product.ProductBasicInfo;
+import segundum.application.dtos.purchaser.PurchaserData;
 import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsSellerReadModel;
 import segundum.application.readmodels.sale.SaleDetailReadModel;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.readmodels.sale.SalePartiesReadModel;
+import segundum.application.dtos.seller.SellerData;
 
 /**
  * Maps a SaleReadDocument to the application read models.
@@ -44,11 +45,19 @@ final class SaleReadMapper {
 				toPurchaser(doc.getPurchaser()));
 	}
 
-	private static ProductBasicInfoReadModel toProduct(SaleProductDocument product) {
+	static SalePartiesReadModel toSaleParties(SaleReadDocument doc) {
+		return new SalePartiesReadModel(
+				doc.getId(),
+				doc.getPurchaserId(),
+				doc.getSellerId(),
+				doc.getStatus());
+	}
+
+	private static ProductBasicInfo toProduct(SaleProductDocument product) {
 		if (product == null) {
 			return null;
 		}
-		return new ProductBasicInfoReadModel(
+		return new ProductBasicInfo(
 				product.getProductId(),
 				product.getTitle(),
 				product.getPrice(),
@@ -57,28 +66,28 @@ final class SaleReadMapper {
 				null);
 	}
 
-	private static PickupLocationReadModel toPickupLocation(SalePickupLocationDocument pickup) {
+	private static PickupLocationData toPickupLocation(SalePickupLocationDocument pickup) {
 		if (pickup == null) {
 			return null;
 		}
-		return new PickupLocationReadModel(
+		return new PickupLocationData(
 				pickup.getDescription(),
 				pickup.getLatitude(),
 				pickup.getLongitude());
 	}
 
-	private static SellerReadModel toSeller(SaleSellerDocument seller) {
+	private static SellerData toSeller(SaleSellerDocument seller) {
 		if (seller == null) {
 			return null;
 		}
-		return new SellerReadModel(seller.getId(), seller.getName(), seller.getSurname());
+		return new SellerData(seller.getId(), seller.getName(), seller.getSurname());
 	}
 
-	private static PurchaserReadModel toPurchaser(SalePurchaserDocument purchaser) {
+	private static PurchaserData toPurchaser(SalePurchaserDocument purchaser) {
 		if (purchaser == null) {
 			return null;
 		}
-		return new PurchaserReadModel(purchaser.getId(), purchaser.getName(), purchaser.getSurname());
+		return new PurchaserData(purchaser.getId(), purchaser.getName(), purchaser.getSurname());
 	}
 
 }

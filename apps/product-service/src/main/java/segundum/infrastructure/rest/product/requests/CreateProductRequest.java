@@ -45,7 +45,6 @@ public class CreateProductRequest {
 	 * Default constructor required by JSON deserialization.
 	 */
 	public CreateProductRequest() {
-		// Default constructor to satisfy JSON deserialization requirements
 	}
 
 	public String getTitle() {

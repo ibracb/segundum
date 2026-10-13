@@ -29,7 +29,6 @@ public class AssignPickupLocationRequest {
 	 * Default constructor required by JSON deserialization.
 	 */
 	public AssignPickupLocationRequest() {
-		// Default constructor to satisfy JSON deserialization requirements
 	}
 
 	public String getDescription() {

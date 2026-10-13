@@ -4,8 +4,6 @@ services:
     container_name: ${MYSQL_CONTAINER_NAME}
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - "${MYSQL_PORT}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./db:/docker-entrypoint-initdb.d
@@ -17,8 +15,6 @@ services:
   mongodb:
     image: mongo:8.0
     container_name: ${MONGODB_CONTAINER_NAME}
-    ports:
-      - "${MONGODB_PORT}:27017"
     volumes:
       - mongodb_data:/data/db
     healthcheck:
@@ -34,8 +30,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-    ports:
-      - "${RABBITMQ_PORT}:5672"
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
@@ -49,8 +43,6 @@ services:
       context: ./apps/user-service
       dockerfile: Dockerfile
     container_name: ${USER_SERVICE_CONTAINER_NAME}
-    ports:
-      - "${USER_SERVICE_PORT}:8080"
     environment:
       USER_SERVICE_DATASOURCE_URL: ${USER_SERVICE_DATASOURCE_URL}
       USER_SERVICE_DATASOURCE_USERNAME: ${USER_SERVICE_DATASOURCE_USERNAME}
@@ -69,15 +61,13 @@ services:
       context: ./apps/product-service
       dockerfile: Dockerfile
     container_name: ${PRODUCT_SERVICE_CONTAINER_NAME}
-    ports:
-      - "${PRODUCT_SERVICE_PORT}:8081"
     environment:
-      PRODUCT_SERVICE_PORT: ${PRODUCT_SERVICE_PORT}
+      PRODUCT_SERVICE_PORT: "8081"
       PRODUCT_SERVICE_DATASOURCE_URL: ${PRODUCT_SERVICE_DATASOURCE_URL}
       PRODUCT_SERVICE_DATASOURCE_USERNAME: ${PRODUCT_SERVICE_DATASOURCE_USERNAME}
       PRODUCT_SERVICE_DATASOURCE_PASSWORD: ${PRODUCT_SERVICE_DATASOURCE_PASSWORD}
       RABBITMQ_URI: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
-      MONGODB_URI: ${MONGODB_URI}
+      MONGODB_URI: ${PRODUCT_SERVICE_MONGODB_URI}
       JWT_SECRET: ${JWT_SECRET}
       API_BASE_URL: ${API_BASE_URL}
     depends_on:
@@ -92,15 +82,13 @@ services:
       context: ./apps/sale-service
       dockerfile: Dockerfile
     container_name: ${SALE_SERVICE_CONTAINER_NAME}
-    ports:
-      - "${SALE_SERVICE_PORT}:8082"
     environment:
-      SALE_SERVICE_PORT: ${SALE_SERVICE_PORT}
+      SALE_SERVICE_PORT: "8082"
       SALE_SERVICE_DATASOURCE_URL: ${SALE_SERVICE_DATASOURCE_URL}
       SALE_SERVICE_DATASOURCE_USERNAME: ${SALE_SERVICE_DATASOURCE_USERNAME}
       SALE_SERVICE_DATASOURCE_PASSWORD: ${SALE_SERVICE_DATASOURCE_PASSWORD}
       RABBITMQ_URI: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
-      MONGODB_URI: ${MONGODB_URI}
+      MONGODB_URI: ${SALE_SERVICE_MONGODB_URI}
       USER_ROUTE: ${USER_ROUTE}
       PRODUCT_ROUTE: ${PRODUCT_ROUTE}
       JWT_SECRET: ${JWT_SECRET}
@@ -112,6 +100,26 @@ services:
         condition: service_healthy
       mongodb:
         condition: service_healthy
+  rating-service:
+    build:
+      context: ./apps/rating-service/src
+      dockerfile: Dockerfile
+    container_name: ${RATING_SERVICE_CONTAINER_NAME}
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_HTTP_PORTS: "8083"
+      MongoDB__Uri: ${RATING_SERVICE_MONGODB_URI}
+      RabbitMQ__ConnectionString: amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_PASS}@rabbitmq:5672
+      SaleService__BaseUrl: ${SALE_ROUTE}
+      JWT_SECRET: ${JWT_SECRET}
+      API_BASE_URL: ${API_BASE_URL}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      sale-service:
+        condition: service_started
   api-gateway:
     build:
       context: ./apps/api-gateway
@@ -126,11 +134,13 @@ services:
       CATEGORY_ROUTE: ${CATEGORY_ROUTE}
       SELLER_ROUTE: ${SELLER_ROUTE}
       SALE_ROUTE: ${SALE_ROUTE}
+      RATING_ROUTE: ${RATING_ROUTE}
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
       - user-service
       - product-service
       - sale-service
+      - rating-service
 volumes:
   mysql_data:
   mongodb_data:

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import segundum.application.readmodels.user.UserProfileReadModel;
+import segundum.application.readmodels.user.UserRatingsReadModel;
 import segundum.application.readmodels.user.UserStatsReadModel;
 import segundum.application.readmodels.user.UserInfoReadModel;
 import segundum.application.readmodels.user.UserNameReadModel;
@@ -65,6 +66,19 @@ public class JpaUserFinder implements UserFinder {
 						"u.id, u.purchases, u.sales) " +
 						"FROM UserJpaEntity u WHERE u.id = :id",
 				UserStatsReadModel.class);
+		query.setParameter("id", id.getValue().toString());
+		return query.getResultList().stream().findFirst();
+	}
+
+	@Override
+	public Optional<UserRatingsReadModel> findRatingsById(UserId id) {
+		EntityManager em = getEntityManager();
+		TypedQuery<UserRatingsReadModel> query = em.createQuery(
+				"SELECT new segundum.application.readmodels.user.UserRatingsReadModel(" +
+						"u.id, u.ratingsAsPurchaser, u.ratingsAsSeller, " +
+						"u.averageRatingAsPurchaser, u.averageRatingAsSeller) " +
+						"FROM UserJpaEntity u WHERE u.id = :id",
+				UserRatingsReadModel.class);
 		query.setParameter("id", id.getValue().toString());
 		return query.getResultList().stream().findFirst();
 	}

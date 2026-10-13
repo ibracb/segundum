@@ -6,7 +6,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import segundum.domain.exceptions.user.phone.PhoneAlreadyExistsException;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 
 /**
  * Represents a mapper that converts phone already exists exceptions into HTTP responses.

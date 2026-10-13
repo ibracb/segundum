@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.sale.responses.SaleAsSellerResponse;
 
 /**
@@ -42,7 +42,9 @@ public interface GetSalesBySellerApi {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SaleAsSellerResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid seller identifier",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Access denied: users can only query their own sales",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
     @GetMapping(value = "/seller/{sellerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PagedModel<EntityModel<SaleAsSellerResponse>>> getSalesBySeller(

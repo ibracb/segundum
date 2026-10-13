@@ -7,16 +7,20 @@ import org.glassfish.jersey.server.ResourceConfig;
 import segundum.application.usecases.DeactivateUserUseCase;
 import segundum.application.usecases.GetUserNameUseCase;
 import segundum.application.usecases.GetUserProfileUseCase;
+import segundum.application.usecases.GetUserRatingsUseCase;
 import segundum.application.usecases.GetUserListUseCase;
 import segundum.application.usecases.GetUserStatsUseCase;
 import segundum.application.usecases.RegisterUserUseCase;
+import segundum.application.notificationhandlers.RatingNotificationHandler;
 import segundum.application.notificationhandlers.SaleNotificationHandler;
+import segundum.application.notificationhandlers.interactors.RatingNotificationHandlerInteractor;
 import segundum.application.notificationhandlers.interactors.SaleNotificationHandlerInteractor;
 import segundum.application.finders.UserFinder;
 import segundum.application.usecases.UpdateUserProfileUseCase;
 import segundum.application.usecases.interactors.DeactivateUserInteractor;
 import segundum.application.usecases.interactors.GetUserNameInteractor;
 import segundum.application.usecases.interactors.GetUserProfileInteractor;
+import segundum.application.usecases.interactors.GetUserRatingsInteractor;
 import segundum.application.usecases.interactors.GetUserListInteractor;
 import segundum.application.usecases.interactors.GetUserStatsInteractor;
 import segundum.application.usecases.interactors.RegisterUserInteractor;
@@ -31,18 +35,22 @@ import segundum.infrastructure.messaging.messages.UserMessageMapper;
 import segundum.infrastructure.logging.Slf4jLogEmitter;
 import segundum.infrastructure.messaging.rabbitmq.RabbitMQConsumer;
 import segundum.infrastructure.facades.DeactivateUserFacade;
+import segundum.infrastructure.facades.RatingNotificationFacade;
 import segundum.infrastructure.facades.RegisterUserFacade;
 import segundum.infrastructure.facades.SaleNotificationFacade;
 import segundum.infrastructure.facades.UpdateUserProfileFacade;
 import segundum.infrastructure.persistence.jpa.user.JpaUserFinder;
 import segundum.infrastructure.persistence.jpa.user.JpaUserRepository;
 import segundum.infrastructure.rest.config.OpenApiConfig;
-import segundum.infrastructure.rest.handlers.EntityNotFoundExceptionMapper;
-import segundum.infrastructure.rest.handlers.GenericExceptionMapper;
-import segundum.infrastructure.rest.handlers.JsonSyntaxExceptionMapper;
+import segundum.infrastructure.rest.errors.errorhandlers.EntityNotFoundExceptionMapper;
+import segundum.infrastructure.rest.errors.errorhandlers.GenericExceptionMapper;
+import segundum.infrastructure.rest.errors.errorhandlers.JsonSyntaxExceptionMapper;
+import segundum.infrastructure.rest.errors.errorhandlers.NotAllowedExceptionMapper;
+import segundum.infrastructure.rest.errors.errorhandlers.NotFoundExceptionMapper;
 import segundum.infrastructure.rest.user.controllers.DeactivateUserController;
 import segundum.infrastructure.rest.user.controllers.GetUserNameController;
 import segundum.infrastructure.rest.user.controllers.GetUserProfileController;
+import segundum.infrastructure.rest.user.controllers.GetUserRatingsController;
 import segundum.infrastructure.rest.user.controllers.GetUserListController;
 import segundum.infrastructure.rest.user.controllers.GetUserStatsController;
 import segundum.infrastructure.rest.user.controllers.RegisterUserController;
@@ -80,7 +88,6 @@ public class ApplicationConfig extends ResourceConfig {
         UserFinder userFinder = new JpaUserFinder();
         DomainEventPublisher eventPublisher = new RabbitMQEventPublisher(new UserMessageMapper());
 
-        // JWT Security
         String jwtSecret = System.getenv("JWT_SECRET");
         if (jwtSecret == null || jwtSecret.isEmpty()) {
             jwtSecret = "default-secret-change-in-production";
@@ -94,6 +101,7 @@ public class ApplicationConfig extends ResourceConfig {
         GetUserProfileUseCase getUserProfile = new GetUserProfileInteractor(userFinder);
         GetUserListUseCase getUserList = new GetUserListInteractor(userFinder);
         GetUserStatsUseCase getUserStats = new GetUserStatsInteractor(userFinder);
+        GetUserRatingsUseCase getUserRatings = new GetUserRatingsInteractor(userFinder);
         GetUserNameUseCase getUserName = new GetUserNameInteractor(userFinder);
         AuthenticateUserUseCase authenticateUser = new AuthenticateUserInteractor(userRepository, passwordHasher);
 
@@ -106,7 +114,10 @@ public class ApplicationConfig extends ResourceConfig {
         SaleNotificationHandler saleNotificationHandler = new SaleNotificationHandlerInteractor(userRepository, logEmitter);
         SaleNotificationFacade saleNotificationFacade = new SaleNotificationFacade(saleNotificationHandler);
 
-        RabbitMQConsumer consumer = new RabbitMQConsumer(saleNotificationFacade);
+        RatingNotificationHandler ratingNotificationHandler = new RatingNotificationHandlerInteractor(userRepository, logEmitter);
+        RatingNotificationFacade ratingNotificationFacade = new RatingNotificationFacade(ratingNotificationHandler);
+
+        RabbitMQConsumer consumer = new RabbitMQConsumer(saleNotificationFacade, ratingNotificationFacade, logEmitter);
         consumer.start();
         Runtime.getRuntime().addShutdownHook(new Thread(consumer::stop));
 
@@ -114,15 +125,17 @@ public class ApplicationConfig extends ResourceConfig {
         register(new GetUserProfileController(getUserProfile));
         register(new GetUserListController(getUserList));
         register(new GetUserStatsController(getUserStats));
+        register(new GetUserRatingsController(getUserRatings));
         register(new GetUserNameController(getUserName));
         register(new RegisterUserController(registerUserFacade));
         register(new UpdateUserProfileController(updateUserProfileFacade));
         register(new DeactivateUserController(deactivateUserFacade));
 
-        // Register JWT filter as a provider
         register(jwtTokenFilter);
 
         register(saleNotificationHandler);
+
+        register(ratingNotificationHandler);
 
         register(DomainExceptionMapper.class);
         register(EmailAlreadyExistsExceptionMapper.class);
@@ -131,6 +144,8 @@ public class ApplicationConfig extends ResourceConfig {
         register(EntityNotFoundExceptionMapper.class);
         register(GenericExceptionMapper.class);
         register(JsonSyntaxExceptionMapper.class);
+        register(NotAllowedExceptionMapper.class);
+        register(NotFoundExceptionMapper.class);
         register(GsonConfig.class);
         register(OpenApiConfig.class);
         register(UserNotActiveExceptionMapper.class);

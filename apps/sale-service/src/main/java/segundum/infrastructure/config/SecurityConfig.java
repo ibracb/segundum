@@ -48,10 +48,13 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                // All sale endpoints require authentication
+                .antMatchers("/swagger-ui.html", "/swagger-ui", "/swagger-ui/**",
+                        "/v3/api-docs/**", "/webjars/swagger-ui/**").permitAll()
+                .antMatchers("/sales/*/parties").permitAll()
                 .anyRequest().authenticated()
             .and()
-            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling().authenticationEntryPoint(new JsonAuthenticationEntryPoint());
 
         return http.build();
     }

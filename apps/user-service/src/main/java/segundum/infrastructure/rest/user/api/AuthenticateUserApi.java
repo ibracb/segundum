@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.user.requests.AuthenticateUserRequest;
 
 /**

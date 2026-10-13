@@ -1,6 +1,6 @@
 package segundum.application.gateways;
 
-import segundum.application.readmodels.auth.AuthenticatedUserReadModel;
+import segundum.application.dtos.auth.AuthenticatedUserData;
 
 /**
  * Output port for authenticating a user against the user service.
@@ -12,8 +12,8 @@ public interface AuthenticateUser {
      *
      * @param email    the email of the user
      * @param password the password of the user
-     * @return the authenticated user read model
+     * @return the authenticated user data
      */
-    AuthenticatedUserReadModel fetch(String email, String password);
+    AuthenticatedUserData fetch(String email, String password);
 
 }

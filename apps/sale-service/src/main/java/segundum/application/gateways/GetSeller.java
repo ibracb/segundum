@@ -1,6 +1,6 @@
 package segundum.application.gateways;
 
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.seller.SellerData;
 import segundum.domain.models.sale.SellerId;
 
 /**
@@ -12,7 +12,7 @@ public interface GetSeller {
      * Fetches a seller by its identifier.
      *
      * @param sellerId the identifier of the seller
-     * @return the seller read model
+     * @return the seller data
      */
-    SellerReadModel fetch(SellerId sellerId);
+    SellerData fetch(SellerId sellerId);
 }

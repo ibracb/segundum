@@ -1,6 +1,6 @@
 package segundum.application.gateways;
 
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
+import segundum.application.dtos.product.ProductBasicInfo;
 import segundum.domain.models.sale.ProductId;
 
 /**
@@ -14,5 +14,5 @@ public interface GetProductBasicInfo {
      * @param productId the identifier of the product
      * @return the basic information of the product
      */
-    ProductBasicInfoReadModel fetch(ProductId productId);
+    ProductBasicInfo fetch(ProductId productId);
 }

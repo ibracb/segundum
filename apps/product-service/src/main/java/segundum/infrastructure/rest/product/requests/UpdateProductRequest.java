@@ -18,7 +18,6 @@ public class UpdateProductRequest {
 	 * Default constructor required by JSON deserialization.
 	 */
 	public UpdateProductRequest() {
-		// Default constructor to satisfy JSON deserialization requirements
 	}
 
 	public Double getPrice() {

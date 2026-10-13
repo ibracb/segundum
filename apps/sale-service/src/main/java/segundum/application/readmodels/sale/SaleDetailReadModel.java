@@ -1,8 +1,8 @@
 package segundum.application.readmodels.sale;
 
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
-import segundum.application.readmodels.purchaser.PurchaserReadModel;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.product.ProductBasicInfo;
+import segundum.application.dtos.purchaser.PurchaserData;
+import segundum.application.dtos.seller.SellerData;
 
 /**
  * Represents the full detail of a sale.
@@ -12,9 +12,9 @@ public class SaleDetailReadModel {
     private final String saleId;
     private final String status;
     private final String datetime;
-    private final ProductBasicInfoReadModel product;
-    private final SellerReadModel seller;
-    private final PurchaserReadModel purchaser;
+    private final ProductBasicInfo product;
+    private final SellerData seller;
+    private final PurchaserData purchaser;
 
     /**
      * Constructs a new SaleDetailReadModel with the given values.
@@ -27,7 +27,7 @@ public class SaleDetailReadModel {
      * @param purchaser the purchaser of the sale
      */
     public SaleDetailReadModel(String saleId, String status, String datetime,
-            ProductBasicInfoReadModel product, SellerReadModel seller, PurchaserReadModel purchaser) {
+            ProductBasicInfo product, SellerData seller, PurchaserData purchaser) {
         this.saleId = saleId;
         this.status = status;
         this.datetime = datetime;
@@ -39,8 +39,8 @@ public class SaleDetailReadModel {
     public String getSaleId() { return saleId; }
     public String getStatus() { return status; }
     public String getDatetime() { return datetime; }
-    public ProductBasicInfoReadModel getProduct() { return product; }
-    public SellerReadModel getSeller() { return seller; }
-    public PurchaserReadModel getPurchaser() { return purchaser; }
+    public ProductBasicInfo getProduct() { return product; }
+    public SellerData getSeller() { return seller; }
+    public PurchaserData getPurchaser() { return purchaser; }
 
 }

@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.sale.requests.ProposeSaleRequest;
 
 /**
@@ -39,10 +39,12 @@ public interface ProposeSaleApi {
                     content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid input",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "409", description = "Purchaser cannot be the seller",
+            @ApiResponse(responseCode = "403", description = "Access denied: missing or invalid token, or purchaserId does not match the authenticated user",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "409", description = "Product is not for sale, sale already proposed, or purchaser cannot be the seller",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "502", description = "External service error",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> proposeSale(@Valid @RequestBody ProposeSaleRequest request);

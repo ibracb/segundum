@@ -3,6 +3,8 @@ package segundum.infrastructure.rest.product.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 import segundum.application.queries.GetProductBasicInfoQuery;
 import segundum.application.readmodels.product.ProductBasicInfo;
 import segundum.application.usecases.GetProductBasicInfoUseCase;
@@ -12,10 +14,14 @@ import segundum.infrastructure.rest.product.api.GetProductBasicInfoApi;
 import segundum.infrastructure.rest.product.responses.PickupLocationResponse;
 import segundum.infrastructure.rest.product.responses.ProductBasicInfoResponse;
 
-@RestController
 /**
  * Represents the controller for retrieving the basic information of a product.
+ *
+ * <p>Internal endpoint, blocked at the API gateway: hidden from the OpenAPI
+ * document because it is not part of the public API of the platform.</p>
  */
+@Hidden
+@RestController
 public class GetProductBasicInfoController implements GetProductBasicInfoApi {
 
     private final GetProductBasicInfoUseCase useCase;

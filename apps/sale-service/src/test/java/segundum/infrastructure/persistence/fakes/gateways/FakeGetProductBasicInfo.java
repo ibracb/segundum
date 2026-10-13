@@ -1,19 +1,19 @@
 package segundum.infrastructure.persistence.fakes.gateways;
 
 import segundum.application.gateways.GetProductBasicInfo;
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
+import segundum.application.dtos.product.ProductBasicInfo;
 import segundum.domain.models.sale.ProductId;
 
 public class FakeGetProductBasicInfo implements GetProductBasicInfo {
 
-	private ProductBasicInfoReadModel product;
+	private ProductBasicInfo product;
 
 	@Override
-	public ProductBasicInfoReadModel fetch(ProductId productId) {
+	public ProductBasicInfo fetch(ProductId productId) {
 		return product;
 	}
 
-	public void setProduct(ProductBasicInfoReadModel product) {
+	public void setProduct(ProductBasicInfo product) {
 		this.product = product;
 	}
 

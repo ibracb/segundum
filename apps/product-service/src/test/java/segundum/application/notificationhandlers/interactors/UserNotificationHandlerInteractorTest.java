@@ -13,6 +13,9 @@ import segundum.application.notificationhandlers.UserNotificationHandler;
 import segundum.application.notifications.users.UserDeactivatedNotification;
 import segundum.application.notifications.users.UserRegisteredNotification;
 import segundum.application.notifications.users.UserUpdatedNotification;
+import segundum.domain.events.SellerCreated;
+import segundum.domain.events.SellerDeactivated;
+import segundum.domain.events.SellerUpdated;
 import segundum.domain.models.seller.Email;
 import segundum.domain.models.seller.Name;
 import segundum.domain.models.seller.Seller;
@@ -20,19 +23,22 @@ import segundum.domain.models.seller.SellerFactory;
 import segundum.domain.models.seller.SellerId;
 import segundum.domain.models.seller.Surname;
 import segundum.infrastructure.logging.fakes.FakeLogEmitter;
+import segundum.infrastructure.messaging.fakes.publishers.FakePublisher;
 import segundum.infrastructure.persistence.fakes.repositories.FakeSellerRepository;
 
 class UserNotificationHandlerInteractorTest {
 
 	private FakeSellerRepository sellerRepository;
+	private FakePublisher publisher;
 	private FakeLogEmitter logEmitter;
 	private UserNotificationHandler handler;
 
 	@BeforeEach
 	void setUp() {
 		sellerRepository = new FakeSellerRepository();
+		publisher = new FakePublisher();
 		logEmitter = new FakeLogEmitter();
-		handler = new UserNotificationHandlerInteractor(sellerRepository, logEmitter);
+		handler = new UserNotificationHandlerInteractor(sellerRepository, publisher, logEmitter);
 	}
 
 	@Test
@@ -46,6 +52,8 @@ class UserNotificationHandlerInteractorTest {
 		assertTrue(sellerRepository.existsById(sellerId));
 		assertEquals("Juan", sellerRepository.findById(sellerId).get().getName().getValue());
 		assertEquals("Pérez", sellerRepository.findById(sellerId).get().getSurname().getValue());
+		assertEquals(1, publisher.getPublishedEvents().size());
+		assertTrue(publisher.getPublishedEvents().get(0) instanceof SellerCreated);
 	}
 
 	@Test
@@ -63,6 +71,7 @@ class UserNotificationHandlerInteractorTest {
 		handler.onUserRegisteredNotification(event);
 
 		assertTrue(sellerRepository.findById(sellerId).isPresent());
+		assertTrue(publisher.getPublishedEvents().isEmpty());
 	}
 
 	@Test
@@ -91,6 +100,8 @@ class UserNotificationHandlerInteractorTest {
 		Seller updated = sellerRepository.findById(sellerId).get();
 		assertEquals("Carlos", updated.getName().getValue());
 		assertEquals("García", updated.getSurname().getValue());
+		assertEquals(1, publisher.getPublishedEvents().size());
+		assertTrue(publisher.getPublishedEvents().get(0) instanceof SellerUpdated);
 	}
 
 	@Test
@@ -101,6 +112,7 @@ class UserNotificationHandlerInteractorTest {
 		handler.onUserUpdatedNotification(event);
 
 		assertTrue(sellerRepository.findById(SellerId.fromUUID(userId)).isEmpty());
+		assertTrue(publisher.getPublishedEvents().isEmpty());
 	}
 
 	@Test
@@ -128,6 +140,8 @@ class UserNotificationHandlerInteractorTest {
 
 		assertTrue(sellerRepository.findById(sellerId).isPresent());
 		assertFalse(sellerRepository.findById(sellerId).get().isActive());
+		assertEquals(1, publisher.getPublishedEvents().size());
+		assertTrue(publisher.getPublishedEvents().get(0) instanceof SellerDeactivated);
 	}
 
 	@Test
@@ -138,6 +152,7 @@ class UserNotificationHandlerInteractorTest {
 		handler.onUserDeactivatedNotification(event);
 
 		assertTrue(logEmitter.getWarnings().get(0).contains("discarded"));
+		assertTrue(publisher.getPublishedEvents().isEmpty());
 	}
 
 	@Test

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import retrofit2.Response;
 import segundum.application.gateways.GetPurchaser;
-import segundum.application.readmodels.purchaser.PurchaserReadModel;
+import segundum.application.dtos.purchaser.PurchaserData;
 import segundum.domain.models.sale.PurchaserId;
 import segundum.infrastructure.client.ExternalServiceException;
 
@@ -31,7 +31,7 @@ public class PurchaserRetrofitGateway implements GetPurchaser {
     }
 
     @Override
-    public PurchaserReadModel fetch(PurchaserId purchaserId) {
+    public PurchaserData fetch(PurchaserId purchaserId) {
         Response<UserNameResponse> response;
         try {
             response = userApi.getUserName(purchaserId.getValue().toString()).execute();
@@ -42,7 +42,7 @@ public class PurchaserRetrofitGateway implements GetPurchaser {
             throw new ExternalServiceException("Purchaser not found: " + purchaserId.getValue());
         }
         UserNameResponse dto = response.body();
-        return new PurchaserReadModel(dto.getId(), dto.getName(), dto.getSurname());
+        return new PurchaserData(dto.getId(), dto.getName(), dto.getSurname());
     }
 
 }

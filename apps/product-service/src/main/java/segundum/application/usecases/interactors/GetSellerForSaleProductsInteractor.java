@@ -4,11 +4,11 @@ import segundum.application.queries.GetSellerForSaleProductsQuery;
 import segundum.application.readmodels.common.Page;
 import segundum.application.readmodels.product.SellerProduct;
 import segundum.application.finders.ProductFinder;
+import segundum.application.finders.SellerFinder;
+import segundum.application.readmodels.seller.SellerReadModel;
 import segundum.application.usecases.GetSellerForSaleProductsUseCase;
 import segundum.domain.exceptions.EntityNotFoundException;
 import segundum.domain.exceptions.seller.status.SellerNotActiveException;
-import segundum.domain.models.seller.Seller;
-import segundum.domain.repositories.SellerRepository;
 
 /**
  * Represents the interactor for obtaining the products on sale of a seller.
@@ -19,26 +19,27 @@ public class GetSellerForSaleProductsInteractor implements GetSellerForSaleProdu
 	 * The repository used to read products.
 	 */
 	private final ProductFinder productFinder;
+	
 	/**
-	 * The repository used to read sellers.
+	 * The finder used to read seller data.
 	 */
-	private final SellerRepository sellerRepository;
+	private final SellerFinder sellerFinder;
 
 	/**
-	 * Constructs a new GetSellerForSaleProductsInteractor with the given repositories.
+	 * Constructs a new GetSellerForSaleProductsInteractor with the given finders.
 	 *
 	 * @param productFinder the product read repository
-	 * @param sellerRepository the seller repository
+	 * @param sellerFinder the seller read repository
 	 */
 	public GetSellerForSaleProductsInteractor(ProductFinder productFinder,
-			SellerRepository sellerRepository) {
+			SellerFinder sellerFinder) {
 		this.productFinder = productFinder;
-		this.sellerRepository = sellerRepository;
+		this.sellerFinder = sellerFinder;
 	}
 
 	@Override
 	public Page<SellerProduct> execute(GetSellerForSaleProductsQuery query) {
-		Seller seller = sellerRepository.findById(query.getSellerId())
+		SellerReadModel seller = sellerFinder.findById(query.getSellerId())
 				.orElseThrow(() -> new EntityNotFoundException("Seller", "ID", query.getSellerId().getValue().toString()));
 		if (!seller.isActive()) {
 			throw new SellerNotActiveException(query.getSellerId());

@@ -1,6 +1,6 @@
 package segundum.application.gateways;
 
-import segundum.application.readmodels.purchaser.PurchaserReadModel;
+import segundum.application.dtos.purchaser.PurchaserData;
 import segundum.domain.models.sale.PurchaserId;
 
 /**
@@ -12,7 +12,7 @@ public interface GetPurchaser {
      * Fetches a purchaser by its identifier.
      *
      * @param purchaserId the identifier of the purchaser
-     * @return the purchaser read model
+     * @return the purchaser data
      */
-    PurchaserReadModel fetch(PurchaserId purchaserId);
+    PurchaserData fetch(PurchaserId purchaserId);
 }

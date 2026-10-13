@@ -1,6 +1,7 @@
 package segundum.infrastructure.persistence.mongodb.sale;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import segundum.application.readmodels.common.Page;
 import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsSellerReadModel;
 import segundum.application.readmodels.sale.SaleDetailReadModel;
+import segundum.application.readmodels.sale.SalePartiesReadModel;
 import segundum.application.finders.SaleFinder;
 import segundum.domain.models.sale.OrderStatus;
 import segundum.domain.models.sale.PurchaserId;
+import segundum.domain.models.sale.SaleId;
 import segundum.domain.models.sale.SellerId;
 
 /**
@@ -64,6 +67,13 @@ public class MongoSaleFinder implements SaleFinder {
 			query.addCriteria(Criteria.where("status").is(status.name()));
 		}
 		return executePaginated(query, pageNumber, pageSize, SaleReadMapper::toSaleDetail);
+	}
+
+	@Override
+	public Optional<SalePartiesReadModel> findPartiesBySaleId(SaleId saleId) {
+		Query query = new Query(Criteria.where("_id").is(saleId.getValue().toString()));
+		SaleReadDocument document = mongoTemplate.findOne(query, SaleReadDocument.class);
+		return Optional.ofNullable(document).map(SaleReadMapper::toSaleParties);
 	}
 
 	private <T> Page<T> executePaginated(Query query, int pageNumber, int pageSize,

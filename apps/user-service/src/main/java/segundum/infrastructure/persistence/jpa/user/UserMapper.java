@@ -43,6 +43,10 @@ public class UserMapper {
                 user.getPhone().getValue(),
                 user.getPurchases(),
                 user.getSales(),
+                user.getRatingsAsPurchaser(),
+                user.getRatingsAsSeller(),
+                user.getAverageRatingAsPurchaser(),
+                user.getAverageRatingAsSeller(),
                 user.getStatus().name(),
                 Timestamp.from(user.getRegistrationDate().getValue()),
                 user.getUserRoles()
@@ -66,6 +70,10 @@ public class UserMapper {
                 new Phone(entity.getPhone()),
                 entity.getPurchases(),
                 entity.getSales(),
+                entity.getRatingsAsPurchaser(),
+                entity.getRatingsAsSeller(),
+                entity.getAverageRatingAsPurchaser(),
+                entity.getAverageRatingAsSeller(),
                 UserStatus.valueOf(entity.getStatus()),
                 RegistrationDate.fromInstant(entity.getRegistrationDate().toInstant()),
                 entity.getRoles()

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import retrofit2.Response;
 import segundum.application.gateways.GetProductBasicInfo;
-import segundum.application.readmodels.product.PickupLocationReadModel;
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
+import segundum.application.dtos.product.PickupLocationData;
+import segundum.application.dtos.product.ProductBasicInfo;
 import segundum.domain.models.sale.ProductId;
 import segundum.infrastructure.client.ExternalServiceException;
 
@@ -32,7 +32,7 @@ public class ProductBasicInfoRetrofitGateway implements GetProductBasicInfo {
     }
 
     @Override
-    public ProductBasicInfoReadModel fetch(ProductId productId) {
+    public ProductBasicInfo fetch(ProductId productId) {
         Response<ProductBasicInfoResponse> response;
         try {
             response = productApi.getProductBasicInfo(productId.getValue().toString()).execute();
@@ -42,23 +42,23 @@ public class ProductBasicInfoRetrofitGateway implements GetProductBasicInfo {
         if (!response.isSuccessful() || response.body() == null) {
             throw new ExternalServiceException("Product not found: " + productId.getValue());
         }
-        return toReadModel(response.body());
+        return toData(response.body());
     }
 
     /**
-     * Converts the given response DTO into a read model.
+     * Converts the given response DTO into product data.
      *
      * @param dto the response DTO
-     * @return the product basic information read model
+     * @return the product basic information data
      */
-    private ProductBasicInfoReadModel toReadModel(ProductBasicInfoResponse dto) {
-        PickupLocationReadModel pickupLocation = dto.getPickupLocation() != null
-                ? new PickupLocationReadModel(
+    private ProductBasicInfo toData(ProductBasicInfoResponse dto) {
+        PickupLocationData pickupLocation = dto.getPickupLocation() != null
+                ? new PickupLocationData(
                         dto.getPickupLocation().getDescription(),
                         dto.getPickupLocation().getLatitude(),
                         dto.getPickupLocation().getLongitude())
                 : null;
-        return new ProductBasicInfoReadModel(
+        return new ProductBasicInfo(
                 dto.getProductId(),
                 dto.getTitle(),
                 dto.getPrice(),

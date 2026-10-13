@@ -3,6 +3,7 @@ package segundum.domain.models.user;
 import java.util.List;
 
 import segundum.domain.exceptions.SameValueException;
+import segundum.domain.exceptions.user.rating.RatingScoreInvalidException;
 import segundum.domain.exceptions.user.status.UserNotActiveException;
 
 /**
@@ -19,6 +20,26 @@ public class User {
 	 * The default number of sales made by the user.
 	 */
 	private static final long NO_SALES = 0;
+	
+	/**
+	 * The default number of ratings received as purchaser and as seller.
+	 */
+	private static final long NO_RATINGS = 0;
+	
+	/**
+	 * The default average of the ratings received, before any rating exists.
+	 */
+	private static final double NO_RATING_AVERAGE = 0.0;
+	
+	/**
+	 * The minimum score of a rating.
+	 */
+	private static final int MIN_RATING_SCORE = 1;
+	
+	/**
+	 * The maximum score of a rating.
+	 */
+	private static final int MAX_RATING_SCORE = 5;
 	
 	
 	/**
@@ -67,6 +88,26 @@ public class User {
 	private long sales;
 
 	/**
+	 * The number of ratings received as purchaser.
+	 */
+	private long ratingsAsPurchaser;
+
+	/**
+	 * The number of ratings received as seller.
+	 */
+	private long ratingsAsSeller;
+
+	/**
+	 * The average of the ratings received as purchaser, between 1 and 5.
+	 */
+	private double averageRatingAsPurchaser;
+
+	/**
+	 * The average of the ratings received as seller, between 1 and 5.
+	 */
+	private double averageRatingAsSeller;
+
+	/**
 	 * The status of the user.
 	 */
 	private UserStatus status;
@@ -102,6 +143,10 @@ public class User {
 		this.phone = phone;
 		this.purchases = NO_PURCHASES;
 		this.sales = NO_SALES;
+		this.ratingsAsPurchaser = NO_RATINGS;
+		this.ratingsAsSeller = NO_RATINGS;
+		this.averageRatingAsPurchaser = NO_RATING_AVERAGE;
+		this.averageRatingAsSeller = NO_RATING_AVERAGE;
 		this.status = UserStatus.ACTIVE;
 		this.registrationDate = RegistrationDate.now();
 		this.roles = List.of(UserRole.USER);
@@ -119,13 +164,18 @@ public class User {
 	 * @param phone the phone number of the user
 	 * @param purchases the number of purchases made by the user
 	 * @param sales the number of sales made by the user
+	 * @param ratingsAsPurchaser the number of ratings received as purchaser
+	 * @param ratingsAsSeller the number of ratings received as seller
+	 * @param averageRatingAsPurchaser the average of the ratings received as purchaser
+	 * @param averageRatingAsSeller the average of the ratings received as seller
 	 * @param status the status of the user
 	 * @param registrationDate the registration date of the user
 	 * @param roles the roles of the user
 	 */
 	User(UserId userId, Name name, Surname surname, Email email, Password password, Birthdate birthdate,
-			Phone phone, long purchases, long sales, UserStatus status, RegistrationDate registrationDate,
-			List<UserRole> roles) {
+			Phone phone, long purchases, long sales, long ratingsAsPurchaser, long ratingsAsSeller,
+			double averageRatingAsPurchaser, double averageRatingAsSeller, UserStatus status,
+			RegistrationDate registrationDate, List<UserRole> roles) {
 		this.userId = userId;
 		this.name = name;
 		this.surname = surname;
@@ -135,6 +185,10 @@ public class User {
 		this.phone = phone;
 		this.purchases = purchases;
 		this.sales = sales;
+		this.ratingsAsPurchaser = ratingsAsPurchaser;
+		this.ratingsAsSeller = ratingsAsSeller;
+		this.averageRatingAsPurchaser = averageRatingAsPurchaser;
+		this.averageRatingAsSeller = averageRatingAsSeller;
 		this.status = status;
 		this.registrationDate = registrationDate;
 		this.roles = roles;
@@ -195,6 +249,32 @@ public class User {
 	 */
 	public void incrementSales() {
 		sales++;
+	}
+	
+	/**
+	 * Registers a rating received by the user as purchaser: increments the
+	 * number of ratings received as purchaser and updates their average.
+	 * 
+	 * @param score the score given to the user, between 1 and 5
+	 * @throws RatingScoreInvalidException if the score is not between 1 and 5
+	 */
+	public void registerRatingAsPurchaser(int score) {
+		ensureScoreIsValid(score);
+		ratingsAsPurchaser++;
+		averageRatingAsPurchaser = (averageRatingAsPurchaser * (ratingsAsPurchaser - 1) + score) / ratingsAsPurchaser;
+	}
+	
+	/**
+	 * Registers a rating received by the user as seller: increments the
+	 * number of ratings received as seller and updates their average.
+	 * 
+	 * @param score the score given to the user, between 1 and 5
+	 * @throws RatingScoreInvalidException if the score is not between 1 and 5
+	 */
+	public void registerRatingAsSeller(int score) {
+		ensureScoreIsValid(score);
+		ratingsAsSeller++;
+		averageRatingAsSeller = (averageRatingAsSeller * (ratingsAsSeller - 1) + score) / ratingsAsSeller;
 	}
 	
 	/**
@@ -297,6 +377,44 @@ public class User {
 	}
 
 	/**
+	 * Returns the number of ratings received as purchaser.
+	 * 
+	 * @return the number of ratings received as purchaser
+	 */
+	public long getRatingsAsPurchaser() {
+		return ratingsAsPurchaser;
+	}
+
+	/**
+	 * Returns the number of ratings received as seller.
+	 * 
+	 * @return the number of ratings received as seller
+	 */
+	public long getRatingsAsSeller() {
+		return ratingsAsSeller;
+	}
+
+	/**
+	 * Returns the average of the ratings received as purchaser, between 1 and 5.
+	 * It is 0 while the user has not received any rating as purchaser.
+	 * 
+	 * @return the average of the ratings received as purchaser
+	 */
+	public double getAverageRatingAsPurchaser() {
+		return averageRatingAsPurchaser;
+	}
+
+	/**
+	 * Returns the average of the ratings received as seller, between 1 and 5.
+	 * It is 0 while the user has not received any rating as seller.
+	 * 
+	 * @return the average of the ratings received as seller
+	 */
+	public double getAverageRatingAsSeller() {
+		return averageRatingAsSeller;
+	}
+
+	/**
 	 * Returns the status of the user.
 	 *
 	 * @return the user status
@@ -384,6 +502,18 @@ public class User {
 	private void ensureIsActive() {
 		if (this.status != UserStatus.ACTIVE) {
 			throw new UserNotActiveException(userId.getValue().toString());
+		}
+	}
+	
+	/**
+	 * Ensures that the score of a rating is between 1 and 5.
+	 * 
+	 * @param score the score to check
+	 * @throws RatingScoreInvalidException if the score is not between 1 and 5
+	 */
+	private void ensureScoreIsValid(int score) {
+		if (score < MIN_RATING_SCORE || score > MAX_RATING_SCORE) {
+			throw new RatingScoreInvalidException(score, MIN_RATING_SCORE, MAX_RATING_SCORE);
 		}
 	}
 

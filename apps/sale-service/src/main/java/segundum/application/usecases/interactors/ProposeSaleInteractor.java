@@ -6,9 +6,9 @@ import segundum.application.commands.ProposeSaleCommand;
 import segundum.application.gateways.GetProductBasicInfo;
 import segundum.application.gateways.GetPurchaser;
 import segundum.application.gateways.GetSeller;
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
-import segundum.application.readmodels.purchaser.PurchaserReadModel;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.product.ProductBasicInfo;
+import segundum.application.dtos.purchaser.PurchaserData;
+import segundum.application.dtos.seller.SellerData;
 import segundum.application.usecases.ProposeSaleUseCase;
 import segundum.domain.events.DomainEvent;
 import segundum.domain.exceptions.sale.creation.ProductNotForSaleException;
@@ -83,15 +83,15 @@ public class ProposeSaleInteractor implements ProposeSaleUseCase {
 
     @Override
     public SaleId execute(ProposeSaleCommand command) {
-        ProductBasicInfoReadModel product = productGateway.fetch(command.getProductId());
+        ProductBasicInfo product = productGateway.fetch(command.getProductId());
         if(!FOR_SALE.equals(product.getSaleStatus())) {
         	throw new ProductNotForSaleException();
         }
         if (eventStore.hasOpenProposal(command.getProductId(), command.getPurchaserId())) {
             throw new SaleAlreadyProposedException();
         }
-        SellerReadModel seller = sellerGateway.fetch(SellerId.fromString(product.getSellerId()));
-        PurchaserReadModel purchaser = purchaserGateway.fetch(command.getPurchaserId());
+        SellerData seller = sellerGateway.fetch(SellerId.fromString(product.getSellerId()));
+        PurchaserData purchaser = purchaserGateway.fetch(command.getPurchaserId());
         SaleId saleId = SaleId.generate();
         PickupLocation pickupLocation = product.getPickupLocation() != null
                 ? new PickupLocation(product.getPickupLocation().getDescription(),

@@ -33,6 +33,8 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
+                .antMatchers("/swagger-ui.html", "/swagger-ui", "/swagger-ui/**",
+                        "/v3/api-docs/**", "/webjars/swagger-ui/**").permitAll()
                 .antMatchers("/products").permitAll()
                 .antMatchers("/products/*/detail").permitAll()
                 .antMatchers("/products/*/basic-info").permitAll()
@@ -42,7 +44,8 @@ public class SecurityConfig {
                 .antMatchers("/categories/**").permitAll()
                 .anyRequest().authenticated()
             .and()
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(new JsonAuthenticationEntryPoint());
 
         return http.build();
     }

@@ -3,12 +3,12 @@ package segundum.infrastructure.rest.sale.assemblers;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
-import segundum.application.readmodels.product.ProductBasicInfoReadModel;
-import segundum.application.readmodels.purchaser.PurchaserReadModel;
+import segundum.application.dtos.product.ProductBasicInfo;
+import segundum.application.dtos.purchaser.PurchaserData;
 import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsSellerReadModel;
 import segundum.application.readmodels.sale.SaleDetailReadModel;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.seller.SellerData;
 import segundum.infrastructure.rest.sale.responses.PickupLocationResponse;
 import segundum.infrastructure.rest.sale.responses.ProductBasicInfoResponse;
 import segundum.infrastructure.rest.sale.responses.PurchaserResponse;
@@ -73,12 +73,12 @@ public class SaleModelAssembler {
     }
 
     /**
-     * Converts a product read model into a response.
+     * Converts product data into a response.
      *
-     * @param product the product read model
+     * @param product the product data
      * @return the product basic information response
      */
-    private ProductBasicInfoResponse toProductResponse(ProductBasicInfoReadModel product) {
+    private ProductBasicInfoResponse toProductResponse(ProductBasicInfo product) {
         PickupLocationResponse pickup = product.getPickupLocation() != null
                 ? new PickupLocationResponse(
                         product.getPickupLocation().getDescription(),
@@ -94,22 +94,22 @@ public class SaleModelAssembler {
     }
 
     /**
-     * Converts a seller read model into a response.
+     * Converts seller data into a response.
      *
-     * @param seller the seller read model
+     * @param seller the seller data
      * @return the seller response
      */
-    private SellerResponse toSellerResponse(SellerReadModel seller) {
+    private SellerResponse toSellerResponse(SellerData seller) {
         return new SellerResponse(seller.getId(), seller.getName(), seller.getSurname());
     }
 
     /**
-     * Converts a purchaser read model into a response.
+     * Converts purchaser data into a response.
      *
-     * @param purchaser the purchaser read model
+     * @param purchaser the purchaser data
      * @return the purchaser response
      */
-    private PurchaserResponse toPurchaserResponse(PurchaserReadModel purchaser) {
+    private PurchaserResponse toPurchaserResponse(PurchaserData purchaser) {
         return new PurchaserResponse(purchaser.getId(), purchaser.getName(), purchaser.getSurname());
     }
 

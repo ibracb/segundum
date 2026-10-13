@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.product.requests.UpdateProductRequest;
 
 /**
@@ -28,17 +28,19 @@ import segundum.infrastructure.rest.product.requests.UpdateProductRequest;
 @RequestMapping("/products")
 public interface UpdateProductApi {
 
-	@PreAuthorize("hasAuthority('USER') and @productFinder.findById(T(segundum.domain.models.product.ProductId).fromString(#id)).orElse(null).sellerId == principal")
+	@PreAuthorize("hasAuthority('USER') and @productFinder.findById(T(segundum.domain.models.product.ProductId).fromString(#id)).orElse(null)?.sellerId == principal")
 	@Operation(summary = "Update a product")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Product updated",
 					content = @Content),
 			@ApiResponse(responseCode = "400", description = "Invalid input",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "403", description = "Access denied: missing or invalid token, or the caller is not the owner of the product",
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "Product not found",
 					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "409", description = "Product is not in DRAFT state",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 	})
 	@PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Void> updateProduct(

@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.user.responses.UserProfileResponse;
 
 /**
@@ -30,8 +30,10 @@ public interface GetUserProfileApi {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "User profile found",
 					content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
+			@ApiResponse(responseCode = "401", description = "Missing, invalid or expired authentication token (body: {\"code\": 401, \"error\": \"Unauthorized\", \"message\": \"...\"})",
+					content = @Content),
 			@ApiResponse(responseCode = "404", description = "User not found",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+					content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 	})
 	@Produces(MediaType.APPLICATION_JSON)
 	Response getUserProfile(@PathParam("id") @Parameter(description = "User ID") String id);

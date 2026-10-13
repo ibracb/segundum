@@ -1,14 +1,17 @@
 package segundum.infrastructure.persistence.fakes.finders;
 
 import java.util.List;
+import java.util.Optional;
 
 import segundum.application.readmodels.common.Page;
 import segundum.application.readmodels.sale.SaleAsPurchaserReadModel;
 import segundum.application.readmodels.sale.SaleAsSellerReadModel;
 import segundum.application.readmodels.sale.SaleDetailReadModel;
+import segundum.application.readmodels.sale.SalePartiesReadModel;
 import segundum.application.finders.SaleFinder;
 import segundum.domain.models.sale.OrderStatus;
 import segundum.domain.models.sale.PurchaserId;
+import segundum.domain.models.sale.SaleId;
 import segundum.domain.models.sale.SellerId;
 
 /**
@@ -19,9 +22,11 @@ public class FakeSaleFinder implements SaleFinder {
 	private Page<SaleAsSellerReadModel> sellerPage = new Page<>(List.of(), 0, 0, 20);
 	private Page<SaleAsPurchaserReadModel> purchaserPage = new Page<>(List.of(), 0, 0, 20);
 	private Page<SaleDetailReadModel> detailPage = new Page<>(List.of(), 0, 0, 20);
+	private Optional<SalePartiesReadModel> parties = Optional.empty();
 
 	private SellerId lastSellerId;
 	private PurchaserId lastPurchaserId;
+	private SaleId lastSaleId;
 	private OrderStatus lastStatus;
 	private int lastPageNumber;
 	private int lastPageSize;
@@ -69,8 +74,22 @@ public class FakeSaleFinder implements SaleFinder {
 		this.detailPage = detailPage;
 	}
 
+	public void setParties(Optional<SalePartiesReadModel> parties) {
+		this.parties = parties;
+	}
+
+	@Override
+	public Optional<SalePartiesReadModel> findPartiesBySaleId(SaleId saleId) {
+		this.lastSaleId = saleId;
+		return parties;
+	}
+
 	public SellerId getLastSellerId() {
 		return lastSellerId;
+	}
+
+	public SaleId getLastSaleId() {
+		return lastSaleId;
 	}
 
 	public PurchaserId getLastPurchaserId() {

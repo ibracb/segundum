@@ -6,6 +6,9 @@ import segundum.application.notificationhandlers.UserNotificationHandler;
 import segundum.application.notifications.users.UserDeactivatedNotification;
 import segundum.application.notifications.users.UserRegisteredNotification;
 import segundum.application.notifications.users.UserUpdatedNotification;
+import segundum.domain.events.SellerCreated;
+import segundum.domain.events.SellerDeactivated;
+import segundum.domain.events.SellerUpdated;
 import segundum.domain.exceptions.DomainException;
 import segundum.domain.models.seller.Email;
 import segundum.domain.models.seller.Name;
@@ -13,6 +16,7 @@ import segundum.domain.models.seller.Seller;
 import segundum.domain.models.seller.SellerFactory;
 import segundum.domain.models.seller.SellerId;
 import segundum.domain.models.seller.Surname;
+import segundum.application.outbound.DomainEventPublisher;
 import segundum.application.outbound.LogEmitter;
 import segundum.domain.repositories.SellerRepository;
 
@@ -28,6 +32,11 @@ public class UserNotificationHandlerInteractor implements UserNotificationHandle
 	private final SellerRepository sellerRepository;
 	
 	/**
+	 * The publisher for domain events.
+	 */
+	private final DomainEventPublisher domainEventPublisher;
+	
+	/**
 	 * The logger.
 	 */
 	private final LogEmitter logEmitter;
@@ -36,10 +45,13 @@ public class UserNotificationHandlerInteractor implements UserNotificationHandle
 	 * Constructs a new UsersHandlerInteractor with the given dependencies.
 	 *
 	 * @param sellerRepository the repository for managing seller data
+	 * @param domainEventPublisher the publisher for domain events
 	 * @param logEmitter the logger
 	 */
-	public UserNotificationHandlerInteractor(SellerRepository sellerRepository, LogEmitter logEmitter) {
+	public UserNotificationHandlerInteractor(SellerRepository sellerRepository,
+			DomainEventPublisher domainEventPublisher, LogEmitter logEmitter) {
 		this.sellerRepository = sellerRepository;
+		this.domainEventPublisher = domainEventPublisher;
 		this.logEmitter = logEmitter;
 	}
 
@@ -60,6 +72,7 @@ public class UserNotificationHandlerInteractor implements UserNotificationHandle
 			Surname surname = new Surname(event.getSurname());
 			Seller seller = SellerFactory.create(sellerId, name, surname, email);
 			sellerRepository.create(seller);
+			domainEventPublisher.publish(new SellerCreated(sellerId, name, surname, email));
 		}
 		catch(DomainException e) {
 			logEmitter.warn("Event " + event.getClass().getSimpleName() + " discarded: " + e.getMessage());
@@ -84,6 +97,7 @@ public class UserNotificationHandlerInteractor implements UserNotificationHandle
 			sellerEntity.changeName(name);
 			sellerEntity.changeSurname(surname);
 			sellerRepository.update(sellerEntity);
+			domainEventPublisher.publish(new SellerUpdated(sellerId, name, surname));
 		}
 		catch(DomainException e) {
 			logEmitter.warn("Event " + event.getClass().getSimpleName() + " discarded: " + e.getMessage());
@@ -105,6 +119,7 @@ public class UserNotificationHandlerInteractor implements UserNotificationHandle
 			Seller sellerEntity = seller.get();
 			sellerEntity.deactivate();
 			sellerRepository.update(sellerEntity);
+			domainEventPublisher.publish(new SellerDeactivated(sellerId));
 		}
 		catch(DomainException e) {
 			logEmitter.warn("Event " + event.getClass().getSimpleName() + " discarded: " + e.getMessage());

@@ -1,19 +1,19 @@
 package segundum.infrastructure.persistence.fakes.gateways;
 
 import segundum.application.gateways.GetSeller;
-import segundum.application.readmodels.seller.SellerReadModel;
+import segundum.application.dtos.seller.SellerData;
 import segundum.domain.models.sale.SellerId;
 
 public class FakeGetSeller implements GetSeller {
 
-	private SellerReadModel seller;
+	private SellerData seller;
 
 	@Override
-	public SellerReadModel fetch(SellerId sellerId) {
+	public SellerData fetch(SellerId sellerId) {
 		return seller;
 	}
 
-	public void setSeller(SellerReadModel seller) {
+	public void setSeller(SellerData seller) {
 		this.seller = seller;
 	}
 

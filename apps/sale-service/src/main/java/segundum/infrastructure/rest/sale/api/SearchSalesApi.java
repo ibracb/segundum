@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import segundum.infrastructure.rest.handlers.ErrorResponse;
+import segundum.infrastructure.rest.errors.responses.ErrorResponse;
 import segundum.infrastructure.rest.sale.responses.SaleDetailResponse;
 
 /**
@@ -42,7 +42,9 @@ public interface SearchSalesApi {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SaleDetailResponse.class))),
             @ApiResponse(responseCode = "400", description = "Invalid parameter",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Access denied: the endpoint requires the ADMINISTRATOR role",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<PagedModel<EntityModel<SaleDetailResponse>>> searchSales(

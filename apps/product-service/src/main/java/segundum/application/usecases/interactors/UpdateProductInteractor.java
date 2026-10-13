@@ -40,11 +40,13 @@ public class UpdateProductInteractor implements UpdateProductUseCase {
 
 		productRepository.update(product);
 
+		// The event carries the resulting state of the aggregate, not the raw
+		// request values: a partial update would otherwise publish nulls.
 		domainEventPublisher.publish(new ProductUpdated(
 				command.getProductId(),
-				command.getPrice(),
-				command.getDescription(),
-				command.getConditionStatus()));
+				product.getPrice(),
+				product.getDescription(),
+				product.getConditionStatus()));
 	}
 
 }

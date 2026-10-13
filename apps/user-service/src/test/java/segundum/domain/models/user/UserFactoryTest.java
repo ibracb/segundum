@@ -31,6 +31,10 @@ class UserFactoryTest {
 		assertEquals("+34612345678", user.getPhone().getValue());
 		assertEquals(0, user.getPurchases());
 		assertEquals(0, user.getSales());
+		assertEquals(0, user.getRatingsAsPurchaser());
+		assertEquals(0, user.getRatingsAsSeller());
+		assertEquals(0.0, user.getAverageRatingAsPurchaser());
+		assertEquals(0.0, user.getAverageRatingAsSeller());
 		assertTrue(user.hasRole(UserRole.USER));
 		assertNotNull(user.getRegistrationDate());
 		assertNotNull(user.getUserRoles());
@@ -41,12 +45,16 @@ class UserFactoryTest {
 	void shouldReconstituteUser() {
 		UserId userId = UserId.fromString("550e8400-e29b-41d4-a716-446655440000");
 		RegistrationDate registrationDate = RegistrationDate.fromInstant(Instant.parse("2025-01-15T10:30:00Z"));
-		User user = UserFactory.reconstitute(userId, name, surname, email, password, birthdate, phone, 5, 3, UserStatus.ACTIVE, registrationDate, roles);
+		User user = UserFactory.reconstitute(userId, name, surname, email, password, birthdate, phone, 5, 3, 7, 4, 4.5, 4.8, UserStatus.ACTIVE, registrationDate, roles);
 
 		assertEquals(userId.getValue(), user.getUserId().getValue());
 		assertEquals("Juan", user.getName().getValue());
 		assertEquals(5, user.getPurchases());
 		assertEquals(3, user.getSales());
+		assertEquals(7, user.getRatingsAsPurchaser());
+		assertEquals(4, user.getRatingsAsSeller());
+		assertEquals(4.5, user.getAverageRatingAsPurchaser());
+		assertEquals(4.8, user.getAverageRatingAsSeller());
 		assertEquals(registrationDate, user.getRegistrationDate());
 		assertNotNull(user.getUserRoles());
 		assertTrue(user.hasRole(UserRole.USER));
