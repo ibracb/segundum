@@ -113,16 +113,16 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 
 ## Accesos web navegables
 
-| Recurso | URL | Disponible en |
+| Recurso | URL | Disponibilidad |
 | --- | --- | --- |
-| Swagger UI del gateway | http://localhost:8090/api/swagger-ui | Solo desarrollo |
-| Swagger UI de `user-service` | http://localhost:8080/api/swagger-ui | Solo desarrollo |
-| Swagger UI de `product-service` | http://localhost:8081/api/swagger-ui | Solo desarrollo |
-| Swagger UI de `sale-service` | http://localhost:8082/api/swagger-ui | Solo desarrollo |
-| Swagger UI de `rating-service` | http://localhost:8083/api/swagger-ui | Solo desarrollo |
-| phpMyAdmin | http://localhost:8089 | Solo desarrollo |
-| Mongo Express | http://localhost:8088 | Solo desarrollo |
-| Panel de RabbitMQ | http://localhost:15672 | Solo desarrollo |
+| Swagger UI del `api-gateway` | http://localhost:8090/api/swagger-ui | Modo desarrollo |
+| Swagger UI de `user-service` | http://localhost:8080/api/swagger-ui | Modo desarrollo |
+| Swagger UI de `product-service` | http://localhost:8081/api/swagger-ui | Modo desarrollo |
+| Swagger UI de `sale-service` | http://localhost:8082/api/swagger-ui | Modo desarrollo |
+| Swagger UI de `rating-service` | http://localhost:8083/api/swagger-ui | Modo desarrollo |
+| phpMyAdmin | http://localhost:8089 | Modo desarrollo |
+| Mongo Express | http://localhost:8088 | Modo desarrollo |
+| Panel de RabbitMQ | http://localhost:15672 | Modo desarrollo |
 
 En producción, la única puerta de entrada del sistema es el gateway: la API queda disponible en `http://localhost:8090/api`. En desarrollo, los servicios solo se publican en `127.0.0.1` (no quedan accesibles desde otras máquinas de la red local).
 

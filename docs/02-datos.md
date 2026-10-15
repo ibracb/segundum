@@ -80,7 +80,7 @@ Conceptualmente, la venta reconstruida a partir de su historial contiene: produc
 
 ## Esquema conceptual
 
-Cada servicio modela su propio esqueleto de datos; no hay relaciones físicas entre bases de datos de servicios distintos (las conexiones conceptuales se cubren con eventos y llamadas REST).
+Cada servicio modela su propio esqueleto de datos; no hay relaciones físicas entre bases de datos de servicios distintos (las conexiones conceptuales se cubren con eventos y llamadas REST). Los esquemas recogen los conceptos que cada servicio modela; los modelos de lectura de MongoDB son copias proyectadas de esos mismos conceptos y no se representan aparte. La única excepción es `sale-service`, donde la venta sí aparece proyectada porque, sin estado propio en el almacén de eventos, la venta solo existe como reconstrucción de su historial.
 
 ### user-service (MySQL)
 
@@ -91,10 +91,11 @@ erDiagram
         texto nombre
         texto apellidos
         texto email
-        texto contrasena cifrada
+        texto contraseña "cifrada"
         fecha fechaNacimiento
         texto telefono
         fecha fechaRegistro
+        enumerado rol "USER | ADMINISTRATOR"
         enumerado estado "ACTIVE | INACTIVE"
         entero compras
         entero ventas
@@ -103,10 +104,6 @@ erDiagram
         decimal mediaComprador
         decimal mediaVendedor
     }
-    ROL {
-        enumerado nombre "USER | ADMINISTRATOR"
-    }
-    USUARIO ||--o{ ROL : "tiene"
 ```
 
 ### product-service (MySQL de escritura + MongoDB de lectura)
