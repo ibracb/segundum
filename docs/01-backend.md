@@ -135,12 +135,13 @@ Puertos de entrada y sus adaptadores:
 | --- | --- | --- | --- |
 | Recibir peticiones HTTP | Controlador REST (puntos de entrada HTTP en .NET) | JAX-RS (Jersey), Spring MVC, .NET Minimal APIs | `user`, `product`, `sale`, `rating` |
 | Recibir eventos del bus | Consumidor de colas | RabbitMQ | `user`, `product` |
+| Ejecutar los casos de uso para verificarlos | La propia prueba unitaria (el test ocupa el lugar del controlador) | JUnit 5, xUnit | `user`, `product`, `sale`, `rating` |
 
-Los adaptadores de entrada reciben la petición o el evento, traducen los datos del transporte a objetos de entrada y delegan siempre en los casos de uso, sin contener lógica de negocio. Los consumidores del bus son la **puerta de entrada asíncrona**: por ejemplo, un evento de venta reservada pone en marcha un caso de uso que actualiza el estado del producto, y los eventos de ventas y valoraciones incrementan los contadores del usuario.
+Los adaptadores de entrada traducen lo que llega del exterior (una petición HTTP, un evento del bus, la invocación de un test) a objetos de entrada y delegan siempre en los casos de uso, sin contener lógica de negocio. Los consumidores del bus son la **puerta de entrada asíncrona**: por ejemplo, un evento de venta reservada pone en marcha un caso de uso que actualiza el estado del producto, y los eventos de ventas y valoraciones incrementan los contadores del usuario.
 
 Un caso particular es `rating-service`: además de los puertos anteriores, define uno para leer las partes de una venta en el servicio de ventas, cuyo adaptador traduce los errores del transporte (por ejemplo, un «no encontrado») a resultados nulos, para que la tecnología no se filtre hacia dentro.
 
-Los tests demuestran que los adaptadores son sustituibles: en lugar de tocar bases de datos o el bus real, se inyectan dobles en memoria (fakes) para el repositorio, las consultas, la publicación de eventos y las llamadas a otros servicios, y así los casos de uso se prueban aislados de la infraestructura.
+Los tests son, a su vez, adaptadores de entrada: llaman a los casos de uso a través de su puerto (el mismo que usa la API REST)sin pasar por HTTP. A la salida, en lugar de tocar bases de datos o el bus real, inyectan dobles en memoria (*fakes*) para el repositorio, las consultas, la publicación de eventos y las llamadas a otros servicios, de modo que los casos de uso se prueban aislados de la infraestructura (más detalle en [`03-pruebas.md`](03-pruebas.md)).
 
 ### Domain-Driven Design
 
