@@ -133,7 +133,7 @@ La Swagger UI se activa solo en modo desarrollo (`SWAGGER_ENABLED=true`) y cada 
 - [Backend](docs/01-backend.md): plataformas y frameworks, microservicios, estilos de arquitectura (limpia, hexagonal, DDD, CQRS y event sourcing), comunicación síncrona y asíncrona, API Gateway, OpenAPI y JWT.
 - [Datos](docs/02-datos.md): entidades y relaciones, patrones de acceso, esquema conceptual y elección de la arquitectura de datos.
 - [Pruebas](docs/03-pruebas.md): estrategia de pruebas, pruebas unitarias y pruebas de backend con Postman.
-- [CI/CD](docs/04-ci-cd.md): pipeline de integración continua y despliegue local con Docker Compose.
+- [Integración continua y despliegue](docs/04-ci-despliegue.md): pipeline de CI y despliegue local con Docker Compose.
 
 ## Contexto académico
 

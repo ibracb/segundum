@@ -1,4 +1,4 @@
-# Backend: plataformas, frameworks y arquitectura
+# Backend
 
 Este documento describe sobre qué plataformas y con qué frameworks está construido el backend de SegundUM, los estilos de arquitectura aplicados, cómo se comunican los servicios, cómo se integra la API Gateway y cómo funcionan la documentación OpenAPI y la autenticación JWT. La visión de los datos (entidades, esquema y almacenes) está en [`02-datos.md`](02-datos.md).
 
@@ -270,12 +270,13 @@ Los servicios se comunican entre sí de dos formas: **síncrona** por REST, cuan
 
 ### Síncrona (REST)
 
-Algunos servicios consultan a otros para enriquecer sus respuestas, sin pasar por el gateway (son llamadas internas dentro de la red de contenedores):
+Las llamadas REST tienen lugar dentro de la red de contenedores y son de dos tipos: las que hace el propio gateway para dar servicio al login y las que hacen entre sí los servicios para enriquecer sus respuestas sin salir de la red.
 
+- **`api-gateway`** usa **Retrofit** para validar las credenciales del login contra `user-service` (`POST /api/users/authenticate`); sobre el usuario devuelto se construye después el JWT.
 - **`sale-service`** usa **Retrofit** para leer el nombre de un usuario (`GET /api/users/{id}/name`) y la información básica de un producto (`GET /api/products/{id}/basic-info`).
 - **`rating-service`** usa **Refit** para leer las partes de una venta (`GET /api/sales/{id}/parties`), de las que obtiene comprador y vendedor.
 
-Por eso esos endpoints están **bloqueados externamente** en el gateway (ver [API Gateway](#api-gateway)).
+Por eso esos endpoints internos están **bloqueados externamente** en el gateway: no pueden invocarse desde fuera (ver [API Gateway](#api-gateway)).
 
 ### Asíncrona (RabbitMQ)
 
@@ -413,4 +414,4 @@ La autenticación se basa en **JSON Web Tokens** firmados con el algoritmo **HS2
 
 ## Desarrollo local y despliegue
 
-Todo el sistema se arranca con Docker Compose (build de cada imagen desde su Dockerfile), sin necesidad de compilar nada en local. El detalle del pipeline de integración continua y del despliegue local está en [`04-ci-cd.md`](04-ci-cd.md).
+Todo el sistema se arranca con Docker Compose (build de cada imagen desde su Dockerfile), sin necesidad de compilar nada en local. El detalle del pipeline de integración continua y del despliegue local está en [`04-ci-despliegue.md`](04-ci-despliegue.md).
