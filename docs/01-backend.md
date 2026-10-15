@@ -4,7 +4,7 @@ Este documento describe sobre qué plataformas y con qué frameworks está const
 
 ## Plataformas y frameworks
 
-SegundUM es un backend **polígloto**: la mayoría de servicios están en Java, y la valoración en .NET, demostrando que los microservicios pueden mezclar plataformas y comunicarse igualmente por REST y el bus de eventos.
+SegundUM es un backend **políglota**: la mayoría de servicios están en Java, y la valoración en .NET, demostrando que los microservicios pueden mezclar plataformas y comunicarse igualmente por REST y el bus de eventos.
 
 | Servicio | Plataforma | Framework / tecnología | Puerto |
 | --- | --- | --- | --- |
@@ -28,7 +28,7 @@ Tecnologías transversales:
 El sistema está descompuesto en cinco servicios desplegados con Docker Compose, cada uno con su propia base de datos (*base de datos por servicio*). El **API Gateway** es la única puerta de entrada: todo el tráfico externo pasa por él.
 
 ```mermaid
-flowchart TB
+flowchart LR
     subgraph Externo
         C[Cliente HTTP]
     end
@@ -51,11 +51,11 @@ flowchart TB
         Q[(RabbitMQ 3.13<br/>exchange topic bus)]
     end
 
-    C -->|JWT| G
-    G --> U
-    G --> P
-    G --> S
-    G --> R
+    C -.->|JWT| G
+    G -.->|REST| U
+    G -.-> P
+    G -.-> S
+    G -.-> R
 
     U --> MU
     P --> MP
@@ -129,7 +129,14 @@ Puertos de salida y sus adaptadores:
 | Cargar la jerarquía de categorías | Lector de árboles XML | XML | `product` |
 | Almacenar y recuperar los eventos de las ventas | Almacén de eventos | MySQL | `sale` |
 
-Como **adaptadores de entrada** están los controladores REST (y los puntos de entrada HTTP en .NET): reciben la petición, traducen los datos de entrada y delegan en los casos de uso, sin contener lógica de negocio.
+Puertos de entrada y sus adaptadores:
+
+| Puerto de entrada | Adaptador | Tecnología | Servicios |
+| --- | --- | --- | --- |
+| Recibir peticiones HTTP | Controlador REST (puntos de entrada HTTP en .NET) | JAX-RS (Jersey), Spring MVC, .NET Minimal APIs | `user`, `product`, `sale`, `rating` |
+| Recibir eventos del bus | Consumidor de colas | RabbitMQ | `user`, `product` |
+
+Los adaptadores de entrada reciben la petición o el evento, traducen los datos del transporte a objetos de entrada y delegan siempre en los casos de uso, sin contener lógica de negocio. Los consumidores del bus son la **puerta de entrada asíncrona**: por ejemplo, un evento de venta reservada pone en marcha un caso de uso que actualiza el estado del producto, y los eventos de ventas y valoraciones incrementan los contadores del usuario.
 
 Un caso particular es `rating-service`: además de los puertos anteriores, define uno para leer las partes de una venta en el servicio de ventas, cuyo adaptador traduce los errores del transporte (por ejemplo, un «no encontrado») a resultados nulos, para que la tecnología no se filtre hacia dentro.
 
@@ -137,19 +144,82 @@ Los tests demuestran que los adaptadores son sustituibles: en lugar de tocar bas
 
 ### Domain-Driven Design
 
-El enfoque DDD modela el dominio con un lenguaje cercano al negocio y una capa de dominio rica: **value objects** con validación propia, **entidades y agregados** con invariantes, **fábricas** que garantizan objetos válidos, **eventos de dominio** y **excepciones de dominio** expresivas.
+El enfoque DDD modela el dominio con un lenguaje cercano al negocio y lo aborda en dos frentes: el **diseño estratégico**, que delimita dónde vive cada modelo, y el **diseño táctico**, que enriquece cada modelo por dentro.
+
+#### Diseño estratégico
+
+**Límites acotados.** El sistema se divide en cuatro contextos, cada uno en su microservicio y dueño exclusivo de su modelo y de sus datos:
+
+| Contexto | Microservicio | Modelo que posee | Frontera |
+| --- | --- | --- | --- |
+| **Usuarios** | `user-service` | Credenciales, perfiles, roles, estados y estadísticas | No conoce productos ni ventas |
+| **Productos** | `product-service` | Productos, categorías, vendedores y puntos de recogida | No tiene usuarios: solo la réplica del vendedor; no tiene ventas |
+| **Ventas** | `sale-service` | Las ventas entre comprador y vendedor y su ciclo de vida | No tiene usuarios ni productos: congela los datos que necesita (título, precio, nombre del vendedor) |
+| **Valoraciones** | `rating-service` | Las valoraciones entre las partes de una venta completada | No tiene ventas: solo su identificador y sus partes |
+
+Ningún contexto consulta los datos de otro (cada uno tiene su propia base de datos, ver [`02-datos.md`](02-datos.md)); lo que hace falta del contexto upstream no se referencia, se **copia al modelo propio**, de modo que un contexto nunca depende de la disponibilidad de otro en tiempo de ejecución.
+
+**Lenguaje ubicuo.** Cada contexto habla su propio idioma, y los términos del negocio coinciden con los del código, la API y los estados del sistema. Cada glosario recoge primero las acciones que el contexto permite y después los términos que nombra; algunos términos se repiten entre contextos con un significado distinto (*vendedor, comprador, venta, producto*) y en cada tabla aparecen con el sentido de ese contexto.
+
+**Contexto Usuarios**
+
+| Término | Significado |
+| --- | --- |
+| *registrarse* | Darse de alta con correo, contraseña y datos personales |
+| *autenticarse* | Validar correo y contraseña para usar el sistema |
+| *desactivarse* | La cuenta pasa a inactiva y deja de poder usarse |
+| **vendedor** | El rol con el que se acumulan sus estadísticas de ventas |
+| **comprador** | El rol con el que se acumulan sus estadísticas de compras |
+
+**Contexto Productos**
+
+| Término | Significado |
+| --- | --- |
+| *publicar* | Poner un borrador a la venta (`FOR_SALE`) |
+| *retirar* | Quitar de la venta un producto publicado; vuelve a borrador |
+| *descartar* | Desechar un borrador que no se va a publicar (`DELETED`) |
+| *eliminar* | Retirar definitivamente un producto en venta (`DELETED`) |
+| **borrador** | Producto creado que aún no está a la venta (`DRAFT`) |
+| **vendedor** | Réplica del usuario que publica productos en el catálogo |
+| **venta** | El estado de comercialización del propio producto (`DRAFT`, `FOR_SALE`…) |
+| **producto** | La entidad completa (título, precio, categoría, vendedor, punto de recogida) |
+
+**Contexto Ventas**
+
+| Término | Significado |
+| --- | --- |
+| *proponer una venta* | El comprador propone que el vendedor le venda su producto; la venta queda pendiente (`PENDING`) |
+| *reservar* | El vendedor acepta la propuesta (`RESERVED`) |
+| *rechazar* | El vendedor no acepta la propuesta (`REJECTED`) |
+| *completar* | La venta se cierra tras la entrega (`COMPLETED`) |
+| *cancelar* | Cualquiera de las partes da por terminada una venta reservada |
+| **venta** | El acuerdo entre comprador y vendedor y su ciclo de vida |
+| **comprador** | La parte que adquiere el producto |
+| **vendedor** | La parte que vende de esa venta concreta (sus datos quedan congelados en la venta) |
+| **producto** | Solo su identificador y los datos que la venta congela |
+
+**Contexto Valoraciones**
+
+| Término | Significado |
+| --- | --- |
+| *valorar al vendedor* | Puntuar al vendedor de una venta completada |
+| *valorar al comprador* | Puntuar al comprador de una venta completada |
+
+#### Diseño táctico
+
+La capa de dominio aplica el arsenal táctico del DDD: **value objects** con validación propia, **entidades y agregados** con invariantes, **fábricas** que garantizan objetos válidos, **eventos de dominio** y **excepciones de dominio** expresivas.
 
 **Aplicado en:** `user-service`, `product-service` y `sale-service`.
 
-- **`user-service`**: value objects para correo, nombre, apellidos, contraseña, teléfono y fechas; entidad usuario con su rol (`USER` / `ADMINISTRATOR`) y su estado (activo o inactivo), con comprobaciones internas para que ninguna operación se aplique a un usuario desactivado; fábrica de usuarios como única vía de creación; tres eventos de dominio (registro, actualización y desactivación) y unas cuarenta excepciones de dominio con mensajes autoexplicativos («la contraseña es demasiado corta», «el correo ya está registrado»).
-- **`product-service`**: value objects para precio, título, descripción, identificadores y fechas; entidades producto, categoría, vendedor y punto de recogida; estados de venta del producto (borrador, en venta, reservado, vendido, eliminado) e invariantes que impiden transiciones ilegales (solo se puede publicar un borrador; solo un producto en venta puede reservarse…); dieciséis eventos de dominio y excepciones como «el precio no puede ser negativo».
-- **`sale-service`**: agregado venta con su máquina de estados (propuesta, reservada, rechazada, cancelada, completada) e invariantes como «solo una venta pendiente puede reservarse», «el comprador no puede ser su propio vendedor» o «solo se puede valorar una venta completada»; fábrica de la venta con dos vías (alta nueva y reconstrucción desde su historial); siete eventos de dominio y unas cuarenta y cinco excepciones de dominio.
+- **`user-service`** (contexto Usuarios): los value objects (correo, nombre, apellidos, contraseña, teléfono y fechas) se autovalidan al crearse: un correo sin formato válido o una contraseña demasiado corta no pueden llegar a existir. El usuario es una entidad con su rol (`USER` / `ADMINISTRATOR`) y su estado (activo o inactivo), con comprobaciones internas para que ninguna operación se aplique a un usuario desactivado; la fábrica de usuarios es la única vía de creación, tanto en el registro como en la reconstrucción. Cada cambio relevante genera su evento de dominio (registro, actualización y desactivación), y los errores de negocio se expresan con excepciones de dominio autoexplicativas («la contraseña es demasiado corta», «el correo ya está registrado»).
+- **`product-service`** (contexto Productos): value objects para precio, título, descripción, identificadores y fechas; entidades producto, categoría, vendedor y punto de recogida, cada una con su fábrica. El producto tiene su máquina de estados (borrador, en venta, reservado, vendido, eliminado) protegida por invariantes que impiden transiciones ilegales (solo se puede publicar un borrador; solo un producto en venta puede reservarse); su ciclo de vida se refleja en eventos de dominio, y los errores como «el precio no puede ser negativo» se señalan con excepciones de dominio.
+- **`sale-service`** (contexto Ventas): el agregado venta reúne las dos partes (comprador y vendedor), el producto y la máquina de estados (propuesta, reservada, rechazada, cancelada, completada), con invariantes como «solo una venta pendiente puede reservarse», «el comprador no puede ser su propio vendedor» o «solo se puede valorar una venta completada». Su fábrica tiene dos vías: el alta de una venta nueva y la reconstrucción desde su historial de eventos (la base del event sourcing, más abajo). Cada transición genera su evento de dominio, y las reglas incumplidas se expresan con excepciones de dominio.
 
-Ideas transversales: el dominio se autovalida con sus propias excepciones (no con errores de framework), las fábricas son la única puerta de creación de objetos, y los nombres de los conceptos coinciden con el lenguaje del negocio y con la API (lenguaje ubicuo). Las máquinas de estados y el detalle de los datos que persiste cada servicio se describen en [`02-datos.md`](02-datos.md).
+Ideas transversales: el dominio se autovalida con sus propias excepciones (no con errores de framework) y las fábricas son la única puerta de creación de objetos. Las máquinas de estados y el detalle de los datos que persiste cada servicio se describen en [`02-datos.md`](02-datos.md).
 
 ### CQRS
 
-CQRS (*Command Query Responsibility Segregation*) separa a nivel de casos de uso las ** operaciones de escritura** (comandos, que aplican las reglas de negocio y guardan de forma transaccional) de las **operaciones de lectura** (consultas, optimizadas para devolver datos listos para la API). En SegundUM, los comandos se ejecutan sobre el modelo de escritura y, tras confirmarse, los eventos generados alimentan por asíncrono el modelo de lectura, que es el que responde a las consultas.
+CQRS (*Command Query Responsibility Segregation*) separa a nivel de casos de uso las **operaciones de escritura** (comandos, que aplican las reglas de negocio y guardan de forma transaccional) de las **operaciones de lectura** (consultas, optimizadas para devolver datos listos para la API). En SegundUM, los comandos se ejecutan sobre el modelo de escritura y, tras confirmarse, los eventos generados alimentan por asíncrono el modelo de lectura, que es el que responde a las consultas.
 
 **Aplicado en:** `product-service` y `sale-service`.
 
@@ -327,7 +397,7 @@ Además del enrutado, el gateway concentra la política de autenticación y auto
 
 ## OpenAPI
 
-Los servicios Java exponen su especificación **OpenAPI** con **Swagger UI** en `/api/swagger-ui` cuando arrancan en modo desarrollo (`SWAGGER_ENABLED=true`, ver `compose.dev.yaml`), y el gateway la concentra también en `http://localhost:8090/api/swagger-ui`. Esto permite explorar y probar toda la API de forma interactiva sin necesidad de herramientas externas.
+Todos los servicios exponen su especificación **OpenAPI** con **Swagger UI** en `/api/swagger-ui` cuando arrancan en modo desarrollo (variable `SWAGGER_ENABLED` en los servicios Java y `Swagger__Enabled` en `rating-service`, ver `compose.dev.yaml`), y el gateway la concentra también en `http://localhost:8090/api/swagger-ui`. Esto permite explorar y probar toda la API de forma interactiva sin necesidad de herramientas externas.
 
 El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) además está automatizado en la colección de Postman incluida en el repositorio (ver [`03-pruebas.md`](03-pruebas.md)).
 

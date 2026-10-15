@@ -16,7 +16,7 @@ Cada microservicio es dueño de sus datos (*base de datos por servicio*): persis
 
 | Consulta | Contexto |
 | --- | --- |
-| Buscar usuario por email (y cotejar contraseña) | Login |
+| Buscar usuario por email (y validar contraseña) | Login |
 | Obtener el perfil del usuario | Perfil |
 | Listar todos los usuarios | Administración |
 | Obtener estadísticas y medias | Perfil y eventos recibidos del bus |
@@ -169,7 +169,7 @@ erDiagram
         fechaHora fecha
         enumerado estado "PENDING | RESERVED | REJECTED | CANCELLED | COMPLETED"
     }
-    EVENTO_VENTA ||--|| VENTA_PROYECCION : "reproduce / proyecta"
+    EVENTO_VENTA ||--|| VENTA_PROYECCION : "proyecta"
 ```
 
 ### rating-service (MongoDB)

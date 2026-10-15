@@ -121,13 +121,17 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 | `product-service` | http://localhost:8081/api | Solo desarrollo |
 | `sale-service` | http://localhost:8082/api | Solo desarrollo |
 | `rating-service` | http://localhost:8083/api | Solo desarrollo |
+| Swagger UI de `user-service` | http://localhost:8080/api/swagger-ui | Solo desarrollo |
+| Swagger UI de `product-service` | http://localhost:8081/api/swagger-ui | Solo desarrollo |
+| Swagger UI de `sale-service` | http://localhost:8082/api/swagger-ui | Solo desarrollo |
+| Swagger UI de `rating-service` | http://localhost:8083/api/swagger-ui | Solo desarrollo |
 | phpMyAdmin | http://localhost:8089 | Solo desarrollo |
 | Mongo Express | http://localhost:8088 | Solo desarrollo |
 | Panel de RabbitMQ | http://localhost:15672 | Solo desarrollo |
 
 En desarrollo, los servicios solo se publican en `127.0.0.1` (no quedan accesibles desde otras máquinas de la red local).
 
-Cada servicio también expone su propia Swagger UI en `/api/swagger-ui` cuando arranca en modo desarrollo (`SWAGGER_ENABLED=true`). El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) se puede recorrer con la colección de **Postman** incluida en [`postman/`](postman/).
+La Swagger UI de cada servicio solo se activa en modo desarrollo (`SWAGGER_ENABLED=true`). El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) se puede recorrer con la colección de **Postman** incluida en [`postman/`](postman/).
 
 ## Documentación
 
