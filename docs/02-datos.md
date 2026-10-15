@@ -1,4 +1,4 @@
-# Datos: modelo, esquema y arquitectura de datos
+# Datos
 
 Este documento describe la perspectiva de los datos en SegundUM: qué entidades y relaciones persiste cada servicio, qué consultas necesita la API (patrones de acceso), cuál es el esquema conceptual y por qué se ha elegido cada tecnología de persistencia. Los estilos de arquitectura que motivan estas decisiones (CQRS y event sourcing) se describen en [`01-backend.md`](01-backend.md).
 

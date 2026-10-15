@@ -6,7 +6,7 @@ Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitar
 
 Se define en dos niveles:
 
-- **Pruebas unitarias por servicio**, que verifican la lógica de negocio de cada microservicio de forma aislada (sin bases de datos ni bus reales). Se ejecutan en cada *push* y *pull request* por la integración continua (ver [`04-ci-cd.md`](04-ci-cd.md)) y su cobertura se genera como informe.
+- **Pruebas unitarias por servicio**, que verifican la lógica de negocio de cada microservicio de forma aislada (sin bases de datos ni bus reales). Se ejecutan en cada *push* y *pull request* por la integración continua (ver [`04-ci-despliegue.md`](04-ci-despliegue.md)) y su cobertura se genera como informe.
 - **Pruebas de backend con Postman**, que recorren el sistema completo por su API real (a través del gateway), de punta a punta: registro, login, catálogo, ventas y valoraciones.
 
 ## Pruebas unitarias
@@ -35,7 +35,7 @@ dotnet test RatingService.sln
 
 ### Cobertura
 
-Cada servicio genera su informe de cobertura (JaCoCo en Java, coverlet en .NET) y la integración continua lo sube como artefacto de la ejecución, aunque los tests fallen (ver [`04-ci-cd.md`](04-ci-cd.md)).
+Cada servicio genera su informe de cobertura (JaCoCo en Java, coverlet en .NET) y la integración continua lo sube como artefacto de la ejecución, aunque los tests fallen (ver [`04-ci-despliegue.md`](04-ci-despliegue.md)).
 
 ## Pruebas backend con Postman
 

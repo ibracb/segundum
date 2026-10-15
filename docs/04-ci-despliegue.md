@@ -1,4 +1,4 @@
-# CI/CD: integración continua y despliegue
+# Integración continua y despliegue
 
 Este documento describe el pipeline de integración continua montado con GitHub Actions y cómo se realiza el despliegue del sistema, que en este proyecto es **local**, mediante Docker Compose.
 
@@ -44,17 +44,17 @@ El workflow de `rating-service` ejecuta sobre el mismo tipo de ejecutor:
 
 > Nota: los filtros por rutas solo contemplan el código del servicio y el propio fichero del workflow; los cambios que solo afectan a documentación no disparan la verificación de ningún servicio.
 
-## Despliegue (CD local)
+## Despliegue local
 
-En SegundUM no hay despliegue remoto: la entrega continua es **local**, y todo el sistema se levanta en el propio equipo con Docker Compose (los comandos siguientes se ejecutan desde la raíz del repositorio). Las imágenes de los cinco microservicios se **construyen desde el código fuente** con su Dockerfile respectivo, de forma que el mismo comando sirve para compilar y desplegar:
+En SegundUM no hay despliegue remoto: el despliegue es **local** y se ejecuta manualmente con Docker Compose, que levanta todo el sistema en el propio equipo (los comandos siguientes se ejecutan desde la raíz del repositorio). Las imágenes de los cinco microservicios se **construyen desde el código fuente** con su Dockerfile respectivo, de forma que el mismo comando sirve para compilar y desplegar:
 
 ```bash
 docker compose up -d --build
 ```
 
-### Perfiles de despliegue
+### Modos de despliegue
 
-| Perfil | Comando | Qué levanta |
+| Modo | Comando | Qué levanta |
 | --- | --- | --- |
 | Producción | `docker compose up -d --build` | MySQL, MongoDB, RabbitMQ y los 5 servicios (gateway en el puerto 8090) |
 | Desarrollo | `docker compose -f compose.yaml -f compose.dev.yaml up -d --build` | Lo anterior, más: exposición de cada servicio en localhost, Swagger activo y los paneles de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ) |
