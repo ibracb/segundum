@@ -111,16 +111,11 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 
 > **Nota:** En el primer arranque MySQL ejecuta los scripts de inicialización incluidos en el repositorio y el *healthcheck* de MongoDB permite hasta 4 minutos de margen, así que los servicios pueden tardar en quedar `healthy`.
 
-## Accesos web
+## Accesos web navegables
 
 | Recurso | URL | Disponible en |
 | --- | --- | --- |
-| API (a través del gateway) | http://localhost:8090/api | Producción y desarrollo |
 | Swagger UI del gateway | http://localhost:8090/api/swagger-ui | Solo desarrollo |
-| `user-service` | http://localhost:8080/api | Solo desarrollo |
-| `product-service` | http://localhost:8081/api | Solo desarrollo |
-| `sale-service` | http://localhost:8082/api | Solo desarrollo |
-| `rating-service` | http://localhost:8083/api | Solo desarrollo |
 | Swagger UI de `user-service` | http://localhost:8080/api/swagger-ui | Solo desarrollo |
 | Swagger UI de `product-service` | http://localhost:8081/api/swagger-ui | Solo desarrollo |
 | Swagger UI de `sale-service` | http://localhost:8082/api/swagger-ui | Solo desarrollo |
@@ -129,9 +124,9 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 | Mongo Express | http://localhost:8088 | Solo desarrollo |
 | Panel de RabbitMQ | http://localhost:15672 | Solo desarrollo |
 
-En desarrollo, los servicios solo se publican en `127.0.0.1` (no quedan accesibles desde otras máquinas de la red local).
+En producción, la única puerta de entrada del sistema es el gateway: la API queda disponible en `http://localhost:8090/api`. En desarrollo, los servicios solo se publican en `127.0.0.1` (no quedan accesibles desde otras máquinas de la red local).
 
-La Swagger UI de cada servicio solo se activa en modo desarrollo (`SWAGGER_ENABLED=true`). El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) se puede recorrer con la colección de **Postman** incluida en [`postman/`](postman/).
+La Swagger UI se activa solo en modo desarrollo (`SWAGGER_ENABLED=true`) y cada servicio expone la suya en su propio puerto. El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) se puede recorrer con la colección de **Postman** incluida en [`postman/`](postman/).
 
 ## Documentación
 
