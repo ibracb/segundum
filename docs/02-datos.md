@@ -48,7 +48,7 @@ Cada microservicio es dueño de sus datos (*base de datos por servicio*): persis
 
 **Entidades a persistir (MySQL, modelo de escritura):**
 
-- **Evento de venta** (almacén de eventos): cada hecho registrado sobre una venta se guarda como un registro inmutable con su identificador, la venta a la que pertenece, el tipo de evento, la carga útil (payload) y su marca de tiempo. Es el único contenido de la base de datos de escritura: no hay ninguna tabla con el estado actual de la venta.
+- **Evento de venta** (almacén de eventos): cada evento registrado sobre una venta se guarda como un registro inmutable con su identificador, la venta a la que pertenece, el tipo de evento, la carga útil (payload) y su marca de tiempo. Es el único contenido de la base de datos de escritura: no hay ninguna tabla con el estado actual de la venta.
 
 Conceptualmente, la venta reconstruida a partir de su historial contiene: producto, vendedor (identificador y nombre completo), comprador (identificador y nombre completo), precio, título, punto de recogida, fecha y hora, y estado (`PENDING` / `RESERVED` / `REJECTED` / `CANCELLED` / `COMPLETED`).
 
@@ -80,7 +80,7 @@ Conceptualmente, la venta reconstruida a partir de su historial contiene: produc
 
 ## Esquema conceptual
 
-Cada servicio modela su propio esqueleto de datos; no hay relaciones físicas entre bases de datos de servicios distintos (las conexiones conceptuales se cubren con eventos y llamadas REST). Los esquemas recogen los conceptos que cada servicio modela; los modelos de lectura de MongoDB son copias proyectadas de esos mismos conceptos y no se representan aparte. La única excepción es `sale-service`, donde la venta sí aparece proyectada porque, sin estado propio en el almacén de eventos, la venta solo existe como reconstrucción de su historial.
+Cada servicio modela su propio esqueleto de datos. No hay relaciones físicas entre bases de datos de servicios distintos (las conexiones conceptuales se cubren con eventos y llamadas REST). Los esquemas recogen los conceptos que cada servicio modela. Los modelos de lectura de MongoDB son copias proyectadas de esos mismos conceptos y no se representan aparte. La única excepción es `sale-service`, donde la venta sí aparece proyectada porque, sin estado propio en el almacén de eventos, la venta solo existe como reconstrucción de su historial.
 
 ### user-service (MySQL)
 
@@ -149,7 +149,7 @@ erDiagram
         identificador id PK
         identificador ventaId
         texto tipo "p. ej. SaleReserved"
-        JSON payload "datos del hecho"
+        JSON payload "datos del evento"
         fecha timestamp
     }
     VENTA_PROYECCION {
@@ -186,11 +186,11 @@ erDiagram
 
 ## Elección de la arquitectura de datos
 
-La separación entre modelo de escritura y modelo de lectura (CQRS) y el almacenamiento de los hechos (event sourcing), descritos en [`01-backend.md`](01-backend.md), tienen estas consecuencias en la persistencia:
+SegundUM sigue el enfoque de **persistencia políglota**: en vez de imponer una única base de datos a todo el sistema, cada servicio elige la tecnología que mejor encaja con su modelo. Conviven dos motores (MySQL relacional, y MongoDB documental) y su uso varía por servicio: `user-service` persiste solo en MySQL, `rating-service` solo en MongoDB, y `product-service` y `sale-service` combinan ambos porque, en ellos, la separación entre modelo de escritura y modelo de lectura (CQRS) y el almacenamiento de los eventos (event sourcing) descritos en [`01-backend.md`](01-backend.md) divide también el motor de escritura (MySQL) del de lectura (MongoDB). Estas decisiones tienen las siguientes consecuencias en la persistencia:
 
 - **MySQL para los modelos de escritura.** Los datos transaccionales (usuarios, categorías, vendedores y productos) requieren integridad y atomicidad: las operaciones de negocio son transacciones relacionales clásicas (p. ej. crear un producto con su categoría y vendedor), para las que MySQL y JPA encajan de forma natural. El almacén de eventos de las ventas también vive en MySQL, donde cada evento se inserta como una fila inmutable más.
 - **MongoDB para los modelos de lectura.** Las consultas de lectura (búsqueda paginada con filtros, listados por vendedor o comprador, valoraciones recibidas) se resuelven sobre documentos denormalizados y listos para la API, sin joins ni gravar el modelo transaccional. MongoDB aporta flexibilidad de esquema, ya que las proyecciones no tienen por qué reflejar el modelo relacional.
-- **Sincronización mediante proyecciones.** El modelo de lectura se mantiene al día con proyecciones que se ejecutan de forma asíncrona tras confirmarse cada escritura (en `product-service`) o al consumir los eventos del bus (en `sale-service`). La réplica de vendedores y las estadísticas de los usuarios son también proyecciones de eventos: los hechos publicados en el bus actualizan los almacenes de lectura sin acoplar servicios.
-- **Event store como fuente de verdad de las ventas.** En `sale-service` no se guarda el estado actual: el historial de eventos es la única fuente de verdad, de modo que el estado de cualquier venta en cualquier momento se puede reconstruir y las proyecciones de lectura se pueden regenerar desde cero. La implementación actual no usa *snapshots* ni versionado optimista.
+- **Sincronización mediante proyecciones.** El modelo de lectura se mantiene al día con proyecciones que se ejecutan de forma asíncrona tras confirmarse cada escritura (en `product-service`) o al consumir los eventos del bus (en `sale-service`). La réplica de vendedores y las estadísticas de los usuarios son también proyecciones de eventos: los eventos publicados en el bus actualizan los almacenes de lectura sin acoplar servicios.
+- **Event store como fuente de verdad de las ventas.** En `sale-service` no se guarda el estado actual: el historial de eventos es la única fuente de verdad, de modo que el estado de cualquier venta en cualquier momento se puede reconstruir y las proyecciones de lectura se pueden regenerar desde cero. La implementación actual no usa *snapshots*, ni control de concurrencia optimista, ni un formato de evento versionado.
 - **Una base de datos por servicio.** Cada servicio elige y evoluciona sus almacenes sin afectar a los demás, y ningún servicio consulta directamente la base de otro (la información compartida se replica por eventos). En el despliegue con Docker Compose, esas bases de datos lógicas se alojan en un único contenedor MySQL y un único MongoDB por simplicidad.
 - **XML como carga inicial.** La jerarquía de categorías no se introduce por la API: se carga en el arranque de `product-service` desde ficheros XML incluidos en el repositorio.

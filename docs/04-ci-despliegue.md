@@ -4,7 +4,7 @@ Este documento describe el pipeline de integración continua montado con GitHub 
 
 ## Integración continua
 
-El proyecto tiene **cinco workflows de GitHub Actions**, uno por cada microservicio (`.github/workflows/`), de forma que cada servicio se verifica de forma independiente.
+El proyecto tiene **cinco workflows de GitHub Actions**, uno por cada microservicio (`.github/workflows/`), de forma que cada uno se verifica de forma independiente.
 
 ### Disparadores
 
@@ -28,7 +28,7 @@ El workflow de `rating-service` ejecuta sobre el mismo tipo de ejecutor:
 1. **Checkout** del repositorio.
 2. **Configuración de .NET 8 SDK**.
 3. **Caché de dependencias NuGet** (`~/.nuget/packages`).
-4. **Tests con cobertura**: `dotnet test` en modo Release con la colección de cobertura XPlat (coverlet).
+4. **Tests con cobertura**: `dotnet test` en modo Release con la colección de cobertura XPlat (coverlet), compila la solución antes de ejecutarlos.
 5. **Subida del informe de cobertura** como artefacto, incluso si los tests fallan.
 6. **Publicación del servicio** (`dotnet publish`) y verificación de la salida.
 
@@ -40,9 +40,9 @@ El workflow de `rating-service` ejecuta sobre el mismo tipo de ejecutor:
 | `product-service` | Compilación, tests unitarios | JaCoCo | JAR |
 | `sale-service` | Compilación, tests unitarios | JaCoCo | JAR |
 | `api-gateway` | Compilación, tests unitarios | JaCoCo | JAR |
-| `rating-service` | Tests unitarios | coverlet (XPlat) | Publicación .NET |
+| `rating-service` | Compilación, tests unitarios | coverlet (XPlat) | Publicación .NET |
 
-> Nota: los filtros por rutas solo contemplan el código del servicio y el propio fichero del workflow; los cambios que solo afectan a documentación no disparan la verificación de ningún servicio.
+> Nota: los filtros por rutas solo contemplan el código del servicio y el propio fichero del workflow. Los cambios que solo afectan a documentación no disparan la verificación de ningún servicio.
 
 ## Despliegue local
 
@@ -65,6 +65,6 @@ La configuración de todo el despliegue (credenciales, rutas internas, secreto J
 
 - **Healthchecks:** bases de datos y bus declaran healthchecks, y los servicios esperan a que estén `healthy` antes de arrancar. En el primer arranque MySQL ejecuta los scripts de inicialización incluidos en el repositorio y el healthcheck de MongoDB permite hasta 4 minutos de margen, así que los servicios pueden tardar en quedar `healthy`.
 - **Volúmenes:** los datos persisten en volúmenes nombrados (`mysql_data`, `mongodb_data`, `rabbitmq_data`). `docker compose down -v` los elimina (pérdida total de datos).
-- **Red:** los servicios y las bases de datos comparten red interna; solo el gateway (y, en desarrollo, los paneles) se publican en el host. Las bases de datos no son accesibles desde fuera de la red de contenedores.
+- **Red:** los servicios y las bases de datos comparten red interna. Solo el gateway (y, en desarrollo, los paneles) se publican en el host. Las bases de datos no son accesibles desde fuera de la red de contenedores.
 
 > La integración continua y el despliegue local se pueden verificar en conjunto: cada `push` a `main` valida los servicios con los mismos `mvn` / `dotnet test` que se ejecutarían en local, y Docker Compose construye exactamente las mismas piezas que despliega.
