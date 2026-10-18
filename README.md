@@ -33,14 +33,11 @@ segundum/
 │   ├── sale-service/              # Spring Boot: ciclo de vida de las ventas
 │   ├── user-service/              # JAX-RS/Jetty: usuarios y autenticación
 │   └── rating-service/            # .NET: valoraciones
-├── db/
-│   ├── init-products.sql          # Esquema MySQL de productos
-│   ├── init-sales.sql             # Esquema MySQL de ventas
-│   └── init-users.sql             # Esquema MySQL de usuarios
-├── docs/                          # Documentación adicional (en español)
+├── db/                            # Scripts SQL de inicialización
+├── docs/                          # Documentación adicional
 ├── postman/
-│   ├── collections/               # Colección con el flujo completo
-│   └── environments/              # Entorno local (localhost:8090)
+│   ├── collections/               # Colecciones de pruebas de Postman
+│   └── environments/              # Entornos para Postman
 ├── .env.example                   # Variables de entorno de ejemplo
 ├── .gitignore                     # Ficheros ignorados por Git
 ├── compose.dev.yaml               # Docker Compose (desarrollo)
@@ -78,24 +75,24 @@ cp .env.example .env
 Valores que **debes rellenar** antes de arrancar:
 
 - **`JWT_SECRET`**: secreto con el que se firman y verifican los JWT, compartido por todos los servicios. Puedes generarlo con `openssl rand -base64 32` (debe ser una cadena Base64 válida de 32 bytes).
-- **`MYSQL_ROOT_PASSWORD`**: obligatorio; MySQL no arranca sin él.
+- **`MYSQL_ROOT_PASSWORD`**: obligatorio, dado que MySQL no arranca sin él.
 - **`USER_SERVICE_DATASOURCE_USERNAME` / `..._PASSWORD`** (y los equivalentes de `product-service` y `sale-service`): credenciales con las que cada servicio se conecta a MySQL. En el ejemplo se usa el usuario `root` con la misma contraseña que `MYSQL_ROOT_PASSWORD`.
 - **`RABBITMQ_DEFAULT_USER` / `RABBITMQ_DEFAULT_PASS`**: usuario y contraseña del bus de eventos.
 - **`MONGO_EXPRESS_BASICAUTH_USERNAME` / `..._PASSWORD`** (solo desarrollo): acceso a Mongo Express.
 
-> **Nota:** Las bases de datos (MySQL, MongoDB y RabbitMQ) no se publican en el host; solo son accesibles desde los contenedores. En desarrollo sí se exponen las interfaces de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ).
+> **Nota:** Tanto bases de datos (MySQL, MongoDB) como el broker de mensajería (RabbitMQ) no se publican en el host, sino que solo son accesibles desde los contenedores. En desarrollo sí se exponen las interfaces de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ).
 
 ## Compilación y ejecución
 
-Todo se arranca con Docker Compose; no es necesario compilar nada. Los comandos siguientes se ejecutan desde la raíz del repositorio (`segundum/`), tras el `cd` de la instalación.
+Todo se arranca con Docker Compose, por lo que no es necesario compilar nada. Los comandos siguientes se ejecutan desde la raíz del repositorio (`segundum/`), tras el `cd` de la instalación.
 
-**Modo Producción** (MySQL + MongoDB + RabbitMQ + los 5 servicios, con el gateway en el puerto 8090):
+**Producción** (MySQL + MongoDB + RabbitMQ + los 5 servicios, con el gateway en el puerto 8090):
 
 ```bash
 docker compose up -d --build
 ```
 
-**Modo Desarrollo** (además expone cada servicio en localhost, activa Swagger y añade phpMyAdmin, Mongo Express y el panel de RabbitMQ):
+**Desarrollo** (además expone cada servicio en localhost, activa Swagger y añade phpMyAdmin, Mongo Express y el panel de RabbitMQ):
 
 ```bash
 docker compose -f compose.yaml -f compose.dev.yaml up -d --build
@@ -115,7 +112,7 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 
 | Recurso | URL | Disponibilidad |
 | --- | --- | --- |
-| Swagger UI del `api-gateway` | http://localhost:8090/api/swagger-ui | Modo desarrollo |
+| Swagger UI de `api-gateway` | http://localhost:8090/api/swagger-ui | Modo desarrollo |
 | Swagger UI de `user-service` | http://localhost:8080/api/swagger-ui | Modo desarrollo |
 | Swagger UI de `product-service` | http://localhost:8081/api/swagger-ui | Modo desarrollo |
 | Swagger UI de `sale-service` | http://localhost:8082/api/swagger-ui | Modo desarrollo |
@@ -126,7 +123,7 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 
 En producción, la única puerta de entrada del sistema es el gateway: la API queda disponible en `http://localhost:8090/api`. En desarrollo, los servicios solo se publican en `127.0.0.1` (no quedan accesibles desde otras máquinas de la red local).
 
-La Swagger UI se activa solo en modo desarrollo (`SWAGGER_ENABLED=true`) y cada servicio expone la suya en su propio puerto. El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) se puede recorrer con la colección de **Postman** incluida en [`postman/`](postman/).
+Swagger UI se activa solo en modo desarrollo (`SWAGGER_ENABLED=true`) y cada servicio expone la suya en su propio puerto. El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) se puede recorrer con la colección de **Postman** incluida en [`postman/`](postman/).
 
 ## Documentación
 
