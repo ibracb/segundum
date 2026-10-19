@@ -82,7 +82,7 @@ Valores que **debes rellenar** antes de arrancar:
 - **`RABBITMQ_DEFAULT_USER` / `RABBITMQ_DEFAULT_PASS`**: usuario y contraseña del bus de eventos.
 - **`MONGO_EXPRESS_BASICAUTH_USERNAME` / `..._PASSWORD`** (solo desarrollo): acceso a Mongo Express.
 
-> **Nota:** Tanto bases de datos (MySQL, MongoDB) como el broker de mensajería (RabbitMQ) no se publican en el host, sino que solo son accesibles desde los contenedores. En desarrollo sí se exponen las interfaces de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ).
+> **Nota:** Tanto bases de datos (MySQL, MongoDB) como el bróker de mensajería (RabbitMQ) no se publican en el host, sino que solo son accesibles desde los contenedores. En desarrollo sí se exponen las interfaces de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ).
 
 ## Compilación y ejecución
 
