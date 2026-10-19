@@ -52,10 +52,10 @@ En SegundUM no hay despliegue remoto: el despliegue es **local** y se ejecuta ma
 
 | Modo | Qué levanta |
 | --- | --- |
-| Producción | MySQL, MongoDB, RabbitMQ y los 5 servicios (gateway en el puerto 8090) |
-| Desarrollo | Todo lo relacionado al modo producción, más: exposición de cada servicio en localhost, Swagger activo y los paneles de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ) |
+| Producción | MySQL, MongoDB, RabbitMQ y los 5 microservicios (gateway en el puerto 8090) |
+| Desarrollo | Todo lo relacionado al modo producción, más: exposición de cada microservicio en localhost, Swagger activo y los paneles de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ) |
 
-La configuración de todo el despliegue (credenciales, rutas internas, secreto JWT) se inyecta por variables de entorno desde el fichero `.env` (ver [`README.md`](../README.md)).
+La configuración de todo el despliegue (credenciales, rutas internas, secreto JWT) se inyecta por variables de entorno desde un fichero `.env` (ver [`README.md`](../README.md)).
 
 ### Orquestación
 

@@ -4,7 +4,7 @@ Este documento describe la perspectiva de los datos en SegundUM: qué entidades 
 
 ## Perspectiva de los datos
 
-Cada microservicio es dueño de sus datos (*base de datos por servicio*): persiste lo que necesita para cumplir su responsabilidad y no accede a las bases de otros servicios. La información que necesita un servicio de otro llega por el bus de eventos (réplicas y contadores) o mediante llamadas REST (consultas puntuales).
+Cada servicio es dueño de sus datos (*base de datos por servicio*): persiste lo que necesita para cumplir su responsabilidad y no accede a las bases de otros servicios. La información que necesita un servicio de otro llega por el bus de eventos (réplicas y contadores) o mediante llamadas REST (consultas puntuales).
 
 ### user-service
 

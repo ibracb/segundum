@@ -25,7 +25,7 @@ Tecnologías transversales:
 
 ## Microservicios
 
-El sistema está descompuesto en cinco servicios desplegados con Docker Compose, cada uno con su propia base de datos (*base de datos por servicio*). El **API Gateway** es la única puerta de entrada: todo el tráfico externo pasa por él.
+El sistema está descompuesto en cinco microservicios desplegados con Docker Compose, cada uno dueño de lo que persiste (*base de datos por servicio*). El **API Gateway** es la única puerta de entrada: todo el tráfico externo pasa por él.
 
 ```mermaid
 flowchart LR
@@ -75,7 +75,7 @@ flowchart LR
 ```
 
 > [!NOTE]
-> Cada servicio usa su propia base de datos: ningún servicio accede directamente a las bases de datos de otro. La información compartida llega por el bus de eventos o mediante llamadas REST. Por simplicidad del despliegue con Docker Compose, todas las bases de datos lógicas de MySQL se alojan en un único contenedor MySQL y, del mismo modo, las de MongoDB en un único contenedor MongoDB.
+> Ningún microservicio accede directamente a las bases de datos de otro. La información compartida llega por el bus de eventos o mediante llamadas REST. Por simplicidad del despliegue con Docker Compose, todas las bases de datos lógicas de MySQL se alojan en un único contenedor MySQL y, del mismo modo, las de MongoDB en un único contenedor MongoDB.
 
 | Microservicio | Responsabilidad |
 | --- | --- |
@@ -158,7 +158,7 @@ El enfoque DDD modela el dominio con un lenguaje cercano al negocio y lo aborda 
 | **Ventas** | `sale-service` | Las ventas entre comprador y vendedor y su ciclo de vida | No tiene usuarios ni productos: congela los datos que necesita (título, precio, nombre del vendedor) |
 | **Valoraciones** | `rating-service` | Las valoraciones entre las partes de una venta completada | No tiene ventas: solo su identificador y sus partes |
 
-Ningún contexto consulta los datos de otro (cada uno tiene sus propias base de datos, ver [`02-datos.md`](02-datos.md)). Lo que hace falta del contexto upstream no se referencia, se **copia al modelo propio**, de modo que un contexto nunca depende de la disponibilidad de otro en tiempo de ejecución.
+Ningún contexto consulta los datos de otro (cada uno tiene sus propias bases de datos, ver [`02-datos.md`](02-datos.md)). Lo que hace falta del contexto upstream no se referencia, se **copia al modelo propio**, de modo que un contexto nunca depende de la disponibilidad de otro en tiempo de ejecución.
 
 **Lenguaje ubicuo.** Cada contexto habla su propio idioma, y los términos del negocio coinciden con los del código, la API y los estados del sistema. Cada glosario recoge primero las acciones que el contexto permite y después los términos que nombra. Algunos términos se repiten entre contextos con un significado distinto (*vendedor, comprador, venta, producto*) y en cada tabla aparecen con el sentido de ese contexto.
 
@@ -213,7 +213,7 @@ La capa de dominio aplica el arsenal táctico del DDD: **value objects** con val
 **Aplicado en:** `user-service`, `product-service` y `sale-service`.
 
 - **`user-service`** (contexto Usuarios): los value objects (correo, nombre, apellidos, contraseña, teléfono y fechas) se autovalidan al crearse: un correo sin formato válido o una contraseña demasiado corta no pueden llegar a existir. El usuario es una entidad con su rol (`USER` / `ADMINISTRATOR`) y su estado (activo o inactivo), con comprobaciones internas para que ninguna operación se aplique a un usuario desactivado. La factoría de usuarios es la única vía de creación, tanto en el registro como en la reconstrucción. Cada cambio relevante (registro, actualización y desactivación) tiene su evento de dominio, que **el caso de uso compone a partir del estado ya mutado del agregado y publica tras persistirlo**. Los errores de negocio se expresan con excepciones de dominio autoexplicativas ("la contraseña es demasiado corta", "el correo ya está registrado").
-- **`product-service`** (contexto Productos): value objects para precio, título, descripción, identificadores y fechas. Entidades producto, categoría, vendedor y punto de recogida, cada una con su factoría. El producto tiene su máquina de estados (borrador, en venta, reservado, vendido, eliminado) protegida por invariantes que impiden transiciones ilegales (solo se puede publicar un borrador, y solo un producto en venta puede reservarse). Su ciclo de vida se refleja en eventos de dominio que **los casos de uso construyen desde el agregado y publican tras persistir**. Los errores como "el precio no puede ser negativo" se señalan con excepciones de dominio. Una excepción es que el evento `CategoryCreated` se publica desde un adaptador de infraestructura (el cargador de jerarquía de categorías en XML) en lugar de desde un caso de uso.
+- **`product-service`** (contexto Productos): value objects para precio, título, descripción, identificadores y fechas. Entidades producto, categoría, vendedor y punto de recogida, cada una con su factoría. El producto tiene su máquina de estados (borrador, en venta, reservado, vendido, eliminado) protegida por invariantes que impiden transiciones ilegales (solo se puede publicar un borrador, y solo un producto en venta puede reservarse). Su ciclo de vida se refleja en eventos de dominio que **los casos de uso construyen tras la mutación de estado del agregado y publican tras persistir**. Los errores como "el precio no puede ser negativo" se señalan con excepciones de dominio. Una excepción es que el evento `CategoryCreated` se publica desde un adaptador de infraestructura (el cargador de jerarquía de categorías en XML) en lugar de desde un caso de uso.
 - **`sale-service`** (contexto Ventas): el agregado venta reúne las dos partes (comprador y vendedor), el producto y la máquina de estados (propuesta, reservada, rechazada, cancelada, completada), con invariantes como "solo una venta pendiente puede reservarse", "el comprador no puede ser su propio vendedor" o "solo se puede valorar una venta completada". Su factoría tiene dos vías: el alta de una venta nueva y la reconstrucción desde su historial de eventos (la base del event sourcing, más abajo). **El propio agregado registra cada transición como evento** (`apply()`/`when()` acumula el evento pendiente en `uncommittedEvents`, y el caso de uso drena esa lista para guardarlo en el almacén de eventos y publicarlo en el bus), como exige el event sourcing, y las reglas incumplidas se expresan con excepciones de dominio.
 
 Ideas transversales: el dominio se autovalida con sus propias excepciones (no con errores de framework) y las factorías son la única puerta de creación de objetos. Las máquinas de estados y el detalle de los datos que persiste cada servicio se describen en [`02-datos.md`](02-datos.md).
@@ -266,7 +266,7 @@ sequenceDiagram
 
 Cómo se reconoce que hay event sourcing de verdad en este servicio:
 
-- **No existe ninguna tabla con el estado de la venta** ni un repositorio de ventas: la base de datos de ventas solo contiene el historial de eventos.
+- **No existe ninguna tabla con el estado de la venta** ni un repositorio de ventas: la base de datos de escritura en el microservicio de las ventas solo contiene el historial de eventos.
 - **Toda operación sobre una venta** (reservar, completar, rechazar, cancelar) comienza recuperando el historial y reconstruyendo el estado. Solo entonces valida las invariantes y registra el evento correspondiente.
 - **Incluso algunas consultas de negocio** se responden reconstruyendo la venta desde sus eventos (por ejemplo, para saber si ya existe una propuesta abierta).
 - **MongoDB es solo de lectura**: ninguna escritura del agregado pasa por la colección de ventas.

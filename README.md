@@ -1,6 +1,6 @@
 # SegundUM
 
-> Un marketplace de segunda mano: consulta productos, publica y gestiona los tuyos, propón ventas y valora a las partes.
+> Evolución de un marketplace de segunda mano: consulta productos, publica y gestiona los tuyos, propón ventas y valora a las partes.
 
 ![Java](https://img.shields.io/badge/Java-11-orange?style=flat&logo=openjdk&logoColor=white)
 ![JAX-RS](https://img.shields.io/badge/JAX--RS-Jersey%202.41-007396?style=flat)
@@ -26,7 +26,7 @@ SegundUM es un sistema de compraventa de segunda mano construido como una arquit
 ```
 segundum/
 ├── .github/
-│   └── workflows/                 # CI de cada servicio (GitHub Actions)
+│   └── workflows/                 # CI de cada microservicio (GitHub Actions)
 ├── apps/
 │   ├── api-gateway/               # Spring Boot + Zuul: puerta de entrada y JWT
 │   ├── product-service/           # Spring Boot: catálogo y búsqueda
@@ -54,6 +54,8 @@ Para desarrollar un servicio en local (opcional, no hace falta para usar el sist
 - **Java 11 o superior**: comprueba con `java --version`
 - **Maven 3.8 o superior**: comprueba con `mvn --version`
 - **.NET 8 SDK** (solo `rating-service`): comprueba con `dotnet --version`
+
+Se usan para compilar cada microservicio y ejecutar sus tests unitarios en local (ver [Pruebas](docs/03-pruebas.md)).
 
 ## Instalación
 
@@ -86,13 +88,13 @@ Valores que **debes rellenar** antes de arrancar:
 
 Todo se arranca con Docker Compose, por lo que no es necesario compilar nada. Los comandos siguientes se ejecutan desde la raíz del repositorio (`segundum/`), tras el `cd` de la instalación.
 
-**Producción** (MySQL + MongoDB + RabbitMQ + los 5 servicios, con el gateway en el puerto 8090):
+**Producción** (MySQL + MongoDB + RabbitMQ + los 5 microservicios, con el gateway en el puerto 8090):
 
 ```bash
 docker compose up -d --build
 ```
 
-**Desarrollo** (además expone cada servicio en localhost, activa Swagger y añade phpMyAdmin, Mongo Express y el panel de RabbitMQ):
+**Desarrollo** (además expone cada microservicio en localhost, activa Swagger y añade phpMyAdmin, Mongo Express y el panel de RabbitMQ):
 
 ```bash
 docker compose -f compose.yaml -f compose.dev.yaml up -d --build
@@ -123,7 +125,7 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 
 En producción, la única puerta de entrada del sistema es el gateway: la API queda disponible en `http://localhost:8090/api`. En desarrollo, los servicios solo se publican en `127.0.0.1` (no quedan accesibles desde otras máquinas de la red local).
 
-Swagger UI se activa solo en modo desarrollo (`SWAGGER_ENABLED=true`) y cada servicio expone la suya en su propio puerto. El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) se puede recorrer con la colección de **Postman** incluida en [`postman/`](postman/).
+Swagger UI se activa solo en modo desarrollo (`SWAGGER_ENABLED=true`) y cada servicio expone la suya en su propio puerto.
 
 ## Documentación
 

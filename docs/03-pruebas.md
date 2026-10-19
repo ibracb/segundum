@@ -11,20 +11,43 @@ Se define en dos niveles:
 
 ## Pruebas unitarias
 
-### Servicios Java
+### Microservicios Java
 
-Los cuatro servicios Java usan **JUnit 5** (Jupiter). `user-service` usa JUnit 5 directamente (5.9.3), mientras que `product-service`, `sale-service` y `api-gateway` usan el starter de test de Spring Boot, que incorpora JUnit 5 junto con Mockito y las utilidades de test de Spring.
+Los cuatro microservicios Java usan **JUnit 5** (Jupiter). `user-service` usa JUnit 5 directamente (5.9.3), mientras que `product-service`, `sale-service` y `api-gateway` usan el starter de test de Spring Boot, que incorpora JUnit 5 junto con Mockito y las utilidades de test de Spring.
 
-Se ejecutan con Maven desde la carpeta del servicio (repite el comando con `product-service`, `sale-service` o `api-gateway` según el que quieras probar), y también genera el informe de cobertura con **JaCoCo**:
+Cada uno se ejecuta con Maven desde su propia carpeta, y el proceso también genera el informe de cobertura con **JaCoCo**:
+
+**user-service**
 
 ```bash
 cd apps/user-service
 mvn -B clean package
 ```
 
-Los tests se apoyan en la arquitectura hexagonal del sistema: en lugar de tocar bases de datos o el bus real, se inyectan **dobles en memoria (fakes)** del repositorio, de las consultas, de la publicación de eventos y de las llamadas a otros servicios, de modo que los casos de uso se prueban aislados de la infraestructura.
+**product-service**
 
-### rating-service (.NET)
+```bash
+cd apps/product-service
+mvn -B clean package
+```
+
+**sale-service**
+
+```bash
+cd apps/sale-service
+mvn -B clean package
+```
+
+**api-gateway**
+
+```bash
+cd apps/api-gateway
+mvn -B clean package
+```
+
+Los tests se apoyan en la arquitectura hexagonal del sistema: en lugar de tocar bases de datos o el bus real, se inyectan **dobles en memoria (fakes)** del repositorio, de las consultas, de la publicación de eventos y de las llamadas a otros microservicios, de modo que los casos de uso se prueban aislados de la infraestructura.
+
+### Microservicio .NET (rating-service)
 
 `rating-service` usa **xUnit** con el mismo enfoque de fakes en memoria para sus puertos (publicación de eventos, lectura de las partes de la venta, persistencia), y **coverlet** para la cobertura:
 
@@ -35,7 +58,7 @@ dotnet test RatingService.sln
 
 ### Cobertura
 
-Cada servicio genera su informe de cobertura (JaCoCo en Java, coverlet en .NET) y la integración continua lo sube como artefacto de la ejecución, aunque los tests fallen (ver [`04-ci-despliegue.md`](04-ci-despliegue.md)).
+Cada microservicio genera su informe de cobertura (JaCoCo en Java, coverlet en .NET) y la integración continua lo sube como artefacto de la ejecución, aunque los tests fallen (ver [`04-ci-despliegue.md`](04-ci-despliegue.md)).
 
 ## Pruebas backend con Postman
 
