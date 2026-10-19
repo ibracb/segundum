@@ -1,4 +1,4 @@
-package segundum.infrastructure.auth;
+package segundum.infrastructure.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

@@ -1,4 +1,4 @@
-package segundum.infrastructure.auth;
+package segundum.infrastructure.security;
 
 import java.time.Instant;
 import java.util.Date;
