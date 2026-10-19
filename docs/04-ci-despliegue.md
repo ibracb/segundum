@@ -44,6 +44,8 @@ El workflow de `rating-service` ejecuta sobre el mismo tipo de ejecutor:
 
 > Nota: los filtros por rutas solo contemplan el código del servicio y el propio fichero del workflow. Los cambios que solo afectan a documentación no disparan la verificación de ningún servicio.
 
+> Nota: la integración continua cubre solo la verificación individual de cada microservicio. Las pruebas de punta a punta con la colección de Postman no se ejecutan en CI porque exigirían levantar todo el backend, ver [`03-pruebas.md`](03-pruebas.md).
+
 ## Despliegue local
 
 En SegundUM no hay despliegue remoto: el despliegue es **local** y se ejecuta manualmente con Docker Compose, que levanta todo el sistema en el propio equipo. Las imágenes de los cinco microservicios se **construyen desde el código fuente** con su Dockerfile respectivo.
