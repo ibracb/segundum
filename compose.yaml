@@ -12,6 +12,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 15
+      start_period: 240s
   mongodb:
     image: mongo:8.0
     container_name: ${MONGODB_CONTAINER_NAME}
@@ -56,6 +57,12 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
   product-service:
     build:
       context: ./apps/product-service
@@ -77,6 +84,12 @@ services:
         condition: service_healthy
       mongodb:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z -w 2 127.0.0.1 8081"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
   sale-service:
     build:
       context: ./apps/sale-service
@@ -100,6 +113,16 @@ services:
         condition: service_healthy
       mongodb:
         condition: service_healthy
+      user-service:
+        condition: service_healthy
+      product-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z -w 2 127.0.0.1 8082"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
   rating-service:
     build:
       context: ./apps/rating-service/src
@@ -119,7 +142,13 @@ services:
       rabbitmq:
         condition: service_healthy
       sale-service:
-        condition: service_started
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8083"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
   api-gateway:
     build:
       context: ./apps/api-gateway
@@ -137,10 +166,20 @@ services:
       RATING_ROUTE: ${RATING_ROUTE}
       JWT_SECRET: ${JWT_SECRET}
     depends_on:
-      - user-service
-      - product-service
-      - sale-service
-      - rating-service
+      user-service:
+        condition: service_healthy
+      product-service:
+        condition: service_healthy
+      sale-service:
+        condition: service_healthy
+      rating-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z -w 2 127.0.0.1 8090"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
 volumes:
   mysql_data:
   mongodb_data:

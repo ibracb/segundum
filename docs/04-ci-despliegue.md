@@ -46,25 +46,33 @@ El workflow de `rating-service` ejecuta sobre el mismo tipo de ejecutor:
 
 ## Despliegue local
 
-En SegundUM no hay despliegue remoto: el despliegue es **local** y se ejecuta manualmente con Docker Compose, que levanta todo el sistema en el propio equipo (los comandos siguientes se ejecutan desde la raíz del repositorio). Las imágenes de los cinco microservicios se **construyen desde el código fuente** con su Dockerfile respectivo, de forma que el mismo comando sirve para compilar y desplegar:
-
-```bash
-docker compose up -d --build
-```
+En SegundUM no hay despliegue remoto: el despliegue es **local** y se ejecuta manualmente con Docker Compose, que levanta todo el sistema en el propio equipo. Las imágenes de los cinco microservicios se **construyen desde el código fuente** con su Dockerfile respectivo.
 
 ### Modos de despliegue
 
-| Modo | Comando | Qué levanta |
-| --- | --- | --- |
-| Producción | `docker compose up -d --build` | MySQL, MongoDB, RabbitMQ y los 5 servicios (gateway en el puerto 8090) |
-| Desarrollo | `docker compose -f compose.yaml -f compose.dev.yaml up -d --build` | Lo anterior, más: exposición de cada servicio en localhost, Swagger activo y los paneles de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ) |
+| Modo | Qué levanta |
+| --- | --- |
+| Producción | MySQL, MongoDB, RabbitMQ y los 5 servicios (gateway en el puerto 8090) |
+| Desarrollo | Todo lo relacionado al modo producción, más: exposición de cada servicio en localhost, Swagger activo y los paneles de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ) |
 
 La configuración de todo el despliegue (credenciales, rutas internas, secreto JWT) se inyecta por variables de entorno desde el fichero `.env` (ver [`README.md`](../README.md)).
 
 ### Orquestación
 
-- **Healthchecks:** bases de datos y bus declaran healthchecks, y los servicios esperan a que estén `healthy` antes de arrancar. En el primer arranque MySQL ejecuta los scripts de inicialización incluidos en el repositorio y el healthcheck de MongoDB permite hasta 4 minutos de margen, así que los servicios pueden tardar en quedar `healthy`.
+- **Healthchecks:** los tres contenedores de infraestructura y los cinco microservicios declaran healthcheck, y todo `depends_on` espera a que el dependido esté `healthy` antes de arrancar. Los de infraestructura usan su comprobación nativa y admiten hasta 4 minutos de margen, pensado para el primer arranque, en el que MySQL ejecuta los scripts de inicialización incluidos en el repositorio. Los microservicios comprueban que su puerto responde y admiten 30 segundos.
 - **Volúmenes:** los datos persisten en volúmenes nombrados (`mysql_data`, `mongodb_data`, `rabbitmq_data`). `docker compose down -v` los elimina (pérdida total de datos).
-- **Red:** los servicios y las bases de datos comparten red interna. Solo el gateway (y, en desarrollo, los paneles) se publican en el host. Las bases de datos no son accesibles desde fuera de la red de contenedores.
+- **Red:** los servicios y las bases de datos comparten red interna. En producción solo se publica en el host el gateway. En desarrollo se publican además los cuatro servicios, restringidos a localhost, y los paneles. Las bases de datos no son accesibles desde fuera de la red de contenedores.
+
+Los tres contenedores de infraestructura no esperan a nada, así que arrancan primero. Después lo hacen los cinco microservicios, cada uno cuando sus dependencias están `healthy`:
+
+| Contenedor | Espera a que esté `healthy` |
+| --- | --- |
+| `user-service` | `mysql` (base `users`), `rabbitmq` |
+| `product-service` | `mysql` (base `products`), `mongodb` (base `products`), `rabbitmq` |
+| `sale-service` | `mysql` (base `sales`), `mongodb` (base `sales`), `rabbitmq`, `user-service`, `product-service` |
+| `rating-service` | `mongodb` (base `ratings`), `rabbitmq`, `sale-service` |
+| `api-gateway` | `user-service`, `product-service`, `sale-service`, `rating-service` |
+
+Solo con `compose.dev.yaml` se añaden a la misma red los paneles de gestión: `phpmyadmin` espera a `mysql` y `mongo-express` espera a `mongodb`.
 
 > La integración continua y el despliegue local se pueden verificar en conjunto: cada `push` a `main` valida los servicios con los mismos `mvn` / `dotnet test` que se ejecutarían en local, y Docker Compose construye exactamente las mismas piezas que despliega.
