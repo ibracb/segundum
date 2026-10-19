@@ -67,10 +67,10 @@ Los tres contenedores de infraestructura no esperan a nada, así que arrancan pr
 
 | Contenedor | Espera a que esté `healthy` |
 | --- | --- |
-| `user-service` | `mysql` (base `users`), `rabbitmq` |
-| `product-service` | `mysql` (base `products`), `mongodb` (base `products`), `rabbitmq` |
-| `sale-service` | `mysql` (base `sales`), `mongodb` (base `sales`), `rabbitmq`, `user-service`, `product-service` |
-| `rating-service` | `mongodb` (base `ratings`), `rabbitmq`, `sale-service` |
+| `user-service` | `mysql`, `rabbitmq` |
+| `product-service` | `mysql`, `mongodb`, `rabbitmq` |
+| `sale-service` | `mysql`, `mongodb`, `rabbitmq`, `user-service`, `product-service` |
+| `rating-service` | `mongodb`, `rabbitmq`, `sale-service` |
 | `api-gateway` | `user-service`, `product-service`, `sale-service`, `rating-service` |
 
 Solo con `compose.dev.yaml` se añaden a la misma red los paneles de gestión: `phpmyadmin` espera a `mysql` y `mongo-express` espera a `mongodb`.
