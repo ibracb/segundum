@@ -1,6 +1,6 @@
 # Pruebas
 
-Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitarias de cada microservicio y las pruebas de backend automatizadas con la colección de Postman incluida en el repositorio.
+Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitarias de cada microservicio y las pruebas de backend con Postman (ejecución automatizada con el Collection Runner, lanzada en local).
 
 ## Estrategia de pruebas
 
@@ -90,4 +90,6 @@ Ninguno de los workflows ejecuta la colección. Para hacerlo habría que levanta
 
 Además la colección es **secuencial por diseño**: cada carpeta usa los datos creados por la anterior, así que no admite el reparto por microservicio que sí tiene la integración continua.
 
-La decisión es dejar estas pruebas como verificación de punta a punta **en local**, antes de cada publicación, y reservar la integración continua para la verificación rápida y barata de cada microservicio por separado.
+La decisión es dejar estas pruebas como verificación de punta a punta **en local**, antes de cada entrega, y reservar la integración continua para la verificación rápida y barata de cada microservicio por separado.
+
+Como consecuencia, se asume que los posibles fallos de integración que puedan surgir no se detectan automáticamente en cada cambio, sino solo cuando se ejecuta la colección antes de cada entrega.
