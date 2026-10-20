@@ -34,19 +34,30 @@ flowchart LR
     end
 
     subgraph "Microservicios"
-        G["api-gateway:8090"]
-        U["user-service:8080"]
-        P["product-service:8081"]
-        S["sale-service:8082"]
-        R["rating-service:8083"]
+        G["api-gateway<br/>Spring Boot 2.2 + Zuul · :8090"]
+        U["user-service<br/>JAX-RS/Jersey + Jetty · :8080"]
+        P["product-service<br/>Spring Boot 2.6 · :8081"]
+        S["sale-service<br/>Spring Boot 2.6 · :8082"]
+        R["rating-service<br/>.NET 8 · :8083"]
     end
 
-    subgraph "Infraestructura requerida"
+    subgraph "Infraestructura"
         MU[(MySQL<br/>users)]
-        MP[(MySQL<br/>products)]
-        MO[(MongoDB<br/>products)]
-        MS[(MySQL<br/>sales)]
-        SO[(MongoDB<br/>sales)]
+
+        subgraph DBP [" "]
+            direction TB
+            MP[(MySQL<br/>products)]
+            MO[(MongoDB<br/>products)]
+            MP --> |proyección| MO
+        end
+
+        subgraph DBS [" "]
+            direction TB
+            MS[(MySQL<br/>sales)]
+            SO[(MongoDB<br/>sales)]
+            MS --> |proyección| SO
+        end
+
         RO[(MongoDB<br/>ratings)]
         Q[(RabbitMQ 3.13<br/>exchange topic bus)]
     end
@@ -58,10 +69,8 @@ flowchart LR
     G -.-> R
 
     U --> MU
-    P --> MP
-    P --> MO
-    S --> MS
-    S --> SO
+    P --> DBP
+    S --> DBS
     R --> RO
 
     U <--> Q
@@ -72,8 +81,10 @@ flowchart LR
     S -.->|REST| U
     S -.->|REST| P
     R -.->|REST| S
+    
+    style DBP fill:none,stroke:none
+    style DBS fill:none,stroke:none
 ```
-
 > [!NOTE]
 > Ningún microservicio accede directamente a las bases de datos de otro. La información compartida llega por el bus de eventos o mediante llamadas REST.
 
