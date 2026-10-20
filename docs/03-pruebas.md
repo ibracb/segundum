@@ -1,6 +1,6 @@
 # Pruebas
 
-Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitarias de cada microservicio y las pruebas de backend automatizadas con la colección de Postman incluida en el repositorio.
+Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitarias de cada microservicio y las pruebas de backend con Postman (ejecución automatizada con el Collection Runner, lanzada en local).
 
 ## Estrategia de pruebas
 
@@ -83,3 +83,13 @@ El repositorio incluye una colección de Postman que automatiza el **flujo compl
 | `ratings` | 6 | Valoración del vendedor y del comprador de una venta completada, y consulta de valoraciones |
 
 > **Nota:** el sistema debe estar arrancado con Docker Compose antes de ejecutar la colección. La ejecución de las carpetas en orden depende de los datos creados por las peticiones anteriores (p. ej. las ventas usan los productos creados en la carpeta `products`).
+
+### Por qué no está en la integración continua
+
+Ninguno de los workflows ejecuta la colección. Para hacerlo habría que levantar el backend completo durante la ejecución en el runner de GitHub Actions: los 5 microservicios más las bases de datos (MySQL y MongoDB) y el bróker de mensajería (RabbitMQ) serían 8 contenedores en total, y habría que esperar a que todos respondan antes de lanzar la colección apunando hacia el gateway. Es un coste de tiempo de ejecución de mantenimiento muy superior al de la compilación y los tests unitarios.
+
+Además la colección es **secuencial por diseño**: cada carpeta usa los datos creados por la anterior, así que no admite el reparto por microservicio que sí tiene la integración continua.
+
+La decisión es dejar estas pruebas como verificación de punta a punta **en local**, antes de cada entrega, y reservar la integración continua para la verificación rápida y barata de cada microservicio por separado.
+
+Como consecuencia, se asume que los posibles fallos de integración que puedan surgir no se detectan automáticamente en cada cambio, sino solo cuando se ejecuta la colección antes de cada entrega.
