@@ -1,6 +1,6 @@
 # Backend
 
-Este documento describe sobre qué plataformas y con qué frameworks está construido el backend de SegundUM, los estilos de arquitectura aplicados, cómo se comunican los servicios, cómo se integra la API Gateway y cómo funcionan la documentación OpenAPI y la autenticación JWT. La visión de los datos (entidades, esquema y almacenes) está en [`02-datos.md`](02-datos.md).
+Este documento describe sobre qué plataformas y con qué frameworks está construido el backend de SegundUM, los principios de diseño y arquitectura aplicados, cómo se comunican los microservicios, cómo se integra la API Gateway y cómo funcionan la documentación OpenAPI y la autenticación JWT.
 
 ## Plataformas y frameworks
 
@@ -116,7 +116,7 @@ El enfoque DDD modela el dominio con un lenguaje cercano al negocio y lo aborda 
 | **Ventas** | `sale-service` | Las ventas entre comprador y vendedor y su ciclo de vida | No tiene usuarios ni productos: congela los datos que necesita (título, precio, nombre del vendedor) |
 | **Valoraciones** | `rating-service` | Las valoraciones entre las partes de una venta completada | No tiene ventas: solo su identificador y sus partes |
 
-Ningún contexto consulta los datos de otro (cada uno tiene sus propias bases de datos, ver [`02-datos.md`](02-datos.md)). Lo que hace falta del contexto upstream no se referencia, se **copia al modelo propio**, de modo que un contexto nunca depende de la disponibilidad de otro en tiempo de ejecución.
+Ningún contexto consulta los datos de otro (cada uno tiene sus propias bases de datos). Lo que hace falta del contexto upstream no se referencia, se **copia al modelo propio**, de modo que un contexto nunca depende de la disponibilidad de otro en tiempo de ejecución.
 
 **Lenguaje ubicuo.** Cada contexto habla su propio idioma, y los términos del negocio coinciden con los del código, la API y los estados del sistema. Cada glosario recoge primero las acciones que el contexto permite y después los términos que nombra. Algunos términos se repiten entre contextos con un significado distinto (*vendedor, comprador, venta, producto*) y en cada tabla aparecen con el sentido de ese contexto.
 
@@ -174,7 +174,7 @@ La capa de dominio aplica el arsenal táctico del DDD: **value objects** con val
 - **`product-service`** (contexto Productos): value objects para precio, título, descripción, identificadores y fechas. Entidades producto, categoría, vendedor y punto de recogida, cada una con su factoría. El producto tiene su máquina de estados (borrador, en venta, reservado, vendido, eliminado) protegida por invariantes que impiden transiciones ilegales (solo se puede publicar un borrador, y solo un producto en venta puede reservarse). Su ciclo de vida se refleja en eventos de dominio que **los casos de uso construyen tras la mutación de estado del agregado y publican tras persistir**. Los errores como "el precio no puede ser negativo" se señalan con excepciones de dominio. Una excepción es que el evento `CategoryCreated` se publica desde un adaptador de infraestructura (el cargador de jerarquía de categorías en XML) en lugar de desde un caso de uso.
 - **`sale-service`** (contexto Ventas): el agregado venta reúne las dos partes (comprador y vendedor), el producto y la máquina de estados (propuesta, reservada, rechazada, cancelada, completada), con invariantes como "solo una venta pendiente puede reservarse", "el comprador no puede ser su propio vendedor" o "solo se puede valorar una venta completada". Su factoría tiene dos vías: el alta de una venta nueva y la reconstrucción desde su historial de eventos (la base del event sourcing, más abajo). **El propio agregado registra cada transición como evento** (`apply()`/`when()` acumula el evento pendiente en `uncommittedEvents`, y el caso de uso drena esa lista para guardarlo en el almacén de eventos y publicarlo en el bus), como exige el event sourcing, y las reglas incumplidas se expresan con excepciones de dominio.
 
-Ideas transversales: el dominio se autovalida con sus propias excepciones (no con errores de framework) y las factorías son la única puerta de creación de objetos. Las máquinas de estados y el detalle de los datos que persiste cada servicio se describen en [`02-datos.md`](02-datos.md).
+Ideas transversales: el dominio se autovalida con sus propias excepciones (no con errores de framework) y las factorías son la única puerta de creación de objetos.
 
 > **Nota sobre la gestión de los eventos de dominio.** La forma en que nace un evento difiere entre servicios de forma deliberada, porque responde al patrón de persistencia de cada uno, no a una deuda:
 >
@@ -213,7 +213,7 @@ Lado saliente:
 
 ### Arquitectura limpia
 
-La arquitectura limpia organiza el código en capas concéntricas: las reglas de negocio viven en el interior y las decisiones técnicas en el exterior, de modo que **el interior nunca depende del exterior, sino al revés**. Este principio se conoce como la **Regla de la Dependencia**: las dependencias de cada capa solo pueden apuntar hacia dentro.
+La arquitectura limpia organiza el código en capas concéntricas: las reglas de negocio viven en el interior y las decisiones técnicas en el exterior, de modo que **el interior nunca depende del exterior, sino al revés**. Este fundamento se conoce como la **Regla de la Dependencia**: las dependencias de cada capa solo pueden apuntar hacia dentro.
 
 **Aplicado en:** `user-service`, `product-service`, `sale-service` y `api-gateway`.
 
@@ -232,8 +232,6 @@ CQRS (*Command Query Responsibility Segregation*) separa a nivel de casos de uso
 - En `product-service`, las escrituras sobre categorías, vendedores y productos se hacen en MySQL y, después de confirmarse la transición, se ejecutan de forma asíncrona las proyecciones que actualizan los modelos de lectura.
 - En `sale-service`, la escritura no guarda estado actual, sino los eventos de las ventas. Las consultas se resuelven sobre el modelo de lectura.
 
-Las consecuencias de CQRS en los almacenes (qué bases de datos, proyecciones y consultas concretas) se detallan en [`02-datos.md`](02-datos.md).
-
 ### Event Sourcing
 
 La técnica de Event Sourcing consiste en guardar el estado de un agregado no como una fila con su valor actual, sino como una **secuencia inmutable de eventos de dominio**: se persisten los hechos ocurridos, y el agregado se reconstruye reproduciendo su historial. Cada comando se valida sobre ese estado derivado. Si la operación es válida, se genera un evento nuevo que se añade al historial.
@@ -246,8 +244,6 @@ En `sale-service`, el agregado de venta gestiona sus propios eventos (ver la not
 - **Toda operación sobre una venta** (reservar, completar, rechazar, cancelar) comienza recuperando el historial y reconstruyendo el estado. Solo entonces valida las invariantes y registra el evento correspondiente.
 - **Incluso algunas consultas de negocio** se responden reconstruyendo la venta desde sus eventos (por ejemplo, para saber si ya existe una propuesta abierta).
 - **MongoDB es solo de lectura**: ninguna escritura del agregado pasa por la colección de ventas.
-
-El esquema del almacén de eventos se describe en [`02-datos.md`](02-datos.md).
 
 #### Tradeoffs de la implementación actual
 
@@ -272,7 +268,7 @@ Las llamadas REST tienen lugar dentro de la red de contenedores y son de dos tip
 - **`sale-service`** usa **Retrofit** para leer el nombre de un usuario (`GET /api/users/{id}/name`) y la información básica de un producto (`GET /api/products/{id}/basic-info`).
 - **`rating-service`** usa **Refit** para leer las partes de una venta (`GET /api/sales/{id}/parties`), de las que obtiene comprador y vendedor.
 
-Por eso esos endpoints internos están **bloqueados externamente** en el gateway: no pueden invocarse desde fuera (ver [API Gateway](#api-gateway)).
+Por eso esos endpoints internos están **bloqueados externamente** en el gateway: no pueden invocarse desde fuera.
 
 ### Asíncrona (RabbitMQ)
 
@@ -364,9 +360,7 @@ Además del enrutado, el gateway concentra la política de autenticación y auto
 
 ## OpenAPI
 
-Todos los servicios exponen su especificación **OpenAPI** con **Swagger UI** en `/api/swagger-ui` cuando arrancan en modo desarrollo (variable `SWAGGER_ENABLED` en los servicios Java y `Swagger__Enabled` en `rating-service`, ver [`compose.dev.yaml`](../)), y el gateway la concentra también en `http://localhost:8090/api/swagger-ui`. Esto permite explorar y probar toda la API de forma interactiva sin necesidad de herramientas externas.
-
-El flujo completo de la API además está presente en la colección de Postman incluida en el repositorio (ver [`03-pruebas.md`](03-pruebas.md)).
+Todos los servicios exponen su especificación **OpenAPI** con **Swagger UI** en `/api/swagger-ui` cuando arrancan en modo desarrollo. Esto permite explorar y probar toda la API de forma interactiva sin necesidad de herramientas externas.
 
 ## JWT
 
