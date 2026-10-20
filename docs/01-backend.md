@@ -4,15 +4,15 @@ Este documento describe sobre qué plataformas y con qué frameworks está const
 
 ## Plataformas y frameworks
 
-El backend de SegundUM sigue una **arquitectura políglota**: la mayoría de servicios están en Java, y la valoración en .NET, demostrando que los microservicios pueden mezclar plataformas y comunicarse igualmente por REST y un bus de eventos.
+El backend de SegundUM sigue una **arquitectura políglota**: la mayoría de microservicios (`user-service`, `product-service`, `sale-service`, `api-gateway`) están en Java, salvo `rating-service` en .NET, demostrando que los microservicios pueden mezclar plataformas y comunicarse igualmente por REST y un bus de eventos.
 
-| Servicio | Plataforma | Framework / tecnología | Puerto |
+| Microservicio | Plataforma | Framework y/o tecnología | Puerto |
 | --- | --- | --- | --- |
-| `api-gateway` | Java 11 | Spring Boot 2.2 + Netflix Zuul | 8090 |
+| `api-gateway` | Java 11 | Spring Boot 2.2.10.RELEASE + Netflix Zuul | 8090 |
 | `user-service` | Java 11 | JAX-RS (Jersey 2.41) sobre Jetty (WAR) | 8080 |
-| `product-service` | Java 11 | Spring Boot 2.6 | 8081 |
-| `sale-service` | Java 11 | Spring Boot 2.6 | 8082 |
-| `rating-service` | .NET 8 | Minimal APIs | 8083 |
+| `product-service` | Java 11 | Spring Boot 2.6.1 | 8081 |
+| `sale-service` | Java 11 | Spring Boot 2.6.1 | 8082 |
+| `rating-service` | .NET 8.0 | ASP.NET Core | 8083 |
 
 Tecnologías transversales:
 
@@ -25,7 +25,7 @@ Tecnologías transversales:
 
 ## Microservicios
 
-El sistema está descompuesto en cinco microservicios desplegados con Docker Compose, cada uno dueño de lo que persiste (*base de datos por servicio*). El **API Gateway** es la única puerta de entrada: todo el tráfico externo pasa por él.
+El sistema está descompuesto en cinco microservicios, cada uno dueño de lo que persiste. El **API Gateway** es la única puerta de entrada: todo el tráfico externo pasa por él.
 
 ```mermaid
 flowchart LR
@@ -34,11 +34,11 @@ flowchart LR
     end
 
     subgraph "Microservicios"
-        G["api-gateway<br/>Spring Boot 2.2 + Zuul · :8090"]
-        U["user-service<br/>JAX-RS/Jersey + Jetty · :8080"]
-        P["product-service<br/>Spring Boot 2.6 · :8081"]
-        S["sale-service<br/>Spring Boot 2.6 · :8082"]
-        R["rating-service<br/>.NET 8 · :8083"]
+        G["api-gateway:8090"]
+        U["user-service:8080"]
+        P["product-service:8081"]
+        S["sale-service:8082"]
+        R["rating-service:8083"]
     end
 
     subgraph "Infraestructura (bases de datos, y bróker de mensajería)"
@@ -72,10 +72,13 @@ flowchart LR
     S -.->|REST| U
     S -.->|REST| P
     R -.->|REST| S
+
+    MO -.->|proyección| MP
+    SO -.->|proyección| MS
 ```
 
 > [!NOTE]
-> Ningún microservicio accede directamente a las bases de datos de otro. La información compartida llega por el bus de eventos o mediante llamadas REST. Por simplicidad del despliegue con Docker Compose, todas las bases de datos lógicas de MySQL se alojan en un único contenedor MySQL y, del mismo modo, las de MongoDB en un único contenedor MongoDB.
+> Ningún microservicio accede directamente a las bases de datos de otro. La información compartida llega por el bus de eventos o mediante llamadas REST.
 
 | Microservicio | Responsabilidad |
 | --- | --- |
@@ -85,63 +88,18 @@ flowchart LR
 | `sale-service` | Ciclo de vida de las ventas (máquina de estados) y consulta de las partes implicadas |
 | `rating-service` | Valoraciones entre las partes de una venta completada |
 
-## Estilos de arquitectura
+## Principios de diseño y arquitectura
 
-SegundUM aplica varios estilos de arquitectura, cada uno en los servicios donde aporta:
+SegundUM aplica varios principios de diseño y arquitectura, cada uno en los microservicios donde aporta:
 
-| Estilo | `user-service` | `product-service` | `sale-service` | `rating-service` | `api-gateway` |
+| Principio | `user-service` | `product-service` | `sale-service` | `rating-service` | `api-gateway` |
 | --- | :-: | :-: | :-: | :-: | :-: |
-| Arquitectura limpia | Sí | Sí | Sí | No | Sí |
+| Domain-Driven Design (diseño táctico) | Sí | Sí | Sí | No | No |
 | Arquitectura hexagonal | Sí | Sí | Sí | Sí | Sí |
-| Domain-Driven Design | Sí | Sí | Sí | No | No |
+| Arquitectura limpia | Sí | Sí | Sí | No | Sí |
 | CQRS | No | Sí | Sí | No | No |
 | Event sourcing | No | No | Sí | No | No |
 
-> En el `api-gateway`, la arquitectura limpia y la hexagonal se aplican en **versión fina**: solo dan forma al caso de uso de login, ya que no tiene modelo propio ni persistencia: solo enruta y delega.
-
-### Arquitectura limpia
-
-La arquitectura limpia organiza el código en capas concéntricas: las reglas de negocio viven en el interior y las decisiones técnicas en el exterior, de modo que **el interior nunca depende del exterior, sino al revés**. Este principio se conoce como la **Regla de la Dependencia**: las dependencias de cada capa solo pueden apuntar hacia dentro.
-
-**Aplicado en:** `user-service`, `product-service`, `sale-service` y `api-gateway`.
-
-Los tres servicios con capa de dominio se organizan en tres capas:
-
-- **Dominio**: los modelos y las reglas de negocio junto con sus validaciones y sus excepciones propias. Esta capa no utiliza ningún framework: depende solo de la biblioteca estándar del lenguaje.
-- **Aplicación**: la orquestación de cada operación del sistema, definida independientemente de cualquier tecnología concreta.
-- **Infraestructura**: los detalles técnicos que se conectan con las capas interiores a través de interfaces.
-
-Toda la configuración y el ensamblaje de las piezas se concentra en un único punto de composición por servicio, de forma que sustituir un componente técnico no obliga a tocar las capas de negocio.
-
-### Arquitectura hexagonal
-
-La arquitectura hexagonal (puertos y adaptadores) define el núcleo de la aplicación mediante interfaces llamadas **puertos**: los de **entrada**, por los que llegan las peticiones, y los de **salida**, por los que el núcleo toca el exterior. Los **adaptadores** son las implementaciones concretas de cada puerto. Viven en el borde y contienen la tecnología, de modo que se puede cambiar de tecnología sin tocar el núcleo.
-
-**Aplicado en:** `user-service`, `product-service`, `sale-service`, `rating-service` y `api-gateway` (versión fina: un único caso de uso con su puerto de salida y adaptador).
-
-Puertos de salida y sus adaptadores:
-
-| Necesidad del núcleo (puerto) | Adaptador | Tecnología | Microservicios |
-| --- | --- | --- | --- |
-| Guardar los datos transaccionales | Repositorio sobre JPA | MySQL | `user-service`, `product-service`, `sale-service` |
-| Consultar los modelos de lectura | Repositorios de consulta | MySQL en `user-service`. MongoDB en `product-service` y `sale-service` | `user-service`, `product-service`, `sale-service` |
-| Publicar los eventos de dominio | Adaptador del bus de eventos | RabbitMQ | `user-service`, `product-service`, `sale-service`, `rating-service` |
-| Consultar a otros servicios | Cliente HTTP interno | REST (Retrofit en Java, Refit en .NET) | `sale-service`, `rating-service`, `api-gateway` |
-| Validar contraseñas | Hash con sal | BCrypt | `user-service` |
-| Cargar la jerarquía de categorías | Lector de árboles XML | XML | `product-service` |
-| Almacenar y recuperar los eventos de las ventas | Almacén de eventos | MySQL | `sale-service` |
-
-Puertos de entrada y sus adaptadores:
-
-| Puerto de entrada | Adaptador | Tecnología | Microservicios |
-| --- | --- | --- | --- |
-| Recibir peticiones HTTP | Controlador REST (puntos de entrada HTTP en .NET) | JAX-RS (Jersey), Spring MVC, .NET Minimal APIs | `user-service`, `product-service`, `sale-service`, `rating-service`, `api-gateway` |
-| Recibir eventos del bus | Consumidor de colas | RabbitMQ | `user-service`, `product-service` |
-| Testear los casos de uso | La propia prueba unitaria | JUnit 5, xUnit | `user-service`, `product-service`, `sale-service`, `rating-service`, `api-gateway` |
-
-Los adaptadores de entrada traducen lo que llega del exterior (una petición HTTP, un evento del bus, la invocación de un test) a objetos de entrada y delegan siempre en los casos de uso, sin contener lógica de negocio. Los consumidores del bus son la **puerta de entrada asíncrona**: por ejemplo, un evento de venta reservada pone en marcha un caso de uso que actualiza el estado del producto, y los eventos de ventas y valoraciones incrementan los contadores del usuario.
-
-Los tests son, a su vez, adaptadores de entrada: llaman a los casos de uso a través de su puerto (el mismo que usa la API REST)sin pasar por HTTP. A la salida, en lugar de tocar bases de datos o el bus real, inyectan dobles en memoria (*fakes*) para el repositorio, las consultas, la publicación de eventos y las llamadas a otros servicios, de modo que los casos de uso se prueban aislados de la infraestructura (más detalle en [`03-pruebas.md`](03-pruebas.md)).
 
 ### Domain-Driven Design
 
@@ -149,7 +107,7 @@ El enfoque DDD modela el dominio con un lenguaje cercano al negocio y lo aborda 
 
 #### Diseño estratégico
 
-**Límites acotados.** El sistema se divide en cuatro contextos, cada uno en su microservicio y dueño exclusivo de su modelo y de sus datos:
+**Contextos acotados.** El sistema consta de 4 contextos, cada uno en su propio microservicio siendo dueño exclusivo de su modelo y de sus datos:
 
 | Contexto | Microservicio | Modelo que posee | Frontera |
 | --- | --- | --- | --- |
@@ -220,10 +178,50 @@ Ideas transversales: el dominio se autovalida con sus propias excepciones (no co
 
 > **Nota sobre la gestión de los eventos de dominio.** La forma en que nace un evento difiere entre servicios de forma deliberada, porque responde al patrón de persistencia de cada uno, no a una deuda:
 >
-> - En `sale-service`, el event sourcing exige que los eventos sean la fuente de verdad, así que **el agregado `Sale` gestiona sus eventos**: cada operación aplica el evento sobre su estado y lo deja pendiente. El caso de uso solo lo drena para persistirlo en el almacén de eventos y publicarlo.
+> - En `sale-service`, los eventos son la fuente de verdad, así que **el agregado `Sale` gestiona sus eventos**: cada operación aplica el evento sobre su estado y lo deja pendiente. El caso de uso solo lo drena para persistirlo en el almacén de eventos y publicarlo.
 > - En `user-service` y `product-service`, los agregados persisten su estado (JPA) y **no gestionan eventos**: los eventos son hechos ya consumados que el caso de uso compone desde el estado del agregado y publica tras guardar.
 >
 > En los tres servicios, el dominio decide **qué transiciones son válidas** (sus invariantes). Lo que varía es **quién materializa ese hecho como evento**: el agregado en `sale-service`, el caso de uso en `user-service` y `product-service`.
+
+
+### Arquitectura hexagonal
+
+La arquitectura hexagonal (puertos y adaptadores) define el núcleo de la aplicación mediante interfaces llamadas **puertos**: los de **entrada**, por los que llegan las peticiones, y los de **salida**, por los que el núcleo toca el exterior. Los **adaptadores** son las implementaciones concretas de cada puerto. Viven en el borde y contienen la tecnología, de modo que se puede cambiar de tecnología sin tocar el núcleo.
+
+**Aplicado en:** `user-service`, `product-service`, `sale-service`, `rating-service` y `api-gateway` (versión fina: un único caso de uso con su puerto de salida y adaptador).
+
+Lado entrante:
+
+| Necesidad del núcleo (puerto de entrada) | Adaptador de entrada | Tecnología | Microservicios |
+| --- | --- | --- | --- |
+| Recibir peticiones HTTP | Controlador REST (puntos de entrada HTTP en .NET) | JAX-RS (Jersey), Spring MVC, .NET Minimal APIs | `user-service`, `product-service`, `sale-service`, `rating-service`, `api-gateway` |
+| Recibir eventos del bus | Consumidor de colas | RabbitMQ | `user-service`, `product-service` |
+| Testear los casos de uso | La propia prueba unitaria | JUnit 5, xUnit | `user-service`, `product-service`, `sale-service`, `rating-service`, `api-gateway` |
+
+
+Lado saliente:
+
+| Necesidad del núcleo (puerto de salida) | Adaptador | Tecnología | Microservicios |
+| --- | --- | --- | --- |
+| Guardar los datos mediante modelos de escritura | Repositorio de escritura | MySQL en `user-service`, `product-service`y `sale-service`. MongoDB en `rating-service` | `user-service`, `product-service`, `sale-service`, `rating-service` |
+| Consultar los modelos de lectura | Repositorios de consulta | MySQL en `user-service`. MongoDB en `product-service`, `sale-service` y `rating-service` | `user-service`, `product-service`, `sale-service`, `rating-service` |
+| Publicar los eventos de dominio | Adaptador del bus de eventos | RabbitMQ | `user-service`, `product-service`, `sale-service`, `rating-service` |
+| Consultar a otros servicios | Cliente HTTP interno | REST (Retrofit en Java, Refit en .NET) | `sale-service`, `rating-service`, `api-gateway` |
+| Validar contraseñas | Hash con sal | BCrypt | `user-service` |
+| Cargar la jerarquía de categorías | Lector de árboles XML | XML | `product-service` |
+| Almacenar y recuperar los eventos de las ventas | Almacén de eventos | MySQL | `sale-service` |
+
+### Arquitectura limpia
+
+La arquitectura limpia organiza el código en capas concéntricas: las reglas de negocio viven en el interior y las decisiones técnicas en el exterior, de modo que **el interior nunca depende del exterior, sino al revés**. Este principio se conoce como la **Regla de la Dependencia**: las dependencias de cada capa solo pueden apuntar hacia dentro.
+
+**Aplicado en:** `user-service`, `product-service`, `sale-service` y `api-gateway`.
+
+Los tres servicios con capa de dominio se organizan en tres capas:
+
+- **Dominio**: los modelos y las reglas de negocio junto con sus validaciones y sus excepciones propias. Esta capa no utiliza ningún framework: depende solo de la biblioteca estándar del lenguaje.
+- **Aplicación**: la orquestación de cada operación del sistema, definida independientemente de cualquier tecnología concreta.
+- **Infraestructura**: los detalles técnicos que se conectan con las capas interiores a través de interfaces.
 
 ### CQRS
 
@@ -232,41 +230,19 @@ CQRS (*Command Query Responsibility Segregation*) separa a nivel de casos de uso
 **Aplicado en:** `product-service` y `sale-service`.
 
 - En `product-service`, las escrituras sobre categorías, vendedores y productos se hacen en MySQL y, después de confirmarse la transición, se ejecutan de forma asíncrona las proyecciones que actualizan los modelos de lectura.
-- En `sale-service`, la escritura no guarda estado actual, sino los hechos de cada venta (ver event sourcing). Las consultas se resuelven sobre el modelo de lectura.
+- En `sale-service`, la escritura no guarda estado actual, sino los eventos de las ventas. Las consultas se resuelven sobre el modelo de lectura.
 
 Las consecuencias de CQRS en los almacenes (qué bases de datos, proyecciones y consultas concretas) se detallan en [`02-datos.md`](02-datos.md).
 
-### Event sourcing
+### Event Sourcing
 
-El event sourcing guarda el estado de un agregado no como una fila con su valor actual, sino como una **secuencia inmutable de eventos de dominio**: se persisten los hechos ocurridos, y el agregado se reconstruye reproduciendo su historial. Cada comando se valida sobre ese estado derivado. Si la operación es válida, se genera un evento nuevo que se añade al historial.
+La técnica de Event Sourcing consiste en guardar el estado de un agregado no como una fila con su valor actual, sino como una **secuencia inmutable de eventos de dominio**: se persisten los hechos ocurridos, y el agregado se reconstruye reproduciendo su historial. Cada comando se valida sobre ese estado derivado. Si la operación es válida, se genera un evento nuevo que se añade al historial.
 
-**Aplicado en:** `sale-service` (único servicio con event sourcing real).
+**Aplicado en:** `sale-service`.
 
-Como solo este servicio usa event sourcing, es también el único cuyo agregado de venta gestiona sus propios eventos (ver la nota en *Diseño táctico*).
+En `sale-service`, el agregado de venta gestiona sus propios eventos (ver la nota en *Diseño táctico*). Algunas características reflejadas son las siguientes:
 
-Flujo de una operación sobre una venta (por ejemplo, reservarla):
-
-```mermaid
-sequenceDiagram
-    participant C as Caso de uso
-    participant A as Almacén de eventos
-    participant V as Agregado venta
-    participant B as Bus de eventos
-
-    C->>A: Recuperar los eventos de la venta
-    A-->>C: Historial completo
-    C->>V: Reproducir cada evento (la factoría reconstruye el agregado)
-    V-->>C: Estado actual (pendiente, reservada…)
-    C->>V: Aplicar la operación y sus invariantes
-    V-->>C: Evento nuevo generado
-    C->>A: Guardar el evento en el historial
-    C->>B: Publicar el evento en el bus
-    Note over C,B: La proyección de lectura refleja la venta en MongoDB
-```
-
-Cómo se reconoce que hay event sourcing de verdad en este servicio:
-
-- **No existe ninguna tabla con el estado de la venta** ni un repositorio de ventas: la base de datos de escritura en el microservicio de las ventas solo contiene el historial de eventos.
+- **No existe ninguna tabla con el estado actual de las ventas** ni un repositorio de ventas: la base de datos de escritura en el microservicio de las ventas solo contiene el historial de eventos.
 - **Toda operación sobre una venta** (reservar, completar, rechazar, cancelar) comienza recuperando el historial y reconstruyendo el estado. Solo entonces valida las invariantes y registra el evento correspondiente.
 - **Incluso algunas consultas de negocio** se responden reconstruyendo la venta desde sus eventos (por ejemplo, para saber si ya existe una propuesta abierta).
 - **MongoDB es solo de lectura**: ninguna escritura del agregado pasa por la colección de ventas.
@@ -275,18 +251,18 @@ El esquema del almacén de eventos se describe en [`02-datos.md`](02-datos.md).
 
 #### Tradeoffs de la implementación actual
 
-La implementación prioriza la sencillez sobre la robustez, y de esa decisión consciente se derivan cuatro limitaciones conocidas, cada una con su respectivo problema operativo:
+La implementación prioriza la sencillez sobre la robustez, y de esa decisión consciente se derivan cuatro limitaciones conocidas, cada una con su respectivo problema operativo y posible mitigación futura:
 
 | Limitación | Problema operativo | Mitigación futura |
 | --- | --- | --- |
 | **Sin *snapshots*** | Toda operación reconstruye el agregado entero reproduciendo todo su historial, de modo que el coste crece con el número de eventos acumulados. El impacto está acotado en este dominio, dado que cada venta no acumula más de unos pocos eventos en su ciclo de vida, pero un agregado de historial largo (o un volumen alto de reconstrucciones) notaría el coste. | Guardar periódicamente un *snapshot* del estado y reconstruir solo desde el último, en vez de desde el primer evento. |
 | **Sin control de concurrencia** | Dos comandos simultáneos sobre la misma venta pueden reconstruir el mismo estado, validarlo y añadir sus eventos encima sin que nada lo detecte. El historial acabaría con dos transiciones saliendo del mismo estado (por ejemplo, una venta "reservada" y "rechazada" a la vez), algo que la máquina de estados prohíbe, y las proyecciones reflejarían un estado imposible. | Control de concurrencia optimista: añadir una columna de versión en el event store y comprobarla al insertar. Si otro evento ya se coló, rechazar la operación y reconstruir sobre el historial actualizado. |
-| **Orden por reloj, no por secuencia** | Los eventos se recuperan ordenados por su *timestamp* en lugar de por un número de secuencia inmutable por agregado. Con dos eventos concurrentes del mismo agregado en instantes casi idénticos, el orden de reconstrucción no está garantizado. | Asignar un número de secuencia correlativo por agregado al insertar y ordenar por él, en lugar de por la marca de tiempo. |
+| **Orden por *timestamp*, no por secuencia** | Los eventos se recuperan ordenados por su *timestamp* en lugar de por un número de secuencia inmutable por agregado. Con dos eventos concurrentes del mismo agregado en instantes casi idénticos, el orden de reconstrucción no está garantizado. | Asignar un número de secuencia correlativo por agregado al insertar y ordenar por él, en lugar de por la marca de tiempo. |
 | **Esquemas de evento sin versionar** | El tipo guardado en cada fila es el nombre de la clase Java del evento y la carga útil es un mapa con las claves fijadas a mano en el mapeador, sin campo de versión ni *upcasters*. Renombrar una clase de evento o cambiar o eliminar una clave del payload rompe la reconstrucción de las ventas antiguas (una clave ausente se convierte en un valor nulo que dispara excepciones de dominio al reconstituir), y no hay migraciones que reescriban el histórico: el esquema de la base de datos queda de hecho ligado a los nombres de las clases del dominio. | Versionar cada tipo de evento y traducir los payloads antiguos al formato actual al cargar (*upcasters*). Como mínima, mantener alias de los tipos antiguos y permitir solo evolución aditativa (claves nuevas opcionales con valor por defecto). |
 
 ## Comunicación
 
-Los servicios se comunican entre sí de dos formas: **síncrona** por REST, cuando necesitan una respuesta inmediata, y **asíncrona** por el bus de eventos, para difundir hechos sin acoplar emisor y receptores.
+Los microservicios se pueden comunicarse entre sí de dos formas: **síncrona** por REST, cuando necesitan una respuesta inmediata, y **asíncrona** por el bus de eventos, para difundir hechos sin acoplar emisor y receptores.
 
 ### Síncrona (REST)
 
@@ -339,11 +315,11 @@ Eventos que se publican en el bus:
 
 | Routing key | Receptor | Efecto |
 | --- | --- | --- |
-| `bus.sales.SaleProposed` | – | Llega a ambas colas, sin tratamiento específico hoy |
+| `bus.sales.SaleProposed` | - | Llega a ambas colas, sin tratamiento específico hoy |
 | `bus.sales.SaleReserved` | `product-service` | El producto pasa de `FOR_SALE` a `RESERVED` |
 | `bus.sales.SaleCompleted` | `product-service` | El producto pasa a `SOLD` |
 | `bus.sales.SaleCompleted` | `user-service` | Incrementa los contadores de compras/ventas del usuario |
-| `bus.sales.SaleRejected` | – | Llega a ambas colas, sin tratamiento específico hoy |
+| `bus.sales.SaleRejected` | - | Llega a ambas colas, sin tratamiento específico hoy |
 | `bus.sales.SaleCancelledByPurchaser` | `product-service` | El producto vuelve de `RESERVED` a `FOR_SALE` |
 | `bus.sales.SaleCancelledBySeller` | `product-service` | El producto vuelve de `RESERVED` a `FOR_SALE` |
 
@@ -353,52 +329,7 @@ Eventos que se publican en el bus:
 | --- | --- | --- |
 | `bus.ratings.RatingCreated` | `user-service` | Registra la valoración (contador de valoraciones como comprador/vendedor y media del usuario) |
 
-#### Flujo completo de una venta
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant C as Cliente
-    participant G as api-gateway
-    participant S as sale-service
-    participant P as product-service
-    participant U as user-service
-    participant R as rating-service
-    participant B as RabbitMQ
-
-    C->>G: POST /api/auth/login
-    G-->>C: JWT (token + cookie)
-
-    C->>G: POST /api/products
-    G->>P: crea producto (DRAFT)
-
-    C->>G: PATCH /api/products/{id}/put-for-sale
-    G->>P: producto FOR_SALE
-
-    C->>G: POST /api/sales (propuesta)
-    G->>S: venta PENDING
-    S-->>B: SaleProposed
-
-    C->>G: PATCH /api/sales/{id}/reserve
-    G->>S: venta RESERVED
-    S-->>B: SaleReserved
-    B->>P: producto RESERVED
-
-    C->>G: PATCH /api/sales/{id}/complete
-    G->>S: venta COMPLETED
-    S-->>B: SaleCompleted
-    B->>P: producto SOLD
-    B->>U: contadores de compras/ventas
-
-    C->>G: POST /api/ratings/seller
-    G->>R: valoración creada
-    R-->>B: RatingCreated
-    B->>U: media de valoraciones actualizada
-```
-
-En modo desarrollo, el panel de gestión de RabbitMQ está disponible en http://localhost:15672 (credenciales de `.env`). Desde ahí se pueden ver el exchange `bus`, las colas `users` y `products`, sus vinculaciones y el número de mensajes publicados y consumidos.
-
-#### Tradeoffs de la comunicación asíncrona
+#### Tradeoffs asumidos
 
 Los eventos se publican en cuanto el caso de uso los compone, sin esperar confirmación de ningún receptor, y no hay ninguna coordinación entre servicios más allá del propio bus. De ahí se derivan tres limitaciones conocidas:
 
@@ -407,6 +338,10 @@ Los eventos se publican en cuanto el caso de uso los compone, sin esperar confir
 | **Sin *outbox*** | Guardar el estado y avisar al resto del sistema son dos operaciones sobre dos sistemas distintos, y ninguna puede confirmar a la otra. Si el bus acepta el aviso y después falla el guardado, el resto del sistema reacciona a un suceso que nunca llegó a producirse. Si en cambio el guardado sale bien y el aviso no llega, el resto se queda para siempre sin enterarse, y además nadie lo nota porque la operación devuelve éxito. Qué riesgo predomina depende del orden que se siga: en unos casos el aviso sale antes de asegurar el estado y predomina el de reaccionar a sucesos inexistentes, y en otros se asegura primero y el aviso se intenta después sin comprobar si tuvo éxito y predomina el de perderse un suceso real. Tampoco hay una reacción común ante un bus caído: en unos casos la operación se aborta entera, y en otros se da por buena y solo queda constancia en el registro. | Guardar el aviso dentro de la misma transacción que el estado, en una tabla que otro proceso se encargue de enviar una vez confirmada la transacción (el *outbox*). Así los dos efectos quedan unidos: o se guardan los dos o no se guarda ninguno, y el envío, aunque pueda retrasarse, no puede ni perderse ni inventarse. La parte más costosa de este diseño ya está hecha, porque el registro de sucesos de la venta se escribe dentro de esa misma transacción, así que solo faltarían la marca de lo que ya se ha enviado y el proceso que vaya enviándolo. |
 | **Sin *saga*** | Las operaciones que cruzan de un servicio a otro se lanzan sin esperar nada: quien envía el aviso sigue sin comprobar si el otro lado pudo aplicarlo, y como además no escucha nada, no tiene forma de enterarse de un fracaso. Si el receptor no puede aplicar el aviso, lo desecha sin más dejando constancia en el registro, con lo que el mensaje se pierde sin que nadie reaccione. El resultado es que el sistema queda desincronizado de forma permanente con una única línea de registro como rastro. Por ejemplo, una venta puede quedar reservada mientras el producto correspondiente sigue disponible, sin que ninguna de las dos partes lo note ni exista nada que lo arregle. Tampoco hay avisos de deshacer: los que circulan describen pasos normales del negocio, no su reverso. Lo único que amortigua el problema es que los mensajes quedan guardados en el bus, así que si el receptor no está disponible esperan. Lo que no tiene arreglo es que se reciban y se desechen. | Coordinar esas operaciones con una *saga*: que exista un responsable de la operación completa que conozca sus pasos y que pueda pedir a cada parte que deshaga lo que ya hizo cuando uno intermedio falla. Ese responsable puede dar las órdenes desde un sitio (orquestación), o pueden ser los propios servicios avisándose entre sí con mensajes de fallo y alguien escuchándolos (coreografía). |
 | **Sin garantías de entrega** | Nada garantiza que un mensaje llegue ni que se aplique una sola vez. Quien envía no espera ninguna confirmación de que el bus lo haya recibido, no reintenta si falla, y no existe ningún sitio al que vayan a parar los mensajes que nadie pueda tratar, ni la posibilidad de devolverlos para que vuelvan. Del lado contrario, quien recibe no deja escapar ningún error: da el mensaje por recibido siempre, incluso cuando no ha podido aplicarlo, de modo que una vez tratado desaparece para siempre y solo el registro permite saber que algo falló. Tampoco hay protección contra duplicados, así que cualquier reintento futuro chocaría con lo ya aplicado. Hoy eso pasa inadvertido únicamente porque los mensajes nunca se reenvían. | Activar las confirmaciones de que el bus ha recibido cada mensaje y montar una política de reintentos con una cola aparte donde acaben los mensajes que sigan fallando tras agotar los intentos (una *DLQ*). Ambas medidas introducen reenvíos, así que antes que nada habría que hacer que cada receptor pudiera reconocer y descartar un mensaje que ya hubiera procesado. |
+
+#### Panel de gestión
+
+En modo desarrollo, el panel de gestión de RabbitMQ está disponible en http://localhost:15672 (credenciales de `.env`). Desde ahí se pueden ver el exchange `bus`, las colas `users` y `products`, sus vinculaciones y el número de mensajes publicados y consumidos.
 
 ## API Gateway
 
@@ -429,9 +364,9 @@ Además del enrutado, el gateway concentra la política de autenticación y auto
 
 ## OpenAPI
 
-Todos los servicios exponen su especificación **OpenAPI** con **Swagger UI** en `/api/swagger-ui` cuando arrancan en modo desarrollo (variable `SWAGGER_ENABLED` en los servicios Java y `Swagger__Enabled` en `rating-service`, ver `compose.dev.yaml`), y el gateway la concentra también en `http://localhost:8090/api/swagger-ui`. Esto permite explorar y probar toda la API de forma interactiva sin necesidad de herramientas externas.
+Todos los servicios exponen su especificación **OpenAPI** con **Swagger UI** en `/api/swagger-ui` cuando arrancan en modo desarrollo (variable `SWAGGER_ENABLED` en los servicios Java y `Swagger__Enabled` en `rating-service`, ver [`compose.dev.yaml`](../)), y el gateway la concentra también en `http://localhost:8090/api/swagger-ui`. Esto permite explorar y probar toda la API de forma interactiva sin necesidad de herramientas externas.
 
-El flujo completo de la API (registro → login → publicar → proponer/vender → valorar) además está automatizado en la colección de Postman incluida en el repositorio (ver [`03-pruebas.md`](03-pruebas.md)).
+El flujo completo de la API además está presente en la colección de Postman incluida en el repositorio (ver [`03-pruebas.md`](03-pruebas.md)).
 
 ## JWT
 
@@ -441,7 +376,3 @@ La autenticación se basa en **JSON Web Tokens** firmados con el algoritmo **HS2
 - **Transporte:** los clientes envían el token en la cabecera `Authorization: Bearer <token>` o en la cookie `access_token`. Ambas formas se aceptan en todos los servicios.
 - **Validación:** el gateway valida el token y lo reenvía. Cada servicio vuelve a validarlo con el mismo secreto compartido, de forma que ningún servicio confía a ciegas en el gateway.
 - **Roles:** `USER` y `ADMINISTRATOR`, más el estado del usuario (`ACTIVE` / `INACTIVE`). Cada endpoint define qué exige.
-
-## Desarrollo local y despliegue
-
-Todo el sistema se arranca con Docker Compose (build de cada imagen desde su Dockerfile), sin necesidad de compilar nada en local. El detalle del pipeline de integración continua y del despliegue local está en [`04-ci-despliegue.md`](04-ci-despliegue.md).
