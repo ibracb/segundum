@@ -6,7 +6,7 @@ Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitar
 
 Se define en dos niveles:
 
-- **Pruebas unitarias por microservicio**, que verifican la lógica de negocio de cada uno de forma aislada (sin bases de datos ni bus reales). Se ejecutan en cada *push* y *pull request* por la integración continua (ver [`04-ci-despliegue.md`](04-ci-despliegue.md)) y su cobertura se genera como informe.
+- **Pruebas unitarias por microservicio**, que verifican la lógica de negocio de cada uno de forma aislada (sin bases de datos ni bus reales). Se ejecutan en cada *push* y *pull request* por la integración continua, y su cobertura se genera como informe.
 - **Pruebas de backend con Postman**, que recorren el sistema completo por su API real (a través del gateway), de punta a punta: registro, login, catálogo, ventas y valoraciones.
 
 ## Pruebas unitarias
@@ -45,7 +45,7 @@ cd apps/api-gateway
 mvn -B clean package
 ```
 
-Los tests se apoyan en la arquitectura hexagonal del sistema: en lugar de tocar bases de datos o el bus real, se inyectan **dobles en memoria (fakes)** del repositorio, de las consultas, de la publicación de eventos y de las llamadas a otros microservicios, de modo que los casos de uso se prueban aislados de la infraestructura.
+Los tests unitarios se apoyan en los principios de la arquitectura hexagonal: se inyectan **dobles en memoria (fakes)** del repositorio, de las consultas, de la publicación de eventos y de las llamadas a otros microservicios, de modo que los casos de uso se prueban aislados de la infraestructura.
 
 ### Microservicio .NET (rating-service)
 
@@ -58,14 +58,14 @@ dotnet test RatingService.sln
 
 ### Cobertura
 
-Cada microservicio genera su informe de cobertura (JaCoCo en Java, coverlet en .NET) y la integración continua lo sube como artefacto de la ejecución, aunque los tests fallen (ver [`04-ci-despliegue.md`](04-ci-despliegue.md)).
+Cada microservicio genera su informe de cobertura (JaCoCo en Java, coverlet en .NET) y la integración continua lo sube como artefacto de la ejecución, aunque los tests fallen.
 
 ## Pruebas backend con Postman
 
 El repositorio incluye una colección de Postman que automatiza el **flujo completo de la aplicación**: registro de usuarios, login, publicación y búsqueda de productos, propuesta y ciclo de vida de las ventas, y valoraciones.
 
 - **Colección:** [`postman/collections/SegundUM.postman_collection.json`](../postman/collections/SegundUM.postman_collection.json)
-- **Entorno:** [`postman/environments/SegundUM-local.postman_environment.json`](../postman/environments/SegundUM-local.postman_environment.json) (apunta a `http://localhost:8090`, el gateway)
+- **Entorno:** [`postman/environments/SegundUM-local.postman_environment.json`](../postman/environments/SegundUM-local.postman_environment.json) (apunta a [`http://localhost:8090`](http://localhost:8090), el gateway)
 
 ### Cómo ejecutarlas
 
