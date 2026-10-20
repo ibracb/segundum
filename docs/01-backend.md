@@ -41,7 +41,7 @@ flowchart LR
         R["rating-service:8083"]
     end
 
-    subgraph "Infraestructura (bases de datos, y bróker de mensajería)"
+    subgraph "Infraestructura"
         MU[(MySQL<br/>users)]
         MP[(MySQL<br/>products)]
         MO[(MongoDB<br/>products)]
