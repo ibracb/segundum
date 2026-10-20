@@ -72,9 +72,6 @@ flowchart LR
     S -.->|REST| U
     S -.->|REST| P
     R -.->|REST| S
-
-    MO -.->|proyección| MP
-    SO -.->|proyección| MS
 ```
 
 > [!NOTE]
