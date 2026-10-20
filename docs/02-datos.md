@@ -1,27 +1,28 @@
 # Datos
 
-Este documento describe la perspectiva de los datos en SegundUM: qué entidades y relaciones persiste cada servicio, qué consultas necesita la API (patrones de acceso), cuál es el esquema conceptual y por qué se ha elegido cada tecnología de persistencia. Los estilos de arquitectura que motivan estas decisiones (CQRS y event sourcing) se describen en [`01-backend.md`](01-backend.md).
+Este documento describe la perspectiva de los datos en SegundUM: qué entidades y relaciones persiste cada servicio, qué consultas necesita la API (patrones de acceso), cuál es el esquema conceptual y por qué se ha elegido cada tecnología de persistencia.
 
 ## Perspectiva de los datos
 
-Cada servicio es dueño de sus datos (*base de datos por servicio*): persiste lo que necesita para cumplir su responsabilidad y no accede a las bases de otros servicios. La información que necesita un servicio de otro llega por el bus de eventos (réplicas y contadores) o mediante llamadas REST (consultas puntuales).
+Cada servicio es dueño de sus datos (*base de datos por servicio*): persiste lo que necesita para cumplir su responsabilidad y no accede a las bases de otros servicios. La información que necesita un servicio de otro llega por el bus de eventos o mediante llamadas REST.
 
 ### user-service
 
 **Entidades a persistir (MySQL):**
 
-- **Usuario**: perfil (nombre, apellidos, email, contraseña cifrada, teléfono, fecha de nacimiento, fecha de registro), rol (`USER` / `ADMINISTRATOR`), estado (`ACTIVE` / `INACTIVE`) y estadísticas (compras, ventas, valoraciones recibidas como comprador y como vendedor, con su media en cada caso).
+- **Usuario**: perfil (nombre, apellidos, email, contraseña cifrada, teléfono, fecha de nacimiento, fecha de registro), rol (`USER` / `ADMINISTRATOR`), estado (`ACTIVE` / `INACTIVE`), estadísticas (compras y ventas realizadas) e información acerca de su reputación (número de valoraciones recibidas como comprador y como vendedor, con su media en cada caso).
 
-**Patrones de acceso (consultas que se necesitan):**
+**Patrones de acceso:**
 
 | Consulta | Contexto |
 | --- | --- |
 | Buscar usuario por email (y validar contraseña) | Login |
 | Obtener el perfil del usuario | Perfil |
 | Listar todos los usuarios | Administración |
-| Obtener estadísticas y medias | Perfil y eventos recibidos del bus |
+| Obtener estadísticas | Perfil |
 | Obtener las valoraciones recibidas | Perfil |
-| Actualizar perfil / desactivar usuario | Comandos |
+| Actualizar perfil / desactivar usuario | Comandos  |
+| Obtener nombre completo de un usuario | Interno (lo usa `sale-service`) |
 
 ### product-service
 
@@ -40,15 +41,17 @@ Cada servicio es dueño de sus datos (*base de datos por servicio*): persiste lo
 | Búsqueda paginada de productos con filtros (categoría, descripción, condición, precio máximo) | Catálogo público |
 | Detalle completo de un producto | Ficha pública |
 | Categorías de primer nivel y subcategorías de una categoría | Navegación del catálogo |
-| Productos en borrador / en venta de un vendedor | Panel del vendedor |
+| Productos en borrador de un vendedor | Panel del vendedor |
+| Productos en venta de un vendedor | Navegación pública adicional, y panel del vendedor |
 | Histórico mensual de productos (por vistas) | Estadísticas públicas |
 | Incrementar el contador de vistas | Ficha pública |
+| Obtener información básica de un producto | Interno (lo usa `sale-service`) |
 
 ### sale-service
 
 **Entidades a persistir (MySQL, modelo de escritura):**
 
-- **Evento de venta** (almacén de eventos): cada evento registrado sobre una venta se guarda como un registro inmutable con su identificador, la venta a la que pertenece, el tipo de evento, la carga útil (payload) y su marca de tiempo. Es el único contenido de la base de datos de escritura: no hay ninguna tabla con el estado actual de la venta.
+- **Evento de venta** (almacén de eventos): cada evento registrado sobre una venta se guarda como un registro inmutable con su identificador, la venta a la que pertenece, el tipo de evento, el payload y su timestamp. Es el único contenido de la base de datos de escritura: no hay ninguna tabla con el estado actual de la venta.
 
 Conceptualmente, la venta reconstruida a partir de su historial contiene: producto, vendedor (identificador y nombre completo), comprador (identificador y nombre completo), precio, título, punto de recogida, fecha y hora, y estado (`PENDING` / `RESERVED` / `REJECTED` / `CANCELLED` / `COMPLETED`).
 
@@ -186,7 +189,7 @@ erDiagram
 
 ## Elección de la arquitectura de datos
 
-SegundUM sigue el enfoque de **persistencia políglota**: en vez de imponer una única base de datos a todo el sistema, cada servicio elige la tecnología que mejor encaja con su modelo. Conviven dos motores (MySQL relacional, y MongoDB documental) y su uso varía por servicio: `user-service` persiste solo en MySQL, `rating-service` solo en MongoDB, y `product-service` y `sale-service` combinan ambos porque, en ellos, la separación entre modelo de escritura y modelo de lectura (CQRS) y el almacenamiento de los eventos (event sourcing) descritos en [`01-backend.md`](01-backend.md) divide también el motor de escritura (MySQL) del de lectura (MongoDB). Estas decisiones tienen las siguientes consecuencias en la persistencia:
+SegundUM sigue el enfoque de **persistencia políglota**: en vez de imponer una única base de datos a todo el sistema, cada servicio elige la tecnología que mejor encaja con su modelo. Conviven dos motores (MySQL relacional, y MongoDB documental) y su uso varía por servicio: `user-service` persiste solo en MySQL, `rating-service` solo en MongoDB, y `product-service` y `sale-service` combinan ambos porque, en ellos, la separación entre modelo de escritura y modelo de lectura (CQRS) y el almacenamiento de los eventos (Event Sourcing) divide también el motor de escritura (MySQL) del de lectura (MongoDB). Estas decisiones tienen las siguientes consecuencias en la persistencia:
 
 - **MySQL para los modelos de escritura.** Los datos transaccionales (usuarios, categorías, vendedores y productos) requieren integridad y atomicidad: las operaciones de negocio son transacciones relacionales clásicas (p. ej. crear un producto con su categoría y vendedor), para las que MySQL y JPA encajan de forma natural. El almacén de eventos de las ventas también vive en MySQL, donde cada evento se inserta como una fila inmutable más.
 - **MongoDB para los modelos de lectura.** Las consultas de lectura (búsqueda paginada con filtros, listados por vendedor o comprador, valoraciones recibidas) se resuelven sobre documentos denormalizados y listos para la API, sin joins ni gravar el modelo transaccional. MongoDB aporta flexibilidad de esquema, ya que las proyecciones no tienen por qué reflejar el modelo relacional.
