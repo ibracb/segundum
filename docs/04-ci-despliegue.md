@@ -1,10 +1,10 @@
 # Integración continua y despliegue
 
-Este documento describe el pipeline de integración continua montado con GitHub Actions y cómo se realiza el despliegue del sistema, que en este proyecto es **local**, mediante Docker Compose.
+Este documento describe el pipeline de integración continua montado con GitHub Actions y cómo se realiza el despliegue del backend de SegundUM.
 
 ## Integración continua
 
-El proyecto tiene **cinco workflows de GitHub Actions**, uno por cada microservicio (`.github/workflows/`), de forma que cada uno se verifica de forma independiente.
+El proyecto tiene **cinco workflows de GitHub Actions**, uno por cada microservicio [`.github/workflows/`](../.github/workflows/), de forma que cada uno se verifica de forma independiente.
 
 ### Disparadores
 
@@ -44,11 +44,11 @@ El workflow de `rating-service` ejecuta sobre el mismo tipo de ejecutor:
 
 > Nota: los filtros por rutas solo contemplan el código del servicio y el propio fichero del workflow. Los cambios que solo afectan a documentación no disparan la verificación de ningún servicio.
 
-> Nota: la integración continua cubre solo la verificación individual de cada microservicio. Las pruebas de punta a punta con la colección de Postman no se ejecutan en CI porque exigirían levantar todo el backend, ver [`03-pruebas.md`](03-pruebas.md).
+> Nota: la integración continua cubre solo la verificación individual de cada microservicio. Las pruebas de punta a punta con la colección de Postman no se ejecutan en CI porque exigirían levantar todo el backend.
 
-## Despliegue local
+## Despliegue
 
-En SegundUM no hay despliegue remoto: el despliegue es **local** y se ejecuta manualmente con Docker Compose, que levanta todo el sistema en el propio equipo. Las imágenes de los cinco microservicios se **construyen desde el código fuente** con su Dockerfile respectivo.
+El despliegue de todo el backend se realiza con Docker Compose. En primer lugar se descargan desde el Docker Hub las imágenes oficiales de MySQL, MongoDB y RabbitMQ (además de phpMyAdmin y MongoExpress, según convenga). Posteriormente, las imágenes de los 5 microservicios se **construyen desde el código fuente** con su Dockerfile respectivo. Finalmente, una vez se disponen de todas las imágenes, se inicia el procedimiento de arranque de los contenedores.
 
 ### Modos de despliegue
 
@@ -57,7 +57,7 @@ En SegundUM no hay despliegue remoto: el despliegue es **local** y se ejecuta ma
 | Producción | MySQL, MongoDB, RabbitMQ y los 5 microservicios (gateway en el puerto 8090) |
 | Desarrollo | Todo lo relacionado al modo producción, más: exposición de cada microservicio en localhost, Swagger activo y los paneles de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ) |
 
-La configuración de todo el despliegue (credenciales, rutas internas, secreto JWT) se inyecta por variables de entorno desde un fichero `.env` (ver [`README.md`](../README.md)).
+La configuración de todo el despliegue (credenciales, rutas internas, secreto JWT) se inyecta por variables de entorno desde un fichero `.env`.
 
 ### Orquestación
 
@@ -77,4 +77,4 @@ Los tres contenedores de infraestructura no esperan a nada, así que arrancan pr
 
 Solo con `compose.dev.yaml` se añaden a la misma red los paneles de gestión: `phpmyadmin` espera a `mysql` y `mongo-express` espera a `mongodb`.
 
-> La integración continua y el despliegue local se pueden verificar en conjunto: cada `push` a `main` valida los servicios con los mismos `mvn` / `dotnet test` que se ejecutarían en local, y Docker Compose construye exactamente las mismas piezas que despliega.
+> La integración continua y el despliegue se pueden verificar en conjunto: cada `push` a `main` valida los servicios con los mismos `mvn` / `dotnet test` que se ejecutarían en local, y Docker Compose construye exactamente las mismas piezas que desplegaría en cualquier servidor.
