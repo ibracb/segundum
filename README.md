@@ -4,7 +4,7 @@
 
 ![Java](https://img.shields.io/badge/Java-11-orange?style=flat&logo=openjdk&logoColor=white)
 ![JAX-RS](https://img.shields.io/badge/JAX--RS-Jersey%202.41-007396?style=flat)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.2%20y%202.6-6DB33F?style=flat&logo=springboot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.2.10.RELEASE%20y%202.6.1-6DB33F?style=flat&logo=springboot&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat&logo=dotnet&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat&logo=mysql&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-8.0-47A248?style=flat&logo=mongodb&logoColor=white)
@@ -53,8 +53,8 @@ Para desplegar el sistema:
 
 Opcionalmente para desarrollo, compilación y pruebas unitarias en local:
 
-- **Java 11 o superior**: comprueba con `java --version`
-- **Maven 3.8 o superior**: comprueba con `mvn --version`
+- **Java 11 o superior** (`user-service`, `product-service`, `sale-service`, `api-gateway`): comprueba con `java --version`
+- **Maven 3.8 o superior** (`user-service`, `product-service`, `sale-service`, `api-gateway`): comprueba con `mvn --version`
 - **.NET 8 SDK** (solo `rating-service`): comprueba con `dotnet --version`
 
 ## Instalación
