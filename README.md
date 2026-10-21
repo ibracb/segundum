@@ -42,20 +42,12 @@ segundum/
 ├── .gitignore                     # Ficheros ignorados por Git
 ├── compose.dev.yaml               # Docker Compose (desarrollo)
 ├── compose.yaml                   # Docker Compose (producción)
-└── README.md                      # Esta documentación
+└── README.md                      # Documentación principal
 ```
 
-## Requisitos
-
-Para desplegar el sistema:
+## Requisitos para poder arrancar la aplicación
 
 - **Docker** y **Docker Compose**: comprueba con `docker --version` y `docker compose version`
-
-Opcionalmente para desarrollo, compilación y pruebas unitarias en local:
-
-- **Java 11 o superior** (`user-service`, `product-service`, `sale-service`, `api-gateway`): comprueba con `java --version`
-- **Maven 3.8 o superior** (`user-service`, `product-service`, `sale-service`, `api-gateway`): comprueba con `mvn --version`
-- **.NET 8 SDK** (solo `rating-service`): comprueba con `dotnet --version`
 
 ## Instalación
 
@@ -84,7 +76,7 @@ Valores que **debes rellenar** antes de arrancar:
 
 > **Nota:** Tanto las bases de datos (MySQL, MongoDB) como el bróker de mensajería (RabbitMQ) no se publican en el host, sino que solo son accesibles desde los contenedores. En desarrollo sí se exponen las interfaces de gestión (phpMyAdmin, Mongo Express y el panel de RabbitMQ).
 
-## Compilación y despliegue
+## Instrucciones de arranque
 
 ### Backend
 
@@ -108,7 +100,7 @@ docker compose down
 
 Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mongodb_data`, `rabbitmq_data`).
 
-> **Nota:** En el primer arranque MySQL ejecuta los scripts de inicialización incluidos en [db](db) y los *healthcheck* de MySQL, MongoDB y RabbitMQ permiten hasta 4 minutos de margen, así que los servicios pueden tardar en quedar `healthy`.
+> **Nota:** En el primer arranque MySQL ejecuta los scripts de inicialización incluidos en el directorio [db/](db) y los *healthcheck* de MySQL, MongoDB y RabbitMQ permiten hasta 4 minutos de margen, así que los servicios pueden tardar en quedar `healthy`.
 
 ## Accesos web navegables
 
@@ -123,9 +115,42 @@ Añade `-v` si además quieres borrar los volúmenes de datos (`mysql_data`, `mo
 | Mongo Express | http://localhost:8088 | Desarrollo |
 | Panel de RabbitMQ | http://localhost:15672 | Desarrollo |
 
-En producción, la única puerta de entrada al backend es el gateway: la API queda disponible en http://*host*:8090/api, siendo *host* la IP o el dominio en el que se encuentra desplegado. En desarrollo, los microservicios solo se publican en `127.0.0.1`, por lo que no quedan accesibles desde otras máquinas de la red.
+En el modo producción, la única puerta de entrada al backend es el gateway: la API queda disponible en http://localhost:8090/api. Por otro lado, en el modo desarrollo, los microservicios solo se publican en `127.0.0.1`, por lo que no quedan accesibles desde otras máquinas de la red.
 
-## Documentación
+## Pruebas
+
+### Pruebas unitarias
+
+**Requisitos:**
+
+- **Java 11 o superior** (`user-service`, `product-service`, `sale-service`, `api-gateway`): comprueba con `java --version`
+- **Maven 3.8 o superior** (`user-service`, `product-service`, `sale-service`, `api-gateway`): comprueba con `mvn --version`
+- **.NET 8 SDK** (solo `rating-service`): comprueba con `dotnet --version`
+
+Ejecuta cada comando desde el directorio del microservicio correspondiente:
+
+| Microservicio | Directorio | Comando |
+| --- | --- | --- |
+| `user-service` | [`apps/user-service`](apps/user-service) | `mvn -B clean package` |
+| `product-service` | [`apps/product-service`](apps/product-service) | `mvn -B clean package` |
+| `sale-service` | [`apps/sale-service`](apps/sale-service) | `mvn -B clean package` |
+| `api-gateway` | [`apps/api-gateway`](apps/api-gateway) | `mvn -B clean package` |
+| `rating-service` | [`apps/rating-service`](apps/rating-service) | `dotnet test RatingService.sln` |
+
+### Pruebas de backend
+
+**Requisitos:**
+
+- **Postman**, para importar la colección y ejecutarla con el Collection Runner.
+
+> [!NOTE]
+> El backend debe estar previamente arrancado (ver [Instrucciones de arranque](#instrucciones-de-arranque)).
+
+1. Importa la [colección](postman/collections/SegundUM.postman_collection.json) y el [entorno](postman/environments/SegundUM.postman_environment.json) en Postman.
+2. Selecciona el entorno importado.
+3. Ejecuta las pruebas de la colección importada con el Collection Runner en el siguiente orden: `users` → `products` → `sales` → `ratings`.
+
+## Documentación adicional
 
 - [Backend](docs/01-backend.md): plataformas y frameworks, microservicios, principios de diseño y arquitectura, comunicación entre microservicios, API Gateway, OpenAPI y JWT.
 - [Datos](docs/02-datos.md): entidades y relaciones, patrones de acceso, esquema conceptual y elección de la arquitectura de datos.
