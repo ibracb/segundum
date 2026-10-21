@@ -1,77 +1,38 @@
 # Pruebas
 
-Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitarias de cada microservicio y las pruebas de backend con Postman (ejecución automatizada con el Collection Runner, lanzada en local).
+Este documento describe la estrategia de pruebas de SegundUM: las pruebas unitarias de cada microservicio y las pruebas de backend con Postman. Los comandos y pasos para ejecutarlas están en el [README](../README.md#pruebas).
 
 ## Estrategia de pruebas
 
 Se define en dos niveles:
 
-- **Pruebas unitarias por microservicio**, que verifican la lógica de negocio de cada uno de forma aislada (sin bases de datos ni bus reales). Se ejecutan en cada *push* y *pull request* por la integración continua, y su cobertura se genera como informe.
-- **Pruebas de backend con Postman**, que recorren el sistema completo por su API real (a través del gateway), de punta a punta: registro, login, catálogo, ventas y valoraciones.
+- **Pruebas unitarias por microservicio**, que verifican la lógica de negocio de cada uno de forma aislada (sin bases de datos ni bus reales). Se ejecutan en cada *push* y *pull request* por la integración continua.
+- **Pruebas de backend con Postman**, que recorren el sistema completo por su API real (a través del gateway), de punta a punta: registro, login, catálogo, ventas y valoraciones. Se ejecutan en local con el Collection Runner.
 
 ## Pruebas unitarias
 
-### Microservicios Java
+### Herramientas
 
-Los cuatro microservicios Java usan **JUnit 5** (Jupiter). `user-service` usa JUnit 5 directamente (5.9.3), mientras que `product-service`, `sale-service` y `api-gateway` usan el starter de test de Spring Boot, que incorpora JUnit 5 junto con Mockito y las utilidades de test de Spring.
+| Microservicio | Framework | Cobertura |
+| --- | --- | --- |
+| `user-service` | JUnit 5 (5.9.3) | JaCoCo |
+| `product-service`, `sale-service`, `api-gateway` | JUnit 5 + Mockito (starter de test de Spring Boot) | JaCoCo |
+| `rating-service` | xUnit | coverlet |
 
-Cada uno se ejecuta con Maven desde su propia carpeta, y el proceso también genera el informe de cobertura con **JaCoCo**:
+### Enfoque
 
-**user-service**
-
-```bash
-cd apps/user-service
-mvn -B clean package
-```
-
-**product-service**
-
-```bash
-cd apps/product-service
-mvn -B clean package
-```
-
-**sale-service**
-
-```bash
-cd apps/sale-service
-mvn -B clean package
-```
-
-**api-gateway**
-
-```bash
-cd apps/api-gateway
-mvn -B clean package
-```
-
-Los tests unitarios se apoyan en los principios de la arquitectura hexagonal: se inyectan **dobles en memoria (fakes)** del repositorio, de las consultas, de la publicación de eventos y de las llamadas a otros microservicios, de modo que los casos de uso se prueban aislados de la infraestructura.
-
-### Microservicio .NET (rating-service)
-
-`rating-service` usa **xUnit** con el mismo enfoque de fakes en memoria para sus puertos (publicación de eventos, lectura de las partes de la venta, persistencia), y **coverlet** para la cobertura:
-
-```bash
-cd apps/rating-service
-dotnet test RatingService.sln
-```
+Los tests se apoyan en los principios de la arquitectura hexagonal: se inyectan **dobles en memoria (fakes)** de los puertos (repositorio, consultas, publicación de eventos y llamadas a otros microservicios), de modo que los casos de uso se prueban aislados de la infraestructura. `rating-service` sigue el mismo enfoque con sus puertos (publicación de eventos, lectura de las partes de la venta y persistencia).
 
 ### Cobertura
 
-Cada microservicio genera su informe de cobertura (JaCoCo en Java, coverlet en .NET) y la integración continua lo sube como artefacto de la ejecución, aunque los tests fallen.
+La integración continua genera el informe de cobertura de cada microservicio (JaCoCo en Java, coverlet en .NET) y lo sube como artefacto de la ejecución.
 
-## Pruebas backend con Postman
+## Pruebas de backend
 
 El repositorio incluye una colección de Postman que automatiza el **flujo completo de la aplicación**: registro de usuarios, login, publicación y búsqueda de productos, propuesta y ciclo de vida de las ventas, y valoraciones.
 
 - **Colección:** [`postman/collections/SegundUM.postman_collection.json`](../postman/collections/SegundUM.postman_collection.json)
-- **Entorno:** [`postman/environments/SegundUM-local.postman_environment.json`](../postman/environments/SegundUM-local.postman_environment.json) (apunta a [`http://localhost:8090`](http://localhost:8090), el gateway)
-
-### Cómo ejecutarlas
-
-1. Importa la colección y el entorno en Postman.
-2. Selecciona el entorno `SegundUM-local`.
-3. Ejecuta las carpetas en orden: `users` → `products` → `sales` → `ratings`.
+- **Entorno:** [`postman/environments/SegundUM.postman_environment.json`](../postman/environments/SegundUM.postman_environment.json) (apunta al gateway, `http://localhost:8090`)
 
 ### Contenido por carpeta
 
@@ -82,14 +43,14 @@ El repositorio incluye una colección de Postman que automatiza el **flujo compl
 | `sales` | 14 | Propuesta de venta, reserva, rechazo, cancelación por cada parte y finalización |
 | `ratings` | 6 | Valoración del vendedor y del comprador de una venta completada, y consulta de valoraciones |
 
-> **Nota:** el sistema debe estar arrancado con Docker Compose antes de ejecutar la colección. La ejecución de las carpetas en orden depende de los datos creados por las peticiones anteriores (p. ej. las ventas usan los productos creados en la carpeta `products`).
+La ejecución es **secuencial por diseño**: cada carpeta usa los datos creados por la anterior (por ejemplo, las ventas usan los productos creados en `products`), y el backend debe estar arrancado.
 
 ### Por qué no está en la integración continua
 
-Ninguno de los workflows ejecuta la colección. Para hacerlo habría que levantar el backend completo durante la ejecución en el runner de GitHub Actions: los 5 microservicios más las bases de datos (MySQL y MongoDB) y el bróker de mensajería (RabbitMQ) serían 8 contenedores en total, y habría que esperar a que todos respondan antes de lanzar la colección apunando hacia el gateway. Es un coste de tiempo de ejecución de mantenimiento muy superior al de la compilación y los tests unitarios.
+Ninguno de los workflows ejecuta la colección. Habría que levantar el backend completo en el runner de GitHub Actions (los 5 microservicios, MySQL, MongoDB y RabbitMQ: 8 contenedores) y esperar a que todos respondan antes de lanzar la colección apuntando al gateway. Supone un coste de tiempo de ejecución y de mantenimiento muy superior al de la compilación y los tests unitarios.
 
-Además la colección es **secuencial por diseño**: cada carpeta usa los datos creados por la anterior, así que no admite el reparto por microservicio que sí tiene la integración continua.
+Además, al ser secuencial por diseño, la colección no admite el reparto por microservicio que sí tiene la integración continua.
 
 La decisión es dejar estas pruebas como verificación de punta a punta **en local**, antes de cada entrega, y reservar la integración continua para la verificación rápida y barata de cada microservicio por separado.
 
-Como consecuencia, se asume que los posibles fallos de integración que puedan surgir no se detectan automáticamente en cada cambio, sino solo cuando se ejecuta la colección antes de cada entrega.
+Como consecuencia, se asume que los posibles fallos de integración no se detectan automáticamente en cada cambio, sino solo cuando se ejecuta la colección antes de cada entrega.
